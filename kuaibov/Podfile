@@ -1,0 +1,6 @@
+platform :ios, '7.1'
+pod 'AFNetworking'
+pod 'FMDB'
+pod 'Masonry'
+pod 'MBProgressHud'
+pod 'SIAlertView'
