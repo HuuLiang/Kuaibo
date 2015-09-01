@@ -1,0 +1,27 @@
+//
+//  kb.pch
+//  kuaibov
+//
+//  Created by ZHANGPENG on 15/9/1.
+//  Copyright (c) 2015年 kuaibov. All rights reserved.
+//
+
+#ifndef kuaibov_kb_pch
+#define kuaibov_kb_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "Constants.h"
+#import "UIViewExt.h"
+#import "UIView+StringTag.h"
+#import "NSString+meltutils.h"
+#import "NSString+md5.h"
+#import "NSString+length.h"
+
+#define APP_VER        [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
+#define BUILD_VER      [[NSBundle mainBundle].infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]
+#define mainHeight     [ [ UIScreen mainScreen ] bounds ].size.height
+#define mainWidth      [ [ UIScreen mainScreen ] bounds ].size.width
+#define LocalizedStr(key)  NSLocalizedString(key, @"")
+
+#endif
