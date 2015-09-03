@@ -22,6 +22,7 @@
 		BCE9B6521B98559D00D70B9E /* kbMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6511B98559D00D70B9E /* kbMoreViewController.m */; };
 		BCE9B6551B9855DF00D70B9E /* KbChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6531B9855DF00D70B9E /* KbChannelViewController.m */; };
 		BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6571B9855F900D70B9E /* KbHomeViewController.m */; };
+		BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */; };
 		BCFF05141B9861C50074BAE2 /* KbURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05131B9861C50074BAE2 /* KbURLRequest.m */; };
 		BCFF051E1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF051B1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m */; };
 		BCFF05211B986AE40074BAE2 /* KbConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05201B986AE40074BAE2 /* KbConfig.m */; };
@@ -78,6 +79,8 @@
 		BCE9B6541B9855DF00D70B9E /* KbChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbChannelViewController.h; sourceTree = "<group>"; };
 		BCE9B6561B9855F900D70B9E /* KbHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeViewController.h; sourceTree = "<group>"; };
 		BCE9B6571B9855F900D70B9E /* KbHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeViewController.m; sourceTree = "<group>"; };
+		BCFA1CAE1B98A5A3007E6904 /* KbProgramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbProgramViewController.h; sourceTree = "<group>"; };
+		BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbProgramViewController.m; sourceTree = "<group>"; };
 		BCFF05121B9861C50074BAE2 /* KbURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbURLRequest.h; sourceTree = "<group>"; };
 		BCFF05131B9861C50074BAE2 /* KbURLRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbURLRequest.m; sourceTree = "<group>"; };
 		BCFF05191B9869B30074BAE2 /* RACEXTKeyPathCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACEXTKeyPathCoding.h; sourceTree = "<group>"; };
@@ -253,6 +256,8 @@
 			children = (
 				BCE9B6541B9855DF00D70B9E /* KbChannelViewController.h */,
 				BCE9B6531B9855DF00D70B9E /* KbChannelViewController.m */,
+				BCFA1CAE1B98A5A3007E6904 /* KbProgramViewController.h */,
+				BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -486,6 +491,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */,
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
 				BCE9B64E1B98552A00D70B9E /* UIView+StringTag.m in Sources */,
 				BCE9B64D1B98552A00D70B9E /* NSString+meltutils.m in Sources */,

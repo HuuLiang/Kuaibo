@@ -7,9 +7,18 @@
 //
 
 #import "KbURLRequest.h"
+#import "KbChannel.h"
 
-typedef void (^KbFetchChannelsCompletionHandler)();
+@interface KbChannelResponse : KbURLResponse
+@property (nonatomic,retain) NSMutableArray<KbChannel> *columnList;
+
+@end
+
+typedef void (^KbFetchChannelsCompletionHandler)(NSArray *channels);
+
 @interface KbChannelModel : KbURLRequest
+
+@property (nonatomic,retain,readonly) NSArray *fetchedChannels;
 
 - (BOOL)fetchChannelsWithCompletionHandler:(KbFetchChannelsCompletionHandler)handler;
 

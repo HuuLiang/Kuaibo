@@ -49,9 +49,8 @@ DefineLazyPropertyInitialization(KbURLResponse, response)
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             [self.response parseResponseWithDictionary:responseObject];
             
-//            status = self.response.errorCode.integerValue == 200 ? KbURLResponseSuccess : KbURLResponseFailedByInterface;
-            errorMessage = [NSString stringWithFormat:@"ResultCode: %@", self.response.resultCode];
-//            self.sign = (status == KbURLResponseSuccess) ? signedParams[@"sign"] : nil;
+            status = self.response.success.boolValue ? KbURLResponseSuccess : KbURLResponseFailedByInterface;
+            errorMessage = (status == KbURLResponseSuccess) ? nil : [NSString stringWithFormat:@"ResultCode: %@", self.response.resultCode];
         } else {
             errorMessage = @"Error data structure of response from interface!\n";
             status = KbURLResponseFailedByInterface;

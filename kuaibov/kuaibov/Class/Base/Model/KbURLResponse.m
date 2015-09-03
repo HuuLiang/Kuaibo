@@ -42,8 +42,7 @@
             
             [self parseDataWithDictionary:(NSDictionary *)value inInstance:subinstance];
         } else if ([value isKindOfClass:[NSArray class]]) {
-            NSString *classPropertyName = [propertyName stringByAppendingString:@"Class"];
-            Class subclass = [instance valueForKey:classPropertyName];
+            Class subclass = [instance valueForKey:[propertyName stringByAppendingString:@"ElementClass"]];
             if (!subclass) {
                 return;
             }

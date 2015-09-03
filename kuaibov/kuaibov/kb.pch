@@ -21,6 +21,7 @@
 #import "KbConfig.h"
 #import <Aspects.h>
 #import <Masonry.h>
+#import <UIImageView+WebCache.h>
 
 #define APP_VER        [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
 #define BUILD_VER      [[NSBundle mainBundle].infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]

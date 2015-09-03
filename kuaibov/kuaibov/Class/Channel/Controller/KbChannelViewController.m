@@ -7,17 +7,24 @@
 //
 
 #import "KbChannelViewController.h"
+#import "KbChannelModel.h"
+#import "KbProgramViewController.h"
 
 static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewCellReusableIdentifier";
+static const CGFloat kChannelThumbnailScale = 342.0 / 197.0;
 
 @interface KbChannelViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
     UIImageView *_headerImageView;
     UICollectionView *_channelsView;
 }
+@property (nonatomic,retain) KbChannelModel *channelModel;
+
 @end
 
 @implementation KbChannelViewController
+
+DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,9 +43,10 @@ static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewC
     layout.minimumInteritemSpacing = 5;
     layout.minimumLineSpacing = 5;
     layout.sectionInset = UIEdgeInsetsMake(6, 6, 6, 6);
-    //layout.itemSize = CGSizeMake(mainWidth / 2 - 15, mainWidth / 2 - 15);
+
     CGSize itemSize = CGSizeZero;
-    itemSize.width = itemSize.height = (mainWidth - layout.sectionInset.left - layout.sectionInset.right - layout.minimumInteritemSpacing) / 2;
+    itemSize.width  = (mainWidth - layout.sectionInset.left - layout.sectionInset.right - layout.minimumInteritemSpacing) / 2;
+    itemSize.height = itemSize.width / kChannelThumbnailScale;
     layout.itemSize = itemSize;
     
     _channelsView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
@@ -53,6 +61,23 @@ static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewC
             make.top.equalTo(_headerImageView.mas_bottom);
         }];
     }
+    
+    [self loadChannels];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)loadChannels {
+    @weakify(self);
+    [self.channelModel fetchChannelsWithCompletionHandler:^(NSArray *channels) {
+        @strongify(self);
+        if (channels) {
+            [self->_channelsView reloadData];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,28 +87,33 @@ static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewC
 
 #pragma mark - UICollectionViewDataSource / UICollectionViewDelegateFlowLayout
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
+//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+//    return 1;
+//}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 20;
+    return self.channelModel.fetchedChannels.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kChannelCellReusableIdentifier forIndexPath:indexPath];
     
-    cell.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+    if (!cell.backgroundView) {
+        cell.backgroundView = [[UIImageView alloc] initWithFrame:cell.bounds];
+    }
+    
+    KbChannel *channel = self.channelModel.fetchedChannels[indexPath.row];
+    UIImageView *channelImageView = (UIImageView *)cell.backgroundView;
+    [channelImageView sd_setImageWithURL:[NSURL URLWithString:channel.columnImg]];
     return cell;
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    KbChannel *selectedChannel = self.channelModel.fetchedChannels[indexPath.row];
+    if (selectedChannel) {
+        KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
+        [self.navigationController pushViewController:programVC animated:YES];
+    }
 }
-*/
 
 @end

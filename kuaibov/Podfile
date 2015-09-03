@@ -2,7 +2,8 @@ platform :ios, '7.0'
 
 pod 'AFNetworking','~> 2.6.0'
 #pod 'FMDB'
-pod 'Masonry'
+pod 'Masonry', '~> 0.6.2'
+pod 'SDWebImage', '~> 3.7.3'
 #pod 'MBProgressHud'
 #pod 'SIAlertView'
 

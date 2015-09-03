@@ -4,6 +4,8 @@
 <dict>
 	<key>BaseURL</key>
 	<string>http://121.41.60.217:8093</string>
+	<key>ChannelURLPath</key>
+	<string>/video/ios/channelRanking.htm</string>
 	<key>ChannelNo</key>
 	<string>QB_VIDEO_IOS_B_00000000</string>
 </dict>

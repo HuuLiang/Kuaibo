@@ -35,7 +35,6 @@
 
     KbChannelViewController *channelVC   = [[KbChannelViewController alloc] init];
     UINavigationController *channelNav   = [[UINavigationController alloc] initWithRootViewController:channelVC];
-    channelNav.navigationBarHidden       = YES;
     channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:@"频道"
                                                                          image:[UIImage imageNamed:@"btm_c"]
                                                                  selectedImage:[UIImage imageNamed:@"btm_c_sel"]];
@@ -47,6 +46,7 @@
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers     = @[homeNav,channelNav,moreVC];
+    tabBarController.tabBar.translucent  = NO;
     _window.rootViewController           = tabBarController;
     return _window;
 }
@@ -57,7 +57,7 @@
                                usingBlock:^(id<AspectInfo> aspectInfo){
                                    UIViewController *thisVC = [aspectInfo instance];
                                    thisVC.navigationController.navigationBar.translucent = NO;
-                                   thisVC.navigationController.navigationBar.tintColor = [UIColor blackColor];
+                                   thisVC.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     } error:nil];
     
     [UINavigationController aspect_hookSelector:@selector(preferredStatusBarStyle)

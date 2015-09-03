@@ -11,6 +11,8 @@
 @interface KbConfig : NSObject
 
 @property (nonatomic) NSString *baseURL;
+@property (nonatomic) NSString *channelURLPath;
+
 @property (nonatomic) NSString *channelNo;
 
 + (instancetype)sharedConfig;
