@@ -10,6 +10,7 @@
 #import "kbMoreViewController.h"
 #import "KbChannelViewController.h"
 #import "KbHomeViewController.h"
+#import "KbURLRequest.h"
 
 @interface AppDelegate ()
 
@@ -18,8 +19,67 @@
 @implementation AppDelegate
 
 
+- (UIWindow *)window {
+    if (_window) {
+        return _window;
+    }
+    
+    _window                              = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    _window.backgroundColor              = [UIColor whiteColor];
+
+    KbHomeViewController *homeVC         = [[KbHomeViewController alloc] init];
+    UINavigationController *homeNav      = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:@"首页"
+                                                                         image:[UIImage imageNamed:@"btm_home"]
+                                                                 selectedImage:[UIImage imageNamed:@"btm_home_sel"]];
+
+    KbChannelViewController *channelVC   = [[KbChannelViewController alloc] init];
+    UINavigationController *channelNav   = [[UINavigationController alloc] initWithRootViewController:channelVC];
+    channelNav.navigationBarHidden       = YES;
+    channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:@"频道"
+                                                                         image:[UIImage imageNamed:@"btm_c"]
+                                                                 selectedImage:[UIImage imageNamed:@"btm_c_sel"]];
+
+    kbMoreViewController *moreVC         = [[kbMoreViewController alloc] init];
+    moreVC.tabBarItem                    = [[UITabBarItem alloc] initWithTitle:@"更多"
+                                                                         image:[UIImage imageNamed:@"btm_more"]
+                                                                 selectedImage:[UIImage imageNamed:@"btm_more_sel"]];
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    tabBarController.viewControllers     = @[homeNav,channelNav,moreVC];
+    _window.rootViewController           = tabBarController;
+    return _window;
+}
+
+- (void)setupCommonStyles {
+    [UIViewController aspect_hookSelector:@selector(viewDidLoad)
+                              withOptions:AspectPositionAfter
+                               usingBlock:^(id<AspectInfo> aspectInfo){
+                                   UIViewController *thisVC = [aspectInfo instance];
+                                   thisVC.navigationController.navigationBar.translucent = NO;
+                                   thisVC.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    } error:nil];
+    
+    [UINavigationController aspect_hookSelector:@selector(preferredStatusBarStyle)
+                                    withOptions:AspectPositionInstead
+                                     usingBlock:^(id<AspectInfo> aspectInfo){
+                                         UIStatusBarStyle statusBarStyle = UIStatusBarStyleLightContent;
+                                         [[aspectInfo originalInvocation] setReturnValue:&statusBarStyle];
+    } error:nil];
+    
+    [UIViewController aspect_hookSelector:@selector(preferredStatusBarStyle)
+                              withOptions:AspectPositionInstead
+                               usingBlock:^(id<AspectInfo> aspectInfo){
+                                   UIStatusBarStyle statusBarStyle = UIStatusBarStyleLightContent;
+                                   [[aspectInfo originalInvocation] setReturnValue:&statusBarStyle];
+    } error:nil];
+
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [self setupCommonStyles];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -44,100 +104,100 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
-#pragma mark - Setup TabBarController
-
-- (UITabBarController *)setupRootViewController{
-    
-    KbHomeViewController *homeVC = [[KbHomeViewController alloc] init];
-    UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
-    UIImage *unselectedImage = [UIImage imageNamed:@"btm_home"];
-    UIImage *selectedImage = [UIImage imageNamed:@"btm_home_sel"];
-    if (IS_IOS7_LATER) {
-        homeVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页"
-                                                          image:[unselectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
-                                                  selectedImage:[selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-        homeVC.tabBarItem.tag = 0;
-    }else{
-        homeVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:unselectedImage tag:0];
-        [homeVC.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];
-    }
-    
-    KbChannelViewController *gShareVC = [[KbChannelViewController alloc] init];
-    UINavigationController *missionNav = [[UINavigationController alloc] initWithRootViewController:gShareVC];
-    unselectedImage = [UIImage imageNamed:@"btm_c"];
-    selectedImage = [UIImage imageNamed:@"btm_c_sel"];
-    if (IS_IOS7_LATER) {
-        gShareVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"频道"
-                                                            image:[unselectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
-                                                    selectedImage:[selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-        gShareVC.tabBarItem.tag = 1;
-    }else{
-        gShareVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"频道" image:unselectedImage tag:2];
-        [gShareVC.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];
-    }
-    
-
-    
-    kbMoreViewController * setVC = [[kbMoreViewController alloc] init];
-    UINavigationController *setNav = [[UINavigationController alloc] initWithRootViewController:setVC];
-    unselectedImage = [UIImage imageNamed:@"btm_more"];
-    selectedImage = [UIImage imageNamed:@"btm_more_sel"];
-    if (IS_IOS7_LATER) {
-        setVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"更多"
-                                                         image:[unselectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
-                                                 selectedImage:[selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-        setVC.tabBarItem.tag = 2;
-    }else{
-        setVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"更多" image:unselectedImage tag:1];
-        [setVC.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];
-    }
-    
-    
-    
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.viewControllers = @[homeNav,missionNav, setNav];
-    tabBarController.delegate = self;
-    
-    for (int i = 1; i <= tabBarController.tabBar.items.count; i++) {
-        UIView *borderV = [[UIView alloc] initWithFrame:CGRectMake((mainWidth * i / tabBarController.tabBar.items.count), 0, 0.5,  tabBarController.tabBar.height)];
-        borderV.backgroundColor = [@"#E8E8E8" toUIColor];
-        [tabBarController.tabBar addSubview:borderV];
-    }
-    
-    // customsie UINavigationBar UI Effect
-    //UIImage *backgroundImage = [UIImage imageWithRenderColor:NAVBAR_COLOR renderSize:CGSizeMake(10., 10.)];
-    UIImage *backgroundImage = [UIImage imageNamed:@"top.jpg"];
-    [[UINavigationBar appearance] setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
-    
-    // customise TabBar UI Effect
-    [[UITabBar appearance] setSelectionIndicatorImage:[[UIImage alloc] init]];
-    //[[UITabBar appearance] setSelectedImageTintColor:NAVBAR_COLOR];
-    
-    if (IS_IOS7_LATER) {
-        [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:TABBAR_TEXT_NOR_COLOR} forState:UIControlStateNormal];
-        [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:TABBAR_TEXT_HLT_COLOR} forState:UIControlStateSelected];
-    }else{
-        [[UITabBarItem appearance] setTitleTextAttributes:@{UITextAttributeTextColor:TABBAR_TEXT_NOR_COLOR} forState:UIControlStateNormal];
-        [[UITabBarItem appearance] setTitleTextAttributes:@{UITextAttributeTextColor:TABBAR_TEXT_HLT_COLOR} forState:UIControlStateSelected];
-    }
-    
-    UITabBar *tabBar = tabBarController.tabBar;
-    tabBar.backgroundColor = [UIColor whiteColor];
-    
-    if ([tabBar respondsToSelector:@selector(setBarTintColor:)]){
-        [tabBar setBarTintColor:[UIColor whiteColor]];
-    }else{
-        for (UIView *view in tabBar.subviews) {
-            if ([NSStringFromClass([view class]) hasSuffix:@"TabBarBackgroundView"]) {
-                [view removeFromSuperview];
-                break;
-            }
-        }
-    }
-    
-    return tabBarController;
-}
+//
+//#pragma mark - Setup TabBarController
+//
+//- (UITabBarController *)setupRootViewController{
+//    
+//    KbHomeViewController *homeVC = [[KbHomeViewController alloc] init];
+//    UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+//    UIImage *unselectedImage = [UIImage imageNamed:@"btm_home"];
+//    UIImage *selectedImage = [UIImage imageNamed:@"btm_home_sel"];
+//    if (IS_IOS7_LATER) {
+//        homeVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页"
+//                                                          image:[unselectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+//                                                  selectedImage:[selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+//        homeVC.tabBarItem.tag = 0;
+//    }else{
+//        homeVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:unselectedImage tag:0];
+//        [homeVC.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];
+//    }
+//    
+//    KbChannelViewController *gShareVC = [[KbChannelViewController alloc] init];
+//    UINavigationController *missionNav = [[UINavigationController alloc] initWithRootViewController:gShareVC];
+//    unselectedImage = [UIImage imageNamed:@"btm_c"];
+//    selectedImage = [UIImage imageNamed:@"btm_c_sel"];
+//    if (IS_IOS7_LATER) {
+//        gShareVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"频道"
+//                                                            image:[unselectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+//                                                    selectedImage:[selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+//        gShareVC.tabBarItem.tag = 1;
+//    }else{
+//        gShareVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"频道" image:unselectedImage tag:2];
+//        [gShareVC.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];
+//    }
+//    
+//
+//    
+//    kbMoreViewController * setVC = [[kbMoreViewController alloc] init];
+//    UINavigationController *setNav = [[UINavigationController alloc] initWithRootViewController:setVC];
+//    unselectedImage = [UIImage imageNamed:@"btm_more"];
+//    selectedImage = [UIImage imageNamed:@"btm_more_sel"];
+//    if (IS_IOS7_LATER) {
+//        setVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"更多"
+//                                                         image:[unselectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+//                                                 selectedImage:[selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+//        setVC.tabBarItem.tag = 2;
+//    }else{
+//        setVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"更多" image:unselectedImage tag:1];
+//        [setVC.tabBarItem setFinishedSelectedImage:selectedImage withFinishedUnselectedImage:unselectedImage];
+//    }
+//    
+//    
+//    
+//    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+//    tabBarController.viewControllers = @[homeNav,missionNav, setNav];
+//    tabBarController.delegate = self;
+//    
+//    for (int i = 1; i <= tabBarController.tabBar.items.count; i++) {
+//        UIView *borderV = [[UIView alloc] initWithFrame:CGRectMake((mainWidth * i / tabBarController.tabBar.items.count), 0, 0.5,  tabBarController.tabBar.height)];
+//        borderV.backgroundColor = [@"#E8E8E8" toUIColor];
+//        [tabBarController.tabBar addSubview:borderV];
+//    }
+//    
+//    // customsie UINavigationBar UI Effect
+//    //UIImage *backgroundImage = [UIImage imageWithRenderColor:NAVBAR_COLOR renderSize:CGSizeMake(10., 10.)];
+//    UIImage *backgroundImage = [UIImage imageNamed:@"top.jpg"];
+//    [[UINavigationBar appearance] setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+//    
+//    // customise TabBar UI Effect
+//    [[UITabBar appearance] setSelectionIndicatorImage:[[UIImage alloc] init]];
+//    //[[UITabBar appearance] setSelectedImageTintColor:NAVBAR_COLOR];
+//    
+//    if (IS_IOS7_LATER) {
+//        [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:TABBAR_TEXT_NOR_COLOR} forState:UIControlStateNormal];
+//        [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:TABBAR_TEXT_HLT_COLOR} forState:UIControlStateSelected];
+//    }else{
+//        [[UITabBarItem appearance] setTitleTextAttributes:@{UITextAttributeTextColor:TABBAR_TEXT_NOR_COLOR} forState:UIControlStateNormal];
+//        [[UITabBarItem appearance] setTitleTextAttributes:@{UITextAttributeTextColor:TABBAR_TEXT_HLT_COLOR} forState:UIControlStateSelected];
+//    }
+//    
+//    UITabBar *tabBar = tabBarController.tabBar;
+//    tabBar.backgroundColor = [UIColor whiteColor];
+//    
+//    if ([tabBar respondsToSelector:@selector(setBarTintColor:)]){
+//        [tabBar setBarTintColor:[UIColor whiteColor]];
+//    }else{
+//        for (UIView *view in tabBar.subviews) {
+//            if ([NSStringFromClass([view class]) hasSuffix:@"TabBarBackgroundView"]) {
+//                [view removeFromSuperview];
+//                break;
+//            }
+//        }
+//    }
+//    
+//    return tabBarController;
+//}
 
 @end

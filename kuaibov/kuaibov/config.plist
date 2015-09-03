@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BaseURL</key>
+	<string>http://121.41.60.217:8093</string>
+	<key>ChannelNo</key>
+	<string>QB_VIDEO_IOS_B_00000000</string>
+</dict>
+</plist>

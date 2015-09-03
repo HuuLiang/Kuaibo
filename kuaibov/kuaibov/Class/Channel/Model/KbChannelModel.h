@@ -1,0 +1,16 @@
+//
+//  KbChannelModel.h
+//  kuaibov
+//
+//  Created by Sean Yue on 15/9/3.
+//  Copyright (c) 2015年 kuaibov. All rights reserved.
+//
+
+#import "KbURLRequest.h"
+
+typedef void (^KbFetchChannelsCompletionHandler)();
+@interface KbChannelModel : KbURLRequest
+
+- (BOOL)fetchChannelsWithCompletionHandler:(KbFetchChannelsCompletionHandler)handler;
+
+@end

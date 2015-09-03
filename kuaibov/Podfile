@@ -1,6 +1,10 @@
-platform :ios, '7.1'
-pod 'AFNetworking'
-pod 'FMDB'
+platform :ios, '7.0'
+
+pod 'AFNetworking','~> 2.6.0'
+#pod 'FMDB'
 pod 'Masonry'
-pod 'MBProgressHud'
-pod 'SIAlertView'
+#pod 'MBProgressHud'
+#pod 'SIAlertView'
+
+# Github page: https://github.com/steipete/Aspects
+pod 'Aspects','~>1.4.1'

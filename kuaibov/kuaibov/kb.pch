@@ -17,6 +17,10 @@
 #import "NSString+meltutils.h"
 #import "NSString+md5.h"
 #import "NSString+length.h"
+#import "RACEXTScope.h"
+#import "KbConfig.h"
+#import <Aspects.h>
+#import <Masonry.h>
 
 #define APP_VER        [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
 #define BUILD_VER      [[NSBundle mainBundle].infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]
