@@ -23,6 +23,8 @@
 		BCE9B6551B9855DF00D70B9E /* KbChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6531B9855DF00D70B9E /* KbChannelViewController.m */; };
 		BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6571B9855F900D70B9E /* KbHomeViewController.m */; };
 		BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */; };
+		BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB21B98AD19007E6904 /* KbBannerData.m */; };
+		BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */; };
 		BCFF05141B9861C50074BAE2 /* KbURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05131B9861C50074BAE2 /* KbURLRequest.m */; };
 		BCFF051E1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF051B1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m */; };
 		BCFF05211B986AE40074BAE2 /* KbConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05201B986AE40074BAE2 /* KbConfig.m */; };
@@ -81,6 +83,10 @@
 		BCE9B6571B9855F900D70B9E /* KbHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeViewController.m; sourceTree = "<group>"; };
 		BCFA1CAE1B98A5A3007E6904 /* KbProgramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbProgramViewController.h; sourceTree = "<group>"; };
 		BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbProgramViewController.m; sourceTree = "<group>"; };
+		BCFA1CB11B98AD19007E6904 /* KbBannerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbBannerData.h; sourceTree = "<group>"; };
+		BCFA1CB21B98AD19007E6904 /* KbBannerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbBannerData.m; sourceTree = "<group>"; };
+		BCFA1CB51B98B6F2007E6904 /* KbBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbBannerView.h; sourceTree = "<group>"; };
+		BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbBannerView.m; sourceTree = "<group>"; };
 		BCFF05121B9861C50074BAE2 /* KbURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbURLRequest.h; sourceTree = "<group>"; };
 		BCFF05131B9861C50074BAE2 /* KbURLRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbURLRequest.m; sourceTree = "<group>"; };
 		BCFF05191B9869B30074BAE2 /* RACEXTKeyPathCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACEXTKeyPathCoding.h; sourceTree = "<group>"; };
@@ -201,6 +207,7 @@
 		6E2B8AD31B95F92C00053761 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				BCFA1CB41B98B6CE007E6904 /* View */,
 				6E2B8AD61B95F94D00053761 /* Controller */,
 				BCFF05241B986EF30074BAE2 /* Model */,
 			);
@@ -301,6 +308,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BCFA1CB41B98B6CE007E6904 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BCFA1CB51B98B6F2007E6904 /* KbBannerView.h */,
+				BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BCFF05111B98616A0074BAE2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +343,8 @@
 		BCFF05241B986EF30074BAE2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BCFA1CB11B98AD19007E6904 /* KbBannerData.h */,
+				BCFA1CB21B98AD19007E6904 /* KbBannerData.m */,
 				BCFF05251B986F690074BAE2 /* KbHomeBannerModel.h */,
 				BCFF05261B986F690074BAE2 /* KbHomeBannerModel.m */,
 				BCFF05281B986FE70074BAE2 /* KbTodayVideosModel.h */,
@@ -495,8 +513,10 @@
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
 				BCE9B64E1B98552A00D70B9E /* UIView+StringTag.m in Sources */,
 				BCE9B64D1B98552A00D70B9E /* NSString+meltutils.m in Sources */,
+				BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */,
 				BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
+				BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */,
 				BCE9B64B1B98552A00D70B9E /* NSString+length.m in Sources */,
 				BCE9B64F1B98552A00D70B9E /* UIViewExt.m in Sources */,
 				BCFF05141B9861C50074BAE2 /* KbURLRequest.m in Sources */,

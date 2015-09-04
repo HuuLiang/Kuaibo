@@ -19,20 +19,25 @@
 @implementation KbChannelModel
 
 - (BOOL)fetchChannelsWithCompletionHandler:(KbFetchChannelsCompletionHandler)handler {
+    [self registerResponseClass:[KbChannelResponse class]];
+    
     @weakify(self);
-    self.response = [[KbChannelResponse alloc] init];
-    [self requestURLPath:[KbConfig sharedConfig].channelURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
+    BOOL success = [self requestURLPath:[KbConfig sharedConfig].channelURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
         @strongify(self);
         if (respStatus == KbURLResponseSuccess) {
             KbChannelResponse *channelResp = (KbChannelResponse *)self.response;
             self->_fetchedChannels = channelResp.columnList;
             
             if (handler) {
-                handler(self->_fetchedChannels);
+                handler(YES, self->_fetchedChannels);
+            }
+        } else {
+            if (handler) {
+                handler(NO, nil);
             }
         }
     }];
-    return YES;
+    return success;
 }
 
 @end

@@ -72,9 +72,9 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 
 - (void)loadChannels {
     @weakify(self);
-    [self.channelModel fetchChannelsWithCompletionHandler:^(NSArray *channels) {
+    [self.channelModel fetchChannelsWithCompletionHandler:^(BOOL success, NSArray *channels) {
         @strongify(self);
-        if (channels) {
+        if (success) {
             [self->_channelsView reloadData];
         }
     }];

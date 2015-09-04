@@ -7,7 +7,19 @@
 //
 
 #import "KbURLRequest.h"
+#import "KbBannerData.h"
+
+@interface KbBannerResponse : KbURLResponse
+@property (nonatomic) NSNumber *columnId;
+@property (nonatomic) NSMutableArray<KbBannerData> *bannerList;
+@end
+
+typedef void (^KbFetchBannersCompletionHandler)(BOOL success, NSArray *banners);
 
 @interface KbHomeBannerModel : KbURLRequest
+
+@property (nonatomic,retain,readonly) NSArray *fetchedBanners;
+
+- (BOOL)fetchBannersWithCompletionHandler:(KbFetchBannersCompletionHandler)handler;
 
 @end

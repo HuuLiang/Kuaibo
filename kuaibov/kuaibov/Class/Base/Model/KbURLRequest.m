@@ -12,6 +12,7 @@
 @interface KbURLRequest ()
 @property (nonatomic,retain) AFHTTPRequestOperationManager *requestOpManager;
 @property (nonatomic,retain) AFHTTPRequestOperation *requestOp;
+@property (nonatomic,retain) Class responseClass;
 @end
 
 @implementation KbURLRequest
@@ -28,6 +29,17 @@ DefineLazyPropertyInitialization(KbURLResponse, response)
     return _requestOpManager;
 }
 
+- (void)registerResponseClass:(Class)respClass {
+    _responseClass = respClass;
+}
+
+- (Class)responseClass {
+    if (_responseClass) {
+        return _responseClass;
+    }
+    return [KbURLResponse class];
+}
+
 -(BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
     if (urlPath.length == 0) {
         return NO;
@@ -39,6 +51,7 @@ DefineLazyPropertyInitialization(KbURLResponse, response)
     [finalParams setObject:[KbConfig sharedConfig].channelNo forKey:@"channelNo"];
     
     @weakify(self);
+    self.response = [[self.responseClass alloc] init];
     self.requestOp = [self.requestOpManager GET:urlPath parameters:finalParams success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
         

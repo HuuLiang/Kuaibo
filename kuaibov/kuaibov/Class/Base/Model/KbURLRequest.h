@@ -22,6 +22,7 @@ typedef void (^KbURLResponseHandler)(KbURLResponseStatus respStatus, NSString *e
 
 @property (nonatomic,retain) KbURLResponse *response;
 
--(BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler;
+- (void)registerResponseClass:(Class)respClass;
+- (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler;
 
 @end
