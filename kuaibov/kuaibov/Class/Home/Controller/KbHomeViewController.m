@@ -8,11 +8,12 @@
 
 #import "KbHomeViewController.h"
 #import "KbHomeBannerModel.h"
+#import "KbHomeProgramModel.h"
 #import "KbBannerView.h"
 #import "KbHomeSectionHeaderView.h"
 #import "KbHomeCollectionViewLayout.h"
 
-@interface KbHomeViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface KbHomeViewController () <UICollectionViewDataSource>
 {
     UICollectionView *_collectionView;
     
@@ -20,6 +21,7 @@
     KbBannerView *_bannerView;
 }
 @property (nonatomic,retain) KbHomeBannerModel *bannerModel;
+@property (nonatomic,retain) KbHomeProgramModel *programModel;
 @end
 
 static NSString *const kBannerCellReusableIdentifier = @"HomeCollectionViewBannerCellReusableIdentifer";
@@ -29,6 +31,7 @@ static NSString *const kHeaderViewReusableIdentifier = @"HomeCollectionViewHeade
 @implementation KbHomeViewController
 
 DefineLazyPropertyInitialization(KbHomeBannerModel, bannerModel)
+DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,6 +72,19 @@ DefineLazyPropertyInitialization(KbHomeBannerModel, bannerModel)
             self->_bannerView.items = bannerItems;
         }
     }];
+    
+    [self.programModel fetchHomeProgramsWithCompletionHandler:^(BOOL success, NSArray *programs) {
+        @strongify(self);
+        
+        if (success) {
+            [self->_collectionView reloadData];
+        }
+    }];
+}
+
+- (KbHomeProgram *)programOfIndexPath:(NSIndexPath *)indexPath {
+    KbHomePrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
+    return programs.programList[indexPath.item];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,14 +95,16 @@ DefineLazyPropertyInitialization(KbHomeBannerModel, bannerModel)
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 2;
+    return self.programModel.fetchedProgramList.count + 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
+    } else {
+        KbHomePrograms *programs = self.programModel.fetchedProgramList[section-1];
+        return programs.programList.count;
     }
-    return 7;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -108,19 +126,28 @@ DefineLazyPropertyInitialization(KbHomeBannerModel, bannerModel)
         
     } else {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kNormalCellReusableIdentifier forIndexPath:indexPath];
-        cell.backgroundColor = [UIColor redColor];
+        if (!cell.backgroundView) {
+            cell.backgroundView = [[UIImageView alloc] init];
+        }
+
+        KbHomeProgram *program = [self programOfIndexPath:indexPath];
+        UIImageView *imageView = (UIImageView *)cell.backgroundView;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:program.coverImg] placeholderImage:nil];
+        
         return cell;
     }
-    return nil;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
-        KbHomeSectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier forIndexPath:indexPath];
-        headerView.title = @"今日推荐";
-        return headerView;
+    if (indexPath.section == 0) {
+        return nil;
     }
-    return nil;
+    
+    KbHomeSectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier forIndexPath:indexPath];
+    
+    KbHomePrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
+    headerView.title = programs.name;
+    return headerView;
 }
 
 

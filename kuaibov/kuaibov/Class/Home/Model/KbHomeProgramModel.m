@@ -8,6 +8,37 @@
 
 #import "KbHomeProgramModel.h"
 
+@implementation KbHomeProgramResponse
+
+- (Class)columnListElementClass {
+    return [KbHomePrograms class];
+}
+
+@end
+
 @implementation KbHomeProgramModel
+
++ (Class)responseClass {
+    return [KbHomeProgramResponse class];
+}
+
+- (BOOL)fetchHomeProgramsWithCompletionHandler:(KbFetchHomeProgramsCompletionHandler)handler {
+    @weakify(self);
+    BOOL success = [self requestURLPath:[KbConfig sharedConfig].homeProgramURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
+        @strongify(self);
+        
+        NSArray *programs;
+        if (respStatus == KbURLResponseSuccess) {
+            KbHomeProgramResponse *resp = (KbHomeProgramResponse *)self.response;
+            programs = resp.columnList;
+            self->_fetchedProgramList = programs;
+        }
+        
+        if (handler) {
+            handler(respStatus==KbURLResponseSuccess, programs);
+        }
+    }];
+    return success;
+}
 
 @end

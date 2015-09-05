@@ -16,8 +16,6 @@
 
 @implementation KbURLRequest
 
-DefineLazyPropertyInitialization(KbURLResponse, response)
-
 + (Class)responseClass {
     return [KbURLResponse class];
 }

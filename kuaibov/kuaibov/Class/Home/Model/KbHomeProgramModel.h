@@ -7,11 +7,18 @@
 //
 
 #import "KbURLRequest.h"
+#import "KbHomeProgram.h"
 
 @interface KbHomeProgramResponse : KbURLResponse
-
+@property (nonatomic,retain) NSArray<KbHomePrograms> *columnList;
 @end
 
+typedef void (^KbFetchHomeProgramsCompletionHandler)(BOOL success, NSArray *programs);
+
 @interface KbHomeProgramModel : KbURLRequest
+
+@property (nonatomic,retain,readonly) NSArray *fetchedProgramList;
+
+- (BOOL)fetchHomeProgramsWithCompletionHandler:(KbFetchHomeProgramsCompletionHandler)handler;
 
 @end

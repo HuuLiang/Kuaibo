@@ -39,6 +39,7 @@
 		BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05361B9872050074BAE2 /* KbURLResponse.m */; };
 		BCFF93521B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93511B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m */; };
 		BCFF93551B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93541B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m */; };
+		BCFF93581B9B6D7800B2EDF9 /* KbHomeProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93571B9B6D7800B2EDF9 /* KbHomeProgram.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,8 @@
 		BCFF93511B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeSectionHeaderView.m; sourceTree = "<group>"; };
 		BCFF93531B9B573200B2EDF9 /* KbHomeCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeCollectionViewLayout.h; sourceTree = "<group>"; };
 		BCFF93541B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeCollectionViewLayout.m; sourceTree = "<group>"; };
+		BCFF93561B9B6D7800B2EDF9 /* KbHomeProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeProgram.h; sourceTree = "<group>"; };
+		BCFF93571B9B6D7800B2EDF9 /* KbHomeProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeProgram.m; sourceTree = "<group>"; };
 		CEB2734AF03850849D8DF430 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -367,6 +370,8 @@
 				BCFA1CB21B98AD19007E6904 /* KbBannerData.m */,
 				BCFF05251B986F690074BAE2 /* KbHomeBannerModel.h */,
 				BCFF05261B986F690074BAE2 /* KbHomeBannerModel.m */,
+				BCFF93561B9B6D7800B2EDF9 /* KbHomeProgram.h */,
+				BCFF93571B9B6D7800B2EDF9 /* KbHomeProgram.m */,
 				BCFA19D11B9ACE1000B3EE05 /* KbHomeProgramModel.h */,
 				BCFA19D21B9ACE1000B3EE05 /* KbHomeProgramModel.m */,
 			);
@@ -557,6 +562,7 @@
 				BCFA30201B99DFB900428387 /* UIColor+hexColor.m in Sources */,
 				BCFC94CB1B9B07E7009799CD /* UIView+border.m in Sources */,
 				6E090FE61B86A37B00260BDC /* main.m in Sources */,
+				BCFF93581B9B6D7800B2EDF9 /* KbHomeProgram.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

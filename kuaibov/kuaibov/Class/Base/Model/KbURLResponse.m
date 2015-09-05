@@ -44,6 +44,7 @@
         } else if ([value isKindOfClass:[NSArray class]]) {
             Class subclass = [instance valueForKey:[propertyName stringByAppendingString:@"ElementClass"]];
             if (!subclass) {
+                DLog(@"JSON Parsing Warning: cannot find element class of property: %@ in class: %@\n", propertyName, [[instance class] description])
                 return;
             }
             
