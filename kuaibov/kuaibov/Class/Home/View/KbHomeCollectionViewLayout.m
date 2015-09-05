@@ -30,6 +30,14 @@ static const CGFloat kProgramThumbnailScale = 230.0 / 168.0;
     return self;
 }
 
+- (instancetype)initWithDelegate:(id<KbHomeCollectionViewLayoutDelegate>)delegate {
+    self = [self init];
+    if (self) {
+        self.delegate = delegate;
+    }
+    return self;
+}
+
 - (void)prepareLayout {
     [super prepareLayout];
 }
@@ -124,6 +132,12 @@ static const CGFloat kProgramThumbnailScale = 230.0 / 168.0;
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         cell.kb_borderSide = KbBorderBottomSide;
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)]) {
+        [self.delegate collectionView:collectionView didSelectItemAtIndexPath:indexPath];
     }
 }
 @end

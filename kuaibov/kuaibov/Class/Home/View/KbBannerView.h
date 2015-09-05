@@ -16,11 +16,16 @@
 
 @end
 
+typedef void (^KbBannerViewSelectAction)(NSUInteger idx);
+
 @interface KbBannerView : UIView
 
 @property (nonatomic,retain) NSArray *items;
 @property (nonatomic) NSTimeInterval autoPlayTimeInterval;
+@property (nonatomic,copy) KbBannerViewSelectAction action;
 
-- (instancetype)initWithItems:(NSArray *)items autoPlayTimeInterval:(NSTimeInterval)timeInterval;
+- (instancetype)initWithItems:(NSArray *)items
+         autoPlayTimeInterval:(NSTimeInterval)timeInterval
+                       action:(KbBannerViewSelectAction)action;
 
 @end

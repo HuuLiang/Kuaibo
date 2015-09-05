@@ -66,21 +66,32 @@ DefineLazyPropertyInitialization(NSMutableArray, imageViews)
         
         _indicatorView = [[UIView alloc] init];
         [self addSubview:_indicatorView];
+        
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionTap)]];
     }
     return self;
 }
 
-- (instancetype)initWithItems:(NSArray *)items autoPlayTimeInterval:(NSTimeInterval)timeInterval {
+- (instancetype)initWithItems:(NSArray *)items
+         autoPlayTimeInterval:(NSTimeInterval)timeInterval
+                       action:(KbBannerViewSelectAction)action {
     self = [self init];
     if (self) {
         _autoPlayTimeInterval = timeInterval;
         _items = items;
+        _action = action;
         
         [self updateImageViews];
         [self updateIndicatorView];
         [self autoPlayImagesFromBeginning];
     }
     return self;
+}
+
+- (void)actionTap {
+    if (self.action) {
+        self.action(self.currentPage);
+    }
 }
 
 - (NSUInteger)currentPage {

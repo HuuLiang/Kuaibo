@@ -40,6 +40,8 @@
 		BCFF93521B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93511B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m */; };
 		BCFF93551B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93541B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m */; };
 		BCFF93581B9B6D7800B2EDF9 /* KbHomeProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93571B9B6D7800B2EDF9 /* KbHomeProgram.m */; };
+		BCFF935B1B9B7DB400B2EDF9 /* KbVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF935A1B9B7DB400B2EDF9 /* KbVideo.m */; };
+		BCFF935F1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF935E1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +126,11 @@
 		BCFF93541B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeCollectionViewLayout.m; sourceTree = "<group>"; };
 		BCFF93561B9B6D7800B2EDF9 /* KbHomeProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeProgram.h; sourceTree = "<group>"; };
 		BCFF93571B9B6D7800B2EDF9 /* KbHomeProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeProgram.m; sourceTree = "<group>"; };
+		BCFF93591B9B7DB400B2EDF9 /* KbVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbVideo.h; sourceTree = "<group>"; };
+		BCFF935A1B9B7DB400B2EDF9 /* KbVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbVideo.m; sourceTree = "<group>"; };
+		BCFF935D1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbVideoPlayViewController.h; sourceTree = "<group>"; };
+		BCFF935E1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbVideoPlayViewController.m; sourceTree = "<group>"; };
+		BCFF93601B9B82ED00B2EDF9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CEB2734AF03850849D8DF430 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -267,8 +274,10 @@
 		6E2B8AD81B95F97000053761 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				BCE9B63B1B98551200D70B9E /* kbBaseController.m */,
 				BCE9B63C1B98551200D70B9E /* kbBaseController.h */,
+				BCE9B63B1B98551200D70B9E /* kbBaseController.m */,
+				BCFF935D1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.h */,
+				BCFF935E1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -322,6 +331,7 @@
 		9C36E5AF707F393D00B248C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BCFF93601B9B82ED00B2EDF9 /* AVFoundation.framework */,
 				4B8B6ED104721273B48C5C5C /* libPods.a */,
 			);
 			name = Frameworks;
@@ -347,6 +357,8 @@
 				BCFF05131B9861C50074BAE2 /* KbURLRequest.m */,
 				BCFF05351B9872050074BAE2 /* KbURLResponse.h */,
 				BCFF05361B9872050074BAE2 /* KbURLResponse.m */,
+				BCFF93591B9B7DB400B2EDF9 /* KbVideo.h */,
+				BCFF935A1B9B7DB400B2EDF9 /* KbVideo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -537,6 +549,7 @@
 				BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */,
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
 				BCE9B64E1B98552A00D70B9E /* UIView+StringTag.m in Sources */,
+				BCFF935F1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m in Sources */,
 				BCE9B64D1B98552A00D70B9E /* NSString+meltutils.m in Sources */,
 				BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */,
 				BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */,
@@ -548,6 +561,7 @@
 				BCFF05211B986AE40074BAE2 /* KbConfig.m in Sources */,
 				BCE9B64A1B98552A00D70B9E /* NSString+FilterHTML.m in Sources */,
 				BCFF05311B9870B60074BAE2 /* KbProgramModel.m in Sources */,
+				BCFF935B1B9B7DB400B2EDF9 /* KbVideo.m in Sources */,
 				BCFA19D31B9ACE1000B3EE05 /* KbHomeProgramModel.m in Sources */,
 				BCE9B63D1B98551200D70B9E /* kbBaseController.m in Sources */,
 				BCE9B6521B98559D00D70B9E /* kbMoreViewController.m in Sources */,

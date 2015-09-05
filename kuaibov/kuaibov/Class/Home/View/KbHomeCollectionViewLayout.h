@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol KbHomeCollectionViewLayoutDelegate <NSObject>
+
+@optional
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
+
+@end
+
 @interface KbHomeCollectionViewLayout : UICollectionViewFlowLayout <UICollectionViewDelegateFlowLayout>
+
+@property (nonatomic,assign) id<KbHomeCollectionViewLayoutDelegate> delegate;
+
+- (instancetype)initWithDelegate:(id<KbHomeCollectionViewLayoutDelegate>)delegate;
 
 @end

@@ -12,8 +12,9 @@
 #import "KbBannerView.h"
 #import "KbHomeSectionHeaderView.h"
 #import "KbHomeCollectionViewLayout.h"
+#import "KbVideoPlayViewController.h"
 
-@interface KbHomeViewController () <UICollectionViewDataSource>
+@interface KbHomeViewController () <UICollectionViewDataSource,KbHomeCollectionViewLayoutDelegate>
 {
     UICollectionView *_collectionView;
     
@@ -39,7 +40,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     self.title = @"快播";
     self.view.backgroundColor = HexColor(#f7f7f7);
     
-    KbHomeCollectionViewLayout *layout = [[KbHomeCollectionViewLayout alloc] init];
+    KbHomeCollectionViewLayout *layout = [[KbHomeCollectionViewLayout alloc] initWithDelegate:self];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                          collectionViewLayout:layout];
     _collectionView.dataSource = self;
@@ -83,8 +84,19 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 }
 
 - (KbHomeProgram *)programOfIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return nil;
+    }
+    
     KbHomePrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
     return programs.programList[indexPath.item];
+}
+
+- (void)switchToVideoPlayerWithVideo:(KbVideo *)video {
+    if (video) {
+        KbVideoPlayViewController *videoPlayVC = [[KbVideoPlayViewController alloc] initWithVideo:video];
+        [self.navigationController pushViewController:videoPlayVC animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,7 +124,12 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         if (!_bannerCell) {
             _bannerCell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannerCellReusableIdentifier forIndexPath:indexPath];
             
-            _bannerView = [[KbBannerView alloc] initWithItems:nil autoPlayTimeInterval:3.0];
+            @weakify(self);
+            _bannerView = [[KbBannerView alloc] initWithItems:nil autoPlayTimeInterval:3.0 action:^(NSUInteger idx) {
+                @strongify(self);
+                KbBannerData *bannerData = self.bannerModel.fetchedBanners[idx];
+                [self switchToVideoPlayerWithVideo:bannerData];
+            }];
             _bannerView.backgroundColor = [UIColor whiteColor];
             [_bannerCell.contentView addSubview:_bannerView];
             {
@@ -150,6 +167,10 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     return headerView;
 }
 
+#pragma mark - KbHomeCollectionViewLayoutDelegate
 
-
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    KbHomeProgram *program = [self programOfIndexPath:indexPath];
+    [self switchToVideoPlayerWithVideo:program];
+}
 @end
