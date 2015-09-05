@@ -7,6 +7,8 @@
 //
 
 #import "kbBaseController.h"
+#import "KbVideo.h"
+#import "KbVideoPlayViewController.h"
 
 @interface kbBaseController ()
 
@@ -17,6 +19,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)switchToPlayVideo:(KbVideo *)video {
+    if (video) {
+        KbVideoPlayViewController *videoPlayVC = [[KbVideoPlayViewController alloc] initWithVideo:video];
+        [self.navigationController pushViewController:videoPlayVC animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

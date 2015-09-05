@@ -10,6 +10,8 @@
 	<string>/video/ios/homePage.htm</string>
 	<key>ChannelURLPath</key>
 	<string>/video/ios/channelRanking.htm</string>
+	<key>ChannelProgramURLPath</key>
+	<string>/video/ios/program.htm</string>
 	<key>ChannelNo</key>
 	<string>QB_VIDEO_IOS_B_00000000</string>
 </dict>

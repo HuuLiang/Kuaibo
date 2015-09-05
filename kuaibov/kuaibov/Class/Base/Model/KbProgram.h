@@ -1,5 +1,5 @@
 //
-//  KbHomeProgram.h
+//  KbProgram.h
 //  kuaibov
 //
 //  Created by Sean Yue on 15/9/6.
@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KbURLResponse.h"
 #import "KbVideo.h"
 
-@protocol KbHomeProgramUrl <NSObject>
+@protocol KbProgramUrl <NSObject>
 
 @end
 
-@interface KbHomeProgramUrl : NSObject
+@interface KbProgramUrl : NSObject
 @property (nonatomic) NSNumber *programUrlId;
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *url;
@@ -21,28 +22,29 @@
 @property (nonatomic) NSNumber *height;
 @end
 
-@protocol KbHomeProgram <NSObject>
+@protocol KbProgram <NSObject>
 
 @end
 
-@interface KbHomeProgram : KbVideo
+@interface KbProgram : KbVideo
 
 @property (nonatomic) NSNumber *programId;
 @property (nonatomic) NSNumber *payPointType; // 1、会员注册 2、付费
 @property (nonatomic) NSNumber *type; // 1、视频 2、图片
-@property (nonatomic,retain) NSArray<KbHomeProgramUrl> *urlList; // type==2有集合，目前为图集url集合
+@property (nonatomic,retain) NSArray<KbProgramUrl> *urlList; // type==2有集合，目前为图集url集合
 
 @end
 
-@protocol KbHomePrograms <NSObject>
+@protocol KbPrograms <NSObject>
 
 @end
 
-@interface KbHomePrograms : NSObject
+@interface KbPrograms : KbURLResponse
 @property (nonatomic) NSNumber *columnId;
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *columnImg;
 @property (nonatomic) NSNumber *type; // 1、视频 2、图片
 @property (nonatomic) NSNumber *showNumber;
-@property (nonatomic,retain) NSArray<KbHomeProgram> *programList;
+@property (nonatomic,retain) NSArray<KbProgram> *programList;
 @end
+

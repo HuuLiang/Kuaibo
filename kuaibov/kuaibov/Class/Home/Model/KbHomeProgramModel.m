@@ -11,7 +11,7 @@
 @implementation KbHomeProgramResponse
 
 - (Class)columnListElementClass {
-    return [KbHomePrograms class];
+    return [KbPrograms class];
 }
 
 @end

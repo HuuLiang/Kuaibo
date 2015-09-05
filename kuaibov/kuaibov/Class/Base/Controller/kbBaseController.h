@@ -6,6 +6,10 @@
 //  Copyright (c) 2015年 kuaibov. All rights reserved.
 //
 
+@class KbVideo;
+
 @interface kbBaseController : UIViewController
+
+- (void)switchToPlayVideo:(KbVideo *)video;
 
 @end

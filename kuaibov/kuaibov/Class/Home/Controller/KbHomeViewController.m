@@ -12,7 +12,6 @@
 #import "KbBannerView.h"
 #import "KbHomeSectionHeaderView.h"
 #import "KbHomeCollectionViewLayout.h"
-#import "KbVideoPlayViewController.h"
 
 @interface KbHomeViewController () <UICollectionViewDataSource,KbHomeCollectionViewLayoutDelegate>
 {
@@ -83,20 +82,13 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     }];
 }
 
-- (KbHomeProgram *)programOfIndexPath:(NSIndexPath *)indexPath {
+- (KbProgram *)programOfIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         return nil;
     }
     
-    KbHomePrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
+    KbPrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
     return programs.programList[indexPath.item];
-}
-
-- (void)switchToVideoPlayerWithVideo:(KbVideo *)video {
-    if (video) {
-        KbVideoPlayViewController *videoPlayVC = [[KbVideoPlayViewController alloc] initWithVideo:video];
-        [self.navigationController pushViewController:videoPlayVC animated:YES];
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,7 +106,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     if (section == 0) {
         return 1;
     } else {
-        KbHomePrograms *programs = self.programModel.fetchedProgramList[section-1];
+        KbPrograms *programs = self.programModel.fetchedProgramList[section-1];
         return programs.programList.count;
     }
 }
@@ -128,7 +120,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             _bannerView = [[KbBannerView alloc] initWithItems:nil autoPlayTimeInterval:3.0 action:^(NSUInteger idx) {
                 @strongify(self);
                 KbBannerData *bannerData = self.bannerModel.fetchedBanners[idx];
-                [self switchToVideoPlayerWithVideo:bannerData];
+                [self switchToPlayVideo:bannerData];
             }];
             _bannerView.backgroundColor = [UIColor whiteColor];
             [_bannerCell.contentView addSubview:_bannerView];
@@ -147,7 +139,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             cell.backgroundView = [[UIImageView alloc] init];
         }
 
-        KbHomeProgram *program = [self programOfIndexPath:indexPath];
+        KbProgram *program = [self programOfIndexPath:indexPath];
         UIImageView *imageView = (UIImageView *)cell.backgroundView;
         [imageView sd_setImageWithURL:[NSURL URLWithString:program.coverImg] placeholderImage:nil];
         
@@ -162,7 +154,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     
     KbHomeSectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier forIndexPath:indexPath];
     
-    KbHomePrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
+    KbPrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
     headerView.title = programs.name;
     return headerView;
 }
@@ -170,7 +162,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 #pragma mark - KbHomeCollectionViewLayoutDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    KbHomeProgram *program = [self programOfIndexPath:indexPath];
-    [self switchToVideoPlayerWithVideo:program];
+    KbProgram *program = [self programOfIndexPath:indexPath];
+    [self switchToPlayVideo:program];
 }
 @end
