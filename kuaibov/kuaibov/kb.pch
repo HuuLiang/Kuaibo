@@ -17,6 +17,8 @@
 #import "NSString+meltutils.h"
 #import "NSString+md5.h"
 #import "NSString+length.h"
+#import "UIColor+hexColor.h"
+#import "UIView+border.h"
 #import "RACEXTScope.h"
 #import "KbConfig.h"
 #import <Aspects.h>
@@ -29,4 +31,6 @@
 #define mainWidth      [ [ UIScreen mainScreen ] bounds ].size.width
 #define LocalizedStr(key)  NSLocalizedString(key, @"")
 
+#define HexColor(hex) [UIColor colorWithHexString:@#hex]
+#define Color_DefaultBorder HexColor(#e8e8e8)
 #endif

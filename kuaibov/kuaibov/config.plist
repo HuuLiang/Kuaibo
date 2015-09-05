@@ -6,6 +6,8 @@
 	<string>http://121.41.60.217:8093</string>
 	<key>BannerURLPath</key>
 	<string>/video/ios/banner.htm</string>
+	<key>HomeProgramURLPath</key>
+	<string>/video/ios/homePage.htm</string>
 	<key>ChannelURLPath</key>
 	<string>/video/ios/channelRanking.htm</string>
 	<key>ChannelNo</key>

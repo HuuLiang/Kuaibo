@@ -12,6 +12,7 @@
 
 @property (nonatomic) NSString *baseURL;
 @property (nonatomic) NSString *bannerURLPath;
+@property (nonatomic) NSString *homeProgramURLPath;
 @property (nonatomic) NSString *channelURLPath;
 
 @property (nonatomic) NSString *channelNo;

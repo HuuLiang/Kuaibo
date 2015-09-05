@@ -18,9 +18,11 @@
 
 @implementation KbHomeBannerModel
 
++ (Class)responseClass {
+    return [KbBannerResponse class];
+}
+
 - (BOOL)fetchBannersWithCompletionHandler:(KbFetchBannersCompletionHandler)handler {
-    [self registerResponseClass:[KbBannerResponse class]];
-    
     @weakify(self);
     BOOL success = [self requestURLPath:[KbConfig sharedConfig].bannerURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
         @strongify(self);

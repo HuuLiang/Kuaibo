@@ -18,9 +18,10 @@
 
 @implementation KbChannelModel
 
++ (Class)responseClass {
+    return [KbChannelResponse class];
+}
 - (BOOL)fetchChannelsWithCompletionHandler:(KbFetchChannelsCompletionHandler)handler {
-    [self registerResponseClass:[KbChannelResponse class]];
-    
     @weakify(self);
     BOOL success = [self requestURLPath:[KbConfig sharedConfig].channelURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
         @strongify(self);

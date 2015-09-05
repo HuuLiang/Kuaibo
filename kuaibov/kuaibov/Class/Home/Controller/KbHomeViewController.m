@@ -9,13 +9,22 @@
 #import "KbHomeViewController.h"
 #import "KbHomeBannerModel.h"
 #import "KbBannerView.h"
+#import "KbHomeSectionHeaderView.h"
+#import "KbHomeCollectionViewLayout.h"
 
-@interface KbHomeViewController ()
+@interface KbHomeViewController () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
+    UICollectionView *_collectionView;
+    
+    UICollectionViewCell *_bannerCell;
     KbBannerView *_bannerView;
 }
 @property (nonatomic,retain) KbHomeBannerModel *bannerModel;
 @end
+
+static NSString *const kBannerCellReusableIdentifier = @"HomeCollectionViewBannerCellReusableIdentifer";
+static NSString *const kNormalCellReusableIdentifier = @"HomeCollectionViewNormalCellReusableIdentifer";
+static NSString *const kHeaderViewReusableIdentifier = @"HomeCollectionViewHeaderReusableIdentifier";
 
 @implementation KbHomeViewController
 
@@ -25,13 +34,22 @@ DefineLazyPropertyInitialization(KbHomeBannerModel, bannerModel)
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"快播";
+    self.view.backgroundColor = HexColor(#f7f7f7);
     
-    _bannerView = [[KbBannerView alloc] initWithItems:nil autoPlayTimeInterval:3.0];
-    [self.view addSubview:_bannerView];
+    KbHomeCollectionViewLayout *layout = [[KbHomeCollectionViewLayout alloc] init];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
+                                         collectionViewLayout:layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = layout;
+    _collectionView.backgroundColor = HexColor(#f7f7f7);
+    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kBannerCellReusableIdentifier];
+    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kNormalCellReusableIdentifier];
+    [_collectionView registerClass:[KbHomeSectionHeaderView class]
+        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier];
+    [self.view addSubview:_collectionView];
     {
-        [_bannerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.and.top.equalTo(self.view);
-            make.height.equalTo(_bannerView.mas_width).with.dividedBy(2).and.sizeOffset(CGSizeMake(0, 44));
+        [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
         }];
     }
     
@@ -57,5 +75,54 @@ DefineLazyPropertyInitialization(KbHomeBannerModel, bannerModel)
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 2;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    }
+    return 7;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        if (!_bannerCell) {
+            _bannerCell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannerCellReusableIdentifier forIndexPath:indexPath];
+            
+            _bannerView = [[KbBannerView alloc] initWithItems:nil autoPlayTimeInterval:3.0];
+            _bannerView.backgroundColor = [UIColor whiteColor];
+            [_bannerCell.contentView addSubview:_bannerView];
+            {
+                [_bannerView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.edges.equalTo(_bannerCell.contentView);
+                }];
+            }
+        }
+        
+        return _bannerCell;
+        
+    } else {
+        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kNormalCellReusableIdentifier forIndexPath:indexPath];
+        cell.backgroundColor = [UIColor redColor];
+        return cell;
+    }
+    return nil;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1) {
+        KbHomeSectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier forIndexPath:indexPath];
+        headerView.title = @"今日推荐";
+        return headerView;
+    }
+    return nil;
+}
+
+
 
 @end

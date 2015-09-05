@@ -22,7 +22,8 @@ typedef void (^KbURLResponseHandler)(KbURLResponseStatus respStatus, NSString *e
 
 @property (nonatomic,retain) KbURLResponse *response;
 
-- (void)registerResponseClass:(Class)respClass;
++ (Class)responseClass;  // override this method to provide a custom class to be used when instantiating instances of KbURLResponse
+
 - (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler;
 
 @end
