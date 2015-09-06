@@ -14,5 +14,7 @@
 	<string>/video/ios/program.htm</string>
 	<key>ChannelNo</key>
 	<string>QB_VIDEO_IOS_B_00000000</string>
+	<key>MoreURLPath</key>
+	<string>/video/agreement.html</string>
 </dict>
 </plist>

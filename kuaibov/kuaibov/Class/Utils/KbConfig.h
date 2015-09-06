@@ -15,6 +15,7 @@
 @property (nonatomic) NSString *homeProgramURLPath;
 @property (nonatomic) NSString *channelURLPath;
 @property (nonatomic) NSString *channelProgramURLPath;
+@property (nonatomic) NSString *moreURLPath;
 
 @property (nonatomic) NSString *channelNo;
 

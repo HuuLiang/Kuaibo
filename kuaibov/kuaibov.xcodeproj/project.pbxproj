@@ -28,6 +28,8 @@
 		BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */; };
 		BCFA30201B99DFB900428387 /* UIColor+hexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA301F1B99DFB900428387 /* UIColor+hexColor.m */; };
 		BCFC94CB1B9B07E7009799CD /* UIView+border.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC94CA1B9B07E7009799CD /* UIView+border.m */; };
+		BCFD70AC1B9C342D001ACC32 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BCFD70AA1B9C342D001ACC32 /* AlipaySDK.bundle */; };
+		BCFD70AD1B9C342D001ACC32 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCFD70AB1B9C342D001ACC32 /* AlipaySDK.framework */; };
 		BCFF05141B9861C50074BAE2 /* KbURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05131B9861C50074BAE2 /* KbURLRequest.m */; };
 		BCFF051E1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF051B1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m */; };
 		BCFF05211B986AE40074BAE2 /* KbConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05201B986AE40074BAE2 /* KbConfig.m */; };
@@ -44,6 +46,7 @@
 		BCFF93671B9B967A00B2EDF9 /* KbChannelProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93661B9B967A00B2EDF9 /* KbChannelProgram.m */; };
 		BCFF936A1B9B977800B2EDF9 /* KbProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93691B9B977800B2EDF9 /* KbProgram.m */; };
 		BCFF936E1B9B9CFC00B2EDF9 /* KbChannelProgramCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF936D1B9B9CFC00B2EDF9 /* KbChannelProgramCell.m */; };
+		BCFF936F1B9BA7FA00B2EDF9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCFF93601B9B82ED00B2EDF9 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +105,8 @@
 		BCFA301F1B99DFB900428387 /* UIColor+hexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+hexColor.m"; sourceTree = "<group>"; };
 		BCFC94C91B9B07E7009799CD /* UIView+border.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+border.h"; sourceTree = "<group>"; };
 		BCFC94CA1B9B07E7009799CD /* UIView+border.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+border.m"; sourceTree = "<group>"; };
+		BCFD70AA1B9C342D001ACC32 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		BCFD70AB1B9C342D001ACC32 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		BCFF05121B9861C50074BAE2 /* KbURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbURLRequest.h; sourceTree = "<group>"; };
 		BCFF05131B9861C50074BAE2 /* KbURLRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbURLRequest.m; sourceTree = "<group>"; };
 		BCFF05191B9869B30074BAE2 /* RACEXTKeyPathCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACEXTKeyPathCoding.h; sourceTree = "<group>"; };
@@ -145,7 +150,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCFF936F1B9BA7FA00B2EDF9 /* AVFoundation.framework in Frameworks */,
 				56794F4345B561BA89892950 /* libPods.a in Frameworks */,
+				BCFD70AD1B9C342D001ACC32 /* AlipaySDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +319,7 @@
 		6E2B8AEB1B95FD5600053761 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				BCFD70A91B9C3402001ACC32 /* Alipay */,
 				BCFF05181B98699B0074BAE2 /* rac_extobjc */,
 				BCFA301E1B99DFB900428387 /* UIColor+hexColor.h */,
 				BCFA301F1B99DFB900428387 /* UIColor+hexColor.m */,
@@ -355,6 +363,15 @@
 				BCFF93541B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		BCFD70A91B9C3402001ACC32 /* Alipay */ = {
+			isa = PBXGroup;
+			children = (
+				BCFD70AA1B9C342D001ACC32 /* AlipaySDK.bundle */,
+				BCFD70AB1B9C342D001ACC32 /* AlipaySDK.framework */,
+			);
+			path = Alipay;
 			sourceTree = "<group>";
 		};
 		BCFF05111B98616A0074BAE2 /* Model */ = {
@@ -512,6 +529,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCFD70AC1B9C342D001ACC32 /* AlipaySDK.bundle in Resources */,
 				BCFF05231B986B4D0074BAE2 /* config.plist in Resources */,
 				6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */,
 			);
@@ -705,6 +723,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/kuaibov/Class/Utils/Alipay",
+				);
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -718,6 +740,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/kuaibov/Class/Utils/Alipay",
+				);
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

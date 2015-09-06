@@ -8,7 +8,11 @@
 
 #import "KbVideoPlayViewController.h"
 #import "KbVideo.h"
-#import <MediaPlayer/MediaPlayer.h>
+@import MediaPlayer;
+@import AVKit;
+@import AVFoundation.AVPlayer;
+@import AVFoundation.AVAsset;
+@import AVFoundation.AVAssetImageGenerator;
 
 @interface KbVideoPlayViewController ()
 {
@@ -36,7 +40,6 @@
     
     _thumbnailImageView = [[UIImageView alloc] init];
     _thumbnailImageView.backgroundColor = [UIColor blackColor];
-    [_thumbnailImageView sd_setImageWithURL:[NSURL URLWithString:self.video.coverImg]];
     _thumbnailImageView.contentMode = UIViewContentModeScaleAspectFit;
     _thumbnailImageView.userInteractionEnabled = YES;
     [_thumbnailImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionPlayVideo)]];
@@ -57,13 +60,52 @@
             make.top.equalTo(_thumbnailImageView.mas_bottom).with.offset(10);
         }];
     }
+    
+    @weakify(self);
+    [_thumbnailImageView sd_setImageWithURL:[NSURL URLWithString:self.video.coverImg] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        @strongify(self);
+        if (self.evaluateThumbnail) {
+            [self evaluateVideo];
+        }
+    }];
+}
+
+- (void)evaluateVideo {
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        AVURLAsset *urlAsset = [[AVURLAsset alloc] initWithURL:[NSURL URLWithString:self.video.videoUrl] options:nil];
+        Float64 duration = CMTimeGetSeconds(urlAsset.duration);
+        
+        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:urlAsset];
+        
+        NSMutableArray *thumbnails = [NSMutableArray array];
+        NSUInteger stepSeconds = duration / 6;
+        for (NSUInteger i = stepSeconds; i < duration - stepSeconds; i += stepSeconds) {
+            CGImageRef imageRef = [generator copyCGImageAtTime:CMTimeMake(i, 1) actualTime:nil error:nil];
+            [thumbnails addObject:[UIImage imageWithCGImage:imageRef]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            @strongify(self);
+            self->_thumbnailImageView.image = [UIImage animatedImageWithImages:thumbnails duration:thumbnails.count];
+        });
+    });
 }
 
 - (void)actionPlayVideo {
-    MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc]
-                                             initWithContentURL:[NSURL URLWithString:self.video.videoUrl]];
-    playerVC.navigationController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleDone target:self action:nil];
-    [self presentMoviePlayerViewControllerAnimated:playerVC];
+    if (NSClassFromString(@"AVPlayerViewController")) {
+        AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
+        playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:self.video.videoUrl]];
+
+        [self presentViewController:playerVC animated:YES completion:^{
+            [playerVC.player play];
+        }];
+
+    } else {
+        MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc]
+                                                 initWithContentURL:[NSURL URLWithString:self.video.videoUrl]];
+        [self presentMoviePlayerViewControllerAnimated:playerVC];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

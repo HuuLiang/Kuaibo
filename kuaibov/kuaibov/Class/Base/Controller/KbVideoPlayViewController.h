@@ -13,6 +13,8 @@
 
 @interface KbVideoPlayViewController : kbBaseController
 
+@property (nonatomic) BOOL evaluateThumbnail; // may take long time to evaluate a long video
+
 - (instancetype)initWithVideo:(KbVideo *)video;
 
 @end

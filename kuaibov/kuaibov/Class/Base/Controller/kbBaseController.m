@@ -19,11 +19,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = HexColor(#f7f7f7);
 }
 
 - (void)switchToPlayVideo:(KbVideo *)video {
     if (video) {
         KbVideoPlayViewController *videoPlayVC = [[KbVideoPlayViewController alloc] initWithVideo:video];
+        //videoPlayVC.evaluateThumbnail = YES;
         [self.navigationController pushViewController:videoPlayVC animated:YES];
     }
 }
