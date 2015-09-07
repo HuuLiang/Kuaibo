@@ -14,22 +14,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-MJRefresh.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-ODRefreshControl.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-SDWebImage.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-SVPullToRefresh.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -42,37 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2135C9B4943AF9A8D752FEE8</key>
+		<key>61C671377F23AC45905B8D95</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>313B29528189152F3DBA8902</key>
+		<key>77EF66A6F3B3F51D06D671C2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3C18B837B76D928973AD4B39</key>
+		<key>9357CE972C7FC76702E1AA6B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>615A70CA2F9E32F4A663AF4C</key>
+		<key>9EAF8BB36C7FD36290644BE9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A28356FF906F3907FFE929E8</key>
+		<key>B04C5F7ED27DE44D52E79AA5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DCE2E97D6943B439ECFB9A4C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>ECB9306C3B27595963B65875</key>
+		<key>B31DD4D04CB1818A95502054</key>
 		<dict>
 			<key>primary</key>
 			<true/>

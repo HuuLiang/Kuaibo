@@ -6,8 +6,7 @@ pod 'Masonry', '~> 0.6.2'
 pod 'SDWebImage', '~> 3.7.3'
 #pod 'MBProgressHud'
 #pod 'SIAlertView'
-pod 'SVPullToRefresh', '~> 0.4.1'
-pod 'ODRefreshControl', '~> 1.2'
+pod 'MJRefresh', '~> 2.4.7'
 
 # Github page: https://github.com/steipete/Aspects
 pod 'Aspects','~>1.4.1'

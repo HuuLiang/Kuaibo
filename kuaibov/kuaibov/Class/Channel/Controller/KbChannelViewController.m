@@ -63,12 +63,12 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     }
     
     @weakify(self);
-    [_channelsView addODRefreshControlWithActionHandler:^{
+    [_channelsView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
         
         [self loadChannels];
     }];
-    [_channelsView triggerODRefresh];
+    [_channelsView kb_triggerPullToRefresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -80,7 +80,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     @weakify(self);
     [self.channelModel fetchChannelsWithCompletionHandler:^(BOOL success, NSArray *channels) {
         @strongify(self);
-        [self->_channelsView endODRefresh];
+        [self->_channelsView kb_endPullToRefresh];
         
         if (success) {
             [self->_channelsView reloadData];

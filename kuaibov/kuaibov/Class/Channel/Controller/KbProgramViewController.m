@@ -57,15 +57,21 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
         }];
     }
     
+
     @weakify(self);
-    [_programTableView addODRefreshControlWithActionHandler:^{
+    [_programTableView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
         
         self.currentPage = 0;
         [self.programs removeAllObjects];
         [self loadPrograms];
     }];
-    [_programTableView triggerODRefresh];
+    [_programTableView kb_triggerPullToRefresh];
+    
+    [_programTableView kb_addPagingRefreshWithHandler:^{
+        @strongify(self);
+        [self loadPrograms];
+    }];
 }
 
 - (void)loadPrograms {
@@ -75,12 +81,16 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
                                         pageSize:kDefaultPageSize
                                completionHandler:^(BOOL success, KbChannelPrograms *programs) {
                                    @strongify(self);
-        
-                                   [self->_programTableView endODRefresh];
-
+                                   
                                    if (success) {
                                        [self.programs addObjectsFromArray:programs.programList];
                                        [self->_programTableView reloadData];
+                                   }
+                                   
+                                   if (self.currentPage == 1) {
+                                       [self->_programTableView kb_endPullToRefresh];
+                                   } else if (self.programs.count >= programs.items.unsignedIntegerValue) {
+                                       [self->_programTableView kb_pagingRefreshNoMoreData];
                                    }
     }];
 }

@@ -19,12 +19,12 @@
 #import "NSString+length.h"
 #import "UIColor+hexColor.h"
 #import "UIView+border.h"
+#import "UIScrollView+Refresh.h"
 #import "RACEXTScope.h"
 #import "KbConfig.h"
 #import <Aspects.h>
 #import <Masonry.h>
 #import <UIImageView+WebCache.h>
-#import "UIScrollView+ODRefresh.h"
 
 #define APP_VER        [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
 #define BUILD_VER      [[NSBundle mainBundle].infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]

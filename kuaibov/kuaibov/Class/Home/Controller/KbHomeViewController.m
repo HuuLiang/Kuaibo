@@ -68,11 +68,11 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     }
     
     @weakify(self);
-    [_collectionView addODRefreshControlWithActionHandler:^{
+    [_collectionView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
         [self reloadData];
     }];
-    [_collectionView triggerODRefresh];
+    [_collectionView kb_triggerPullToRefresh];
 }
 
 - (void)reloadData {
@@ -88,7 +88,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         
         dispatch_group_wait(self.dataFetchDispatchGroup, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self->_collectionView endODRefresh];
+            [self->_collectionView kb_endPullToRefresh];
         });
     });
 }
