@@ -17,11 +17,17 @@
 }
 @property (nonatomic,retain) KbChannel *channel;
 @property (nonatomic,retain) KbChannelProgramModel *programModel;
+
+@property (nonatomic,retain) NSMutableArray *programs;
+@property (nonatomic) NSUInteger currentPage;
 @end
+
+static const NSUInteger kDefaultPageSize = 10;
 
 @implementation KbProgramViewController
 
 DefineLazyPropertyInitialization(KbChannelProgramModel, programModel)
+DefineLazyPropertyInitialization(NSMutableArray, programs)
 
 - (instancetype)initWithChannel:(KbChannel *)channel {
     self = [super init];
@@ -51,17 +57,31 @@ DefineLazyPropertyInitialization(KbChannelProgramModel, programModel)
         }];
     }
     
-    [self reloadData];
-}
-
-- (void)reloadData {
     @weakify(self);
-    [self.programModel fetchProgramsWithColumnId:self.channel.columnId completionHandler:^(BOOL success, KbChannelPrograms *programs) {
+    [_programTableView addODRefreshControlWithActionHandler:^{
         @strongify(self);
         
-        if (success) {
-            [self->_programTableView reloadData];
-        }
+        self.currentPage = 0;
+        [self.programs removeAllObjects];
+        [self loadPrograms];
+    }];
+    [_programTableView triggerODRefresh];
+}
+
+- (void)loadPrograms {
+    @weakify(self);
+    [self.programModel fetchProgramsWithColumnId:self.channel.columnId
+                                          pageNo:++self.currentPage
+                                        pageSize:kDefaultPageSize
+                               completionHandler:^(BOOL success, KbChannelPrograms *programs) {
+                                   @strongify(self);
+        
+                                   [self->_programTableView endODRefresh];
+
+                                   if (success) {
+                                       [self.programs addObjectsFromArray:programs.programList];
+                                       [self->_programTableView reloadData];
+                                   }
     }];
 }
 
@@ -76,13 +96,13 @@ DefineLazyPropertyInitialization(KbChannelProgramModel, programModel)
 }
 
 - (KbChannelProgram *)channelProgramOfIndexPath:(NSIndexPath *)indexPath {
-    return self.programModel.fetchedPrograms.programList[indexPath.row];
+    return self.programs[indexPath.row];
 }
 
 #pragma mark - UITableViewDataSource / UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.programModel.fetchedPrograms.programList.count;
+    return self.programs.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

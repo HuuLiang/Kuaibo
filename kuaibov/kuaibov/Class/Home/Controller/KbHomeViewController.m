@@ -22,6 +22,7 @@
 }
 @property (nonatomic,retain) KbHomeBannerModel *bannerModel;
 @property (nonatomic,retain) KbHomeProgramModel *programModel;
+@property (nonatomic,retain,readonly) dispatch_group_t dataFetchDispatchGroup;
 @end
 
 static NSString *const kBannerCellReusableIdentifier = @"HomeCollectionViewBannerCellReusableIdentifer";
@@ -29,9 +30,19 @@ static NSString *const kNormalCellReusableIdentifier = @"HomeCollectionViewNorma
 static NSString *const kHeaderViewReusableIdentifier = @"HomeCollectionViewHeaderReusableIdentifier";
 
 @implementation KbHomeViewController
+@synthesize dataFetchDispatchGroup = _dataFetchDispatchGroup;
 
 DefineLazyPropertyInitialization(KbHomeBannerModel, bannerModel)
 DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
+
+- (dispatch_group_t)dataFetchDispatchGroup {
+    if (_dataFetchDispatchGroup) {
+        return _dataFetchDispatchGroup;
+    }
+    
+    _dataFetchDispatchGroup = dispatch_group_create();
+    return _dataFetchDispatchGroup;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,13 +67,37 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         }];
     }
     
-    [self reloadData];
+    @weakify(self);
+    [_collectionView addODRefreshControlWithActionHandler:^{
+        @strongify(self);
+        [self reloadData];
+    }];
+    [_collectionView triggerODRefresh];
 }
 
 - (void)reloadData {
+    dispatch_group_enter(self.dataFetchDispatchGroup);
+    [self reloadBanners];
+    
+    dispatch_group_enter(self.dataFetchDispatchGroup);
+    [self reloadPrograms];
+    
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        @strongify(self);
+        
+        dispatch_group_wait(self.dataFetchDispatchGroup, DISPATCH_TIME_FOREVER);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_collectionView endODRefresh];
+        });
+    });
+}
+
+- (void)reloadBanners {
     @weakify(self);
     [self.bannerModel fetchBannersWithCompletionHandler:^(BOOL success, NSArray *banners) {
         @strongify(self);
+        dispatch_group_leave(self.dataFetchDispatchGroup);
         
         if (success) {
             NSMutableArray *bannerItems = [NSMutableArray array];
@@ -72,9 +107,13 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             self->_bannerView.items = bannerItems;
         }
     }];
-    
+}
+
+- (void)reloadPrograms {
+    @weakify(self);
     [self.programModel fetchHomeProgramsWithCompletionHandler:^(BOOL success, NSArray *programs) {
         @strongify(self);
+        dispatch_group_leave(self.dataFetchDispatchGroup);
         
         if (success) {
             [self->_collectionView reloadData];

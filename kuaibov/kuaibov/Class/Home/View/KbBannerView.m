@@ -219,7 +219,8 @@ DefineLazyPropertyInitialization(NSMutableArray, imageViews)
 - (UIImageView *)addImageViewForScrollingFromURLString:(NSString *)urlString {
     UIImageView *imageView = [[UIImageView alloc] init];
     [imageView sd_setImageWithURL:[NSURL URLWithString:urlString]];
-    imageView.frame = CGRectOffset(_scrollView.bounds, self.bounds.size.width * self.imageViews.count, 0);
+    imageView.frame = CGRectOffset(CGRectMake(0, 0, _scrollView.bounds.size.width, _scrollView.bounds.size.height),
+                                   self.bounds.size.width * self.imageViews.count, 0);
     [_scrollView addSubview:imageView];
     
     [self.imageViews addObject:imageView];

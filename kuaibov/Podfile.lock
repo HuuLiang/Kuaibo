@@ -22,20 +22,26 @@ PODS:
     - AFNetworking/NSURLSession
   - Aspects (1.4.1)
   - Masonry (0.6.2)
+  - ODRefreshControl (1.2)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
+  - SVPullToRefresh (0.4.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.6.0)
   - Aspects (~> 1.4.1)
   - Masonry (~> 0.6.2)
+  - ODRefreshControl (~> 1.2)
   - SDWebImage (~> 3.7.3)
+  - SVPullToRefresh (~> 0.4.1)
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   Masonry: 362e8a1cc0beada4a4c4832d5e863da2a51533be
+  ODRefreshControl: 907e6149d72dde488d5917ccfabee5bd8d711a20
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  SVPullToRefresh: ba2e718695a43253d8bea6852d2960097dc15d8c
 
 COCOAPODS: 0.37.2

@@ -49,8 +49,9 @@
         }
         
         _descLabel = [[UILabel alloc] init];
-        _descLabel.font = [UIFont systemFontOfSize:14.];
+        _descLabel.font = [UIFont systemFontOfSize:13.];
         _descLabel.textColor = HexColor(#adadad);
+        _descLabel.numberOfLines = 2;
         [self addSubview:_descLabel];
         {
             [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {

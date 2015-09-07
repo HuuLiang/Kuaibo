@@ -20,6 +20,8 @@ typedef void (^KbFetchChannelProgramCompletionHandler)(BOOL success, KbChannelPr
 @property (nonatomic,retain) KbChannelPrograms *fetchedPrograms;
 
 - (BOOL)fetchProgramsWithColumnId:(NSNumber *)columnId
+                           pageNo:(NSUInteger)pageNo
+                         pageSize:(NSUInteger)pageSize
                 completionHandler:(KbFetchChannelProgramCompletionHandler)handler;
 
 @end

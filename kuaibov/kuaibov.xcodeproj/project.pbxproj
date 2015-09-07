@@ -12,6 +12,7 @@
 		6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FE81B86A37B00260BDC /* AppDelegate.m */; };
 		6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E090FF01B86A37B00260BDC /* Images.xcassets */; };
 		6E0910001B86A37B00260BDC /* kuaibovTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FFF1B86A37B00260BDC /* kuaibovTests.m */; };
+		BC0327211B9DFAC000CA3D88 /* UIScrollView+ODRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0327201B9DFAC000CA3D88 /* UIScrollView+ODRefresh.m */; };
 		BCE9B63D1B98551200D70B9E /* kbBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B63B1B98551200D70B9E /* kbBaseController.m */; };
 		BCE9B64A1B98552A00D70B9E /* NSString+FilterHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B63F1B98552A00D70B9E /* NSString+FilterHTML.m */; };
 		BCE9B64B1B98552A00D70B9E /* NSString+length.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6411B98552A00D70B9E /* NSString+length.m */; };
@@ -73,6 +74,8 @@
 		6E2B8AE71B95FA3C00053761 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6E2B8AE81B95FA7600053761 /* kb.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kb.pch; sourceTree = "<group>"; };
 		A829465AEB8D6C3264B4F256 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		BC03271F1B9DFAC000CA3D88 /* UIScrollView+ODRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ODRefresh.h"; sourceTree = "<group>"; };
+		BC0327201B9DFAC000CA3D88 /* UIScrollView+ODRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ODRefresh.m"; sourceTree = "<group>"; };
 		BCE9B63B1B98551200D70B9E /* kbBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kbBaseController.m; sourceTree = "<group>"; };
 		BCE9B63C1B98551200D70B9E /* kbBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kbBaseController.h; sourceTree = "<group>"; };
 		BCE9B63E1B98552A00D70B9E /* NSString+FilterHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FilterHTML.h"; sourceTree = "<group>"; };
@@ -339,6 +342,8 @@
 				BCFF05201B986AE40074BAE2 /* KbConfig.m */,
 				BCFC94C91B9B07E7009799CD /* UIView+border.h */,
 				BCFC94CA1B9B07E7009799CD /* UIView+border.m */,
+				BC03271F1B9DFAC000CA3D88 /* UIScrollView+ODRefresh.h */,
+				BC0327201B9DFAC000CA3D88 /* UIScrollView+ODRefresh.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -588,6 +593,7 @@
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
 				BCE9B64E1B98552A00D70B9E /* UIView+StringTag.m in Sources */,
 				BCFF935F1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m in Sources */,
+				BC0327211B9DFAC000CA3D88 /* UIScrollView+ODRefresh.m in Sources */,
 				BCE9B64D1B98552A00D70B9E /* NSString+meltutils.m in Sources */,
 				BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */,
 				BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */,

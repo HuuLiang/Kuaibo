@@ -19,9 +19,11 @@
 }
 
 - (BOOL)fetchProgramsWithColumnId:(NSNumber *)columnId
+                           pageNo:(NSUInteger)pageNo
+                         pageSize:(NSUInteger)pageSize
                 completionHandler:(KbFetchChannelProgramCompletionHandler)handler {
     @weakify(self);
-    NSDictionary *params = @{@"columnId":columnId, @"pageSize":@(1000)};
+    NSDictionary *params = @{@"columnId":columnId, @"page":@(pageNo), @"pageSize":@(pageSize)};
     BOOL success = [self requestURLPath:[KbConfig sharedConfig].channelProgramURLPath withParams:params responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
         @strongify(self);
         
