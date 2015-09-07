@@ -41,6 +41,7 @@ DefineLazyPropertyInitialization(KbChannelProgramModel, programModel)
     _programTableView.delegate = self;
     _programTableView.dataSource = self;
     _programTableView.rowHeight = 90;
+    _programTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_programTableView registerClass:[KbChannelProgramCell class]
               forCellReuseIdentifier:[KbChannelProgramCell reusableIdentifier]];
     [self.view addSubview:_programTableView];
@@ -99,5 +100,13 @@ DefineLazyPropertyInitialization(KbChannelProgramModel, programModel)
     
     KbChannelProgram *program = [self channelProgramOfIndexPath:indexPath];
     [self switchToPlayVideo:program];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        cell.kb_borderSide = KbBorderTopSide | KbBorderBottomSide;
+    } else {
+        cell.kb_borderSide = KbBorderBottomSide;
+    }
 }
 @end

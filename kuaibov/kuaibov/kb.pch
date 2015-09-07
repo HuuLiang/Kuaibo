@@ -32,5 +32,5 @@
 #define LocalizedStr(key)  NSLocalizedString(key, @"")
 
 #define HexColor(hex) [UIColor colorWithHexString:@#hex]
-#define Color_DefaultBorder HexColor(#e8e8e8)
+#define Color_DefaultBorder HexColor(#dbdbdb)
 #endif
