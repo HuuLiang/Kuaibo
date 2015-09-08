@@ -50,10 +50,25 @@
         KbURLResponseStatus status = KbURLResponseNone;
         NSString *errorMessage;
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            [self.response parseResponseWithDictionary:responseObject];
+            if ([self.response isKindOfClass:[KbURLResponse class]]) {
+                KbURLResponse *urlResp = self.response;
+                [urlResp parseResponseWithDictionary:responseObject];
+                
+                status = urlResp.success.boolValue ? KbURLResponseSuccess : KbURLResponseFailedByInterface;
+                errorMessage = (status == KbURLResponseSuccess) ? nil : [NSString stringWithFormat:@"ResultCode: %@", urlResp.resultCode];
+            } else {
+                status = KbURLResponseFailedByParsing;
+                errorMessage = @"Parsing error: incorrect response class for JSON dictionary.\n";
+            }
             
-            status = self.response.success.boolValue ? KbURLResponseSuccess : KbURLResponseFailedByInterface;
-            errorMessage = (status == KbURLResponseSuccess) ? nil : [NSString stringWithFormat:@"ResultCode: %@", self.response.resultCode];
+        } else if ([responseObject isKindOfClass:[NSString class]]) {
+            if ([self.response isKindOfClass:[NSString class]]) {
+                self.response = responseObject;
+                status = KbURLResponseSuccess;
+            } else {
+                status = KbURLResponseFailedByParsing;
+                errorMessage = @"Parsing error: incorrect response class for JSON string.\n";
+            }
         } else {
             errorMessage = @"Error data structure of response from interface!\n";
             status = KbURLResponseFailedByInterface;

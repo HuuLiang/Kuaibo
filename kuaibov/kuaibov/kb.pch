@@ -22,6 +22,7 @@
 #import "UIScrollView+Refresh.h"
 #import "RACEXTScope.h"
 #import "KbConfig.h"
+#import "KbUtil.h"
 #import <Aspects.h>
 #import <Masonry.h>
 #import <UIImageView+WebCache.h>
@@ -34,4 +35,7 @@
 
 #define HexColor(hex) [UIColor colorWithHexString:@#hex]
 #define Color_DefaultBorder HexColor(#dbdbdb)
+
+#define kAlipayNotification  @"AlipayNotification"
+
 #endif

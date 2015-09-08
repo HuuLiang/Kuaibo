@@ -87,9 +87,9 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
                                        [self->_programTableView reloadData];
                                    }
                                    
-                                   if (self.currentPage == 1) {
-                                       [self->_programTableView kb_endPullToRefresh];
-                                   } else if (self.programs.count >= programs.items.unsignedIntegerValue) {
+                                   [self->_programTableView kb_endPullToRefresh];
+                                   
+                                   if (self.programs.count >= programs.items.unsignedIntegerValue) {
                                        [self->_programTableView kb_pagingRefreshNoMoreData];
                                    }
     }];

@@ -16,5 +16,28 @@
 	<string>QB_VIDEO_IOS_B_00000000</string>
 	<key>MoreURLPath</key>
 	<string>/video/agreement.html</string>
+	<key>RegisterURLPath</key>
+	<string>/video/ios/jihuo.htm#</string>
+	<key>AlipayPID</key>
+	<string>2088021438783255</string>
+	<key>AlipaySellerID</key>
+	<string>2088021438783255</string>
+	<key>AlipayScheme</key>
+	<string>comkuaibovvideoalipayappscheme</string>
+	<key>AlipayPrivateKey</key>
+	<string>MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALo9RXi0N6IrE2HG
+o7eiF7Go2SWuzl5Y/g4UryD9uKB8Vu+8QVY6ejc00uRQt3D560ZXUOrD2vEe2LxB
+EWCnQtv3ivas5DJ3qB5j9cg6kb9k+x6Pr5zhHqfXlAY/5qIyWamOhRVcUQELAMj4
+y9wzO34+uq56zoUQPaFSstz4ZapTAgMBAAECgYBlBWlSoQbwa0c3KUWTDVSm5Lzt
+CNYeLU2Zm7SnQ5lLTEboAYi7WjsDCR9AA1yN5rKtVB2rSpPPaPkNnIntkKzdsZXr
+KPJsP4bqDoVbbPuh0hFr/y2CU9eKfS29UcH9FhQpsIz82RWQRFBuabSbW+mRGwMy
+8CgsFeCZ0HTexbiyqQJBANqjxp2bHlm5p7+JY3xihFTaz+pJWtzSys586kbHbuVD
+Az6IM/RUQAtgCjvENrYeUXnrE/Fe1sCpfGlX1WmlQQ8CQQDaECpFU8Vp+fIDJY3w
+cwhaeJDznAMcU/+gIRgLedDZ7iTT0ykLY8JYmGS8N0o60a7oMjKIYHomulIVxpC3
+kLp9AkB9EJHcNY725CwAdCZkUDZCE6g67Br9ldZMp0eblRjqK5r/egm+CTNZTmaM
+KYDiTBVvF/kgaI+PRWPVHlkFRXIhAkEAiAw90zMIn63JSB1OCQ47z/YYuWRErI/b
+lFQRZFeD7fOeFmpP2UNMJWourx7vuPLJZSSsUlme3Dqyq9NOxrgNIQJBAKbSIn9k
+dB9djzgNmPyq/X32UcSNw8bxJe+sGMNVu6c5QAa4a+DgMZB0W2ff1u+oVJJt2iqc
+GFczw3i/P8STuJ0=</string>
 </dict>
 </plist>

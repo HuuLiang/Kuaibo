@@ -11,6 +11,8 @@
 #import "KbChannelViewController.h"
 #import "KbHomeViewController.h"
 #import "KbURLRequest.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "AlipayManager.h"
 
 @interface AppDelegate ()
 
@@ -103,6 +105,13 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        [[AlipayManager shareInstance] sendNotificationByResult:resultDic];
+    }];
+    return YES;
 }
 
 @end

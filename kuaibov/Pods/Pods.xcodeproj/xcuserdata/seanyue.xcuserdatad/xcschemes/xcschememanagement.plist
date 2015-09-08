@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SFHFKeychainUtils.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>61C671377F23AC45905B8D95</key>
+		<key>1CBCC924DC8A3516A22C3C1C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>77EF66A6F3B3F51D06D671C2</key>
+		<key>23C40CA68B35050F3DE10BD7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9357CE972C7FC76702E1AA6B</key>
+		<key>501BB2F865DCB6ACF8401B6C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9EAF8BB36C7FD36290644BE9</key>
+		<key>9E00C97B03B9F653BD4881C4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B04C5F7ED27DE44D52E79AA5</key>
+		<key>C053A4090731D5D7DB6D00DC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B31DD4D04CB1818A95502054</key>
+		<key>C541A7DA54F89574D64237D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DCD3F8BE68A77320AC0B803B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

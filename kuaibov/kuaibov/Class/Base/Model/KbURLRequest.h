@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, KbURLResponseStatus) {
     KbURLResponseSuccess,
     KbURLResponseFailedByInterface,
     KbURLResponseFailedByNetwork,
+    KbURLResponseFailedByParsing,
     KbURLResponseNone
 };
 
@@ -20,7 +21,7 @@ typedef void (^KbURLResponseHandler)(KbURLResponseStatus respStatus, NSString *e
 
 @interface KbURLRequest : NSObject
 
-@property (nonatomic,retain) KbURLResponse *response;
+@property (nonatomic,retain) id response;
 
 + (Class)responseClass;  // override this method to provide a custom class to be used when instantiating instances of KbURLResponse
 

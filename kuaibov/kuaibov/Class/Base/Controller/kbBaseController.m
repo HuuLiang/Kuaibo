@@ -9,6 +9,8 @@
 #import "kbBaseController.h"
 #import "KbVideo.h"
 #import "KbVideoPlayViewController.h"
+#import "KbRegisterPopView.h"
+#import "AlipayManager.h"
 
 @interface kbBaseController ()
 
@@ -23,11 +25,20 @@
 }
 
 - (void)switchToPlayVideo:(KbVideo *)video {
-    if (video) {
+    if (![KbUtil isRegistered]) {
+        [self showRegisterView];
+    } else if (video) {
         KbVideoPlayViewController *videoPlayVC = [[KbVideoPlayViewController alloc] initWithVideo:video];
         //videoPlayVC.evaluateThumbnail = YES;
         [self.navigationController pushViewController:videoPlayVC animated:YES];
     }
+}
+
+- (void)showRegisterView {
+    [KbRegisterPopView sharedInstance].action = ^{
+        [[AlipayManager shareInstance] startAlipay:@"112" price:@"20"];
+    };
+    [[KbRegisterPopView sharedInstance] showInView:self.view.window];
 }
 
 - (void)didReceiveMemoryWarning {

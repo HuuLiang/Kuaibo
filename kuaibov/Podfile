@@ -7,6 +7,8 @@ pod 'SDWebImage', '~> 3.7.3'
 #pod 'MBProgressHud'
 #pod 'SIAlertView'
 pod 'MJRefresh', '~> 2.4.7'
+pod 'SFHFKeychainUtils', '~> 0.0.1'
+pod 'OpenSSL', '~> 1.0.204'
 
 # Github page: https://github.com/steipete/Aspects
 pod 'Aspects','~>1.4.1'
