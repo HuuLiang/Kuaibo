@@ -24,6 +24,9 @@
 @property (nonatomic) NSString *alipaySellerID;
 @property (nonatomic) NSString *alipayScheme;
 @property (nonatomic) NSString *alipayPrivateKey;
+@property (nonatomic) NSString *alipayNotifyURL;
+
+@property (nonatomic) NSString *registerPrice;
 
 + (instancetype)sharedConfig;
 

@@ -36,6 +36,4 @@
 #define HexColor(hex) [UIColor colorWithHexString:@#hex]
 #define Color_DefaultBorder HexColor(#dbdbdb)
 
-#define kAlipayNotification  @"AlipayNotification"
-
 #endif

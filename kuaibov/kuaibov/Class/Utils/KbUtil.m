@@ -16,15 +16,33 @@ static NSString *const kRegisterKeyChainPassword = @"kuaibov_register_password";
 @implementation KbUtil
 
 + (BOOL)isRegistered {
-    NSString *registered = [SFHFKeychainUtils getPasswordForUsername:kRegisterKeyChainUsername.md5 andServiceName:kRegisterKeyChainServiceName.md5 error:nil];
-    return registered != nil;
+    return [self uuidInKeyChain] != nil;
 }
 
 + (void)setRegistered {
     [SFHFKeychainUtils storeUsername:kRegisterKeyChainUsername.md5
-                         andPassword:kRegisterKeyChainPassword.md5
+                         andPassword:[self uuid]
                       forServiceName:kRegisterKeyChainServiceName.md5
                       updateExisting:NO
                                error:nil];
+}
+
++ (NSString *)uuidInKeyChain {
+    return [SFHFKeychainUtils getPasswordForUsername:kRegisterKeyChainUsername.md5
+                                      andServiceName:kRegisterKeyChainServiceName.md5
+                                               error:nil];
+}
+
++ (NSString *)uuid {
+    if ([self uuidInKeyChain].length > 0) {
+        return [self uuidInKeyChain];
+    }
+    
+    static NSString *_uuid;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _uuid = [NSUUID UUID].UUIDString;
+    });
+    return _uuid;
 }
 @end

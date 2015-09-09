@@ -35,10 +35,22 @@
 }
 
 - (void)showRegisterView {
-    [KbRegisterPopView sharedInstance].action = ^{
-        [[AlipayManager shareInstance] startAlipay:@"112" price:@"20"];
+    KbRegisterPopView *registerPopView = [KbRegisterPopView sharedInstance];
+    
+    @weakify(registerPopView);
+    registerPopView.action = ^{
+        @strongify(registerPopView);
+        NSString *orderId = [KbUtil uuid];
+        [[AlipayManager shareInstance] startAlipay:orderId price:[KbConfig sharedConfig].registerPrice withResult:^(PAYRESULT result) {
+            if (result == PAYRESULT_SUCCESS) {
+                [KbUtil setRegistered];
+                [registerPopView showRegisteredContent];
+            } else {
+                
+            }
+        }];
     };
-    [[KbRegisterPopView sharedInstance] showInView:self.view.window];
+    [registerPopView showInView:self.view.window];
 }
 
 - (void)didReceiveMemoryWarning {

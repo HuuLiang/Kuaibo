@@ -14,6 +14,10 @@
 
 static AlipayManager *alipayManager;
 
+@interface AlipayManager ()
+@property (nonatomic,copy) AlipayResultBlock resultBlock;
+@end
+
 @implementation AlipayManager
 {
 }
@@ -40,8 +44,10 @@ static AlipayManager *alipayManager;
  *  @param price    商品价格
  *  @result
  */
-- (void)startAlipay:(NSString *)_orderId price:(NSString*)_price;
+- (void)startAlipay:(NSString *)_orderId price:(NSString*)_price withResult:(AlipayResultBlock)resultBlock
 {
+    self.resultBlock = resultBlock;
+    
     Order *order = [[Order alloc] init];
     order.partner       = [KbConfig sharedConfig].alipayPID;
     order.seller        = [KbConfig sharedConfig].alipaySellerID;
@@ -50,7 +56,7 @@ static AlipayManager *alipayManager;
     order.productName   = @"快播影院"; //商品标题
     order.productDescription = @"快播影院终身会员"; //商品描述
     order.amount        = _price;           //商品价格
-    order.notifyURL     =  [[KbConfig sharedConfig].baseURL stringByAppendingString:[KbConfig sharedConfig].registerURLPath]; //回调URL
+    order.notifyURL     =  [KbConfig sharedConfig].alipayNotifyURL; //回调URL
     
     order.service       = @"mobile.securitypay.pay";
     order.paymentType   = @"1";
@@ -80,31 +86,30 @@ static AlipayManager *alipayManager;
             [self sendNotificationByResult:resultDic];
         }];
     }
+    
 }
 
 
 - (void)sendNotificationByResult:(NSDictionary *)_resultDic
 {
     DLog(@"支付宝返回的result : %@" , _resultDic);
+    PAYRESULT payResult = PAYRESULT_FAIL;
     //用户放弃付款的情况  6001
     if([[_resultDic allKeys] containsObject:@"resultStatus"])
     {
         NSString * resultStatues  = _resultDic[@"resultStatus"];
-        if(resultStatues && [resultStatues isEqualToString:@"6001"])
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kAlipayNotification object:[NSNumber numberWithInt:PAYRESULT_ABANDON]];
-            return;
-        }
-        if (resultStatues && [resultStatues isEqualToString:@"9000"])
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kAlipayNotification object:[NSNumber numberWithInt:PAYRESULT_SUCCESS]];
-        }
-        else
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kAlipayNotification object:[NSNumber numberWithInt:PAYRESULT_FAIL]];
+        if(resultStatues && [resultStatues isEqualToString:@"6001"]) {
+            payResult = PAYRESULT_ABANDON;
+        } else if (resultStatues && [resultStatues isEqualToString:@"9000"]) {
+            payResult = PAYRESULT_SUCCESS;
+        } else {
+            payResult = PAYRESULT_FAIL;
         }
     }
     
+    if (self.resultBlock) {
+        self.resultBlock(payResult);
+    }
 //    NSLog(@"reslut = %@",_resultDic);
 //    NSString * strResult    = _resultDic[@"success"];
 //    NSRange range = [strResult rangeOfString:@"true"];//判断字符串是否包含

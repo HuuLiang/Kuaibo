@@ -16,7 +16,8 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
     PAYRESULT_FAIL      = 2
 };
 
-typedef void (^blockResult)(BOOL success, NSError *error);
+//typedef void (^blockResult)(BOOL success, NSError *error);
+typedef void (^AlipayResultBlock)(PAYRESULT result);
 
 @interface AlipayManager : NSObject
 
@@ -29,7 +30,7 @@ typedef void (^blockResult)(BOOL success, NSError *error);
  *  @param price    商品价格
  *  @result
  */
-- (void)startAlipay:(NSString *)_orderId price:(NSString*)_price;
+- (void)startAlipay:(NSString *)_orderId price:(NSString*)_price withResult:(AlipayResultBlock)resultBlock;
 
 
 - (void)sendNotificationByResult:(NSDictionary *)_resultDic;
