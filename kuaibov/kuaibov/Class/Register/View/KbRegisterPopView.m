@@ -16,6 +16,9 @@
 
 static const CGSize kContentViewSize = {283,206};
 static const CGFloat kPaymentBannerHeight = 60;
+static NSString *const kRegisteringDetailText = @"%.2f元 全场电影想看就看\n即时到帐，即时享受";
+static NSString *const kRegisteredDetailText = @"获得终身vip服务，现在开始看视频吧";
+static const NSUInteger kRegisteringDetailLabelTag = 1;
 
 @implementation KbRegisterPopView
 @synthesize registeringContentView = _registeringContentView;
@@ -94,15 +97,16 @@ static const CGFloat kPaymentBannerHeight = 60;
     }
     
     UILabel *detailLabel = [[UILabel alloc] init];
+    detailLabel.tag = kRegisteringDetailLabelTag;
     detailLabel.numberOfLines = 2;
     if (isRegistered) {
         textAttribs[NSFontAttributeName] = [UIFont systemFontOfSize:18.];
-        detailLabel.attributedText = [[NSAttributedString alloc] initWithString:@"获得终身vip服务，现在开始看视频吧" attributes:textAttribs];
+        detailLabel.attributedText = [[NSAttributedString alloc] initWithString:kRegisteredDetailText attributes:textAttribs];
     } else {
         detailLabel.textAlignment = NSTextAlignmentCenter;
         detailLabel.textColor = [UIColor whiteColor];
         detailLabel.font = [UIFont systemFontOfSize:18.];
-        detailLabel.text = @"19.8元 全场电影想看就看\n即时到帐，即时享受";
+        detailLabel.text = [NSString stringWithFormat:kRegisteringDetailText, self.showPrice];
     }
     [contentView addSubview:detailLabel];
     {
@@ -192,5 +196,12 @@ static const CGFloat kPaymentBannerHeight = 60;
 
 - (void)onTapRegisteredContent {
     [self hide];
+}
+
+- (void)setShowPrice:(CGFloat)showPrice {
+    _showPrice = showPrice;
+    
+    UILabel *detailLabel = (UILabel *)[_registeringContentView viewWithTag:kRegisteringDetailLabelTag];
+    detailLabel.text = [NSString stringWithFormat:kRegisteringDetailText, _showPrice];
 }
 @end

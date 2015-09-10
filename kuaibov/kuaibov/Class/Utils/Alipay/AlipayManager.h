@@ -16,8 +16,9 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
     PAYRESULT_FAIL      = 2
 };
 
+@class Order;
 //typedef void (^blockResult)(BOOL success, NSError *error);
-typedef void (^AlipayResultBlock)(PAYRESULT result);
+typedef void (^AlipayResultBlock)(PAYRESULT result, Order *order);
 
 @interface AlipayManager : NSObject
 

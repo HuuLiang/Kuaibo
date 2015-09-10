@@ -16,6 +16,7 @@ static AlipayManager *alipayManager;
 
 @interface AlipayManager ()
 @property (nonatomic,copy) AlipayResultBlock resultBlock;
+@property (nonatomic,retain) Order *payOrder;
 @end
 
 @implementation AlipayManager
@@ -81,6 +82,7 @@ static AlipayManager *alipayManager;
         orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                        orderInfo, signedString, @"RSA"];
         
+        self.payOrder = order;
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic)
         {
             [self sendNotificationByResult:resultDic];
@@ -108,7 +110,7 @@ static AlipayManager *alipayManager;
     }
     
     if (self.resultBlock) {
-        self.resultBlock(payResult);
+        self.resultBlock(payResult, self.payOrder);
     }
 //    NSLog(@"reslut = %@",_resultDic);
 //    NSString * strResult    = _resultDic[@"success"];

@@ -12,6 +12,6 @@
 
 + (BOOL)isRegistered;
 + (void)setRegistered;
-+ (NSString *)uuid;
++ (NSString *)userId;
 
 @end

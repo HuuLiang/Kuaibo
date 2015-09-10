@@ -9,6 +9,7 @@
 #import "KbChannelViewController.h"
 #import "KbChannelModel.h"
 #import "KbProgramViewController.h"
+#import "KbSystemConfigModel.h"
 
 static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewCellReusableIdentifier";
 static const CGFloat kChannelThumbnailScale = 342.0 / 197.0;
@@ -69,6 +70,14 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
         [self loadChannels];
     }];
     [_channelsView kb_triggerPullToRefresh];
+    
+    KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
+    [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+        @strongify(self);
+        if (success) {
+            [self->_headerImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage]];
+        }
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

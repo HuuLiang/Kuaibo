@@ -11,6 +11,7 @@
 #import "KbVideoPlayViewController.h"
 #import "KbRegisterPopView.h"
 #import "AlipayManager.h"
+#import "KbSystemConfigModel.h"
 
 @interface kbBaseController ()
 
@@ -36,21 +37,35 @@
 
 - (void)showRegisterView {
     KbRegisterPopView *registerPopView = [KbRegisterPopView sharedInstance];
+    KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
+    [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+        if (!success) {
+            return ;
+        }
+        
+        if (systemConfigModel.payAmount > 0) {
+            @weakify(registerPopView);
+            registerPopView.action = ^{
+                @strongify(registerPopView);
+                
+                [[AlipayManager shareInstance] startAlipay:[NSUUID UUID].UUIDString
+                                                     price:@(systemConfigModel.payAmount).stringValue
+                                                withResult:^(PAYRESULT result, Order *order) {
+                                                    if (result == PAYRESULT_SUCCESS) {
+                                                        [KbUtil setRegistered];
+                                                        [registerPopView showRegisteredContent];
+                                                    } else {
+                                                        [[KbHudManager manager] showHudWithText:@"支付失败"];
+                                                    }
+                                                }];
+                
+            };
+            registerPopView.showPrice = systemConfigModel.payAmount;
+            [registerPopView showInView:self.view.window];
+        }
+    }];
     
-    @weakify(registerPopView);
-    registerPopView.action = ^{
-        @strongify(registerPopView);
-        NSString *orderId = [KbUtil uuid];
-        [[AlipayManager shareInstance] startAlipay:orderId price:[KbConfig sharedConfig].registerPrice withResult:^(PAYRESULT result) {
-            if (result == PAYRESULT_SUCCESS) {
-                [KbUtil setRegistered];
-                [registerPopView showRegisteredContent];
-            } else {
-                [[KbHudManager manager] showHudWithText:@"支付失败"];
-            }
-        }];
-    };
-    [registerPopView showInView:self.view.window];
+
 }
 
 - (void)didReceiveMemoryWarning {

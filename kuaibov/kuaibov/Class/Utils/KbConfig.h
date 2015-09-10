@@ -10,6 +10,8 @@
 
 @interface KbConfig : NSObject
 
+@property (nonatomic) NSString *channelNo;
+
 @property (nonatomic) NSString *baseURL;
 @property (nonatomic) NSString *bannerURLPath;
 @property (nonatomic) NSString *homeProgramURLPath;
@@ -17,8 +19,7 @@
 @property (nonatomic) NSString *channelProgramURLPath;
 @property (nonatomic) NSString *moreURLPath;
 @property (nonatomic) NSString *registerURLPath;
-
-@property (nonatomic) NSString *channelNo;
+@property (nonatomic) NSString *systemConfigURLPath;
 
 @property (nonatomic) NSString *alipayPID;
 @property (nonatomic) NSString *alipaySellerID;
@@ -26,7 +27,8 @@
 @property (nonatomic) NSString *alipayPrivateKey;
 @property (nonatomic) NSString *alipayNotifyURL;
 
-@property (nonatomic) NSString *registerPrice;
+@property (nonatomic) NSString *systemConfigPayAmount;
+@property (nonatomic) NSString *systemConfigChannelTopImage;
 
 + (instancetype)sharedConfig;
 

@@ -13,6 +13,7 @@ typedef void (^KbRegisterAction)(void);
 @interface KbRegisterPopView : UIView
 
 @property (nonatomic,copy) KbRegisterAction action;
+@property (nonatomic) CGFloat showPrice;
 
 + (instancetype)sharedInstance;
 
