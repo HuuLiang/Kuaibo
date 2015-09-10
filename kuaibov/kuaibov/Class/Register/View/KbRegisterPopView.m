@@ -77,6 +77,41 @@ static const CGFloat kPaymentBannerHeight = 60;
             make.bottom.equalTo(payImageView?payImageView.mas_top:contentView);
         }];
     }
+    
+    NSMutableDictionary *textAttribs = @{ NSFontAttributeName:[UIFont systemFontOfSize:22.],
+                                          NSForegroundColorAttributeName:[UIColor yellowColor],
+                                          NSStrokeColorAttributeName:[UIColor blackColor],
+                                          NSStrokeWidthAttributeName:@(-2)}.mutableCopy;
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.attributedText = [[NSAttributedString alloc] initWithString:isRegistered ? @"恭喜你" : @"终身VIP"
+                                                                attributes:textAttribs];;
+    [contentView addSubview:titleLabel];
+    {
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(topImageView);
+            make.top.equalTo(topImageView).with.offset(25.5);
+        }];
+    }
+    
+    UILabel *detailLabel = [[UILabel alloc] init];
+    detailLabel.numberOfLines = 2;
+    if (isRegistered) {
+        textAttribs[NSFontAttributeName] = [UIFont systemFontOfSize:18.];
+        detailLabel.attributedText = [[NSAttributedString alloc] initWithString:@"获得终身vip服务，现在开始看视频吧" attributes:textAttribs];
+    } else {
+        detailLabel.textAlignment = NSTextAlignmentCenter;
+        detailLabel.textColor = [UIColor whiteColor];
+        detailLabel.font = [UIFont systemFontOfSize:18.];
+        detailLabel.text = @"19.8元 全场电影想看就看\n即时到帐，即时享受";
+    }
+    [contentView addSubview:detailLabel];
+    {
+        [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(topImageView);
+            make.top.equalTo(titleLabel.mas_bottom).with.offset(isRegistered?29:19);
+            make.left.right.equalTo(topImageView).with.insets(UIEdgeInsetsMake(0, 30, 0, 30));
+        }];
+    }
     return contentView;
 }
 
