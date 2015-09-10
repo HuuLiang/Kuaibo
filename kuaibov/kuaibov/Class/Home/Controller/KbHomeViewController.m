@@ -12,6 +12,7 @@
 #import "KbBannerView.h"
 #import "KbHomeSectionHeaderView.h"
 #import "KbHomeCollectionViewLayout.h"
+#import "KbHomeProgramCell.h"
 
 @interface KbHomeViewController () <UICollectionViewDataSource,KbHomeCollectionViewLayoutDelegate>
 {
@@ -26,7 +27,7 @@
 @end
 
 static NSString *const kBannerCellReusableIdentifier = @"HomeCollectionViewBannerCellReusableIdentifer";
-static NSString *const kNormalCellReusableIdentifier = @"HomeCollectionViewNormalCellReusableIdentifer";
+static NSString *const kProgramCellReusableIdentifier = @"HomeCollectionViewProgramCellReusableIdentifer";
 static NSString *const kHeaderViewReusableIdentifier = @"HomeCollectionViewHeaderReusableIdentifier";
 
 @implementation KbHomeViewController
@@ -57,7 +58,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     _collectionView.delegate = layout;
     _collectionView.backgroundColor = HexColor(#f7f7f7);
     [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kBannerCellReusableIdentifier];
-    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kNormalCellReusableIdentifier];
+    [_collectionView registerClass:[KbHomeProgramCell class] forCellWithReuseIdentifier:kProgramCellReusableIdentifier];
     [_collectionView registerClass:[KbHomeSectionHeaderView class]
         forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier];
     [self.view addSubview:_collectionView];
@@ -173,16 +174,13 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return _bannerCell;
         
     } else {
-        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kNormalCellReusableIdentifier forIndexPath:indexPath];
-        if (!cell.backgroundView) {
-            cell.backgroundView = [[UIImageView alloc] init];
-        }
+        KbHomeProgramCell *programCell = [collectionView dequeueReusableCellWithReuseIdentifier:kProgramCellReusableIdentifier forIndexPath:indexPath];
 
         KbProgram *program = [self programOfIndexPath:indexPath];
-        UIImageView *imageView = (UIImageView *)cell.backgroundView;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:program.coverImg] placeholderImage:nil];
-        
-        return cell;
+        programCell.imageURL = [NSURL URLWithString:program.coverImg];
+        programCell.titleText = program.title;
+        programCell.detailText = program.specialDesc;
+        return programCell;
     }
 }
 

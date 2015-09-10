@@ -31,6 +31,7 @@
 		BCFC94CB1B9B07E7009799CD /* UIView+border.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC94CA1B9B07E7009799CD /* UIView+border.m */; };
 		BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */; };
 		BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9DC1BA16CEB00B15020 /* KbErrorHandler.m */; };
+		BCFCA9E01BA17B9500B15020 /* KbHomeProgramCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9DF1BA17B9500B15020 /* KbHomeProgramCell.m */; };
 		BCFE5AB71B9F1FD800EC9D05 /* KbUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */; };
 		BCFE5ABA1B9F334900EC9D05 /* UIImage+crop.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AB91B9F334900EC9D05 /* UIImage+crop.m */; };
 		BCFE5ABF1B9F452400EC9D05 /* KbRegisterPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5ABD1B9F452400EC9D05 /* KbRegisterPopView.m */; };
@@ -128,6 +129,8 @@
 		BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHudManager.m; sourceTree = "<group>"; };
 		BCFCA9DB1BA16CEB00B15020 /* KbErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbErrorHandler.h; sourceTree = "<group>"; };
 		BCFCA9DC1BA16CEB00B15020 /* KbErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbErrorHandler.m; sourceTree = "<group>"; };
+		BCFCA9DE1BA17B9500B15020 /* KbHomeProgramCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeProgramCell.h; sourceTree = "<group>"; };
+		BCFCA9DF1BA17B9500B15020 /* KbHomeProgramCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeProgramCell.m; sourceTree = "<group>"; };
 		BCFE5AB51B9F1FD800EC9D05 /* KbUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbUtil.h; sourceTree = "<group>"; };
 		BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbUtil.m; sourceTree = "<group>"; };
 		BCFE5AB81B9F334900EC9D05 /* UIImage+crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+crop.h"; sourceTree = "<group>"; };
@@ -425,6 +428,8 @@
 				BCFF93511B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m */,
 				BCFF93531B9B573200B2EDF9 /* KbHomeCollectionViewLayout.h */,
 				BCFF93541B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m */,
+				BCFCA9DE1BA17B9500B15020 /* KbHomeProgramCell.h */,
+				BCFCA9DF1BA17B9500B15020 /* KbHomeProgramCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -721,6 +726,7 @@
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
 				BCFE5B9F1B9F575100EC9D05 /* MD5DataSigner.m in Sources */,
 				BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */,
+				BCFCA9E01BA17B9500B15020 /* KbHomeProgramCell.m in Sources */,
 				BCE9B64B1B98552A00D70B9E /* NSString+length.m in Sources */,
 				BCFE5B9E1B9F575100EC9D05 /* DataVerifier.m in Sources */,
 				BCFF93671B9B967A00B2EDF9 /* KbChannelProgram.m in Sources */,
