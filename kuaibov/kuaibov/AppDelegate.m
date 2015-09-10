@@ -80,6 +80,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[KbErrorHandler sharedHandler] initialize];
     [self setupCommonStyles];
     [self.window makeKeyAndVisible];
     return YES;

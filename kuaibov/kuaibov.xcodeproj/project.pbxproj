@@ -29,6 +29,8 @@
 		BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */; };
 		BCFA30201B99DFB900428387 /* UIColor+hexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA301F1B99DFB900428387 /* UIColor+hexColor.m */; };
 		BCFC94CB1B9B07E7009799CD /* UIView+border.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC94CA1B9B07E7009799CD /* UIView+border.m */; };
+		BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */; };
+		BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9DC1BA16CEB00B15020 /* KbErrorHandler.m */; };
 		BCFE5AB71B9F1FD800EC9D05 /* KbUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */; };
 		BCFE5ABA1B9F334900EC9D05 /* UIImage+crop.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AB91B9F334900EC9D05 /* UIImage+crop.m */; };
 		BCFE5ABF1B9F452400EC9D05 /* KbRegisterPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5ABD1B9F452400EC9D05 /* KbRegisterPopView.m */; };
@@ -122,6 +124,10 @@
 		BCFA301F1B99DFB900428387 /* UIColor+hexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+hexColor.m"; sourceTree = "<group>"; };
 		BCFC94C91B9B07E7009799CD /* UIView+border.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+border.h"; sourceTree = "<group>"; };
 		BCFC94CA1B9B07E7009799CD /* UIView+border.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+border.m"; sourceTree = "<group>"; };
+		BCFCA9D81BA16B8E00B15020 /* KbHudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHudManager.h; sourceTree = "<group>"; };
+		BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHudManager.m; sourceTree = "<group>"; };
+		BCFCA9DB1BA16CEB00B15020 /* KbErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbErrorHandler.h; sourceTree = "<group>"; };
+		BCFCA9DC1BA16CEB00B15020 /* KbErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbErrorHandler.m; sourceTree = "<group>"; };
 		BCFE5AB51B9F1FD800EC9D05 /* KbUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbUtil.h; sourceTree = "<group>"; };
 		BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbUtil.m; sourceTree = "<group>"; };
 		BCFE5AB81B9F334900EC9D05 /* UIImage+crop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+crop.h"; sourceTree = "<group>"; };
@@ -393,6 +399,10 @@
 				BC0327231B9E0FA900CA3D88 /* UIScrollView+Refresh.m */,
 				BCFE5AB51B9F1FD800EC9D05 /* KbUtil.h */,
 				BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */,
+				BCFCA9D81BA16B8E00B15020 /* KbHudManager.h */,
+				BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */,
+				BCFCA9DB1BA16CEB00B15020 /* KbErrorHandler.h */,
+				BCFCA9DC1BA16CEB00B15020 /* KbErrorHandler.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -729,6 +739,7 @@
 				BCFF051E1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m in Sources */,
 				BCFF05271B986F690074BAE2 /* KbHomeBannerModel.m in Sources */,
 				BCFE5AC31B9F457000EC9D05 /* KbRegisterModel.m in Sources */,
+				BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */,
 				BCFF052E1B9870790074BAE2 /* KbChannelModel.m in Sources */,
 				BCE9B64C1B98552A00D70B9E /* NSString+md5.m in Sources */,
 				BCE9B6551B9855DF00D70B9E /* KbChannelViewController.m in Sources */,
@@ -738,6 +749,7 @@
 				6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */,
 				BCFA30201B99DFB900428387 /* UIColor+hexColor.m in Sources */,
 				BC0327241B9E0FA900CA3D88 /* UIScrollView+Refresh.m in Sources */,
+				BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */,
 				BCFC94CB1B9B07E7009799CD /* UIView+border.m in Sources */,
 				BCFE5B9C1B9F575100EC9D05 /* base64.m in Sources */,
 				6E090FE61B86A37B00260BDC /* main.m in Sources */,

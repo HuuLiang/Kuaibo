@@ -76,12 +76,21 @@
         
         if (status != KbURLResponseSuccess) {
             DLog(@"Error for %@ : %@\n", urlPath, errorMessage);
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
+                                                                object:self
+                                                              userInfo:@{kNetworkErrorCodeKey:@(status),
+                                                                         kNetworkErrorMessageKey:errorMessage}];
         }
+        
         if (responseHandler) {
             responseHandler(status, errorMessage);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DLog(@"Error for %@ : %@\n", urlPath, error.localizedDescription);
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
+                                                            object:self
+                                                          userInfo:@{kNetworkErrorCodeKey:@(KbURLResponseFailedByNetwork),
+                                                                     kNetworkErrorMessageKey:error.localizedDescription}];
         
         if (responseHandler) {
             responseHandler(KbURLResponseFailedByNetwork,error.localizedDescription);

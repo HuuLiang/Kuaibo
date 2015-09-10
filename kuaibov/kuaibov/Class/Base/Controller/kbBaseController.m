@@ -46,7 +46,7 @@
                 [KbUtil setRegistered];
                 [registerPopView showRegisteredContent];
             } else {
-                
+                [[KbHudManager manager] showHudWithText:@"支付失败"];
             }
         }];
     };

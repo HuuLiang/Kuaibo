@@ -23,6 +23,8 @@
 #import "RACEXTScope.h"
 #import "KbConfig.h"
 #import "KbUtil.h"
+#import "KbHudManager.h"
+#import "KbErrorHandler.h"
 #import <Aspects.h>
 #import <Masonry.h>
 #import <UIImageView+WebCache.h>
