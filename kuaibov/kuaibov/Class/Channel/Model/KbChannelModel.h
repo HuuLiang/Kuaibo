@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 kuaibov. All rights reserved.
 //
 
-#import "KbURLRequest.h"
+#import "KbEncryptedURLRequest.h"
 #import "KbChannel.h"
 
 @interface KbChannelResponse : KbURLResponse
@@ -16,7 +16,7 @@
 
 typedef void (^KbFetchChannelsCompletionHandler)(BOOL success, NSArray *channels);
 
-@interface KbChannelModel : KbURLRequest
+@interface KbChannelModel : KbEncryptedURLRequest
 
 @property (nonatomic,retain,readonly) NSArray *fetchedChannels;
 

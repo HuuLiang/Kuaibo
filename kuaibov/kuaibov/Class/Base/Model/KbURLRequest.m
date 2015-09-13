@@ -37,54 +37,14 @@
     
     DLog(@"Requesting %@ !\n", urlPath);
     
-    NSMutableDictionary *finalParams = params ? params.mutableCopy : [NSMutableDictionary dictionary];
-    [finalParams setObject:[KbConfig sharedConfig].channelNo forKey:@"channelNo"];
-    
     @weakify(self);
     self.response = [[[[self class] responseClass] alloc] init];
-    self.requestOp = [self.requestOpManager GET:urlPath parameters:finalParams success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    self.requestOp = [self.requestOpManager GET:urlPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
         
         DLog(@"Response for %@ : %@\n", urlPath, responseObject);
+        [self processResponseObject:responseObject withResponseHandler:responseHandler];
         
-        KbURLResponseStatus status = KbURLResponseNone;
-        NSString *errorMessage;
-        if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            if ([self.response isKindOfClass:[KbURLResponse class]]) {
-                KbURLResponse *urlResp = self.response;
-                [urlResp parseResponseWithDictionary:responseObject];
-                
-                status = urlResp.success.boolValue ? KbURLResponseSuccess : KbURLResponseFailedByInterface;
-                errorMessage = (status == KbURLResponseSuccess) ? nil : [NSString stringWithFormat:@"ResultCode: %@", urlResp.resultCode];
-            } else {
-                status = KbURLResponseFailedByParsing;
-                errorMessage = @"Parsing error: incorrect response class for JSON dictionary.\n";
-            }
-            
-        } else if ([responseObject isKindOfClass:[NSString class]]) {
-            if ([self.response isKindOfClass:[NSString class]]) {
-                self.response = responseObject;
-                status = KbURLResponseSuccess;
-            } else {
-                status = KbURLResponseFailedByParsing;
-                errorMessage = @"Parsing error: incorrect response class for JSON string.\n";
-            }
-        } else {
-            errorMessage = @"Error data structure of response from interface!\n";
-            status = KbURLResponseFailedByInterface;
-        }
-        
-        if (status != KbURLResponseSuccess) {
-            DLog(@"Error for %@ : %@\n", urlPath, errorMessage);
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
-                                                                object:self
-                                                              userInfo:@{kNetworkErrorCodeKey:@(status),
-                                                                         kNetworkErrorMessageKey:errorMessage}];
-        }
-        
-        if (responseHandler) {
-            responseHandler(status, errorMessage);
-        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DLog(@"Error for %@ : %@\n", urlPath, error.localizedDescription);
         [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
@@ -99,4 +59,45 @@
     return YES;
 }
 
+- (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler {
+    KbURLResponseStatus status = KbURLResponseNone;
+    NSString *errorMessage;
+    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+        if ([self.response isKindOfClass:[KbURLResponse class]]) {
+            KbURLResponse *urlResp = self.response;
+            [urlResp parseResponseWithDictionary:responseObject];
+            
+            status = urlResp.success.boolValue ? KbURLResponseSuccess : KbURLResponseFailedByInterface;
+            errorMessage = (status == KbURLResponseSuccess) ? nil : [NSString stringWithFormat:@"ResultCode: %@", urlResp.resultCode];
+        } else {
+            status = KbURLResponseFailedByParsing;
+            errorMessage = @"Parsing error: incorrect response class for JSON dictionary.\n";
+        }
+        
+    } else if ([responseObject isKindOfClass:[NSString class]]) {
+        if ([self.response isKindOfClass:[NSString class]]) {
+            self.response = responseObject;
+            status = KbURLResponseSuccess;
+        } else {
+            status = KbURLResponseFailedByParsing;
+            errorMessage = @"Parsing error: incorrect response class for JSON string.\n";
+        }
+    } else {
+        errorMessage = @"Error data structure of response from interface!\n";
+        status = KbURLResponseFailedByInterface;
+    }
+    
+    if (status != KbURLResponseSuccess) {
+        DLog(@"Error message : %@\n", errorMessage);
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
+                                                            object:self
+                                                          userInfo:@{kNetworkErrorCodeKey:@(status),
+                                                                     kNetworkErrorMessageKey:errorMessage}];
+    }
+    
+    if (responseHandler) {
+        responseHandler(status, errorMessage);
+    }
+
+}
 @end

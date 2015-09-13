@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 kuaibov. All rights reserved.
 //
 
-#import "KbURLRequest.h"
+#import "KbEncryptedURLRequest.h"
 #import "KbChannelProgram.h"
 
 @interface KbChannelProgramResponse : KbChannelPrograms
@@ -15,7 +15,7 @@
 
 typedef void (^KbFetchChannelProgramCompletionHandler)(BOOL success, KbChannelPrograms *programs);
 
-@interface KbChannelProgramModel : KbURLRequest
+@interface KbChannelProgramModel : KbEncryptedURLRequest
 
 @property (nonatomic,retain) KbChannelPrograms *fetchedPrograms;
 

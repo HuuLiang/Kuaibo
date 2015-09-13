@@ -5,21 +5,21 @@
 	<key>BaseURL</key>
 	<string>http://121.41.60.217:8093</string>
 	<key>BannerURLPath</key>
-	<string>/video/ios/banner.htm</string>
+	<string>/video/banner.htm</string>
 	<key>HomeProgramURLPath</key>
-	<string>/video/ios/homePage.htm</string>
+	<string>/video/homePage.htm</string>
 	<key>ChannelURLPath</key>
-	<string>/video/ios/channelRanking.htm</string>
+	<string>/video/channelRanking.htm</string>
 	<key>ChannelProgramURLPath</key>
-	<string>/video/ios/program.htm</string>
+	<string>/video/program.htm</string>
 	<key>ChannelNo</key>
 	<string>QB_VIDEO_IOS_B_00000000</string>
 	<key>MoreURLPath</key>
 	<string>/video/agreement.html</string>
 	<key>RegisterURLPath</key>
-	<string>/video/ios/jihuo.htm</string>
+	<string>/video/jihuo.htm</string>
 	<key>SystemConfigURLPath</key>
-	<string>/video/ios/systemConfig.htm</string>
+	<string>/video/systemConfig.htm</string>
 	<key>AlipayPID</key>
 	<string>2088021438783255</string>
 	<key>AlipaySellerID</key>

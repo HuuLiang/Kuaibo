@@ -31,5 +31,7 @@
 @property (nonatomic) NSString *systemConfigChannelTopImage;
 
 + (instancetype)sharedConfig;
++ (NSString *)appVersion;
++ (NSString *)appId;
 
 @end

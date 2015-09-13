@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 kuaibov. All rights reserved.
 //
 
-#import "KbURLRequest.h"
+#import "KbEncryptedURLRequest.h"
 #import "KbSystemConfig.h"
 
 @interface KbSystemConfigResponse : KbURLResponse
@@ -15,7 +15,7 @@
 
 typedef void (^KbFetchSystemConfigCompletionHandler)(BOOL success);
 
-@interface KbSystemConfigModel : KbURLRequest
+@interface KbSystemConfigModel : KbEncryptedURLRequest
 
 @property (nonatomic) CGFloat payAmount;
 @property (nonatomic) NSString *channelTopImage;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 kuaibov. All rights reserved.
 //
 
-#import "KbURLRequest.h"
+#import "KbEncryptedURLRequest.h"
 #import "KbBannerData.h"
 
 @interface KbBannerResponse : KbURLResponse
@@ -16,7 +16,7 @@
 
 typedef void (^KbFetchBannersCompletionHandler)(BOOL success, NSArray *banners);
 
-@interface KbHomeBannerModel : KbURLRequest
+@interface KbHomeBannerModel : KbEncryptedURLRequest
 
 @property (nonatomic,retain,readonly) NSArray *fetchedBanners;
 

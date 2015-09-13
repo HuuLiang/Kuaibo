@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 kuaibov. All rights reserved.
 //
 
-#import "KbURLRequest.h"
+#import "KbEncryptedURLRequest.h"
 #import "KbProgram.h"
 
 @interface KbHomeProgramResponse : KbURLResponse
@@ -15,7 +15,7 @@
 
 typedef void (^KbFetchHomeProgramsCompletionHandler)(BOOL success, NSArray *programs);
 
-@interface KbHomeProgramModel : KbURLRequest
+@interface KbHomeProgramModel : KbEncryptedURLRequest
 
 @property (nonatomic,retain,readonly) NSArray *fetchedProgramList;
 

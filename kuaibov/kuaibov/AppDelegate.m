@@ -10,7 +10,6 @@
 #import "kbMoreViewController.h"
 #import "KbChannelViewController.h"
 #import "KbHomeViewController.h"
-#import "KbURLRequest.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "AlipayManager.h"
 

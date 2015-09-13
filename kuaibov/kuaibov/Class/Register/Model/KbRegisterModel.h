@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 kuaibov. All rights reserved.
 //
 
-#import "KbURLRequest.h"
+#import "KbEncryptedURLRequest.h"
 
 typedef void (^KbRegisterHandler)(BOOL success);
 
-@interface KbRegisterModel : KbURLRequest
+@interface KbRegisterModel : KbEncryptedURLRequest
 
 + (instancetype)sharedModel;
 

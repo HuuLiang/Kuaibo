@@ -27,4 +27,7 @@ typedef void (^KbURLResponseHandler)(KbURLResponseStatus respStatus, NSString *e
 
 - (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler;
 
+// For subclass pre/post processing response object
+- (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler;
+
 @end

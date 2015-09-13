@@ -45,4 +45,11 @@
     }];
 }
 
++ (NSString *)appVersion {
+    return [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+}
+
++ (NSString *)appId {
+    return [NSBundle mainBundle].bundleIdentifier;
+}
 @end

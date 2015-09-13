@@ -15,6 +15,7 @@
 		BC0327241B9E0FA900CA3D88 /* UIScrollView+Refresh.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0327231B9E0FA900CA3D88 /* UIScrollView+Refresh.m */; };
 		BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */; };
 		BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */; };
+		BC0EC6A21BA466AF0047091A /* NSString+crypt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0EC6A11BA466AF0047091A /* NSString+crypt.m */; };
 		BCE9B63D1B98551200D70B9E /* kbBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B63B1B98551200D70B9E /* kbBaseController.m */; };
 		BCE9B64A1B98552A00D70B9E /* NSString+FilterHTML.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B63F1B98552A00D70B9E /* NSString+FilterHTML.m */; };
 		BCE9B64B1B98552A00D70B9E /* NSString+length.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6411B98552A00D70B9E /* NSString+length.m */; };
@@ -30,6 +31,9 @@
 		BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB21B98AD19007E6904 /* KbBannerData.m */; };
 		BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */; };
 		BCFA30201B99DFB900428387 /* UIColor+hexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA301F1B99DFB900428387 /* UIColor+hexColor.m */; };
+		BCFC63311BA5CBF500CEA45A /* CryptTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC63301BA5CBF500CEA45A /* CryptTestCase.m */; };
+		BCFC63341BA5E92800CEA45A /* KbEncryptedURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC63331BA5E92800CEA45A /* KbEncryptedURLRequest.m */; };
+		BCFC85B11BA5B2570020D32E /* NSDictionary+KbSign.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC85B01BA5B2570020D32E /* NSDictionary+KbSign.m */; };
 		BCFC94CB1B9B07E7009799CD /* UIView+border.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC94CA1B9B07E7009799CD /* UIView+border.m */; };
 		BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */; };
 		BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9DC1BA16CEB00B15020 /* KbErrorHandler.m */; };
@@ -99,6 +103,8 @@
 		BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfigModel.m; sourceTree = "<group>"; };
 		BC039DA61BA1AC5B003E43B2 /* KbSystemConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfig.h; sourceTree = "<group>"; };
 		BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfig.m; sourceTree = "<group>"; };
+		BC0EC6A01BA466AF0047091A /* NSString+crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+crypt.h"; sourceTree = "<group>"; };
+		BC0EC6A11BA466AF0047091A /* NSString+crypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+crypt.m"; sourceTree = "<group>"; };
 		BCE9B63B1B98551200D70B9E /* kbBaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kbBaseController.m; sourceTree = "<group>"; };
 		BCE9B63C1B98551200D70B9E /* kbBaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kbBaseController.h; sourceTree = "<group>"; };
 		BCE9B63E1B98552A00D70B9E /* NSString+FilterHTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FilterHTML.h"; sourceTree = "<group>"; };
@@ -129,6 +135,11 @@
 		BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbBannerView.m; sourceTree = "<group>"; };
 		BCFA301E1B99DFB900428387 /* UIColor+hexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+hexColor.h"; sourceTree = "<group>"; };
 		BCFA301F1B99DFB900428387 /* UIColor+hexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+hexColor.m"; sourceTree = "<group>"; };
+		BCFC63301BA5CBF500CEA45A /* CryptTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptTestCase.m; sourceTree = "<group>"; };
+		BCFC63321BA5E92800CEA45A /* KbEncryptedURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbEncryptedURLRequest.h; sourceTree = "<group>"; };
+		BCFC63331BA5E92800CEA45A /* KbEncryptedURLRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbEncryptedURLRequest.m; sourceTree = "<group>"; };
+		BCFC85AF1BA5B2570020D32E /* NSDictionary+KbSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+KbSign.h"; sourceTree = "<group>"; };
+		BCFC85B01BA5B2570020D32E /* NSDictionary+KbSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+KbSign.m"; sourceTree = "<group>"; };
 		BCFC94C91B9B07E7009799CD /* UIView+border.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+border.h"; sourceTree = "<group>"; };
 		BCFC94CA1B9B07E7009799CD /* UIView+border.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+border.m"; sourceTree = "<group>"; };
 		BCFCA9D81BA16B8E00B15020 /* KbHudManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHudManager.h; sourceTree = "<group>"; };
@@ -276,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				6E090FFF1B86A37B00260BDC /* kuaibovTests.m */,
+				BCFC63301BA5CBF500CEA45A /* CryptTestCase.m */,
 				6E090FFD1B86A37B00260BDC /* Supporting Files */,
 			);
 			path = kuaibovTests;
@@ -396,6 +408,10 @@
 				BCE9B6431B98552A00D70B9E /* NSString+md5.m */,
 				BCE9B6441B98552A00D70B9E /* NSString+meltutils.h */,
 				BCE9B6451B98552A00D70B9E /* NSString+meltutils.m */,
+				BC0EC6A01BA466AF0047091A /* NSString+crypt.h */,
+				BC0EC6A11BA466AF0047091A /* NSString+crypt.m */,
+				BCFC85AF1BA5B2570020D32E /* NSDictionary+KbSign.h */,
+				BCFC85B01BA5B2570020D32E /* NSDictionary+KbSign.m */,
 				BCE9B6461B98552A00D70B9E /* UIView+StringTag.h */,
 				BCE9B6471B98552A00D70B9E /* UIView+StringTag.m */,
 				BCE9B6481B98552A00D70B9E /* UIViewExt.h */,
@@ -511,6 +527,8 @@
 			children = (
 				BCFF05121B9861C50074BAE2 /* KbURLRequest.h */,
 				BCFF05131B9861C50074BAE2 /* KbURLRequest.m */,
+				BCFC63321BA5E92800CEA45A /* KbEncryptedURLRequest.h */,
+				BCFC63331BA5E92800CEA45A /* KbEncryptedURLRequest.m */,
 				BCFF05351B9872050074BAE2 /* KbURLResponse.h */,
 				BCFF05361B9872050074BAE2 /* KbURLResponse.m */,
 				BCFF93591B9B7DB400B2EDF9 /* KbVideo.h */,
@@ -735,6 +753,7 @@
 				BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
 				BCFE5B9F1B9F575100EC9D05 /* MD5DataSigner.m in Sources */,
+				BCFC63341BA5E92800CEA45A /* KbEncryptedURLRequest.m in Sources */,
 				BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */,
 				BCFCA9E01BA17B9500B15020 /* KbHomeProgramCell.m in Sources */,
 				BCE9B64B1B98552A00D70B9E /* NSString+length.m in Sources */,
@@ -745,6 +764,7 @@
 				BCFF05211B986AE40074BAE2 /* KbConfig.m in Sources */,
 				BCFE5ABF1B9F452400EC9D05 /* KbRegisterPopView.m in Sources */,
 				BCE9B64A1B98552A00D70B9E /* NSString+FilterHTML.m in Sources */,
+				BCFC85B11BA5B2570020D32E /* NSDictionary+KbSign.m in Sources */,
 				BCFF935B1B9B7DB400B2EDF9 /* KbVideo.m in Sources */,
 				BCFA19D31B9ACE1000B3EE05 /* KbHomeProgramModel.m in Sources */,
 				BCFF936E1B9B9CFC00B2EDF9 /* KbChannelProgramCell.m in Sources */,
@@ -758,6 +778,7 @@
 				BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */,
 				BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */,
 				BCFF052E1B9870790074BAE2 /* KbChannelModel.m in Sources */,
+				BC0EC6A21BA466AF0047091A /* NSString+crypt.m in Sources */,
 				BCE9B64C1B98552A00D70B9E /* NSString+md5.m in Sources */,
 				BCE9B6551B9855DF00D70B9E /* KbChannelViewController.m in Sources */,
 				BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */,
@@ -778,6 +799,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCFC63311BA5CBF500CEA45A /* CryptTestCase.m in Sources */,
 				6E0910001B86A37B00260BDC /* kuaibovTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
