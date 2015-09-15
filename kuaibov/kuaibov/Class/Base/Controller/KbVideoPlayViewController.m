@@ -96,7 +96,22 @@
     if (NSClassFromString(@"AVPlayerViewController")) {
         AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
         playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:self.video.videoUrl]];
-
+        [playerVC aspect_hookSelector:@selector(shouldAutorotate)
+                          withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+                              BOOL rotated = YES;
+                              [[aspectInfo originalInvocation] setReturnValue:&rotated];
+        } error:nil];
+        
+        [playerVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+            NSUInteger ret = UIInterfaceOrientationMaskAll;
+            [[aspectInfo originalInvocation] setReturnValue:&ret];
+        } error:nil];
+        
+        [playerVC aspect_hookSelector:@selector(preferredInterfaceOrientationForPresentation) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+            UIInterfaceOrientation orientation = UIInterfaceOrientationLandscapeLeft;
+            [[aspectInfo originalInvocation] setReturnValue:&orientation];
+        } error:nil];
+        
         [self presentViewController:playerVC animated:YES completion:^{
             [playerVC.player play];
         }];
@@ -112,5 +127,4 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 @end

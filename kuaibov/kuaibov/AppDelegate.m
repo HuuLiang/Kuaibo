@@ -76,6 +76,13 @@
                                    UIStatusBarStyle statusBarStyle = UIStatusBarStyleLightContent;
                                    [[aspectInfo originalInvocation] setReturnValue:&statusBarStyle];
     } error:nil];
+    
+    [UITabBarController aspect_hookSelector:@selector(shouldAutorotate)
+                              withOptions:AspectPositionInstead
+                               usingBlock:^(id<AspectInfo> aspectInfo){
+                                   BOOL autoRotate = NO;
+                                   [[aspectInfo originalInvocation] setReturnValue:&autoRotate];
+                               } error:nil];
 
 }
 
