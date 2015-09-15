@@ -42,33 +42,33 @@ static const CGFloat kProgramThumbnailScale = 230.0 / 168.0;
     [super prepareLayout];
 }
 
--(CGSize)collectionViewContentSize {
-    CGSize contentSize = [super collectionViewContentSize];
-    
-    CGFloat cutHeight = 0;
-    NSUInteger numberOfSections = self.collectionView.numberOfSections;
-    for (NSUInteger section = 1; section < numberOfSections; ++section) {
-        NSUInteger numberOfItems = [self.collectionView numberOfItemsInSection:section];
-        if (numberOfItems > 1 && numberOfItems % 2 == 1) {
-            cutHeight += (self.quarterItemSize.height+kItemSpacing);
-        }
-    }
-    return CGSizeMake(contentSize.width, contentSize.height - cutHeight);
-}
+//-(CGSize)collectionViewContentSize {
+//    CGSize contentSize = [super collectionViewContentSize];
+//    
+//    CGFloat cutHeight = 0;
+//    NSUInteger numberOfSections = self.collectionView.numberOfSections;
+//    for (NSUInteger section = 1; section < numberOfSections; ++section) {
+//        NSUInteger numberOfItems = [self.collectionView numberOfItemsInSection:section];
+//        if (numberOfItems > 1 && numberOfItems % 2 == 1) {
+//            cutHeight += (self.quarterItemSize.height+kItemSpacing);
+//        }
+//    }
+//    return CGSizeMake(contentSize.width, contentSize.height - cutHeight);
+//}
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewLayoutAttributes *layoutAttrib = [super layoutAttributesForItemAtIndexPath:indexPath];
-    [self customizeLayoutAttributes:layoutAttrib];
-    return layoutAttrib;
-}
-
-- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
-    NSArray *layoutAttrs = [super layoutAttributesForElementsInRect:rect];
-    for (UICollectionViewLayoutAttributes *layoutAttr in layoutAttrs) {
-        [self customizeLayoutAttributes:layoutAttr];
-    }
-    return layoutAttrs;
-}
+//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    UICollectionViewLayoutAttributes *layoutAttrib = [super layoutAttributesForItemAtIndexPath:indexPath];
+//    [self customizeLayoutAttributes:layoutAttrib];
+//    return layoutAttrib;
+//}
+//
+//- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
+//    NSArray *layoutAttrs = [super layoutAttributesForElementsInRect:rect];
+//    for (UICollectionViewLayoutAttributes *layoutAttr in layoutAttrs) {
+//        [self customizeLayoutAttributes:layoutAttr];
+//    }
+//    return layoutAttrs;
+//}
 
 - (void)customizeLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttr {
     if (layoutAttr.indexPath.section == 0 || layoutAttr.indexPath.item == 0) {
@@ -107,8 +107,8 @@ static const CGFloat kProgramThumbnailScale = 230.0 / 168.0;
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         return CGSizeMake(mainWidth, mainWidth / 2 + 36);
-    } else if (indexPath.section == 1) {
-        return indexPath.item == 0 ? self.halfItemSize : self.quarterItemSize;
+    } else {
+        return /* indexPath.item == 0 ? self.halfItemSize : */self.quarterItemSize;
     }
     return CGSizeZero;
 }
@@ -116,17 +116,18 @@ static const CGFloat kProgramThumbnailScale = 230.0 / 168.0;
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     if (section == 0) {
         return UIEdgeInsetsMake(0, 0, 10, 0);
-    } else if (section == 1) {
+    } else {
         return UIEdgeInsetsMake(0, kItemSpacing, kItemSpacing, kItemSpacing);
     }
     return UIEdgeInsetsZero;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    if (section == 1) {
+    if (section == 0) {
+        return CGSizeZero;
+    } else {
         return CGSizeMake(mainWidth, 33);
     }
-    return CGSizeZero;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {

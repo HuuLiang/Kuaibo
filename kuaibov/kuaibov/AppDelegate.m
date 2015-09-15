@@ -12,6 +12,8 @@
 #import "KbHomeViewController.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "AlipayManager.h"
+#import "KbActivateModel.h"
+#import "KbPaymentModel.h"
 
 @interface AppDelegate ()
 
@@ -82,6 +84,19 @@
     [[KbErrorHandler sharedHandler] initialize];
     [self setupCommonStyles];
     [self.window makeKeyAndVisible];
+
+    if (![KbUtil isRegistered]) {
+        [[KbActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
+            if (success) {
+                [KbUtil setRegisteredWithUserId:userId];
+            }
+        }];
+    }
+    
+    NSArray *order = [KbUtil orderForSavePending];
+    if (order.count == 5) {
+        [self alipayPaidWithOrderId:order[0] price:order[1] result:PAYRESULT_SUCCESS forProgramId:order[2] programType:order[3] payPointType:order[4]];
+    }
     return YES;
 }
 
@@ -112,6 +127,19 @@
         [[AlipayManager shareInstance] sendNotificationByResult:resultDic];
     }];
     return YES;
+}
+
+- (void)alipayPaidWithOrderId:(NSString *)orderId
+                        price:(NSString *)price
+                       result:(NSInteger)result
+                 forProgramId:(NSString *)programId
+                  programType:(NSString *)programType
+                 payPointType:(NSString *)payPointType {
+    [[KbPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType completionHandler:^(BOOL success){
+        if (success) {
+            [KbUtil setPaid];
+        }
+    }];
 }
 
 @end

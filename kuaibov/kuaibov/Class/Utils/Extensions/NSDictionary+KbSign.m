@@ -28,6 +28,15 @@ NSString *const kEncryptionDataName = @"data";
     return concatenatedValues;
 }
 
+- (NSString *)sign {
+    NSArray *sortedKeys = [self.allKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [(NSString *)obj1 compare:(NSString *)obj2];
+    }];
+    
+    NSString *signedString = [self concatenatedValuesWithKeys:sortedKeys];
+    return signedString.md5;
+}
+
 - (NSString *)signWithDictionary:(NSDictionary *)dic keyOrders:(NSArray *)keys {
     NSArray *sortedKeys = [self.allKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [(NSString *)obj1 compare:(NSString *)obj2];
@@ -37,6 +46,23 @@ NSString *const kEncryptionDataName = @"data";
     [signedString appendString:[dic concatenatedValuesWithKeys:keys]];
     [signedString appendString:@"null"];
     return signedString.md5;
+}
+
+- (NSString *)signedParamRepresentationWithSign:(NSString *)sign
+                             encryptionPassword:(NSString *)password
+                                    excludeKeys:(NSArray *)excludedKeys {
+    NSParameterAssert(sign != nil);
+    
+    __block NSMutableString *params = [NSMutableString string];
+    [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        if ([key isKindOfClass:[NSString class]] && ![excludedKeys containsObject:key]) {
+            NSString *keyValueString = [NSString stringWithFormat:@"&%@=%@", key, obj];
+            [params appendString:keyValueString];
+        }
+    }];
+    
+    NSString *signedParams = [NSString stringWithFormat:@"sign=%@%@", sign, params ?: @""];
+    return [signedParams encryptedStringWithPassword:[password.md5 substringToIndex:16]];
 }
 
 - (NSDictionary *)encryptedDictionarySignedTogetherWithDictionary:(NSDictionary *)dicForSignTogether
@@ -51,21 +77,32 @@ NSString *const kEncryptionDataName = @"data";
     NSString *sign = [self signWithDictionary:dicForSignTogether keyOrders:keys];
     NSAssert(sign.length > 0, @"The sign of url params must NOT be nil!");
     
-    __block NSMutableString *params = [NSMutableString string];
-    [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        if ([key isKindOfClass:[NSString class]] && ![pwdKeyName isEqualToString:key]) {
-            NSString *keyValueString = [NSString stringWithFormat:@"&%@=%@", key, obj];
-            [params appendString:keyValueString];
-        }
-    }];
+//    __block NSMutableString *params = [NSMutableString string];
+//    [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+//        if ([key isKindOfClass:[NSString class]] && ![pwdKeyName isEqualToString:key]) {
+//            NSString *keyValueString = [NSString stringWithFormat:@"&%@=%@", key, obj];
+//            [params appendString:keyValueString];
+//        }
+//    }];
+//    
+    NSString *params = [self signedParamRepresentationWithSign:sign
+                                            encryptionPassword:password
+                                                   excludeKeys:@[pwdKeyName]];
+//    NSString *signParam = [NSString stringWithFormat:@"sign=%@", sign];
+//    if (params.length > 0) {
+//        signParam = [signParam stringByAppendingString:params];
+//    }
     
-    NSString *signParam = [NSString stringWithFormat:@"sign=%@", sign];
-    if (params.length > 0) {
-        signParam = [signParam stringByAppendingString:params];
-    }
-    
-    NSString *encryptedParam = [signParam encryptedStringWithPassword:password.md5];
-    return [NSDictionary dictionaryWithObject:encryptedParam forKey:kParamKeyName];
+//    NSString *encryptedParam = [signParam encryptedStringWithPassword:password.md5];
+    return [NSDictionary dictionaryWithObject:params forKey:kParamKeyName];
 }
 
+- (NSString *)encryptedStringWithSignDictionary:(NSDictionary *)signDic
+                                      keyOrders:(NSArray *)keyOrders
+                                       password:(NSString *)pwd
+                                    excludeKeys:(NSArray *)excludedKeys {
+    NSString *sign = [signDic sign];
+    NSString *params = [self signedParamRepresentationWithSign:sign encryptionPassword:pwd excludeKeys:excludedKeys];
+    return params;
+}
 @end

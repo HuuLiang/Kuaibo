@@ -11,7 +11,19 @@
 @interface KbUtil : NSObject
 
 + (BOOL)isRegistered;
-+ (void)setRegistered;
++ (void)setRegisteredWithUserId:(NSString *)userId;
+
++ (BOOL)isPaid;
++ (void)setPaid;
++ (void)setPaidPendingWithOrder:(NSArray *)order;
++ (NSArray *)orderForSavePending; // For last time not saved successfully to remote
+
 + (NSString *)userId;
++ (NSString *)deviceName;
++ (NSString *)appVersion;
++ (NSString *)appId;
+
+// For test only
++ (void)removeKeyChainEntries;
 
 @end

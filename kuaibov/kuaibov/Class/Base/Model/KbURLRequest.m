@@ -20,13 +20,25 @@
     return [KbURLResponse class];
 }
 
+- (NSURL *)baseURL {
+    return [NSURL URLWithString:[KbConfig sharedConfig].baseURL];
+}
+
+- (BOOL)shouldPostErrorNotification {
+    return YES;
+}
+
+- (KbURLRequestMethod)requestMethod {
+    return KbURLGetRequest;
+}
+
 -(AFHTTPRequestOperationManager *)requestOpManager {
     if (_requestOpManager) {
         return _requestOpManager;
     }
     
     _requestOpManager = [[AFHTTPRequestOperationManager alloc]
-                         initWithBaseURL:[NSURL URLWithString:[KbConfig sharedConfig].baseURL]];
+                         initWithBaseURL:[self baseURL]];
     return _requestOpManager;
 }
 
@@ -35,27 +47,39 @@
         return NO;
     }
     
-    DLog(@"Requesting %@ !\n", urlPath);
+    DLog(@"Requesting %@ !\nwith parameters: %@\n", urlPath, params);
     
     @weakify(self);
     self.response = [[[[self class] responseClass] alloc] init];
-    self.requestOp = [self.requestOpManager GET:urlPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    
+    void (^success)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
         @strongify(self);
         
         DLog(@"Response for %@ : %@\n", urlPath, responseObject);
         [self processResponseObject:responseObject withResponseHandler:responseHandler];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    };
+    
+    void (^failure)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
         DLog(@"Error for %@ : %@\n", urlPath, error.localizedDescription);
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
-                                                            object:self
-                                                          userInfo:@{kNetworkErrorCodeKey:@(KbURLResponseFailedByNetwork),
-                                                                     kNetworkErrorMessageKey:error.localizedDescription}];
+        
+        if ([self shouldPostErrorNotification]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
+                                                                object:self
+                                                              userInfo:@{kNetworkErrorCodeKey:@(KbURLResponseFailedByNetwork),
+                                                                         kNetworkErrorMessageKey:error.localizedDescription}];
+        }
         
         if (responseHandler) {
             responseHandler(KbURLResponseFailedByNetwork,error.localizedDescription);
         }
-    }];
+    };
+    
+    if (self.requestMethod == KbURLGetRequest) {
+        self.requestOp = [self.requestOpManager GET:urlPath parameters:params success:success failure:failure];
+    } else {
+        self.requestOp = [self.requestOpManager POST:urlPath parameters:params success:success failure:failure];
+    }
+    
     return YES;
 }
 
@@ -89,10 +113,13 @@
     
     if (status != KbURLResponseSuccess) {
         DLog(@"Error message : %@\n", errorMessage);
-        [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
-                                                            object:self
-                                                          userInfo:@{kNetworkErrorCodeKey:@(status),
-                                                                     kNetworkErrorMessageKey:errorMessage}];
+        
+        if ([self shouldPostErrorNotification]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
+                                                                object:self
+                                                              userInfo:@{kNetworkErrorCodeKey:@(status),
+                                                                         kNetworkErrorMessageKey:errorMessage}];
+        }
     }
     
     if (responseHandler) {

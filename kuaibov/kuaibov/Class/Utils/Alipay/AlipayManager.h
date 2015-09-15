@@ -12,8 +12,8 @@
 typedef NS_ENUM(NSInteger, PAYRESULT)
 {
     PAYRESULT_SUCCESS   = 0,
-    PAYRESULT_ABANDON   = 1,
-    PAYRESULT_FAIL      = 2
+    PAYRESULT_FAIL      = 1,
+    PAYRESULT_ABANDON   = 2
 };
 
 @class Order;

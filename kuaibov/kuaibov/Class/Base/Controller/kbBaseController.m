@@ -12,6 +12,9 @@
 #import "KbRegisterPopView.h"
 #import "AlipayManager.h"
 #import "KbSystemConfigModel.h"
+#import "AppDelegate.h"
+#import "Order.h"
+#import "KbProgram.h"
 
 @interface kbBaseController ()
 
@@ -25,17 +28,17 @@
     self.view.backgroundColor = HexColor(#f7f7f7);
 }
 
-- (void)switchToPlayVideo:(KbVideo *)video {
-    if (![KbUtil isRegistered]) {
-        [self showRegisterView];
-    } else if (video) {
-        KbVideoPlayViewController *videoPlayVC = [[KbVideoPlayViewController alloc] initWithVideo:video];
+- (void)switchToPlayProgram:(KbProgram *)program {
+    if (![KbUtil isPaid]) {
+        [self showRegisterViewForProgram:program];
+    } else if (program) {
+        KbVideoPlayViewController *videoPlayVC = [[KbVideoPlayViewController alloc] initWithVideo:(KbVideo *)program];
         //videoPlayVC.evaluateThumbnail = YES;
         [self.navigationController pushViewController:videoPlayVC animated:YES];
     }
 }
 
-- (void)showRegisterView {
+- (void)showRegisterViewForProgram:(KbProgram *)program {
     KbRegisterPopView *registerPopView = [KbRegisterPopView sharedInstance];
     KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
     [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
@@ -49,14 +52,27 @@
                 @strongify(registerPopView);
                 
                 [[AlipayManager shareInstance] startAlipay:[NSUUID UUID].UUIDString
-                                                     price:@(systemConfigModel.payAmount).stringValue
+                                                     price:@"0.01"//@(systemConfigModel.payAmount).stringValue
                                                 withResult:^(PAYRESULT result, Order *order) {
                                                     if (result == PAYRESULT_SUCCESS) {
-                                                        [KbUtil setRegistered];
+                                                        [KbUtil setPaidPendingWithOrder:@[order.tradeNO,
+                                                                                          order.amount,
+                                                                                          program.programId.stringValue,
+                                                                                          program.type.stringValue,
+                                                                                          program.payPointType.stringValue]];
                                                         [registerPopView showRegisteredContent];
-                                                    } else {
+                                                    } else if (result == PAYRESULT_FAIL) {
                                                         [[KbHudManager manager] showHudWithText:@"支付失败"];
+                                                    } else if (result == PAYRESULT_ABANDON) {
+                                                        [[KbHudManager manager] showHudWithText:@"支付取消"];
                                                     }
+                                                    
+                                                    [self onAlipayCallbackWithOrderId:order.tradeNO
+                                                                                price:order.amount
+                                                                               result:result
+                                                                         forProgramId:program.programId.stringValue
+                                                                          programType:program.type.stringValue
+                                                                         payPointType:program.payPointType.stringValue];
                                                 }];
                 
             };
@@ -66,6 +82,21 @@
     }];
     
 
+}
+
+- (void)onAlipayCallbackWithOrderId:(NSString *)orderId
+                              price:(NSString *)price
+                             result:(PAYRESULT)result
+                       forProgramId:(NSString *)programId
+                        programType:(NSString *)programType
+                       payPointType:(NSString *)payPointType {
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    [appDelegate alipayPaidWithOrderId:orderId
+                                 price:price
+                                result:result
+                          forProgramId:programId
+                           programType:programType
+                          payPointType:payPointType];
 }
 
 - (void)didReceiveMemoryWarning {

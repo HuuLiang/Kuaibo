@@ -10,4 +10,6 @@
 
 @interface KbEncryptedURLRequest : KbURLRequest
 
+- (NSDictionary *)encryptWithParams:(NSDictionary *)params;
+
 @end

@@ -37,7 +37,7 @@ NSString *const kNetworkErrorMessageKey = @"KbNetworkErrorMessageKey";
     KbURLResponseStatus resp = (KbURLResponseStatus)(((NSNumber *)userInfo[kNetworkErrorCodeKey]).unsignedIntegerValue);
     
     if (resp == KbURLResponseFailedByInterface) {
-        [[KbHudManager manager] showHudWithText:@"获取影片信息错误"];
+        [[KbHudManager manager] showHudWithText:@"获取网络数据失败"];
     } else if (resp == KbURLResponseFailedByNetwork) {
         [[KbHudManager manager] showHudWithText:@"网络错误，请检查网络连接！"];
     }

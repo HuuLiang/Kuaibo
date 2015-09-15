@@ -10,28 +10,28 @@
 
 @interface KbConfig : NSObject
 
-@property (nonatomic) NSString *channelNo;
+@property (nonatomic,readonly) NSString *channelNo;
 
-@property (nonatomic) NSString *baseURL;
-@property (nonatomic) NSString *bannerURLPath;
-@property (nonatomic) NSString *homeProgramURLPath;
-@property (nonatomic) NSString *channelURLPath;
-@property (nonatomic) NSString *channelProgramURLPath;
-@property (nonatomic) NSString *moreURLPath;
-@property (nonatomic) NSString *registerURLPath;
-@property (nonatomic) NSString *systemConfigURLPath;
+@property (nonatomic,readonly) NSString *baseURL;
+@property (nonatomic,readonly) NSString *bannerURLPath;
+@property (nonatomic,readonly) NSString *homeProgramURLPath;
+@property (nonatomic,readonly) NSString *channelURLPath;
+@property (nonatomic,readonly) NSString *channelProgramURLPath;
+@property (nonatomic,readonly) NSString *moreURLPath;
+@property (nonatomic,readonly) NSString *registerURLPath;
+@property (nonatomic,readonly) NSString *systemConfigURLPath;
 
-@property (nonatomic) NSString *alipayPID;
-@property (nonatomic) NSString *alipaySellerID;
-@property (nonatomic) NSString *alipayScheme;
-@property (nonatomic) NSString *alipayPrivateKey;
-@property (nonatomic) NSString *alipayNotifyURL;
+@property (nonatomic,readonly) NSString *alipayPID;
+@property (nonatomic,readonly) NSString *alipaySellerID;
+@property (nonatomic,readonly) NSString *alipayScheme;
+@property (nonatomic,readonly) NSString *alipayPrivateKey;
+@property (nonatomic,readonly) NSString *alipayNotifyURL;
 
-@property (nonatomic) NSString *systemConfigPayAmount;
-@property (nonatomic) NSString *systemConfigChannelTopImage;
+@property (nonatomic,readonly) NSString *systemConfigPayAmount;
+@property (nonatomic,readonly) NSString *systemConfigChannelTopImage;
+
+@property (nonatomic,readonly) NSString *paymentURLPath;
 
 + (instancetype)sharedConfig;
-+ (NSString *)appVersion;
-+ (NSString *)appId;
 
 @end

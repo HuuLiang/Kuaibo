@@ -45,11 +45,7 @@
     }];
 }
 
-+ (NSString *)appVersion {
-    return [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
-}
-
-+ (NSString *)appId {
-    return [NSBundle mainBundle].bundleIdentifier;
+- (NSString *)paymentURLPath {
+    return @"http://pay.iqu8.net/paycenter/qubaPr.json";
 }
 @end

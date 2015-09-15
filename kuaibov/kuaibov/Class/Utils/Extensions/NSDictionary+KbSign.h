@@ -12,11 +12,16 @@
 
 - (NSString *)concatenatedValues;
 - (NSString *)concatenatedValuesWithKeys:(NSArray *)keys;
+- (NSString *)sign;
 - (NSString *)signWithDictionary:(NSDictionary *)dic keyOrders:(NSArray *)keys;
 
 - (NSDictionary *)encryptedDictionarySignedTogetherWithDictionary:(NSDictionary *)dicForSignTogether
                                                         keyOrders:(NSArray *)keys
                                                   passwordKeyName:(NSString *)pwdKeyName;
+- (NSString *)encryptedStringWithSignDictionary:(NSDictionary *)signDic
+                                      keyOrders:(NSArray *)keyOrders
+                                       password:(NSString *)pwd
+                                    excludeKeys:(NSArray *)excludedKeys;
 
 @end
 

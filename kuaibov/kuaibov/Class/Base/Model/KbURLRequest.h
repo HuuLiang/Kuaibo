@@ -17,6 +17,10 @@ typedef NS_ENUM(NSUInteger, KbURLResponseStatus) {
     KbURLResponseNone
 };
 
+typedef NS_ENUM(NSUInteger, KbURLRequestMethod) {
+    KbURLGetRequest,
+    KbURLPostRequest
+};
 typedef void (^KbURLResponseHandler)(KbURLResponseStatus respStatus, NSString *errorMessage);
 
 @interface KbURLRequest : NSObject
@@ -24,6 +28,9 @@ typedef void (^KbURLResponseHandler)(KbURLResponseStatus respStatus, NSString *e
 @property (nonatomic,retain) id response;
 
 + (Class)responseClass;  // override this method to provide a custom class to be used when instantiating instances of KbURLResponse
+- (NSURL *)baseURL; // override this method to provide a custom base URL to be used
+- (BOOL)shouldPostErrorNotification;
+- (KbURLRequestMethod)requestMethod;
 
 - (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler;
 

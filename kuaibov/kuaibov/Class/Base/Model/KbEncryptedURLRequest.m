@@ -15,11 +15,11 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
 @implementation KbEncryptedURLRequest
 
 + (NSDictionary *)commonParams {
-    return @{@"appId":[KbConfig appId],
+    return @{@"appId":[KbUtil appId],
              kEncryptionKeyName:kEncryptionPasssword,
              @"imsi":@"000000000000000",
              @"channelNo":[KbConfig sharedConfig].channelNo,
-             @"pV":[KbConfig appVersion]
+             @"pV":[KbUtil appVersion]
              };
 }
 
@@ -27,21 +27,18 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
     return @[@"appId",kEncryptionKeyName,@"imsi",@"channelNo",@"pV"];
 }
 
-- (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
+- (NSDictionary *)encryptWithParams:(NSDictionary *)params {
     NSMutableDictionary *mergedParams = params ? params.mutableCopy : [NSMutableDictionary dictionary];
     NSDictionary *commonParams = [[self class] commonParams];
     if (commonParams) {
         [mergedParams addEntriesFromDictionary:commonParams];
     }
     
-    NSDictionary *signedParams = [mergedParams encryptedDictionarySignedTogetherWithDictionary:commonParams keyOrders:[[self class] keyOrdersOfCommonParams] passwordKeyName:kEncryptionKeyName];
-    
-    BOOL success = [super requestURLPath:urlPath withParams:signedParams responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
-        if (responseHandler) {
-            responseHandler(respStatus,errorMessage);
-        }
-    }];
-    return success;
+    return [mergedParams encryptedDictionarySignedTogetherWithDictionary:commonParams keyOrders:[[self class] keyOrdersOfCommonParams] passwordKeyName:kEncryptionKeyName];
+}
+
+- (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
+    return [super requestURLPath:urlPath withParams:[self encryptWithParams:params] responseHandler:responseHandler];
 }
 
 - (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler {
@@ -61,7 +58,11 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
     
     NSString *decryptedString = [dataString decryptedStringWithKeys:keys];
     id jsonObject = [NSJSONSerialization JSONObjectWithData:[decryptedString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    if (jsonObject == nil) {
+        jsonObject = decryptedString;
+    }
     
+    DLog(@"Decrypted response: %@", jsonObject);
     [super processResponseObject:jsonObject withResponseHandler:responseHandler];
 }
 @end

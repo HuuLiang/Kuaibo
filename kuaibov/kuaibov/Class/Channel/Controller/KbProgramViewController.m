@@ -129,7 +129,7 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     KbChannelProgram *program = [self channelProgramOfIndexPath:indexPath];
-    [self switchToPlayVideo:program];
+    [self switchToPlayProgram:program];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

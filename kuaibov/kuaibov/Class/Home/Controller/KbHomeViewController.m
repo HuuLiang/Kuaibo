@@ -160,7 +160,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             _bannerView = [[KbBannerView alloc] initWithItems:nil autoPlayTimeInterval:3.0 action:^(NSUInteger idx) {
                 @strongify(self);
                 KbBannerData *bannerData = self.bannerModel.fetchedBanners[idx];
-                [self switchToPlayVideo:bannerData];
+                [self switchToPlayProgram:bannerData];
             }];
             _bannerView.backgroundColor = [UIColor whiteColor];
             [_bannerCell.contentView addSubview:_bannerView];
@@ -200,6 +200,6 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     KbProgram *program = [self programOfIndexPath:indexPath];
-    [self switchToPlayVideo:program];
+    [self switchToPlayProgram:program];
 }
 @end

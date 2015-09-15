@@ -34,6 +34,8 @@
 		BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */; };
 		BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB21B98AD19007E6904 /* KbBannerData.m */; };
 		BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */; };
+		BCFB9A311BA72C6500106BCA /* KbPaymentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFB9A301BA72C6500106BCA /* KbPaymentModel.m */; };
+		BCFB9A341BA736D300106BCA /* KbActivateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFB9A331BA736D300106BCA /* KbActivateModel.m */; };
 		BCFC63311BA5CBF500CEA45A /* CryptTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC63301BA5CBF500CEA45A /* CryptTestCase.m */; };
 		BCFC63341BA5E92800CEA45A /* KbEncryptedURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC63331BA5E92800CEA45A /* KbEncryptedURLRequest.m */; };
 		BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */; };
@@ -41,7 +43,6 @@
 		BCFCA9E01BA17B9500B15020 /* KbHomeProgramCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9DF1BA17B9500B15020 /* KbHomeProgramCell.m */; };
 		BCFE5AB71B9F1FD800EC9D05 /* KbUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */; };
 		BCFE5ABF1B9F452400EC9D05 /* KbRegisterPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5ABD1B9F452400EC9D05 /* KbRegisterPopView.m */; };
-		BCFE5AC31B9F457000EC9D05 /* KbRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AC21B9F457000EC9D05 /* KbRegisterModel.m */; };
 		BCFE5ACE1B9F4F1300EC9D05 /* AlipayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AC41B9F4F1300EC9D05 /* AlipayManager.m */; };
 		BCFE5AD01B9F4F1300EC9D05 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BCFE5AC81B9F4F1300EC9D05 /* AlipaySDK.bundle */; };
 		BCFE5AD21B9F4F1300EC9D05 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5ACC1B9F4F1300EC9D05 /* Order.m */; };
@@ -141,6 +142,10 @@
 		BCFA1CB21B98AD19007E6904 /* KbBannerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbBannerData.m; sourceTree = "<group>"; };
 		BCFA1CB51B98B6F2007E6904 /* KbBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbBannerView.h; sourceTree = "<group>"; };
 		BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbBannerView.m; sourceTree = "<group>"; };
+		BCFB9A2F1BA72C6500106BCA /* KbPaymentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbPaymentModel.h; sourceTree = "<group>"; };
+		BCFB9A301BA72C6500106BCA /* KbPaymentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentModel.m; sourceTree = "<group>"; };
+		BCFB9A321BA736D300106BCA /* KbActivateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbActivateModel.h; sourceTree = "<group>"; };
+		BCFB9A331BA736D300106BCA /* KbActivateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbActivateModel.m; sourceTree = "<group>"; };
 		BCFC63301BA5CBF500CEA45A /* CryptTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptTestCase.m; sourceTree = "<group>"; };
 		BCFC63321BA5E92800CEA45A /* KbEncryptedURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbEncryptedURLRequest.h; sourceTree = "<group>"; };
 		BCFC63331BA5E92800CEA45A /* KbEncryptedURLRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbEncryptedURLRequest.m; sourceTree = "<group>"; };
@@ -154,8 +159,6 @@
 		BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbUtil.m; sourceTree = "<group>"; };
 		BCFE5ABD1B9F452400EC9D05 /* KbRegisterPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbRegisterPopView.m; sourceTree = "<group>"; };
 		BCFE5ABE1B9F452400EC9D05 /* KbRegisterPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbRegisterPopView.h; sourceTree = "<group>"; };
-		BCFE5AC11B9F457000EC9D05 /* KbRegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbRegisterModel.h; sourceTree = "<group>"; };
-		BCFE5AC21B9F457000EC9D05 /* KbRegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbRegisterModel.m; sourceTree = "<group>"; };
 		BCFE5AC41B9F4F1300EC9D05 /* AlipayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlipayManager.m; path = kuaibov/Class/Utils/AliPay/AlipayManager.m; sourceTree = SOURCE_ROOT; };
 		BCFE5AC61B9F4F1300EC9D05 /* AlipayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlipayManager.h; path = kuaibov/Class/Utils/AliPay/AlipayManager.h; sourceTree = SOURCE_ROOT; };
 		BCFE5AC81B9F4F1300EC9D05 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AlipaySDK.bundle; path = kuaibov/Class/Utils/AliPay/AlipaySDK.bundle; sourceTree = SOURCE_ROOT; };
@@ -500,8 +503,10 @@
 		BCFE5AC01B9F453D00EC9D05 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BCFE5AC11B9F457000EC9D05 /* KbRegisterModel.h */,
-				BCFE5AC21B9F457000EC9D05 /* KbRegisterModel.m */,
+				BCFB9A321BA736D300106BCA /* KbActivateModel.h */,
+				BCFB9A331BA736D300106BCA /* KbActivateModel.m */,
+				BCFB9A2F1BA72C6500106BCA /* KbPaymentModel.h */,
+				BCFB9A301BA72C6500106BCA /* KbPaymentModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -760,6 +765,7 @@
 				BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */,
 				BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
+				BCFB9A311BA72C6500106BCA /* KbPaymentModel.m in Sources */,
 				BCFE5B9F1B9F575100EC9D05 /* MD5DataSigner.m in Sources */,
 				BCFC63341BA5E92800CEA45A /* KbEncryptedURLRequest.m in Sources */,
 				BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */,
@@ -785,13 +791,13 @@
 				BCFF051E1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m in Sources */,
 				BCFF05271B986F690074BAE2 /* KbHomeBannerModel.m in Sources */,
 				BCDE4EF91BA6657500244945 /* UIColor+hexColor.m in Sources */,
-				BCFE5AC31B9F457000EC9D05 /* KbRegisterModel.m in Sources */,
 				BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */,
 				BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */,
 				BCFF052E1B9870790074BAE2 /* KbChannelModel.m in Sources */,
 				BCE9B6551B9855DF00D70B9E /* KbChannelViewController.m in Sources */,
 				BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */,
 				BCFF93551B9B573200B2EDF9 /* KbHomeCollectionViewLayout.m in Sources */,
+				BCFB9A341BA736D300106BCA /* KbActivateModel.m in Sources */,
 				BCFE5BA31B9F575100EC9D05 /* RSADataVerifier.m in Sources */,
 				BCDE4F001BA6657500244945 /* UIImage+crop.m in Sources */,
 				BCDE4EFA1BA6657500244945 /* NSString+FilterHTML.m in Sources */,
