@@ -38,7 +38,7 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
     [SFHFKeychainUtils storeUsername:kRegisterKeyChainUsername.md5
                          andPassword:userId
                       forServiceName:kRegisterKeyChainServiceName.md5
-                      updateExisting:NO
+                      updateExisting:YES
                                error:nil];
 }
 
@@ -50,7 +50,7 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
     [SFHFKeychainUtils storeUsername:kPaidKeyChainUsername.md5
                          andPassword:[NSString stringWithFormat:@"%@|%@", [self userId], [self orderInKeyChain]]
                       forServiceName:kPaidKeyChainServiceName.md5
-                      updateExisting:NO
+                      updateExisting:YES
                                error:nil];
 }
 
@@ -67,7 +67,7 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
     [SFHFKeychainUtils storeUsername:kPaidKeyChainUsername.md5
                          andPassword:orderString
                       forServiceName:kPaidKeyChainServiceName.md5
-                      updateExisting:NO
+                      updateExisting:YES
                                error:nil];
 }
 

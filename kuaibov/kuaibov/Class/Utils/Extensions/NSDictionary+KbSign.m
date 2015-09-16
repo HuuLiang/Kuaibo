@@ -28,15 +28,6 @@ NSString *const kEncryptionDataName = @"data";
     return concatenatedValues;
 }
 
-- (NSString *)sign {
-    NSArray *sortedKeys = [self.allKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [(NSString *)obj1 compare:(NSString *)obj2];
-    }];
-    
-    NSString *signedString = [self concatenatedValuesWithKeys:sortedKeys];
-    return signedString.md5;
-}
-
 - (NSString *)signWithDictionary:(NSDictionary *)dic keyOrders:(NSArray *)keys {
     NSArray *sortedKeys = [self.allKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [(NSString *)obj1 compare:(NSString *)obj2];
@@ -97,11 +88,9 @@ NSString *const kEncryptionDataName = @"data";
     return [NSDictionary dictionaryWithObject:params forKey:kParamKeyName];
 }
 
-- (NSString *)encryptedStringWithSignDictionary:(NSDictionary *)signDic
-                                      keyOrders:(NSArray *)keyOrders
-                                       password:(NSString *)pwd
-                                    excludeKeys:(NSArray *)excludedKeys {
-    NSString *sign = [signDic sign];
+- (NSString *)encryptedStringWithSign:(NSString *)sign
+                             password:(NSString *)pwd
+                          excludeKeys:(NSArray *)excludedKeys {
     NSString *params = [self signedParamRepresentationWithSign:sign encryptionPassword:pwd excludeKeys:excludedKeys];
     return params;
 }

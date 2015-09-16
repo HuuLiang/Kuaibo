@@ -20,7 +20,7 @@
     UILabel *_descLabel;
 }
 @property (nonatomic,retain) KbVideo *video;
-@property (nonatomic,retain) id playerVC;
+@property (nonatomic,retain) UIViewController *playerVC;
 @end
 
 @implementation KbVideoPlayViewController
@@ -43,12 +43,32 @@
     if (NSClassFromString(@"AVPlayerViewController")) {
         AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
         playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:self.video.videoUrl]];
-        
+        [playerVC aspect_hookSelector:@selector(viewDidAppear:)
+                          withOptions:AspectPositionAfter
+                           usingBlock:^(id<AspectInfo> aspectInfo){
+                               AVPlayerViewController *thisPlayerVC = [aspectInfo instance];
+                               [thisPlayerVC.player play];
+                           } error:nil];
         self.playerVC = playerVC;
         videoView = playerVC.view;
-        [self addChildViewController:playerVC];
-        [playerVC didMoveToParentViewController:self];
     } else {
+        self.playerVC = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:self.video.videoUrl]];
+        [self.playerVC aspect_hookSelector:@selector(shouldAutorotate)
+                          withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+                              BOOL rotated = YES;
+                              [[aspectInfo originalInvocation] setReturnValue:&rotated];
+                          } error:nil];
+        
+        [self.playerVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+            NSUInteger ret = UIInterfaceOrientationMaskAll;
+            [[aspectInfo originalInvocation] setReturnValue:&ret];
+        } error:nil];
+        
+        [self.playerVC aspect_hookSelector:@selector(preferredInterfaceOrientationForPresentation) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+            UIInterfaceOrientation orientation = UIInterfaceOrientationLandscapeLeft;
+            [[aspectInfo originalInvocation] setReturnValue:&orientation];
+        } error:nil];
+        
         _thumbnailImageView = [[UIImageView alloc] init];
         _thumbnailImageView.backgroundColor = [UIColor blackColor];
         _thumbnailImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -57,7 +77,9 @@
         videoView = _thumbnailImageView;
     }
     
+    [self addChildViewController:self.playerVC];
     [self.view addSubview:videoView];
+    [self.playerVC didMoveToParentViewController:self];
     {
         [videoView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.and.top.equalTo(self.view);
@@ -71,7 +93,7 @@
     {
         [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
-            make.top.equalTo(videoView.mas_bottom).with.offset(10);
+            make.top.equalTo(self.playerVC.view.mas_bottom).with.offset(10);
         }];
     }
     
@@ -109,29 +131,12 @@
 }
 
 - (void)actionPlayVideo {
-    MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc]
-                                             initWithContentURL:[NSURL URLWithString:self.video.videoUrl]];
-    [playerVC aspect_hookSelector:@selector(shouldAutorotate)
-                      withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-                          BOOL rotated = YES;
-                          [[aspectInfo originalInvocation] setReturnValue:&rotated];
-                      } error:nil];
-    
-    [playerVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-        NSUInteger ret = UIInterfaceOrientationMaskAll;
-        [[aspectInfo originalInvocation] setReturnValue:&ret];
-    } error:nil];
-    
-    [playerVC aspect_hookSelector:@selector(preferredInterfaceOrientationForPresentation) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-        UIInterfaceOrientation orientation = UIInterfaceOrientationLandscapeLeft;
-        [[aspectInfo originalInvocation] setReturnValue:&orientation];
-    } error:nil];
-    [self presentMoviePlayerViewControllerAnimated:playerVC];
+    [self presentMoviePlayerViewControllerAnimated:(MPMoviePlayerViewController*)self.playerVC];
 }
 
 - (BOOL)shouldAutorotate {
     if ([NSStringFromClass([self.playerVC class]) isEqualToString:@"AVPlayerViewController"]) {
-        AVPlayerViewController *playerVC = self.playerVC;
+        AVPlayerViewController *playerVC = (AVPlayerViewController *)self.playerVC;
         
         if (CGRectEqualToRect(playerVC.contentOverlayView.frame, [UIScreen mainScreen].bounds)) {
             return YES;

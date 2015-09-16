@@ -14,12 +14,16 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
 
 @implementation KbEncryptedURLRequest
 
++ (NSString *)signKey {
+    return kEncryptionPasssword;
+}
+
 + (NSDictionary *)commonParams {
     return @{@"appId":[KbUtil appId],
-             kEncryptionKeyName:kEncryptionPasssword,
-             @"imsi":@"000000000000000",
+             kEncryptionKeyName:[self class].signKey,
+             @"imsi":@"999999999999999",
              @"channelNo":[KbConfig sharedConfig].channelNo,
-             @"pV":[KbUtil appVersion]
+             @"pV":@(1)
              };
 }
 
@@ -41,19 +45,16 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
     return [super requestURLPath:urlPath withParams:[self encryptWithParams:params] responseHandler:responseHandler];
 }
 
-- (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler {
-
-    if (![responseObject isKindOfClass:[NSDictionary class]]) {
-        [super processResponseObject:nil withResponseHandler:responseHandler];
-        return ;
+- (id)decryptResponse:(id)encryptedResponse {
+    if (![encryptedResponse isKindOfClass:[NSDictionary class]]) {
+        return nil;
     }
     
-    NSDictionary *originalResponse = (NSDictionary *)responseObject;
+    NSDictionary *originalResponse = (NSDictionary *)encryptedResponse;
     NSArray *keys = [originalResponse objectForKey:kEncryptionKeyName];
     NSString *dataString = [originalResponse objectForKey:kEncryptionDataName];
     if (!keys || !dataString) {
-        [super processResponseObject:nil withResponseHandler:responseHandler];
-        return ;
+        return nil;
     }
     
     NSString *decryptedString = [dataString decryptedStringWithKeys:keys];
@@ -61,8 +62,18 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
     if (jsonObject == nil) {
         jsonObject = decryptedString;
     }
+    return jsonObject;
+}
+
+- (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler {
+
+    if (![responseObject isKindOfClass:[NSDictionary class]]) {
+        [super processResponseObject:nil withResponseHandler:responseHandler];
+        return ;
+    }
     
-    DLog(@"Decrypted response: %@", jsonObject);
-    [super processResponseObject:jsonObject withResponseHandler:responseHandler];
+    id decryptedResponse = [self decryptResponse:responseObject];
+    DLog(@"Decrypted response: %@", decryptedResponse);
+    [super processResponseObject:decryptedResponse withResponseHandler:responseHandler];
 }
 @end

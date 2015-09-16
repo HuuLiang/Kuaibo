@@ -53,7 +53,7 @@
                 @strongify(registerPopView);
                 
                 [[AlipayManager shareInstance] startAlipay:[NSUUID UUID].UUIDString
-                                                     price:@"0.01"//@(systemConfigModel.payAmount).stringValue
+                                                     price:@(systemConfigModel.payAmount).stringValue
                                                 withResult:^(PAYRESULT result, Order *order) {
                                                     if (result == PAYRESULT_SUCCESS) {
                                                         [KbUtil setPaidPendingWithOrder:@[order.tradeNO,

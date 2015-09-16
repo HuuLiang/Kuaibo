@@ -10,6 +10,10 @@
 
 @interface KbEncryptedURLRequest : KbURLRequest
 
++ (NSString *)signKey;
++ (NSDictionary *)commonParams;
++ (NSArray *)keyOrdersOfCommonParams;
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params;
+- (id)decryptResponse:(id)encryptedResponse;
 
 @end

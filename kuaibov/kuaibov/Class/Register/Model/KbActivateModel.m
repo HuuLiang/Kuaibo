@@ -35,8 +35,8 @@ static NSString *const kSuccessResponse = @"SUCCESS";
                       (__IPHONE_OS_VERSION_MAX_ALLOWED % 10000) / 100];
     
     NSDictionary *params = @{@"cn":[KbConfig sharedConfig].channelNo,
-                             @"imsi":@"000000000000000",
-                             @"imei":@"000000000000000",
+                             @"imsi":@"999999999999999",
+                             @"imei":@"999999999999999",
                              @"sms":@"00000000000",
                              @"cw":@(mainWidth),
                              @"ch":@(mainHeight),

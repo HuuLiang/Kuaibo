@@ -10,6 +10,7 @@
 #import "NSDictionary+KbSign.h"
 #import "AlipayManager.h"
 
+static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
 static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
 
 @implementation KbPaymentModel
@@ -35,17 +36,19 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     return KbURLPostRequest;
 }
 
++ (NSString *)signKey {
+    return kSignKey;
+}
+
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params {
     NSDictionary *signParams = @{  @"appId":[KbUtil appId],
-                                   @"key":@"qdge^%$#@(sdwHs^&",
+                                   @"key":kSignKey,
                                    @"imsi":@"999999999999999",
                                    @"channelNo":[KbConfig sharedConfig].channelNo,
-                                   @"pV":[KbUtil appVersion] };
+                                   @"pV":@(1) };
     
-    NSString *encryptedDataString = [params encryptedStringWithSignDictionary:signParams
-                                                                    keyOrders:@[@"appId",@"key",@"imsi",@"channelNo",@"pV"]
-                                                                     password:kPaymentEncryptionPassword
-                                                                  excludeKeys:@[@"key"]];
+    NSString *sign = [signParams signWithDictionary:[self class].commonParams keyOrders:[self class].keyOrdersOfCommonParams];
+    NSString *encryptedDataString = [params encryptedStringWithSign:sign password:kPaymentEncryptionPassword excludeKeys:@[@"key"]];
     return @{@"data":encryptedDataString, @"appId":[KbUtil appId]};
 }
 
@@ -62,14 +65,14 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"orderNo":orderId.md5,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
-                             @"payMoney":@(price.floatValue * 100),
+                             @"payMoney":@((NSUInteger)(price.floatValue * 100)),
                              @"channelNo":[KbConfig sharedConfig].channelNo,
                              @"contentId":contentId,
                              @"contentType":contentType,
                              @"pluginType":@(1001),
                              @"payPointType":@(payPointType.integerValue),
                              @"appId":[KbUtil appId],
-                             @"versionNo":@([KbUtil appVersion].floatValue),
+                             @"versionNo":@([KbUtil appVersion].integerValue),
                              @"status":statusDic[@(result)],
                              @"pV":@(1) };
     
@@ -79,5 +82,15 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
         }
     }];
     return success;
+}
+
+- (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler {
+    NSDictionary *decryptedResponse = [self decryptResponse:responseObject];
+    DLog(@"Payment response : %@", decryptedResponse);
+    NSNumber *respCode = decryptedResponse[@"response_code"];
+    KbURLResponseStatus status = (respCode.unsignedIntegerValue == 100) ? KbURLResponseSuccess : KbURLResponseFailedByInterface;
+    if (responseHandler) {
+        responseHandler(status, nil);
+    }
 }
 @end
