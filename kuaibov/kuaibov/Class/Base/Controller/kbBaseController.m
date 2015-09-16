@@ -33,6 +33,7 @@
         [self showRegisterViewForProgram:program];
     } else if (program) {
         KbVideoPlayViewController *videoPlayVC = [[KbVideoPlayViewController alloc] initWithVideo:(KbVideo *)program];
+        videoPlayVC.hidesBottomBarWhenPushed = YES;
         //videoPlayVC.evaluateThumbnail = YES;
         [self.navigationController pushViewController:videoPlayVC animated:YES];
     }
@@ -97,6 +98,10 @@
                           forProgramId:programId
                            programType:programType
                           payPointType:payPointType];
+}
+
+- (BOOL)shouldAutorotate {
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning {

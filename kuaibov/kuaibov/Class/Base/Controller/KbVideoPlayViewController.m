@@ -20,6 +20,7 @@
     UILabel *_descLabel;
 }
 @property (nonatomic,retain) KbVideo *video;
+@property (nonatomic,retain) id playerVC;
 @end
 
 @implementation KbVideoPlayViewController
@@ -38,16 +39,29 @@
     self.title = self.video.title;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    _thumbnailImageView = [[UIImageView alloc] init];
-    _thumbnailImageView.backgroundColor = [UIColor blackColor];
-    _thumbnailImageView.contentMode = UIViewContentModeScaleAspectFit;
-    _thumbnailImageView.userInteractionEnabled = YES;
-    [_thumbnailImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionPlayVideo)]];
-    [self.view addSubview:_thumbnailImageView];
+    UIView *videoView;
+    if (NSClassFromString(@"AVPlayerViewController")) {
+        AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
+        playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:self.video.videoUrl]];
+        
+        self.playerVC = playerVC;
+        videoView = playerVC.view;
+        [self addChildViewController:playerVC];
+        [playerVC didMoveToParentViewController:self];
+    } else {
+        _thumbnailImageView = [[UIImageView alloc] init];
+        _thumbnailImageView.backgroundColor = [UIColor blackColor];
+        _thumbnailImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _thumbnailImageView.userInteractionEnabled = YES;
+        [_thumbnailImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionPlayVideo)]];
+        videoView = _thumbnailImageView;
+    }
+    
+    [self.view addSubview:videoView];
     {
-        [_thumbnailImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [videoView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.and.top.equalTo(self.view);
-            make.height.equalTo(_thumbnailImageView.mas_width).with.dividedBy(1.6);
+            make.height.equalTo(videoView.mas_width).with.dividedBy(1.6);
         }];
     }
     
@@ -57,7 +71,7 @@
     {
         [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.view).with.insets(UIEdgeInsetsMake(0, 10, 0, 10));
-            make.top.equalTo(_thumbnailImageView.mas_bottom).with.offset(10);
+            make.top.equalTo(videoView.mas_bottom).with.offset(10);
         }];
     }
     
@@ -68,6 +82,8 @@
             [self evaluateVideo];
         }
     }];
+    
+    
 }
 
 - (void)evaluateVideo {
@@ -93,38 +109,41 @@
 }
 
 - (void)actionPlayVideo {
-    if (NSClassFromString(@"AVPlayerViewController")) {
-        AVPlayerViewController *playerVC = [[AVPlayerViewController alloc] init];
-        playerVC.player = [[AVPlayer alloc] initWithURL:[NSURL URLWithString:self.video.videoUrl]];
-        [playerVC aspect_hookSelector:@selector(shouldAutorotate)
-                          withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-                              BOOL rotated = YES;
-                              [[aspectInfo originalInvocation] setReturnValue:&rotated];
-        } error:nil];
-        
-        [playerVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-            NSUInteger ret = UIInterfaceOrientationMaskAll;
-            [[aspectInfo originalInvocation] setReturnValue:&ret];
-        } error:nil];
-        
-        [playerVC aspect_hookSelector:@selector(preferredInterfaceOrientationForPresentation) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
-            UIInterfaceOrientation orientation = UIInterfaceOrientationLandscapeLeft;
-            [[aspectInfo originalInvocation] setReturnValue:&orientation];
-        } error:nil];
-        
-        [self presentViewController:playerVC animated:YES completion:^{
-            [playerVC.player play];
-        }];
+    MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc]
+                                             initWithContentURL:[NSURL URLWithString:self.video.videoUrl]];
+    [playerVC aspect_hookSelector:@selector(shouldAutorotate)
+                      withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+                          BOOL rotated = YES;
+                          [[aspectInfo originalInvocation] setReturnValue:&rotated];
+                      } error:nil];
+    
+    [playerVC aspect_hookSelector:@selector(supportedInterfaceOrientations) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+        NSUInteger ret = UIInterfaceOrientationMaskAll;
+        [[aspectInfo originalInvocation] setReturnValue:&ret];
+    } error:nil];
+    
+    [playerVC aspect_hookSelector:@selector(preferredInterfaceOrientationForPresentation) withOptions:AspectPositionInstead usingBlock:^(id<AspectInfo> aspectInfo){
+        UIInterfaceOrientation orientation = UIInterfaceOrientationLandscapeLeft;
+        [[aspectInfo originalInvocation] setReturnValue:&orientation];
+    } error:nil];
+    [self presentMoviePlayerViewControllerAnimated:playerVC];
+}
 
-    } else {
-        MPMoviePlayerViewController *playerVC = [[MPMoviePlayerViewController alloc]
-                                                 initWithContentURL:[NSURL URLWithString:self.video.videoUrl]];
-        [self presentMoviePlayerViewControllerAnimated:playerVC];
+- (BOOL)shouldAutorotate {
+    if ([NSStringFromClass([self.playerVC class]) isEqualToString:@"AVPlayerViewController"]) {
+        AVPlayerViewController *playerVC = self.playerVC;
+        
+        if (CGRectEqualToRect(playerVC.contentOverlayView.frame, [UIScreen mainScreen].bounds)) {
+            return YES;
+        }
     }
+    
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 @end

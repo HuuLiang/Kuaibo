@@ -80,10 +80,17 @@
     [UITabBarController aspect_hookSelector:@selector(shouldAutorotate)
                               withOptions:AspectPositionInstead
                                usingBlock:^(id<AspectInfo> aspectInfo){
+                                   UITabBarController *thisTabBarVC = [aspectInfo instance];
+                                   UIViewController *selectedVC = thisTabBarVC.selectedViewController;
+                                   
                                    BOOL autoRotate = NO;
+                                   if ([selectedVC isKindOfClass:[UINavigationController class]]) {
+                                       autoRotate = [((UINavigationController *)selectedVC).topViewController shouldAutorotate];
+                                   } else {
+                                       autoRotate = [selectedVC shouldAutorotate];
+                                   }
                                    [[aspectInfo originalInvocation] setReturnValue:&autoRotate];
                                } error:nil];
-
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

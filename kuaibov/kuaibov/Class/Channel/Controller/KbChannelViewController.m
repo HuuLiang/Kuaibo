@@ -129,6 +129,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     KbChannel *selectedChannel = self.channelModel.fetchedChannels[indexPath.row];
     if (selectedChannel) {
         KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
+        programVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:programVC animated:YES];
     }
 }
