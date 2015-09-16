@@ -91,6 +91,21 @@
                                    }
                                    [[aspectInfo originalInvocation] setReturnValue:&autoRotate];
                                } error:nil];
+    
+    [UITabBarController aspect_hookSelector:@selector(supportedInterfaceOrientations)
+                                withOptions:AspectPositionInstead
+                                 usingBlock:^(id<AspectInfo> aspectInfo){
+                                     UITabBarController *thisTabBarVC = [aspectInfo instance];
+                                     UIViewController *selectedVC = thisTabBarVC.selectedViewController;
+                                     
+                                     NSUInteger result = 0;
+                                     if ([selectedVC isKindOfClass:[UINavigationController class]]) {
+                                         result = [((UINavigationController *)selectedVC).topViewController supportedInterfaceOrientations];
+                                     } else {
+                                         result = [selectedVC supportedInterfaceOrientations];
+                                     }
+                                     [[aspectInfo originalInvocation] setReturnValue:&result];
+                                 } error:nil];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
