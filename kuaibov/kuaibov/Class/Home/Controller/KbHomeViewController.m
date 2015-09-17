@@ -24,6 +24,8 @@
 @property (nonatomic,retain) KbHomeBannerModel *bannerModel;
 @property (nonatomic,retain) KbHomeProgramModel *programModel;
 @property (nonatomic,retain,readonly) dispatch_group_t dataFetchDispatchGroup;
+
+@property (nonatomic,retain) NSArray *videoPrograms;
 @end
 
 static NSString *const kBannerCellReusableIdentifier = @"HomeCollectionViewBannerCellReusableIdentifer";
@@ -102,8 +104,10 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         
         if (success) {
             NSMutableArray *bannerItems = [NSMutableArray array];
-            for (KbBannerData *bannerData in banners) {
-                [bannerItems addObject:[KbBannerItem itemWithImageURLString:bannerData.coverImg title:bannerData.title]];
+            for (KbProgram *bannerProgram in banners) {
+                if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeVideo) {
+                    [bannerItems addObject:[KbBannerItem itemWithImageURLString:bannerProgram.coverImg title:bannerProgram.title]];
+                }
             }
             self->_bannerView.items = bannerItems;
         }
@@ -117,6 +121,14 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         dispatch_group_leave(self.dataFetchDispatchGroup);
         
         if (success) {
+            NSMutableArray *videoPrograms = [NSMutableArray array];
+            [programs enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (((KbPrograms *)obj).type.unsignedIntegerValue == KbProgramTypeVideo) {
+                    [videoPrograms addObject:obj];
+                }
+            }];
+            
+            self.videoPrograms = videoPrograms;
             [self->_collectionView reloadData];
         }
     }];
@@ -127,7 +139,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return nil;
     }
     
-    KbPrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
+    KbPrograms *programs = self.videoPrograms[indexPath.section-1];
     return programs.programList[indexPath.item];
 }
 
@@ -139,14 +151,14 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return self.programModel.fetchedProgramList.count + 1;
+    return self.videoPrograms.count + 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
     } else {
-        KbPrograms *programs = self.programModel.fetchedProgramList[section-1];
+        KbPrograms *programs = self.videoPrograms[section-1];
         return programs.programList.count;
     }
 }
@@ -159,8 +171,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             @weakify(self);
             _bannerView = [[KbBannerView alloc] initWithItems:nil autoPlayTimeInterval:3.0 action:^(NSUInteger idx) {
                 @strongify(self);
-                KbBannerData *bannerData = self.bannerModel.fetchedBanners[idx];
-                [self switchToPlayProgram:bannerData];
+                KbProgram *bannerProgram = self.bannerModel.fetchedBanners[idx];
+                [self switchToPlayProgram:bannerProgram];
             }];
             _bannerView.backgroundColor = [UIColor whiteColor];
             [_bannerCell.contentView addSubview:_bannerView];
@@ -191,7 +203,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     
     KbHomeSectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier forIndexPath:indexPath];
     
-    KbPrograms *programs = self.programModel.fetchedProgramList[indexPath.section-1];
+    KbPrograms *programs = self.videoPrograms[indexPath.section-1];
     headerView.title = programs.name;
     return headerView;
 }

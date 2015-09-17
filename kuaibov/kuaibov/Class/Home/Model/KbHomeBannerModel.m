@@ -11,12 +11,15 @@
 @implementation KbBannerResponse
 
 - (Class)bannerListElementClass {
-    return [KbBannerData class];
+    return [KbProgram class];
 }
 
 @end
 
 @implementation KbHomeBannerModel
+@synthesize fetchedBanners = _fetchedBanners;
+
+DefineLazyPropertyInitialization(NSArray, fetchedBanners)
 
 + (Class)responseClass {
     return [KbBannerResponse class];

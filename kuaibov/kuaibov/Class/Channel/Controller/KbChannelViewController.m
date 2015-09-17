@@ -20,7 +20,7 @@ static const CGFloat kChannelThumbnailScale = 342.0 / 197.0;
     UICollectionView *_channelsView;
 }
 @property (nonatomic,retain) KbChannelModel *channelModel;
-
+@property (nonatomic,retain) NSArray *videoChannels;
 @end
 
 @implementation KbChannelViewController
@@ -92,6 +92,14 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
         [self->_channelsView kb_endPullToRefresh];
         
         if (success) {
+            NSMutableArray *videoChannels = [NSMutableArray array];
+            [channels enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (((KbChannel *)obj).type.unsignedIntegerValue == KbChannelTypeVideo) {
+                    [videoChannels addObject:obj];
+                }
+            }];
+            
+            self.videoChannels = videoChannels;
             [self->_channelsView reloadData];
         }
     }];
@@ -109,7 +117,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 //}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.channelModel.fetchedChannels.count;
+    return self.videoChannels.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -119,14 +127,14 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
         cell.backgroundView = [[UIImageView alloc] initWithFrame:cell.bounds];
     }
     
-    KbChannel *channel = self.channelModel.fetchedChannels[indexPath.row];
+    KbChannel *channel = self.videoChannels[indexPath.row];
     UIImageView *channelImageView = (UIImageView *)cell.backgroundView;
     [channelImageView sd_setImageWithURL:[NSURL URLWithString:channel.columnImg]];
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    KbChannel *selectedChannel = self.channelModel.fetchedChannels[indexPath.row];
+    KbChannel *selectedChannel = self.videoChannels[indexPath.row];
     if (selectedChannel) {
         KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
         programVC.hidesBottomBarWhenPushed = YES;

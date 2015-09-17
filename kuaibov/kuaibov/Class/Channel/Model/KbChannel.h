@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, KbChannelType) {
+    KbChannelTypeNone = 0,
+    KbChannelTypeVideo = 1,
+    KbChannelTypePicture = 2
+};
+
 @protocol KbChannel <NSObject>
 
 @end

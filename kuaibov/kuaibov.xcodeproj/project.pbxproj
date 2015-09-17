@@ -33,7 +33,6 @@
 		BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6571B9855F900D70B9E /* KbHomeViewController.m */; };
 		BCFA19D31B9ACE1000B3EE05 /* KbHomeProgramModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA19D21B9ACE1000B3EE05 /* KbHomeProgramModel.m */; };
 		BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */; };
-		BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB21B98AD19007E6904 /* KbBannerData.m */; };
 		BCFA1CB71B98B6F2007E6904 /* KbBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */; };
 		BCFB9A311BA72C6500106BCA /* KbPaymentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFB9A301BA72C6500106BCA /* KbPaymentModel.m */; };
 		BCFB9A341BA736D300106BCA /* KbActivateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFB9A331BA736D300106BCA /* KbActivateModel.m */; };
@@ -140,8 +139,6 @@
 		BCFA19D21B9ACE1000B3EE05 /* KbHomeProgramModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeProgramModel.m; sourceTree = "<group>"; };
 		BCFA1CAE1B98A5A3007E6904 /* KbProgramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbProgramViewController.h; sourceTree = "<group>"; };
 		BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbProgramViewController.m; sourceTree = "<group>"; };
-		BCFA1CB11B98AD19007E6904 /* KbBannerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbBannerData.h; sourceTree = "<group>"; };
-		BCFA1CB21B98AD19007E6904 /* KbBannerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbBannerData.m; sourceTree = "<group>"; };
 		BCFA1CB51B98B6F2007E6904 /* KbBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbBannerView.h; sourceTree = "<group>"; };
 		BCFA1CB61B98B6F2007E6904 /* KbBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbBannerView.m; sourceTree = "<group>"; };
 		BCFB9A2F1BA72C6500106BCA /* KbPaymentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbPaymentModel.h; sourceTree = "<group>"; };
@@ -574,8 +571,6 @@
 		BCFF05241B986EF30074BAE2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BCFA1CB11B98AD19007E6904 /* KbBannerData.h */,
-				BCFA1CB21B98AD19007E6904 /* KbBannerData.m */,
 				BCFF05251B986F690074BAE2 /* KbHomeBannerModel.h */,
 				BCFF05261B986F690074BAE2 /* KbHomeBannerModel.m */,
 				BCFA19D11B9ACE1000B3EE05 /* KbHomeProgramModel.h */,
@@ -766,7 +761,6 @@
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
 				BCFF935F1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m in Sources */,
 				BCFE5BA01B9F575100EC9D05 /* NSDataEx.m in Sources */,
-				BCFA1CB31B98AD19007E6904 /* KbBannerData.m in Sources */,
 				BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
 				BCFB9A311BA72C6500106BCA /* KbPaymentModel.m in Sources */,

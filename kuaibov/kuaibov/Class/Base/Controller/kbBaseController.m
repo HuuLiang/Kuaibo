@@ -65,7 +65,7 @@
 - (void)switchToPlayProgram:(KbProgram *)program {
     if (![KbUtil isPaid]) {
         [self showRegisterViewForProgram:program];
-    } else if (program) {
+    } else if (program.type.unsignedIntegerValue == KbProgramTypeVideo) {
         UIViewController *videoPlayVC = [self playerVCWithVideo:program];
         videoPlayVC.hidesBottomBarWhenPushed = YES;
         //videoPlayVC.evaluateThumbnail = YES;

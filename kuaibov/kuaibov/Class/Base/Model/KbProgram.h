@@ -10,6 +10,12 @@
 #import "KbURLResponse.h"
 #import "KbVideo.h"
 
+typedef NS_ENUM(NSUInteger, KbProgramType) {
+    KbProgramTypeNone = 0,
+    KbProgramTypeVideo = 1,
+    KbProgramTypePicture = 2
+};
+
 @protocol KbProgramUrl <NSObject>
 
 @end

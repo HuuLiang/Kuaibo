@@ -7,11 +7,11 @@
 //
 
 #import "KbEncryptedURLRequest.h"
-#import "KbBannerData.h"
+#import "KbProgram.h"
 
 @interface KbBannerResponse : KbURLResponse
 @property (nonatomic) NSNumber *columnId;
-@property (nonatomic) NSMutableArray<KbBannerData> *bannerList;
+@property (nonatomic) NSMutableArray<KbProgram> *bannerList;
 @end
 
 typedef void (^KbFetchBannersCompletionHandler)(BOOL success, NSArray *banners);
