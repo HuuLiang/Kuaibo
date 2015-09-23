@@ -29,14 +29,28 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"频道";
     
-    _headerImageView = [[UIImageView alloc] init];
-    _headerImageView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
-    [self.view addSubview:_headerImageView];
-    {
-        [_headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.and.right.equalTo(self.view);
-            make.height.equalTo(_headerImageView.mas_width).with.multipliedBy(0.5);
+    @weakify(self);
+    if (![KbUtil isPaid]) {
+        _headerImageView = [[UIImageView alloc] init];
+        _headerImageView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+        _headerImageView.userInteractionEnabled = YES;
+        [_headerImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapHeaderImage)]];
+        [self.view addSubview:_headerImageView];
+        {
+            [_headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.top.and.right.equalTo(self.view);
+                make.height.equalTo(_headerImageView.mas_width).with.multipliedBy(0.5);
+            }];
+        }
+        
+        KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
+        [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+            @strongify(self);
+            if (success) {
+                [self->_headerImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage]];
+            }
         }];
     }
     
@@ -59,30 +73,37 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     {
         [_channelsView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.and.right.equalTo(self.view);
-            make.top.equalTo(_headerImageView.mas_bottom);
+            make.top.equalTo(_headerImageView?_headerImageView.mas_bottom:self.view);
         }];
     }
-    
-    @weakify(self);
+
     [_channelsView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
         
         [self loadChannels];
     }];
     [_channelsView kb_triggerPullToRefresh];
-    
-    KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
-    [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
-        @strongify(self);
-        if (success) {
-            [self->_headerImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage]];
-        }
-    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+    if ([KbUtil isPaid]) {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
+    } else {
+        [self.navigationController setNavigationBarHidden:YES animated:animated];
+    }
+}
+
+- (void)onAlipaySuccessfullyPaid {
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    if (_headerImageView) {
+        [_headerImageView removeFromSuperview];
+        
+        [_channelsView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view);
+        }];
+    }
 }
 
 - (void)loadChannels {
@@ -103,6 +124,12 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
             [self->_channelsView reloadData];
         }
     }];
+}
+
+- (void)onTapHeaderImage {
+    if (![KbUtil isPaid]) {
+        [self alipayPayForProgram:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

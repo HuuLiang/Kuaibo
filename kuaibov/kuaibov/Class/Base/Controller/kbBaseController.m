@@ -82,34 +82,10 @@
         }
         
         if (systemConfigModel.payAmount > 0) {
-            @weakify(registerPopView);
+            @weakify(self);
             registerPopView.action = ^{
-                @strongify(registerPopView);
-                
-                [[AlipayManager shareInstance] startAlipay:[NSUUID UUID].UUIDString
-                                                     price:@(systemConfigModel.payAmount).stringValue
-                                                withResult:^(PAYRESULT result, Order *order) {
-                                                    if (result == PAYRESULT_SUCCESS) {
-                                                        [KbUtil setPaidPendingWithOrder:@[order.tradeNO,
-                                                                                          order.amount,
-                                                                                          program.programId.stringValue,
-                                                                                          program.type.stringValue,
-                                                                                          program.payPointType.stringValue]];
-                                                        [registerPopView showRegisteredContent];
-                                                    } else if (result == PAYRESULT_FAIL) {
-                                                        [[KbHudManager manager] showHudWithText:@"支付失败"];
-                                                    } else if (result == PAYRESULT_ABANDON) {
-                                                        [[KbHudManager manager] showHudWithText:@"支付取消"];
-                                                    }
-                                                    
-                                                    [self onAlipayCallbackWithOrderId:order.tradeNO
-                                                                                price:order.amount
-                                                                               result:result
-                                                                         forProgramId:program.programId.stringValue
-                                                                          programType:program.type.stringValue
-                                                                         payPointType:program.payPointType.stringValue];
-                                                }];
-                
+                @strongify(self);
+                [self alipayPayForProgram:program];
             };
             registerPopView.showPrice = systemConfigModel.payAmount;
             [registerPopView showInView:self.view.window];
@@ -117,6 +93,36 @@
     }];
     
 
+}
+
+- (void)alipayPayForProgram:(KbProgram *)program {
+    @weakify(self);
+    [[AlipayManager shareInstance] startAlipay:[NSUUID UUID].UUIDString
+                                         price:@"0.01"//@(systemConfigModel.payAmount).stringValue
+                                    withResult:^(PAYRESULT result, Order *order) {
+                                        @strongify(self);
+                                        
+                                        if (result == PAYRESULT_SUCCESS) {
+                                            [KbUtil setPaidPendingWithOrder:@[order.tradeNO,
+                                                                              order.amount,
+                                                                              program.programId.stringValue ?: @"",
+                                                                              program.type.stringValue ?: @"",
+                                                                              program.payPointType.stringValue ?: @""]];
+                                            [[KbRegisterPopView sharedInstance] showRegisteredContent];
+                                            [self onAlipaySuccessfullyPaid];
+                                        } else if (result == PAYRESULT_FAIL) {
+                                            [[KbHudManager manager] showHudWithText:@"支付失败"];
+                                        } else if (result == PAYRESULT_ABANDON) {
+                                            [[KbHudManager manager] showHudWithText:@"支付取消"];
+                                        }
+                                        
+                                        [self onAlipayCallbackWithOrderId:order.tradeNO
+                                                                    price:order.amount
+                                                                   result:result
+                                                             forProgramId:program.programId.stringValue ?: @""
+                                                              programType:program.type.stringValue ?: @""
+                                                             payPointType:program.payPointType.stringValue ?: @""];
+                                    }];
 }
 
 - (void)onAlipayCallbackWithOrderId:(NSString *)orderId
@@ -132,6 +138,10 @@
                           forProgramId:programId
                            programType:programType
                           payPointType:payPointType];
+}
+
+- (void)onAlipaySuccessfullyPaid {
+    
 }
 
 - (BOOL)shouldAutorotate {

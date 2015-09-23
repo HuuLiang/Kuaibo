@@ -11,5 +11,8 @@
 @interface kbBaseController : UIViewController
 
 - (void)switchToPlayProgram:(KbProgram *)program;
+- (void)showRegisterViewForProgram:(KbProgram *)program;
+- (void)alipayPayForProgram:(KbProgram *)program;
+- (void)onAlipaySuccessfullyPaid;
 
 @end
