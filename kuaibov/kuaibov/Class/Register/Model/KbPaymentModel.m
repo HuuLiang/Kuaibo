@@ -61,6 +61,10 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
       completionHandler:(KbPaidCompletionHandler)handler {
     NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2)};
     
+    if (nil == [KbUtil userId] || orderId.length == 0 || contentId == nil || contentType == nil) {
+        return NO;
+    }
+    
     NSDictionary *params = @{@"uuid":[KbUtil userId],
                              @"orderNo":orderId.md5,
                              @"imsi":@"999999999999999",
