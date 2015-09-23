@@ -89,20 +89,16 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     [super viewWillAppear:animated];
     
     if ([KbUtil isPaid]) {
+        if (_headerImageView) {
+            [_headerImageView removeFromSuperview];
+            
+            [_channelsView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.view);
+            }];
+        }
         [self.navigationController setNavigationBarHidden:NO animated:animated];
     } else {
         [self.navigationController setNavigationBarHidden:YES animated:animated];
-    }
-}
-
-- (void)onAlipaySuccessfullyPaid {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    if (_headerImageView) {
-        [_headerImageView removeFromSuperview];
-        
-        [_channelsView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view);
-        }];
     }
 }
 
@@ -128,7 +124,22 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 
 - (void)onTapHeaderImage {
     if (![KbUtil isPaid]) {
-        [self alipayPayForProgram:nil];
+        @weakify(self);
+        [self payForProgram:nil shouldPopView:NO withCompletionHandler:^(BOOL success) {
+            @strongify(self);
+            if (!success) {
+                return ;
+            }
+            
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+            if (_headerImageView) {
+                [_headerImageView removeFromSuperview];
+                
+                [_channelsView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.top.equalTo(self.view);
+                }];
+            }
+        }];
     }
 }
 

@@ -165,7 +165,7 @@
                   programType:(NSString *)programType
                  payPointType:(NSString *)payPointType {
     [[KbPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType completionHandler:^(BOOL success){
-        if (success) {
+        if (success && result == PAYRESULT_SUCCESS) {
             [KbUtil setPaid];
         }
     }];
