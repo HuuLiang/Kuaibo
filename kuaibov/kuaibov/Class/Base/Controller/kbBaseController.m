@@ -98,7 +98,8 @@ withCompletionHandler:(void (^)(BOOL success))handler {
                 [self alipayPayForProgram:program price:price withCompletionHandler:^(NSUInteger result) {
                     @strongify(registerPopView);
                     if (result == PAYRESULT_SUCCESS) {
-                        [registerPopView showRegisteredContent];
+                        [registerPopView hide];
+                        [[KbHudManager manager] showHudWithText:@"支付成功"];
                     }
                     if (handler) {
                         handler(result == PAYRESULT_SUCCESS);

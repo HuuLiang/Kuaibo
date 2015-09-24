@@ -41,6 +41,9 @@
 		BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */; };
 		BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9DC1BA16CEB00B15020 /* KbErrorHandler.m */; };
 		BCFCA9E01BA17B9500B15020 /* KbHomeProgramCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFCA9DF1BA17B9500B15020 /* KbHomeProgramCell.m */; };
+		BCFD6E8D1BB3E55A002C479C /* bg_01.png in Resources */ = {isa = PBXBuildFile; fileRef = BCFD6E8A1BB3E55A002C479C /* bg_01.png */; settings = {ASSET_TAGS = (); }; };
+		BCFD6E8E1BB3E55A002C479C /* btn_quedin.png in Resources */ = {isa = PBXBuildFile; fileRef = BCFD6E8B1BB3E55A002C479C /* btn_quedin.png */; settings = {ASSET_TAGS = (); }; };
+		BCFD6E8F1BB3E55A002C479C /* btn_quxiao.png in Resources */ = {isa = PBXBuildFile; fileRef = BCFD6E8C1BB3E55A002C479C /* btn_quxiao.png */; settings = {ASSET_TAGS = (); }; };
 		BCFE5AB71B9F1FD800EC9D05 /* KbUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */; };
 		BCFE5ABF1B9F452400EC9D05 /* KbRegisterPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5ABD1B9F452400EC9D05 /* KbRegisterPopView.m */; };
 		BCFE5ACE1B9F4F1300EC9D05 /* AlipayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AC41B9F4F1300EC9D05 /* AlipayManager.m */; };
@@ -154,6 +157,9 @@
 		BCFCA9DC1BA16CEB00B15020 /* KbErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbErrorHandler.m; sourceTree = "<group>"; };
 		BCFCA9DE1BA17B9500B15020 /* KbHomeProgramCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeProgramCell.h; sourceTree = "<group>"; };
 		BCFCA9DF1BA17B9500B15020 /* KbHomeProgramCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeProgramCell.m; sourceTree = "<group>"; };
+		BCFD6E8A1BB3E55A002C479C /* bg_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_01.png; sourceTree = "<group>"; };
+		BCFD6E8B1BB3E55A002C479C /* btn_quedin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_quedin.png; sourceTree = "<group>"; };
+		BCFD6E8C1BB3E55A002C479C /* btn_quxiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_quxiao.png; sourceTree = "<group>"; };
 		BCFE5AB51B9F1FD800EC9D05 /* KbUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbUtil.h; sourceTree = "<group>"; };
 		BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbUtil.m; sourceTree = "<group>"; };
 		BCFE5ABD1B9F452400EC9D05 /* KbRegisterPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbRegisterPopView.m; sourceTree = "<group>"; };
@@ -494,6 +500,9 @@
 		BCFE5ABC1B9F44DB00EC9D05 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BCFD6E8A1BB3E55A002C479C /* bg_01.png */,
+				BCFD6E8B1BB3E55A002C479C /* btn_quedin.png */,
+				BCFD6E8C1BB3E55A002C479C /* btn_quxiao.png */,
 				BCFE5ABE1B9F452400EC9D05 /* KbRegisterPopView.h */,
 				BCFE5ABD1B9F452400EC9D05 /* KbRegisterPopView.m */,
 			);
@@ -663,6 +672,7 @@
 				TargetAttributes = {
 					6E090FDF1B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = QQJ9ECA39A;
 					};
 					6E090FF81B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
@@ -695,9 +705,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCFF05231B986B4D0074BAE2 /* config.plist in Resources */,
+				BCFD6E8D1BB3E55A002C479C /* bg_01.png in Resources */,
 				BCFE5AD01B9F4F1300EC9D05 /* AlipaySDK.bundle in Resources */,
 				BC5DD2B81BAA934500200265 /* Launch Screen.storyboard in Resources */,
+				BCFD6E8E1BB3E55A002C479C /* btn_quedin.png in Resources */,
 				6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */,
+				BCFD6E8F1BB3E55A002C479C /* btn_quxiao.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,7 +857,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Peng Zhang (BTJZE2VTMX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Peng Zhang (BTJZE2VTMX)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -868,6 +882,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "e074e00b-caa3-4d3b-85f1-249a8daed8cf";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -889,7 +904,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Peng Zhang (BTJZE2VTMX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Peng Zhang (BTJZE2VTMX)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -905,6 +921,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "e074e00b-caa3-4d3b-85f1-249a8daed8cf";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -915,6 +932,7 @@
 			baseConfigurationReference = A829465AEB8D6C3264B4F256 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -926,6 +944,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuaibov.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -934,6 +953,7 @@
 			baseConfigurationReference = CEB2734AF03850849D8DF430 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -945,6 +965,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuaibov.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -18,6 +18,6 @@ typedef void (^KbRegisterAction)(void);
 + (instancetype)sharedInstance;
 
 - (void)showInView:(UIView *)view;
-- (void)showRegisteredContent;
+- (void)hide;
 
 @end

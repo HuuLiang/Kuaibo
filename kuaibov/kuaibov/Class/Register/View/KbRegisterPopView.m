@@ -11,18 +11,42 @@
 
 @interface KbRegisterPopView ()
 @property (nonatomic,retain,readonly) UIView *registeringContentView;
-@property (nonatomic,retain,readonly) UIView *registeredContentView;
+
+@property (nonatomic,readonly) CGSize contentViewSize;
+@property (nonatomic,readonly) CGSize buttonSize;
+@property (nonatomic,readonly) CGSize imageSize;
+@property (nonatomic,readonly) CGRect priceRect;
 @end
 
-static const CGSize kContentViewSize = {283,206};
-static const CGFloat kPaymentBannerHeight = 60;
-static NSString *const kRegisteringDetailText = @"%.2f元 全场电影想看就看\n即时到帐，即时享受";
-static NSString *const kRegisteredDetailText = @"获得终身vip服务，现在开始看视频吧";
+@implementation KbRegisterPopView (Size)
+
+- (CGSize)buttonSize {
+    const CGFloat buttonHeight = 35;
+    return CGSizeMake(buttonHeight*187./70., buttonHeight);
+}
+
+- (CGSize)imageSize {
+    const CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width * 0.9;
+    return CGSizeMake(imageWidth, imageWidth*217.5/322.);
+}
+
+- (CGSize)contentViewSize {
+    return CGSizeMake(self.imageSize.width,
+                      self.imageSize.height+self.buttonSize.height/2);
+}
+
+- (CGRect)priceRect {
+    return CGRectMake(self.imageSize.width/322.*39.,
+                      self.imageSize.height/217.5*126.,
+                      self.imageSize.width/322.*38.,
+                      self.imageSize.height/217.5*22.);
+}
+@end
+
 static const NSUInteger kRegisteringDetailLabelTag = 1;
 
 @implementation KbRegisterPopView
 @synthesize registeringContentView = _registeringContentView;
-@synthesize registeredContentView = _registeredContentView;
 
 + (instancetype)sharedInstance {
     static KbRegisterPopView *_sharedRegisterPopView;
@@ -33,111 +57,79 @@ static const NSUInteger kRegisteringDetailLabelTag = 1;
     return _sharedRegisterPopView;
 }
 
-- (UIView *)contentViewWithRegistered:(BOOL)isRegistered {
-    if (isRegistered && _registeredContentView) {
-        return _registeredContentView;
-    } else if (!isRegistered && _registeringContentView) {
+- (UIView *)registeringContentView {
+    if (_registeringContentView) {
         return _registeringContentView;
     }
     
-    UIView *contentView = [[UIView alloc] init];
-    if (isRegistered) {
-        _registeredContentView = contentView;
-    } else {
-        _registeringContentView = contentView;
-    }
+    _registeringContentView = [[UIView alloc] init];
+    _registeringContentView.backgroundColor = [UIColor clearColor];
+    _registeringContentView.layer.cornerRadius = 3;
     
-    contentView.backgroundColor = [UIColor whiteColor];
-    contentView.layer.cornerRadius = 3;
-    [contentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                              action:isRegistered?@selector(onTapRegisteredContent):@selector(onTapRegisteringContent)]];
-    
-    UIImageView *payImageView;
-    if (!isRegistered) {
-        payImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"alipay"]];
-        [contentView addSubview:payImageView];
-        {
-            [payImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.and.bottom.equalTo(contentView);
-                make.height.mas_equalTo(kPaymentBannerHeight);
-            }];
-        }
-    }
-    
-    UIImage *topImage = [UIImage imageNamed:@"register_bg"];
-    CGSize targetImageSize = CGSizeMake(kContentViewSize.width,
-                                        kContentViewSize.height - (isRegistered ? 0 : kPaymentBannerHeight));
-    CGRect croppedRect = CGRectMake(MAX(topImage.size.width-targetImageSize.width, 0),
-                                    MAX(topImage.size.height-targetImageSize.height, 0),
-                                    targetImageSize.width,
-                                    targetImageSize.height);
-    UIImageView *topImageView = [[UIImageView alloc] initWithImage:[topImage crop:croppedRect]];
-    topImageView.layer.cornerRadius = contentView.layer.cornerRadius;
-    [contentView addSubview:topImageView];
+    UIImage *image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"bg_01" ofType:@"png"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    [_registeringContentView addSubview:imageView];
     {
-        [topImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.and.top.equalTo(contentView).with.insets(UIEdgeInsetsMake(2, 1, 0, 1));
-            make.bottom.equalTo(payImageView?payImageView.mas_top:contentView);
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(_registeringContentView);
+            make.bottom.equalTo(_registeringContentView).offset(-18);
         }];
     }
     
-    NSMutableDictionary *textAttribs = @{ NSFontAttributeName:[UIFont systemFontOfSize:22.],
-                                          NSForegroundColorAttributeName:[UIColor yellowColor],
-                                          NSStrokeColorAttributeName:[UIColor blackColor],
-                                          NSStrokeWidthAttributeName:@(-2)}.mutableCopy;
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.attributedText = [[NSAttributedString alloc] initWithString:isRegistered ? @"恭喜你" : @"终身VIP"
-                                                                attributes:textAttribs];;
-    [contentView addSubview:titleLabel];
+    UILabel *priceLabel = [[UILabel alloc] init];
+    priceLabel.tag = kRegisteringDetailLabelTag;
+    priceLabel.backgroundColor = [UIColor clearColor];
+    priceLabel.font = [UIFont boldSystemFontOfSize:18.];
+    priceLabel.textColor = [UIColor redColor];
+    priceLabel.textAlignment = NSTextAlignmentRight;
+    priceLabel.adjustsFontSizeToFitWidth = YES;
+    [_registeringContentView addSubview:priceLabel];
     {
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(topImageView);
-            make.top.equalTo(topImageView).with.offset(25.5);
+        [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_registeringContentView).offset(self.priceRect.origin.x);
+            make.top.equalTo(_registeringContentView).offset(self.priceRect.origin.y);
+            make.size.mas_equalTo(self.priceRect.size);
         }];
     }
     
-    UILabel *detailLabel = [[UILabel alloc] init];
-    detailLabel.tag = kRegisteringDetailLabelTag;
-    detailLabel.numberOfLines = 2;
-    if (isRegistered) {
-        textAttribs[NSFontAttributeName] = [UIFont systemFontOfSize:18.];
-        detailLabel.attributedText = [[NSAttributedString alloc] initWithString:kRegisteredDetailText attributes:textAttribs];
-    } else {
-        detailLabel.textAlignment = NSTextAlignmentCenter;
-        detailLabel.textColor = [UIColor whiteColor];
-        detailLabel.font = [UIFont systemFontOfSize:18.];
-        detailLabel.text = [NSString stringWithFormat:kRegisteringDetailText, self.showPrice];
-    }
-    [contentView addSubview:detailLabel];
+    UIButton *okButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *okImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"btn_quedin" ofType:@"png"]];
+    [okButton setImage:okImage forState:UIControlStateNormal];
+    [okButton addTarget:self action:@selector(onRegister) forControlEvents:UIControlEventTouchUpInside];
+    [_registeringContentView addSubview:okButton];
     {
-        [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(topImageView);
-            make.top.equalTo(titleLabel.mas_bottom).with.offset(isRegistered?29:19);
-            make.left.right.equalTo(topImageView).with.insets(UIEdgeInsetsMake(0, 30, 0, 30));
+        [okButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(_registeringContentView);
+            make.centerX.equalTo(_registeringContentView).with.dividedBy(2);
+            make.size.mas_equalTo(self.buttonSize);
         }];
     }
-    return contentView;
-}
-
-- (UIView *)registeringContentView {
-    return [self contentViewWithRegistered:NO];
-}
-
-- (UIView *)registeredContentView {
-    return [self contentViewWithRegistered:YES];
+    
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *cancelImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"btn_quxiao" ofType:@"png"]];
+    [cancelButton setImage:cancelImage forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
+    [_registeringContentView addSubview:cancelButton];
+    {
+        [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.bottom.equalTo(okButton);
+            make.centerX.equalTo(_registeringContentView).with.multipliedBy(1.5);
+        }];
+    }
+    return _registeringContentView;
 }
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
-        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapBlank)]];
+        //[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapBlank)]];
         
         [self addSubview:self.registeringContentView];
         {
             [self.registeringContentView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.center.equalTo(self);
-                make.size.mas_equalTo(kContentViewSize);
+                make.size.mas_equalTo(self.contentViewSize);
             }];
         }
         
@@ -164,44 +156,16 @@ static const NSUInteger kRegisteringDetailLabelTag = 1;
     }];
 }
 
-- (void)showRegisteredContent {
-    if (_registeredContentView.superview == self) {
-        return ;
-    }
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        self.registeringContentView.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self.registeringContentView removeFromSuperview];
-
-        [self addSubview:self.registeredContentView];
-        self.registeredContentView.frame = self.registeringContentView.frame;
-        self.registeredContentView.alpha = 0;
-        
-        [UIView animateWithDuration:0.25 animations:^{
-            self.registeredContentView.alpha = 1;
-        }];
-    }];
-}
-
-- (void)onTapBlank {
-    [self hide];
-}
-
-- (void)onTapRegisteringContent {
+- (void)onRegister {
     if (self.action) {
         self.action();
     }
-}
-
-- (void)onTapRegisteredContent {
-    [self hide];
 }
 
 - (void)setShowPrice:(CGFloat)showPrice {
     _showPrice = showPrice;
     
     UILabel *detailLabel = (UILabel *)[_registeringContentView viewWithTag:kRegisteringDetailLabelTag];
-    detailLabel.text = [NSString stringWithFormat:kRegisteringDetailText, _showPrice];
+    detailLabel.text = [NSString stringWithFormat:@"%.2f", showPrice];
 }
 @end
