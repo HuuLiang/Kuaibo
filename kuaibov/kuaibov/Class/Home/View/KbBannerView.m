@@ -89,6 +89,10 @@ DefineLazyPropertyInitialization(NSMutableArray, imageViews)
 }
 
 - (void)actionTap {
+    if (self.imageViews.count == 0) {
+        return ;
+    }
+    
     if (self.action) {
         self.action(self.currentPage);
     }
