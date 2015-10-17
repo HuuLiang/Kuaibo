@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BaseURL</key>
-	<string>http://120.24.252.114:8093</string>
+	<string>http://video.iqu8.cn</string>
 	<key>BannerURLPath</key>
 	<string>/video/banner.htm</string>
 	<key>HomeProgramURLPath</key>
