@@ -45,11 +45,30 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
             }];
         }
         
+        UILabel *priceLabel = [[UILabel alloc] init];
+        priceLabel.textColor = [UIColor redColor];
+        priceLabel.textAlignment = NSTextAlignmentRight;
+        priceLabel.adjustsFontSizeToFitWidth = YES;
+        [_headerImageView addSubview:priceLabel];
+        {
+            [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(_headerImageView).offset(5);
+                make.bottom.equalTo(_headerImageView.mas_centerY).offset(2);
+                make.width.equalTo(_headerImageView).multipliedBy(0.08);
+            }];
+        }
+        
         KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
         [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
             @strongify(self);
             if (success) {
-                [self->_headerImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage]];
+                [self->_headerImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    if (image) {
+                        priceLabel.text = [NSString stringWithFormat:@"%.2f", systemConfigModel.payAmount];
+                    } else {
+                        priceLabel.text = nil;
+                    }
+                }];
             }
         }];
     }
