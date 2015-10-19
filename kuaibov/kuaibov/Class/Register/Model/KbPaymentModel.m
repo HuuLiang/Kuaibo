@@ -69,7 +69,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"orderNo":orderId.md5,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
-                             @"payMoney":@((NSUInteger)(price.floatValue * 100)),
+                             @"payMoney":@((NSUInteger)(price.doubleValue * 100)),
                              @"channelNo":[KbConfig sharedConfig].channelNo,
                              @"contentId":contentId,
                              @"contentType":contentType,

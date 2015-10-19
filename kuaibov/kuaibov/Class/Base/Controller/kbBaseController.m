@@ -87,7 +87,7 @@ withCompletionHandler:(void (^)(BOOL success))handler {
 #ifdef DEBUG
         CGFloat price = 0.01;
 #else
-        CGFloat price = payPrice.floatValue;
+        CGFloat price = payPrice.doubleValue;
 #endif
         if (popped) {
             KbRegisterPopView *registerPopView = [KbRegisterPopView sharedInstance];

@@ -43,7 +43,7 @@
                 KbSystemConfig *config = obj;
                 
                 if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigPayAmount]) {
-                    self.payAmount = config.value.floatValue / 100.;
+                    self.payAmount = config.value.doubleValue / 100.;
                 } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigChannelTopImage]) {
                     self.channelTopImage = config.value;
                 }
