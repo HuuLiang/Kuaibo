@@ -10,6 +10,10 @@
 #import <SFHFKeychainUtils.h>
 #import <sys/sysctl.h>
 
+//#define USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
+
+#ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
+
 static NSString *const kRegisterKeyChainUsername = @"kuaibov_register_username";
 static NSString *const kRegisterKeyChainServiceName = @"kuaibov_register_servicename";
 //static NSString *const kRegisterPendingKeyChainPassword = @"kuaibov_register_pending";
@@ -18,9 +22,15 @@ static NSString *const kPaidKeyChainUsername = @"kuaibov_paid_username";
 static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
 //static NSString *const kPaidKeyChainPassword = @"kuaibov_paid_password";
 
+#else
+static NSString *const kRegisterKeyName = @"kuaibov_register_keyname";
+static NSString *const kPaidKeyName = @"kuaibov_paid_keyname";
+#endif
+
 @implementation KbUtil
 
 + (void)removeKeyChainEntries {
+#ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     [SFHFKeychainUtils deleteItemForUsername:kRegisterKeyChainUsername.md5
                               andServiceName:kRegisterKeyChainServiceName.md5
                                        error:nil];
@@ -28,6 +38,11 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
     [SFHFKeychainUtils deleteItemForUsername:kPaidKeyChainUsername.md5
                               andServiceName:kPaidKeyChainServiceName.md5
                                        error:nil];
+#else
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kRegisterKeyName];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kPaidKeyName];
+    
+#endif
 }
 
 + (BOOL)isRegistered {
@@ -35,11 +50,16 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
 }
 
 + (void)setRegisteredWithUserId:(NSString *)userId {
+#ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     [SFHFKeychainUtils storeUsername:kRegisterKeyChainUsername.md5
                          andPassword:userId
                       forServiceName:kRegisterKeyChainServiceName.md5
                       updateExisting:YES
                                error:nil];
+#else
+    [[NSUserDefaults standardUserDefaults] setObject:userId forKey:kRegisterKeyName];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+#endif
 }
 
 + (BOOL)isPaid {
@@ -47,11 +67,17 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
 }
 
 + (void)setPaid {
+#ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     [SFHFKeychainUtils storeUsername:kPaidKeyChainUsername.md5
                          andPassword:[NSString stringWithFormat:@"%@|%@", [self userId], [self orderInKeyChain]]
                       forServiceName:kPaidKeyChainServiceName.md5
                       updateExisting:YES
                                error:nil];
+#else
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@|%@", [self userId], [self orderInKeyChain]]
+                                              forKey:kPaidKeyName];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+#endif
 }
 
 + (void)setPaidPendingWithOrder:(NSArray *)order; {
@@ -64,17 +90,26 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
         }
     }];
     
+#ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     [SFHFKeychainUtils storeUsername:kPaidKeyChainUsername.md5
                          andPassword:orderString
                       forServiceName:kPaidKeyChainServiceName.md5
                       updateExisting:YES
                                error:nil];
+#else
+    [[NSUserDefaults standardUserDefaults] setObject:orderString forKey:kPaidKeyName];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+#endif
 }
 
 + (NSString *)userIdInPayment {
+#ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     NSString *payment = [SFHFKeychainUtils getPasswordForUsername:kPaidKeyChainUsername.md5
                                                    andServiceName:kPaidKeyChainServiceName.md5
                                                             error:nil];
+#else
+    NSString *payment = [[NSUserDefaults standardUserDefaults] objectForKey:kPaidKeyName];
+#endif
     NSArray *separatedStrings = [payment componentsSeparatedByString:@"|"];
     if (separatedStrings.count != 2) {
         return nil;
@@ -83,9 +118,13 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
 }
 
 + (NSString *)orderInKeyChain {
+#ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     NSString *payment = [SFHFKeychainUtils getPasswordForUsername:kPaidKeyChainUsername.md5
                                                    andServiceName:kPaidKeyChainServiceName.md5
                                                             error:nil];
+#else
+    NSString *payment = [[NSUserDefaults standardUserDefaults] objectForKey:kPaidKeyName];
+#endif
     NSArray *separatedStrings = [payment componentsSeparatedByString:@"|"];
     return separatedStrings.lastObject;
 }
@@ -99,22 +138,13 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
 }
 
 + (NSString *)userId {
+#ifdef USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
     return [SFHFKeychainUtils getPasswordForUsername:kRegisterKeyChainUsername.md5
                                       andServiceName:kRegisterKeyChainServiceName.md5
                                                error:nil];
-//    if ([self userIdInKeyChain].length > 0) {
-//        return [self userIdInKeyChain];
-//    }
-//    
-//    if ([self userIdInPayment].length > 0) {
-//        return [self userIdInPayment];
-//    }
-//    static NSString *_uuid;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        _uuid = [NSUUID UUID].UUIDString;
-//    });
-//    return _uuid;
+#else
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kRegisterKeyName];
+#endif
 }
 
 + (NSString *)deviceName {
