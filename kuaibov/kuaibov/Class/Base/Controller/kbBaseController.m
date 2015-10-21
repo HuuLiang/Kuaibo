@@ -130,7 +130,9 @@ withCompletionHandler:(void (^)(BOOL success))handler {
                       price:(CGFloat)price
       withCompletionHandler:(void (^)(NSUInteger result))handler {
     @weakify(self);
-    [[AlipayManager shareInstance] startAlipay:[NSUUID UUID].UUIDString
+    
+    NSString *orderNo = [NSString stringWithFormat:@"%@_%@", [KbConfig sharedConfig].channelNo, [NSUUID UUID].UUIDString];
+    [[AlipayManager shareInstance] startAlipay:orderNo
                                          price:@(price).stringValue
                                     withResult:^(PAYRESULT result, Order *order) {
                                         @strongify(self);
