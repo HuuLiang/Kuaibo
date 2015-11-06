@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BaseURL</key>
-	<string>http://video.iqu8.cn</string>
+	<string>http://www.ihuiyx.com</string>
 	<key>BannerURLPath</key>
 	<string>/video/banner.htm</string>
 	<key>HomeProgramURLPath</key>
@@ -13,7 +13,7 @@
 	<key>ChannelProgramURLPath</key>
 	<string>/video/program.htm</string>
 	<key>ChannelNo</key>
-	<string>QB_VIDEO_IOS_B_00000000</string>
+	<string>QB_VIDEO_IOS_B_00000001</string>
 	<key>MoreURLPath</key>
 	<string>/video/agreement.html</string>
 	<key>RegisterURLPath</key>
@@ -21,15 +21,15 @@
 	<key>SystemConfigURLPath</key>
 	<string>/video/systemConfig.htm</string>
 	<key>AlipayPID</key>
-	<string>2088021438783255</string>
+	<string>2088121199723733</string>
 	<key>AlipaySellerID</key>
-	<string>qu8pay@qq.com</string>
+	<string>15268581270@139.com</string>
 	<key>AlipayScheme</key>
 	<string>comkuaibovvideoalipayappscheme</string>
 	<key>AlipayPrivateKey</key>
-	<string>MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAPZJLuGcVgAGJgKmIZmCRKNAV1zYZAeK255tu0OCOMJAIUQS/X46Xjp55jIqn4ZfwzPE2zCmb0wHvYzeCevAlKfWPZPrv6GeHlA6AI7gH4cW+WAyWxtWOjiCId4NVvuyp3PI7kgfOTWYTlkYmcNgdnWUXroH8gWPGAqGyL35159fAgMBAAECgYEAuFEm09PjjNsNIVhhtvgGFEM33pVXr0ldeWDYD/rqLX4/JyorKofWM189RvgdMTyD4z+FZxB4JOd6FW2q8RPMa6OKjb71BMuPEqWL+SD1OmvI1tWoiKjad8cFFHi1tSb2cc1wvs3RoOZ4UaJrWRODI6xz74ILE2DKmB+X9e0Dr1kCQQD+yYcfFreL5dwcmNShgmZRG6t1rA1LqnEH3fpiNIioM0Ok9ghLGcCzKjt5pzyFJw7MS/pn/8Jt+X9umiMg8PxDAkEA93VLw78FKENZzNrZoon3HxIkloWxqjGTHlB142D4FPvRSut8heVu3wx95UeuGPTTqtScXLC0DGHoDBk3ysNstQJANcRFdXQPy7/4ETjXNjYUbW1PY4epTpxrOePIIM1BQW2ACuG4olCO78AryOJXzSmO3+Hwt92rJBYQpEB2xU7VjQJBAMZvryP3aGFTMQ3PabqnvB2UZPa3mzMJshobF44Q0p+xF7JmiGKvC2ueDs7v3jJxEdPpzsGdiaRsVrJs/oqAkAkCQQCBO9DrzVVQGZg3McLa/nIw/AQeeWk7+/MJXrf+2CH9GeLlQEFf4GJGAfEIAK6zhLA0nYyVYohU77NjvvN9Z60g</string>
+	<string>MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKJQys69sVJpNmbdNNCph/KeDBiOR2TowZGthn8l+65a0E5n6NxsJzbnD7sCrh2rwUGtxRlC5x16x1H6Cz3P1txzCDsR+pMkxDxNyt0WoV2zmbCXR1XIoJiEglrdK/Hm24EsTuxRGKfj74SA+O2gAozE05QRe6yRjnJi4WEWKW7VAgMBAAECgYB3bTKLgw7hMACTFtcxYEtiu97ygl0NZiRmZ2K6UtwnoTH7PoEbDYic4M22L3ak5ia/iHeo6ozaJ+hX7L4wsKfJR+8UG4Jt4bK/o1qHxwmCZOPItRQk8G6hb3M/XmPIctxhL3a80PGsHD+IEz/gkTjtGCj7S6pzmq5qbA7XEi4qUQJBAM2Wh/6fHj/wxd/8OkkPN3/Fy0QdxX7u7m9VOYkUTug1h4/nNdP1qIaAdId5wk8LH2VQB1cVSY4le/Hve7A15YMCQQDKHebrkZnddCtphvgUFr09zA0d1ZCEtgzh/nBBBuM9prJi4JDBDrYnfw0oHCr97QJhXyIDhwfHBnxHUM3tUwLHAkEAil883UWfiI23wQ/08uOJCTjJnOkk2lBarxh/hyHiEiylN1f5RNZdPVoMFHsBK05jLT92EUjEnyXfjHERoQJFnQJAMTVeh3QHlhc2ipbFx35RzL3lY6IfcXAxasRb6DkZEmWHgPNTyu0eBDe2qFFTVkdiEPrseRdjGV3G3EYcHO/c+QJBAJS2kHuwVDK4qgT9Ks0AkgUGcAogl9kDuhwTYGr3ElgXJlx944tsz2cCn8K5H4EAKQ120f65dNWG59fPlvk0O0c=</string>
 	<key>AlipayNotifyURL</key>
-	<string>http://phas.iqu8.net/pd-has/notifyByAlipay.json</string>
+	<string>http://phas.ihuiyx.com/pd-has/notifyByAlipay.json</string>
 	<key>SystemConfigPayAmount</key>
 	<string>PAY_AMOUNT</string>
 	<key>SystemConfigChannelTopImage</key>

@@ -672,7 +672,7 @@
 				TargetAttributes = {
 					6E090FDF1B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = QQJ9ECA39A;
+						DevelopmentTeam = BJNEUXYJ7P;
 					};
 					6E090FF81B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
@@ -882,7 +882,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a2188322-4f8c-473c-9821-3d5c1cf7fe75";
+				PROVISIONING_PROFILE = "838d7543-fee9-4207-9261-08071c78a624";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -921,7 +921,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "a2188322-4f8c-473c-9821-3d5c1cf7fe75";
+				PROVISIONING_PROFILE = "838d7543-fee9-4207-9261-08071c78a624";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -942,9 +942,9 @@
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuaibov.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jqvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2188322-4f8c-473c-9821-3d5c1cf7fe75";
+				PROVISIONING_PROFILE = "838d7543-fee9-4207-9261-08071c78a624";
 			};
 			name = Debug;
 		};
@@ -963,9 +963,9 @@
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kuaibov.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jqvideo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2188322-4f8c-473c-9821-3d5c1cf7fe75";
+				PROVISIONING_PROFILE = "838d7543-fee9-4207-9261-08071c78a624";
 			};
 			name = Release;
 		};
