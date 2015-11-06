@@ -54,8 +54,8 @@ static AlipayManager *alipayManager;
     order.seller        = [KbConfig sharedConfig].alipaySellerID;
     
     order.tradeNO       = _orderId;         //订单ID（由商家自行制定）
-    order.productName   = @"快播影院"; //商品标题
-    order.productDescription = @"快播影院终身会员"; //商品描述
+    order.productName   = @"家庭影院"; //商品标题
+    order.productDescription = @"家庭影院终身会员"; //商品描述
     order.amount        = _price;           //商品价格
     order.notifyURL     =  [KbConfig sharedConfig].alipayNotifyURL; //回调URL
     
