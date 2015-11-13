@@ -672,7 +672,7 @@
 				TargetAttributes = {
 					6E090FDF1B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = BJNEUXYJ7P;
+						DevelopmentTeam = M2Q3D9J2FG;
 					};
 					6E090FF81B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
@@ -932,7 +932,7 @@
 			baseConfigurationReference = A829465AEB8D6C3264B4F256 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Quba Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Xingyu Technology Co Ltd";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -942,9 +942,9 @@
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jqvideo.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JTYingYuan.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "838d7543-fee9-4207-9261-08071c78a624";
+				PROVISIONING_PROFILE = "8cc96ddb-1ca9-4b79-a739-c495a306f016";
 			};
 			name = Debug;
 		};
@@ -953,7 +953,7 @@
 			baseConfigurationReference = CEB2734AF03850849D8DF430 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Quba Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Xingyu Technology Co Ltd";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -963,9 +963,9 @@
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.jqvideo.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JTYingYuan.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "838d7543-fee9-4207-9261-08071c78a624";
+				PROVISIONING_PROFILE = "8cc96ddb-1ca9-4b79-a739-c495a306f016";
 			};
 			name = Release;
 		};
