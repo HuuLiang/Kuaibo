@@ -144,7 +144,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 - (void)onTapHeaderImage {
     if (![KbUtil isPaid]) {
         @weakify(self);
-        [self payForProgram:nil shouldPopView:NO withCompletionHandler:^(BOOL success) {
+        [self payForProgram:nil shouldPopView:YES withCompletionHandler:^(BOOL success) {
             @strongify(self);
             if (!success) {
                 return ;

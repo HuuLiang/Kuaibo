@@ -50,7 +50,12 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"快播";
+    NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+    if (!appName) {
+        appName = @"快播";
+    }
+    
+    self.title = appName;
     self.view.backgroundColor = HexColor(#f7f7f7);
     
     KbHomeCollectionViewLayout *layout = [[KbHomeCollectionViewLayout alloc] initWithDelegate:self];
