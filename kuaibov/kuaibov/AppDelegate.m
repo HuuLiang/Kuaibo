@@ -12,10 +12,12 @@
 #import "KbHomeViewController.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "AlipayManager.h"
+#import "WeChatPayManager.h"
 #import "KbActivateModel.h"
 #import "KbPaymentModel.h"
+#import "WXApi.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <WXApiDelegate>
 
 @end
 
@@ -110,6 +112,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [WXApi registerApp:@"wx4af04eb5b3dbfb56"];
+
     [[KbErrorHandler sharedHandler] initialize];
     [self setupCommonStyles];
     [self.window makeKeyAndVisible];
@@ -124,7 +128,7 @@
     
     NSArray *order = [KbUtil orderForSavePending];
     if (order.count == 5) {
-        [self alipayPaidWithOrderId:order[0] price:order[1] result:PAYRESULT_SUCCESS forProgramId:order[2] programType:order[3] payPointType:order[4]];
+        [self paidWithOrderId:order[0] price:order[1] result:PAYRESULT_SUCCESS forProgramId:order[2] programType:order[3] payPointType:order[4]];
     }
     return YES;
 }
@@ -155,20 +159,35 @@
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         [[AlipayManager shareInstance] sendNotificationByResult:resultDic];
     }];
+    [WXApi handleOpenURL:url delegate:self];
+
     return YES;
 }
 
-- (void)alipayPaidWithOrderId:(NSString *)orderId
-                        price:(NSString *)price
-                       result:(NSInteger)result
-                 forProgramId:(NSString *)programId
-                  programType:(NSString *)programType
-                 payPointType:(NSString *)payPointType {
+- (void)paidWithOrderId:(NSString *)orderId
+                  price:(NSString *)price
+                 result:(NSInteger)result
+           forProgramId:(NSString *)programId
+            programType:(NSString *)programType
+           payPointType:(NSString *)payPointType {
     [[KbPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType completionHandler:^(BOOL success){
         if (success && result == PAYRESULT_SUCCESS) {
             [KbUtil setPaid];
         }
     }];
+}
+
+#pragma mark - WeChat delegate
+
+- (void)onReq:(BaseReq *)req {
+    
+}
+
+- (void)onResp:(BaseResp *)resp {
+    if([resp isKindOfClass:[PayResp class]]){
+        PAYRESULT payResult = resp.errCode == WXSuccess ? PAYRESULT_SUCCESS : PAYRESULT_FAIL;
+        [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
+    }
 }
 
 @end

@@ -29,7 +29,17 @@
 			<string>AlipayBuyCallBack</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>comkuaibovvideoalipayappscheme</string>
+				<string>comjqyingyuanalipayappscheme</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>weixin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wx4af04eb5b3dbfb56</string>
 			</array>
 		</dict>
 	</array>

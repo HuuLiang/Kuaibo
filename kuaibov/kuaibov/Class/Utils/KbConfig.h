@@ -27,6 +27,11 @@
 @property (nonatomic,readonly) NSString *alipayPrivateKey;
 @property (nonatomic,readonly) NSString *alipayNotifyURL;
 
+@property (nonatomic,readonly) NSString *weChatPayAppId;
+@property (nonatomic,readonly) NSString *weChatPayMchId;
+@property (nonatomic,readonly) NSString *weChatPayPrivateKey;
+@property (nonatomic,readonly) NSString *weChatPayNotifyURL;
+
 @property (nonatomic,readonly) NSString *systemConfigPayAmount;
 @property (nonatomic,readonly) NSString *systemConfigChannelTopImage;
 

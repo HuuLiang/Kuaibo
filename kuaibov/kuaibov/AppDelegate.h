@@ -12,12 +12,12 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (void)alipayPaidWithOrderId:(NSString *)orderId
-                        price:(NSString *)price
-                       result:(NSInteger)result
-                 forProgramId:(NSString *)programId
-                  programType:(NSString *)programType
-                 payPointType:(NSString *)payPointType;
+- (void)paidWithOrderId:(NSString *)orderId
+                  price:(NSString *)price
+                 result:(NSInteger)result
+           forProgramId:(NSString *)programId
+            programType:(NSString *)programType
+           payPointType:(NSString *)payPointType;
 
 @end
 

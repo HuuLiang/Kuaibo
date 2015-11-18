@@ -8,8 +8,9 @@
 
 #import "kbBaseController.h"
 #import "KbVideo.h"
-#import "KbRegisterPopView.h"
+#import "KbPaymentPopView.h"
 #import "AlipayManager.h"
+#import "WeChatPayManager.h"
 #import "KbSystemConfigModel.h"
 #import "AppDelegate.h"
 #import "Order.h"
@@ -85,20 +86,20 @@ withCompletionHandler:(void (^)(BOOL success))handler {
         }
         
 #ifdef DEBUG
-        CGFloat price = 0.01;
+        double price = 0.01;
 #else
-        CGFloat price = payPrice.doubleValue;
+        double price = payPrice.doubleValue;
 #endif
         if (popped) {
-            KbRegisterPopView *registerPopView = [KbRegisterPopView sharedInstance];
-            registerPopView.showPrice = price;
+            KbPaymentPopView *paymentPopView = [KbPaymentPopView sharedInstance];
+            paymentPopView.showPrice = price;
             
-            @weakify(registerPopView);
-            registerPopView.action = ^{
-                [self alipayPayForProgram:program price:price withCompletionHandler:^(NSUInteger result) {
-                    @strongify(registerPopView);
+            @weakify(paymentPopView);
+            paymentPopView.action = ^(KbPaymentType paymentType){
+                [self payForProgram:program price:price paymentType:paymentType withCompletionHandler:^(NSUInteger result) {
+                    @strongify(paymentPopView);
                     if (result == PAYRESULT_SUCCESS) {
-                        [registerPopView hide];
+                        [paymentPopView hide];
                         [[KbHudManager manager] showHudWithText:@"支付成功"];
                     }
                     if (handler) {
@@ -106,9 +107,9 @@ withCompletionHandler:(void (^)(BOOL success))handler {
                     }
                 }];
             };
-            [registerPopView showInView:self.view.window];
+            [paymentPopView showInView:self.view.window];
         } else {
-            [self alipayPayForProgram:program price:price withCompletionHandler:^(NSUInteger result) {
+            [self payForProgram:program price:price paymentType:KbPaymentTypeAlipay withCompletionHandler:^(NSUInteger result) {
                 if (handler) {
                     handler(result == PAYRESULT_SUCCESS);
                 }
@@ -126,56 +127,74 @@ withCompletionHandler:(void (^)(BOOL success))handler {
     }];
 }
 
-- (void)alipayPayForProgram:(KbProgram *)program
-                      price:(CGFloat)price
-      withCompletionHandler:(void (^)(NSUInteger result))handler {
+- (void)payForProgram:(KbProgram *)program
+                price:(double)price
+          paymentType:(KbPaymentType)paymentType
+withCompletionHandler:(void (^)(NSUInteger result))handler {
     @weakify(self);
     
-    NSString *orderNo = [NSString stringWithFormat:@"%@_%@", [KbConfig sharedConfig].channelNo, [NSUUID UUID].UUIDString];
-    [[AlipayManager shareInstance] startAlipay:orderNo
-                                         price:@(price).stringValue
-                                    withResult:^(PAYRESULT result, Order *order) {
-                                        @strongify(self);
-                                        
-                                        if (result == PAYRESULT_SUCCESS) {
-                                            [KbUtil setPaidPendingWithOrder:@[order.tradeNO,
-                                                                              order.amount,
-                                                                              program.programId.stringValue ?: @"",
-                                                                              program.type.stringValue ?: @"",
-                                                                              program.payPointType.stringValue ?: @""]];
-                                            
-                                        } else if (result == PAYRESULT_FAIL) {
-                                            [[KbHudManager manager] showHudWithText:@"支付失败"];
-                                        } else if (result == PAYRESULT_ABANDON) {
-                                            [[KbHudManager manager] showHudWithText:@"支付取消"];
-                                        }
-                                        
-                                        if (handler) {
-                                            handler(result);
-                                        }
-                                       
-                                        [self onAlipayCallbackWithOrderId:order.tradeNO
-                                                                    price:order.amount
-                                                                   result:result
-                                                             forProgramId:program.programId.stringValue ?: @""
-                                                              programType:program.type.stringValue ?: @""
-                                                             payPointType:program.payPointType.stringValue ?: @""];
-                                    }];
+    NSString *channelNo = [KbConfig sharedConfig].channelNo;
+    channelNo = [channelNo substringFromIndex:channelNo.length-14];
+    NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
+    NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
+    
+    void (^PayResultBack)(PAYRESULT result) = ^(PAYRESULT result) {
+        @strongify(self);
+        
+        if (result == PAYRESULT_SUCCESS) {
+            [KbUtil setPaidPendingWithOrder:@[channelNo,
+                                              @(price).stringValue,
+                                              program.programId.stringValue ?: @"",
+                                              program.type.stringValue ?: @"",
+                                              program.payPointType.stringValue ?: @""]];
+            
+        } else if (result == PAYRESULT_FAIL) {
+            [[KbHudManager manager] showHudWithText:@"支付失败"];
+        } else if (result == PAYRESULT_ABANDON) {
+            [[KbHudManager manager] showHudWithText:@"支付取消"];
+        }
+        
+        if (handler) {
+            handler(result);
+        }
+        
+        [self onPaymentCallbackWithOrderId:channelNo
+                                     price:@(price).stringValue
+                                    result:result
+                              forProgramId:program.programId.stringValue ?: @""
+                               programType:program.type.stringValue ?: @""
+                              payPointType:program.payPointType.stringValue ?: @""];
+    };
+    
+    if (paymentType == KbPaymentTypeAlipay) {
+        [[AlipayManager shareInstance] startAlipay:orderNo
+                                             price:@(price).stringValue
+                                        withResult:^(PAYRESULT result, Order *order) {
+                                            PayResultBack(result);
+                                        }];
+    } else if (paymentType == KbPaymentTypeWeChatPay) {
+        [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo
+                                                               price:price
+                                                   completionHandler:^(PAYRESULT payResult) {
+                                                       PayResultBack(payResult);
+                                                   }];
+    }
+
 }
 
-- (void)onAlipayCallbackWithOrderId:(NSString *)orderId
-                              price:(NSString *)price
-                             result:(PAYRESULT)result
-                       forProgramId:(NSString *)programId
-                        programType:(NSString *)programType
-                       payPointType:(NSString *)payPointType {
+- (void)onPaymentCallbackWithOrderId:(NSString *)orderId
+                               price:(NSString *)price
+                              result:(PAYRESULT)result
+                        forProgramId:(NSString *)programId
+                         programType:(NSString *)programType
+                        payPointType:(NSString *)payPointType {
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    [appDelegate alipayPaidWithOrderId:orderId
-                                 price:price
-                                result:result
-                          forProgramId:programId
-                           programType:programType
-                          payPointType:payPointType];
+    [appDelegate paidWithOrderId:orderId
+                           price:price
+                          result:result
+                    forProgramId:programId
+                     programType:programType
+                    payPointType:payPointType];
 }
 
 - (BOOL)shouldAutorotate {

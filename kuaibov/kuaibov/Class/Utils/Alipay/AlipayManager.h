@@ -7,14 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-
-typedef NS_ENUM(NSInteger, PAYRESULT)
-{
-    PAYRESULT_SUCCESS   = 0,
-    PAYRESULT_FAIL      = 1,
-    PAYRESULT_ABANDON   = 2
-};
+#import "PayDef.h"
 
 @class Order;
 //typedef void (^blockResult)(BOOL success, NSError *error);
