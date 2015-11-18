@@ -27,7 +27,7 @@ static const CGFloat kBackButtonInsets = 10;
 @implementation KbPaymentPopView (Size)
 
 - (CGSize)payButtonSize {
-    return CGSizeMake(self.imageSize.width * 252. / 695., self.imageSize.height * 156. / 861.);
+    return CGSizeMake(self.imageSize.width * 633. / 695., self.imageSize.height * 118. / 861.);
 }
 
 - (CGSize)backButtonSize {
@@ -52,11 +52,11 @@ static const CGFloat kBackButtonInsets = 10;
 }
 
 - (CGPoint)alipayButtonOrigin {
-    return CGPointMake(self.imageSize.width * 0.65, self.imageSize.height * 0.56);
+    return CGPointMake(self.imageSize.width * 0.05, self.imageSize.height * 0.59);
 }
 
 - (CGPoint)wechatPayButtonOrigin {
-    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.72);
+    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.76);
 }
 @end
 
@@ -108,8 +108,8 @@ static const CGFloat kBackButtonInsets = 10;
     }
     
     UIButton *alipayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [alipayButton setImage:[UIImage imageNamed:@"payment_go_normal"] forState:UIControlStateNormal];
-    [alipayButton setImage:[UIImage imageNamed:@"payment_go_highlight"] forState:UIControlStateHighlighted];
+    [alipayButton setImage:[UIImage imageNamed:@"alipay_normal"] forState:UIControlStateNormal];
+    [alipayButton setImage:[UIImage imageNamed:@"alipay_highlight"] forState:UIControlStateHighlighted];
     [alipayButton addTarget:self action:@selector(onAlipay) forControlEvents:UIControlEventTouchUpInside];
     [_paymentContentView addSubview:alipayButton];
     {
@@ -121,8 +121,8 @@ static const CGFloat kBackButtonInsets = 10;
     }
     
     UIButton *wechatPayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [wechatPayButton setImage:[UIImage imageNamed:@"payment_go_normal"] forState:UIControlStateNormal];
-    [wechatPayButton setImage:[UIImage imageNamed:@"payment_go_highlight"] forState:UIControlStateHighlighted];
+    [wechatPayButton setImage:[UIImage imageNamed:@"wechatpay_normal"] forState:UIControlStateNormal];
+    [wechatPayButton setImage:[UIImage imageNamed:@"wechatpay_highlight"] forState:UIControlStateHighlighted];
     [wechatPayButton addTarget:self action:@selector(onWeChatPay) forControlEvents:UIControlEventTouchUpInside];
     [_paymentContentView addSubview:wechatPayButton];
     {
