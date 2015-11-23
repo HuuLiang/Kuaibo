@@ -16,6 +16,9 @@
 + (BOOL)isPaid;
 + (void)setPaid;
 + (void)setPaidPendingWithOrder:(NSArray *)order;
++ (void)setPayingOrderNo:(NSString *)payingOrderNo;
++ (NSString *)payingOrderNo;
+
 + (NSArray *)orderForSavePending; // For last time not saved successfully to remote
 
 + (NSString *)userId;

@@ -16,13 +16,18 @@
 #import "KbActivateModel.h"
 #import "KbPaymentModel.h"
 #import "WXApi.h"
+#import "KbAlipayOrderQueryRequest.h"
+#import "KbWeChatPayQueryOrderRequest.h"
 
 @interface AppDelegate () <WXApiDelegate>
-
+@property (nonatomic,retain) KbAlipayOrderQueryRequest *alipayOrderQueryRequest;
+@property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
 @end
 
 @implementation AppDelegate
 
+DefineLazyPropertyInitialization(KbAlipayOrderQueryRequest, alipayOrderQueryRequest)
+DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
 
 - (UIWindow *)window {
     if (_window) {
@@ -113,7 +118,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [WXApi registerApp:@"wx4af04eb5b3dbfb56"];
-
+    
+    [self checkPayment];
     [[KbErrorHandler sharedHandler] initialize];
     [self setupCommonStyles];
     [self.window makeKeyAndVisible];
@@ -149,6 +155,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self checkPayment];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -162,6 +169,16 @@
     [WXApi handleOpenURL:url delegate:self];
 
     return YES;
+}
+
+- (void)checkPayment {
+    if (![KbUtil isPaid] && [KbUtil payingOrderNo]) {
+        [self.wechatPayOrderQueryRequest queryOrderWithNo:[KbUtil payingOrderNo] completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
+            if ([trade_state isEqualToString:@"SUCCESS"]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName object:nil userInfo:@{kPaidNotificationOrderNoKey:[KbUtil payingOrderNo], kPaidNotificationPriceKey:@(total_fee).stringValue}];
+            }
+        }];
+    }
 }
 
 - (void)paidWithOrderId:(NSString *)orderId

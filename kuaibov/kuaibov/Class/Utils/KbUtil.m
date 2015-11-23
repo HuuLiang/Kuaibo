@@ -25,6 +25,7 @@ static NSString *const kPaidKeyChainServiceName = @"kuaibov_paid_servicename";
 #else
 static NSString *const kRegisterKeyName = @"kuaibov_register_keyname";
 static NSString *const kPaidKeyName = @"kuaibov_paid_keyname";
+static NSString *const kPayingOrderKeyName = @"kuaibov_paying_order_keyname";
 #endif
 
 @implementation KbUtil
@@ -100,6 +101,15 @@ static NSString *const kPaidKeyName = @"kuaibov_paid_keyname";
     [[NSUserDefaults standardUserDefaults] setObject:orderString forKey:kPaidKeyName];
     [[NSUserDefaults standardUserDefaults] synchronize];
 #endif
+}
+
++ (void)setPayingOrderNo:(NSString *)payingOrderNo {
+    [[NSUserDefaults standardUserDefaults] setObject:payingOrderNo forKey:kPayingOrderKeyName];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSString *)payingOrderNo {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kPayingOrderKeyName];
 }
 
 + (NSString *)userIdInPayment {

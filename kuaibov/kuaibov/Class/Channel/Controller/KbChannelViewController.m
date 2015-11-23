@@ -150,16 +150,25 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
                 return ;
             }
             
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
-            if (_headerImageView) {
-                [_headerImageView removeFromSuperview];
-                
-                [_channelsView mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.top.equalTo(self.view);
-                }];
-            }
+            [self didPaidSuccessfully];
         }];
     }
+}
+
+- (void)didPaidSuccessfully {
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    if (_headerImageView) {
+        [_headerImageView removeFromSuperview];
+        
+        [_channelsView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view);
+        }];
+    }
+}
+
+- (void)onPaidNotification:(NSNotification *)notification {
+    [super onPaidNotification:notification];
+    [self didPaidSuccessfully];
 }
 
 - (void)didReceiveMemoryWarning {

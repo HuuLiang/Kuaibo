@@ -61,6 +61,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = HexColor(#f7f7f7);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)switchToPlayProgram:(KbProgram *)program {
@@ -118,6 +124,24 @@ withCompletionHandler:(void (^)(BOOL success))handler {
     }];
 }
 
+- (void)onPaidNotification:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    
+    NSString *orderNo = userInfo[kPaidNotificationOrderNoKey];
+    NSString *price = userInfo[kPaidNotificationPriceKey];
+    
+    [KbUtil setPaidPendingWithOrder:@[orderNo,price,@"",@"",@""]];
+    [[KbPaymentPopView sharedInstance] hide];
+    
+    [self onPaymentCallbackWithOrderId:orderNo
+                                 price:price
+                                result:PAYRESULT_SUCCESS
+                          forProgramId:@""
+                           programType:@""
+                          payPointType:@""];
+    
+}
+
 - (void)fetchPayPriceWithCompletionHandler:(void (^)(NSNumber *payPrice))handler {
     KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
     [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
@@ -132,17 +156,17 @@ withCompletionHandler:(void (^)(BOOL success))handler {
           paymentType:(KbPaymentType)paymentType
 withCompletionHandler:(void (^)(NSUInteger result))handler {
     @weakify(self);
-    
     NSString *channelNo = [KbConfig sharedConfig].channelNo;
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
+    [KbUtil setPayingOrderNo:orderNo];
     
     void (^PayResultBack)(PAYRESULT result) = ^(PAYRESULT result) {
         @strongify(self);
         
         if (result == PAYRESULT_SUCCESS) {
-            [KbUtil setPaidPendingWithOrder:@[channelNo,
+            [KbUtil setPaidPendingWithOrder:@[orderNo,
                                               @(price).stringValue,
                                               program.programId.stringValue ?: @"",
                                               program.type.stringValue ?: @"",
@@ -158,7 +182,7 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
             handler(result);
         }
         
-        [self onPaymentCallbackWithOrderId:channelNo
+        [self onPaymentCallbackWithOrderId:orderNo
                                      price:@(price).stringValue
                                     result:result
                               forProgramId:program.programId.stringValue ?: @""

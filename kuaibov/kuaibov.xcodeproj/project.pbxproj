@@ -14,6 +14,8 @@
 		6E0910001B86A37B00260BDC /* kuaibovTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FFF1B86A37B00260BDC /* kuaibovTests.m */; };
 		BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */; };
 		BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */; };
+		BC17DEE41C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17DEE31C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m */; };
+		BC17DEE71C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17DEE61C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m */; };
 		BC1C4B561BFC5F2B001B5867 /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1C4B4B1BFC5F2B001B5867 /* ApiXml.mm */; };
 		BC1C4B571BFC5F2B001B5867 /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1C4B4D1BFC5F2B001B5867 /* payRequsestHandler.mm */; };
 		BC1C4B581BFC5F2B001B5867 /* WeChatPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1C4B4F1BFC5F2B001B5867 /* WeChatPayManager.m */; };
@@ -26,6 +28,7 @@
 		BC1C4B661BFC63A3001B5867 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B651BFC63A3001B5867 /* libc++.tbd */; };
 		BC1C4B681BFC63AA001B5867 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */; };
 		BC5DD2B81BAA934500200265 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DD2B71BAA934500200265 /* Launch Screen.storyboard */; };
+		BCD0D5C21BFDC511000F774E /* KbAlipayConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */; };
 		BCDE4EF51BA6657500244945 /* NSDictionary+KbSign.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDE4EDE1BA6657500244945 /* NSDictionary+KbSign.m */; };
 		BCDE4EF61BA6657500244945 /* NSString+crypt.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDE4EDF1BA6657500244945 /* NSString+crypt.m */; };
 		BCDE4EF71BA6657500244945 /* UIScrollView+Refresh.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDE4EE11BA6657500244945 /* UIScrollView+Refresh.m */; };
@@ -112,6 +115,10 @@
 		BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfigModel.m; sourceTree = "<group>"; };
 		BC039DA61BA1AC5B003E43B2 /* KbSystemConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfig.h; sourceTree = "<group>"; };
 		BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfig.m; sourceTree = "<group>"; };
+		BC17DEE21C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbWeChatPayQueryOrderRequest.h; sourceTree = "<group>"; };
+		BC17DEE31C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayQueryOrderRequest.m; sourceTree = "<group>"; };
+		BC17DEE51C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbAlipayOrderQueryRequest.h; sourceTree = "<group>"; };
+		BC17DEE61C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbAlipayOrderQueryRequest.m; sourceTree = "<group>"; };
 		BC1C4B481BFC5F2B001B5867 /* PayDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayDef.h; sourceTree = "<group>"; };
 		BC1C4B4A1BFC5F2B001B5867 /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
 		BC1C4B4B1BFC5F2B001B5867 /* ApiXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApiXml.mm; sourceTree = "<group>"; };
@@ -132,6 +139,8 @@
 		BC1C4B651BFC63A3001B5867 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		BC5DD2B71BAA934500200265 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		BCD0D5C01BFDC511000F774E /* KbAlipayConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbAlipayConfigModel.h; sourceTree = "<group>"; };
+		BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbAlipayConfigModel.m; sourceTree = "<group>"; };
 		BCDE4EDD1BA6657500244945 /* NSDictionary+KbSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+KbSign.h"; sourceTree = "<group>"; };
 		BCDE4EDE1BA6657500244945 /* NSDictionary+KbSign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+KbSign.m"; sourceTree = "<group>"; };
 		BCDE4EDF1BA6657500244945 /* NSString+crypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+crypt.m"; sourceTree = "<group>"; };
@@ -634,6 +643,12 @@
 				BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */,
 				BC039DA31BA1AA10003E43B2 /* KbSystemConfigModel.h */,
 				BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */,
+				BCD0D5C01BFDC511000F774E /* KbAlipayConfigModel.h */,
+				BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */,
+				BC17DEE21C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.h */,
+				BC17DEE31C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m */,
+				BC17DEE51C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.h */,
+				BC17DEE61C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -844,6 +859,8 @@
 				BC1C4B571BFC5F2B001B5867 /* payRequsestHandler.mm in Sources */,
 				BCDE4EFB1BA6657500244945 /* NSString+length.m in Sources */,
 				BCFE5AD21B9F4F1300EC9D05 /* Order.m in Sources */,
+				BC17DEE71C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m in Sources */,
+				BC17DEE41C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m in Sources */,
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
 				BCFF935F1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m in Sources */,
 				BCFE5BA01B9F575100EC9D05 /* NSDataEx.m in Sources */,
@@ -888,6 +905,7 @@
 				BCDE4EFA1BA6657500244945 /* NSString+FilterHTML.m in Sources */,
 				BCFF93521B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m in Sources */,
 				6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */,
+				BCD0D5C21BFDC511000F774E /* KbAlipayConfigModel.m in Sources */,
 				BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */,
 				BCFE5B9C1B9F575100EC9D05 /* base64.m in Sources */,
 				6E090FE61B86A37B00260BDC /* main.m in Sources */,

@@ -14,5 +14,6 @@
 - (void)payForProgram:(KbProgram *)program
         shouldPopView:(BOOL)popped
 withCompletionHandler:(void (^)(BOOL success))handler;
+- (void)onPaidNotification:(NSNotification *)notification;
 
 @end

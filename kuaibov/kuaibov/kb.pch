@@ -38,4 +38,7 @@
 #define HexColor(hex) [UIColor colorWithHexString:@#hex]
 #define Color_DefaultBorder HexColor(#dbdbdb)
 
+#define kPaidNotificationName @"kuaibo_paid_notification"
+#define kPaidNotificationOrderNoKey @"kuaibo_paid_notification_order_key"
+#define kPaidNotificationPriceKey @"kuaibo_paid_notification_price_key"
 #endif
