@@ -18,10 +18,13 @@
 #import "WXApi.h"
 #import "KbAlipayOrderQueryRequest.h"
 #import "KbWeChatPayQueryOrderRequest.h"
+#import "BaiduMobAdSplash.h"
 
-@interface AppDelegate () <WXApiDelegate>
+@interface AppDelegate () <WXApiDelegate,BaiduMobAdSplashDelegate>
 @property (nonatomic,retain) KbAlipayOrderQueryRequest *alipayOrderQueryRequest;
 @property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
+
+@property (nonatomic,retain) BaiduMobAdSplash *splashAd;
 @end
 
 @implementation AppDelegate
@@ -36,14 +39,14 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     
     _window                              = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.backgroundColor              = [UIColor whiteColor];
-
-    KbHomeViewController *homeVC         = [[KbHomeViewController alloc] init];
+    
+    KbHomeViewController *homeVC         = [[KbHomeViewController alloc] initWithBottomAdBanner:YES];
     UINavigationController *homeNav      = [[UINavigationController alloc] initWithRootViewController:homeVC];
     homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:@"首页"
                                                                          image:[UIImage imageNamed:@"btm_home"]
                                                                  selectedImage:[UIImage imageNamed:@"btm_home_sel"]];
-
-    KbChannelViewController *channelVC   = [[KbChannelViewController alloc] init];
+    
+    KbChannelViewController *channelVC   = [[KbChannelViewController alloc] initWithBottomAdBanner:YES];
     UINavigationController *channelNav   = [[UINavigationController alloc] initWithRootViewController:channelVC];
     channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:@"频道"
                                                                          image:[UIImage imageNamed:@"btm_c"]
@@ -122,8 +125,16 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     [self checkPayment];
     [[KbErrorHandler sharedHandler] initialize];
     [self setupCommonStyles];
-    [self.window makeKeyAndVisible];
-
+    [self.window makeKeyWindow];
+    
+    self.splashAd = [[BaiduMobAdSplash alloc] init];
+    self.splashAd.delegate = self;
+    self.splashAd.AdUnitTag = [KbConfig sharedConfig].baiduLaunchAdId;
+    self.splashAd.canSplashClick = YES;
+    [self.splashAd loadAndDisplayUsingKeyWindow:self.window];
+    
+    self.window.hidden = NO;
+    
     if (![KbUtil isRegistered]) {
         [[KbActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
             if (success) {
@@ -207,4 +218,9 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     }
 }
 
+#pragma mark - BaiduMobAdSplashDelegate
+
+- (NSString *)publisherId {
+    return [KbConfig sharedConfig].baiduAdAppId;
+}
 @end

@@ -53,7 +53,8 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
     [self.view addSubview:_programTableView];
     {
         [_programTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.left.right.top.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-self.adBannerHeight);
         }];
     }
     

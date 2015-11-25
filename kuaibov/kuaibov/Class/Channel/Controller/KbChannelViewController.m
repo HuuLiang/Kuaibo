@@ -40,7 +40,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
         [self.view addSubview:_headerImageView];
         {
             [_headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.top.and.right.equalTo(self.view);
+                make.left.and.right.top.equalTo(self.view);
                 make.height.equalTo(_headerImageView.mas_width).with.multipliedBy(0.5);
             }];
         }
@@ -91,7 +91,8 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     [self.view addSubview:_channelsView];
     {
         [_channelsView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.bottom.and.right.equalTo(self.view);
+            make.left.and.right.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-self.adBannerHeight);
             make.top.equalTo(_headerImageView?_headerImageView.mas_bottom:self.view);
         }];
     }
@@ -203,6 +204,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     KbChannel *selectedChannel = self.videoChannels[indexPath.row];
     if (selectedChannel) {
         KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
+        programVC.bottomAdBanner = YES;
         programVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:programVC animated:YES];
     }

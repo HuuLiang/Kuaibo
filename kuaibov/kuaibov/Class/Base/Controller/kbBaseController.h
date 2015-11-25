@@ -10,6 +10,11 @@
 
 @interface kbBaseController : UIViewController
 
+@property (nonatomic) BOOL bottomAdBanner;
+@property (nonatomic) CGFloat adBannerHeight;
+
+- (instancetype)initWithBottomAdBanner:(BOOL)hasBanner;
+
 - (void)switchToPlayProgram:(KbProgram *)program;
 - (void)payForProgram:(KbProgram *)program
         shouldPopView:(BOOL)popped

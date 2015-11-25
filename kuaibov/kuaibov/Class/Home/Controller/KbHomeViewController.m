@@ -71,7 +71,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     [self.view addSubview:_collectionView];
     {
         [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.left.right.top.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-self.adBannerHeight);
         }];
     }
     

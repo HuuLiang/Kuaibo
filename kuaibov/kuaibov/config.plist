@@ -42,5 +42,11 @@
 	<string>PAY_AMOUNT</string>
 	<key>SystemConfigChannelTopImage</key>
 	<string>CHANNEL_TOP_IMG</string>
+	<key>BaiduAdAppId</key>
+	<string>a39921a8</string>
+	<key>BaiduBannerAdId</key>
+	<string>2340965</string>
+	<key>BaiduLaunchAdId</key>
+	<string>2347258</string>
 </dict>
 </plist>

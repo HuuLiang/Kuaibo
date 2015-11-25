@@ -37,6 +37,10 @@
 
 @property (nonatomic,readonly) NSString *paymentURLPath;
 
+@property (nonatomic,readonly) NSString *baiduAdAppId;
+@property (nonatomic,readonly) NSString *baiduBannerAdId;
+@property (nonatomic,readonly) NSString *baiduLaunchAdId;
+
 + (instancetype)sharedConfig;
 
 @end

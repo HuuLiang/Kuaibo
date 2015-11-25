@@ -48,6 +48,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>alipay</string>
+		<string>baidumobads</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
