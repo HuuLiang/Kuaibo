@@ -9,17 +9,17 @@
 #import "KbHomeViewController.h"
 #import "KbHomeBannerModel.h"
 #import "KbHomeProgramModel.h"
-#import "KbBannerView.h"
 #import "KbHomeSectionHeaderView.h"
 #import "KbHomeCollectionViewLayout.h"
 #import "KbHomeProgramCell.h"
+#import <SDCycleScrollView.h>
 
-@interface KbHomeViewController () <UICollectionViewDataSource,KbHomeCollectionViewLayoutDelegate>
+@interface KbHomeViewController () <UICollectionViewDataSource,KbHomeCollectionViewLayoutDelegate,SDCycleScrollViewDelegate>
 {
     UICollectionView *_collectionView;
     
     UICollectionViewCell *_bannerCell;
-    KbBannerView *_bannerView;
+    SDCycleScrollView *_bannerView;
 }
 @property (nonatomic,retain) KbHomeBannerModel *bannerModel;
 @property (nonatomic,retain) KbHomeProgramModel *programModel;
@@ -109,13 +109,16 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         dispatch_group_leave(self.dataFetchDispatchGroup);
         
         if (success) {
-            NSMutableArray *bannerItems = [NSMutableArray array];
+            NSMutableArray *imageUrlGroup = [NSMutableArray array];
+            NSMutableArray *titlesGroup = [NSMutableArray array];
             for (KbProgram *bannerProgram in banners) {
                 if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeVideo) {
-                    [bannerItems addObject:[KbBannerItem itemWithImageURLString:bannerProgram.coverImg title:bannerProgram.title]];
+                    [imageUrlGroup addObject:bannerProgram.coverImg];
+                    [titlesGroup addObject:bannerProgram.title];
                 }
             }
-            self->_bannerView.items = bannerItems;
+            self->_bannerView.imageURLStringsGroup = imageUrlGroup;
+            self->_bannerView.titlesGroup = titlesGroup;
         }
     }];
 }
@@ -174,12 +177,10 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         if (!_bannerCell) {
             _bannerCell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannerCellReusableIdentifier forIndexPath:indexPath];
             
-            @weakify(self);
-            _bannerView = [[KbBannerView alloc] initWithItems:nil autoPlayTimeInterval:3.0 action:^(NSUInteger idx) {
-                @strongify(self);
-                KbProgram *bannerProgram = self.bannerModel.fetchedBanners[idx];
-                [self switchToPlayProgram:bannerProgram];
-            }];
+            _bannerView = [[SDCycleScrollView alloc] init];
+            _bannerView.autoScrollTimeInterval = 3;
+            _bannerView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+            _bannerView.delegate = self;
             _bannerView.backgroundColor = [UIColor whiteColor];
             [_bannerCell.contentView addSubview:_bannerView];
             {
@@ -219,5 +220,12 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     KbProgram *program = [self programOfIndexPath:indexPath];
     [self switchToPlayProgram:program];
+}
+
+#pragma mark - SDCycleScrollViewDelegate
+
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
+    KbProgram *bannerProgram = self.bannerModel.fetchedBanners[index];
+    [self switchToPlayProgram:bannerProgram];
 }
 @end

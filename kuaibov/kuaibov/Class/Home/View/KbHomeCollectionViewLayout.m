@@ -106,7 +106,7 @@ static const CGFloat kProgramThumbnailScale = 230.0 / 168.0;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return CGSizeMake(mainWidth, mainWidth / 2 + 36);
+        return CGSizeMake(mainWidth, mainWidth / 2);
     } else {
         return /* indexPath.item == 0 ? self.halfItemSize : */self.quarterItemSize;
     }
