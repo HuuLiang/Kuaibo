@@ -12,6 +12,15 @@
 @interface KbURLRequest ()
 @property (nonatomic,retain) AFHTTPRequestOperationManager *requestOpManager;
 @property (nonatomic,retain) AFHTTPRequestOperation *requestOp;
+
+@property (nonatomic,retain) AFHTTPRequestOperationManager *standbyRequestOpManager;
+@property (nonatomic,retain) AFHTTPRequestOperation *standbyRequestOp;
+
+-(BOOL)requestURLPath:(NSString *)urlPath
+           withParams:(NSDictionary *)params
+            isStandby:(BOOL)isStandBy
+    shouldNotifyError:(BOOL)shouldNotifyError
+      responseHandler:(KbURLResponseHandler)responseHandler;
 @end
 
 @implementation KbURLRequest
@@ -22,6 +31,10 @@
 
 - (NSURL *)baseURL {
     return [NSURL URLWithString:[KbConfig sharedConfig].baseURL];
+}
+
+- (NSURL *)standbyBaseURL {
+    return [NSURL URLWithString:[KbConfig sharedStandbyConfig].baseURL];
 }
 
 - (BOOL)shouldPostErrorNotification {
@@ -42,8 +55,25 @@
     return _requestOpManager;
 }
 
--(BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
+- (AFHTTPRequestOperationManager *)standbyRequestOpManager {
+    if (_standbyRequestOpManager) {
+        return _standbyRequestOpManager;
+    }
+    
+    _standbyRequestOpManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[self standbyBaseURL]];
+    return _standbyRequestOpManager;
+}
+
+-(BOOL)requestURLPath:(NSString *)urlPath
+           withParams:(NSDictionary *)params
+            isStandby:(BOOL)isStandBy
+    shouldNotifyError:(BOOL)shouldNotifyError
+      responseHandler:(KbURLResponseHandler)responseHandler
+{
     if (urlPath.length == 0) {
+        if (responseHandler) {
+            responseHandler(KbURLResponseFailedByParameter, nil);
+        }
         return NO;
     }
     
@@ -62,11 +92,13 @@
     void (^failure)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
         DLog(@"Error for %@ : %@\n", urlPath, error.localizedDescription);
         
-        if ([self shouldPostErrorNotification]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
-                                                                object:self
-                                                              userInfo:@{kNetworkErrorCodeKey:@(KbURLResponseFailedByNetwork),
-                                                                         kNetworkErrorMessageKey:error.localizedDescription}];
+        if (shouldNotifyError) {
+            if ([self shouldPostErrorNotification]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkErrorNotification
+                                                                    object:self
+                                                                  userInfo:@{kNetworkErrorCodeKey:@(KbURLResponseFailedByNetwork),
+                                                                             kNetworkErrorMessageKey:error.localizedDescription}];
+            }
         }
         
         if (responseHandler) {
@@ -74,13 +106,43 @@
         }
     };
     
+    AFHTTPRequestOperation *requestOp;
     if (self.requestMethod == KbURLGetRequest) {
-        self.requestOp = [self.requestOpManager GET:urlPath parameters:params success:success failure:failure];
+        requestOp = [isStandBy?self.standbyRequestOpManager:self.requestOpManager GET:urlPath parameters:params success:success failure:failure];
     } else {
-        self.requestOp = [self.requestOpManager POST:urlPath parameters:params success:success failure:failure];
+        requestOp = [isStandBy?self.standbyRequestOpManager:self.requestOpManager POST:urlPath parameters:params success:success failure:failure];
     }
     
+    if (isStandBy) {
+        self.standbyRequestOp = requestOp;
+    } else {
+        self.requestOp = requestOp;
+    }
     return YES;
+}
+
+- (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
+    BOOL useStandbyRequest = standbyUrlPath.length > 0;
+    BOOL success = [self requestURLPath:urlPath
+                             withParams:params
+                              isStandby:NO
+                      shouldNotifyError:!useStandbyRequest
+                        responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
+    {
+        if (useStandbyRequest && respStatus == KbURLResponseFailedByNetwork) {
+            [self requestURLPath:standbyUrlPath withParams:params isStandby:YES shouldNotifyError:YES responseHandler:responseHandler];
+        } else {
+            if (responseHandler) {
+                responseHandler(respStatus,errorMessage);
+            }
+        }
+    }];
+    return success;
+}
+
+-(BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler
+{
+    return [self requestURLPath:urlPath standbyURLPath:nil withParams:params responseHandler:responseHandler];
 }
 
 - (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler {

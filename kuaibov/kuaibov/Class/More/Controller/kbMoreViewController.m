@@ -8,14 +8,42 @@
 
 #import "kbMoreViewController.h"
 
-@interface kbMoreViewController ()
+static const NSUInteger kUIWebViewRetryTimes = 30;
+
+@interface kbMoreViewController () <UIWebViewDelegate>
 {
     UIView *_headerView;
     UIWebView *_webView;
 }
+@property (nonatomic) NSUInteger retryTimes;
+@property (nonatomic) BOOL isStandBy;
+@property (nonatomic,retain,readonly) NSURLRequest *urlRequest;
+@property (nonatomic,retain,readonly) NSURLRequest *standbyUrlRequest;
 @end
 
 @implementation kbMoreViewController
+@synthesize urlRequest = _urlRequest;
+@synthesize standbyUrlRequest = _standbyUrlRequest;
+
+- (NSURLRequest *)urlRequest {
+    if (_urlRequest) {
+        return _urlRequest;
+    }
+    
+    NSString *urlString = [[KbConfig sharedConfig].baseURL stringByAppendingString:[KbConfig sharedConfig].moreURLPath];
+    _urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
+    return _urlRequest;
+}
+
+- (NSURLRequest *)standbyUrlRequest {
+    if (_standbyUrlRequest) {
+        return _standbyUrlRequest;
+    }
+    
+    NSString *urlString = [[KbConfig sharedStandbyConfig].baseURL stringByAppendingString:[KbConfig sharedStandbyConfig].moreURLPath];
+    _standbyUrlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
+    return _standbyUrlRequest;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,6 +59,7 @@
     }
     
     _webView = [[UIWebView alloc] init];
+    _webView.delegate = self;
     [self.view addSubview:_webView];
     {
         [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -39,8 +68,9 @@
         }];
     }
     
-    NSString *urlString = [[KbConfig sharedConfig].baseURL stringByAppendingString:[KbConfig sharedConfig].moreURLPath];
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+    self.retryTimes = 0;
+    self.isStandBy = NO;
+    [_webView loadRequest:self.urlRequest];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,4 +78,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UIWebViewDelegate
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    if (self.retryTimes++ > kUIWebViewRetryTimes && !self.isStandBy) {
+        [webView stopLoading];
+        self.retryTimes = 0;
+        self.isStandBy = YES;
+        
+        DLog(@"UIWebView exceeds retry times and will try standby url...");
+        [webView loadRequest:self.standbyUrlRequest];
+    }
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    if (!self.isStandBy) {
+        self.retryTimes = 0;
+        self.isStandBy = YES;
+        
+        DLog(@"UIWebView exceeds retry times and will try standby url...");
+        [webView loadRequest:self.standbyUrlRequest];
+    }
+}
 @end

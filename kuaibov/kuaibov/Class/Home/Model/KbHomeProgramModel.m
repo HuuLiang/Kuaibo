@@ -24,7 +24,7 @@
 
 - (BOOL)fetchHomeProgramsWithCompletionHandler:(KbFetchHomeProgramsCompletionHandler)handler {
     @weakify(self);
-    BOOL success = [self requestURLPath:[KbConfig sharedConfig].homeProgramURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
+    BOOL success = [self requestURLPath:[KbConfig sharedConfig].homeProgramURLPath standbyURLPath:[KbConfig sharedStandbyConfig].homeProgramURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
         @strongify(self);
         
         NSArray *programs;

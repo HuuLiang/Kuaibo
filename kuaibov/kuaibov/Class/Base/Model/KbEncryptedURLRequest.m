@@ -45,6 +45,10 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
     return [super requestURLPath:urlPath withParams:[self encryptWithParams:params] responseHandler:responseHandler];
 }
 
+- (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
+    return [super requestURLPath:urlPath standbyURLPath:standbyUrlPath withParams:[self encryptWithParams:params] responseHandler:responseHandler];
+}
+
 - (id)decryptResponse:(id)encryptedResponse {
     if (![encryptedResponse isKindOfClass:[NSDictionary class]]) {
         return nil;
