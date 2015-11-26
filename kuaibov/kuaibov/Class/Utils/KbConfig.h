@@ -20,6 +20,7 @@
 @property (nonatomic,readonly) NSString *moreURLPath;
 @property (nonatomic,readonly) NSString *registerURLPath;
 @property (nonatomic,readonly) NSString *systemConfigURLPath;
+@property (nonatomic,readonly) NSString *userAccessURLPath;
 
 @property (nonatomic,readonly) NSString *alipayPID;
 @property (nonatomic,readonly) NSString *alipaySellerID;

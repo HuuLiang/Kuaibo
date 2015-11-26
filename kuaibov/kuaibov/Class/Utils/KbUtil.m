@@ -9,6 +9,7 @@
 #import "KbUtil.h"
 #import <SFHFKeychainUtils.h>
 #import <sys/sysctl.h>
+#import "NSDate+Utilities.h"
 
 //#define USE_KEYCHAIN_FOR_REGISTRATION_AND_PAYMENT
 
@@ -28,6 +29,9 @@ static NSString *const kPaidKeyName = @"kuaibov_paid_keyname";
 static NSString *const kPayingOrderKeyName = @"kuaibov_paying_order_keyname";
 #endif
 
+static NSString *const kUserAccessUsername = @"kuaibov_user_access_username";
+static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
+
 @implementation KbUtil
 
 + (void)removeKeyChainEntries {
@@ -44,6 +48,23 @@ static NSString *const kPayingOrderKeyName = @"kuaibov_paying_order_keyname";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kPaidKeyName];
     
 #endif
+}
+
++ (void)setUserAccessed {
+    [SFHFKeychainUtils storeUsername:kUserAccessUsername andPassword:@([[NSDate date] timeIntervalSince1970]).stringValue forServiceName:kUserAccessServicename updateExisting:YES error:nil];
+    DLog(@"Record user accessed!");
+//    [[NSUserDefaults standardUserDefaults] setObject:@([[NSDate date] timeIntervalSince1970]) forKey:kUserAccessKeyName];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (BOOL)isUserAccessedToday {
+    NSString *timeIntervalString = [SFHFKeychainUtils getPasswordForUsername:kUserAccessUsername andServiceName:kUserAccessServicename error:nil];
+    if (timeIntervalString.length == 0) {
+        return NO;
+    }
+//    NSNumber *timeInterval = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAccessKeyName];
+    NSDate *accessedDate = [NSDate dateWithTimeIntervalSince1970:timeIntervalString.doubleValue];
+    return [accessedDate isToday];
 }
 
 + (BOOL)isRegistered {

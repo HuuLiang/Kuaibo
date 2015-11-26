@@ -20,6 +20,8 @@
 	<string>/video/jihuo.htm</string>
 	<key>SystemConfigURLPath</key>
 	<string>/video/systemConfig.htm</string>
+	<key>UserAccessURLPath</key>
+	<string>/video/userAccess.htm</string>
 	<key>AlipayPID</key>
 	<string>2088121199723733</string>
 	<key>AlipaySellerID</key>

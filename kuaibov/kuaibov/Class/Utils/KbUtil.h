@@ -35,6 +35,9 @@ typedef NS_ENUM(NSUInteger, KbPendingOrderItem) {
 + (KbPaymentType)payingOrderPaymentType;
 + (void)setPayingOrderWithOrderNo:(NSString *)orderNo paymentType:(KbPaymentType)paymentType;
 
++ (void)setUserAccessed;
++ (BOOL)isUserAccessedToday;
+
 + (NSArray *)orderForSavePending; // For last time not saved successfully to remote
 
 + (NSString *)userId;

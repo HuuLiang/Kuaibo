@@ -140,10 +140,10 @@
     return success;
 }
 
--(BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler
-{
-    return [self requestURLPath:urlPath standbyURLPath:nil withParams:params responseHandler:responseHandler];
-}
+//-(BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler
+//{
+//    return [self requestURLPath:urlPath standbyURLPath:nil withParams:params responseHandler:responseHandler];
+//}
 
 - (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler {
     KbURLResponseStatus status = KbURLResponseNone;

@@ -19,6 +19,7 @@
 #import "KbAlipayOrderQueryRequest.h"
 #import "KbWeChatPayQueryOrderRequest.h"
 #import "BaiduMobAdSplash.h"
+#import "KbUserAccessModel.h"
 
 @interface AppDelegate () <WXApiDelegate,BaiduMobAdSplashDelegate>
 @property (nonatomic,retain) KbAlipayOrderQueryRequest *alipayOrderQueryRequest;
@@ -138,8 +139,11 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         [[KbActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
             if (success) {
                 [KbUtil setRegisteredWithUserId:userId];
+                [[KbUserAccessModel sharedModel] requestUserAccess];
             }
         }];
+    } else {
+        [[KbUserAccessModel sharedModel] requestUserAccess];
     }
     
     NSArray *order = [KbUtil orderForSavePending];

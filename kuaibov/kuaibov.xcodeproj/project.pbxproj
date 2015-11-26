@@ -17,6 +17,8 @@
 		BC152F2C1C059F1B000DF875 /* config_standby.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC152F2B1C059F1B000DF875 /* config_standby.plist */; };
 		BC17DEE41C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17DEE31C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m */; };
 		BC17DEE71C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17DEE61C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m */; };
+		BC18E7241C06EC3B00ADAA2B /* KbUserAccessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC18E7231C06EC3B00ADAA2B /* KbUserAccessModel.m */; };
+		BC18E7281C07069D00ADAA2B /* NSDate+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC18E7271C07069D00ADAA2B /* NSDate+Utilities.m */; };
 		BC1C4B561BFC5F2B001B5867 /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1C4B4B1BFC5F2B001B5867 /* ApiXml.mm */; };
 		BC1C4B571BFC5F2B001B5867 /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1C4B4D1BFC5F2B001B5867 /* payRequsestHandler.mm */; };
 		BC1C4B581BFC5F2B001B5867 /* WeChatPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1C4B4F1BFC5F2B001B5867 /* WeChatPayManager.m */; };
@@ -134,6 +136,10 @@
 		BC17DEE31C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayQueryOrderRequest.m; sourceTree = "<group>"; };
 		BC17DEE51C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbAlipayOrderQueryRequest.h; sourceTree = "<group>"; };
 		BC17DEE61C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbAlipayOrderQueryRequest.m; sourceTree = "<group>"; };
+		BC18E7221C06EC3B00ADAA2B /* KbUserAccessModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbUserAccessModel.h; sourceTree = "<group>"; };
+		BC18E7231C06EC3B00ADAA2B /* KbUserAccessModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbUserAccessModel.m; sourceTree = "<group>"; };
+		BC18E7261C07069D00ADAA2B /* NSDate+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Utilities.h"; sourceTree = "<group>"; };
+		BC18E7271C07069D00ADAA2B /* NSDate+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Utilities.m"; sourceTree = "<group>"; };
 		BC1C4B481BFC5F2B001B5867 /* PayDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayDef.h; sourceTree = "<group>"; };
 		BC1C4B4A1BFC5F2B001B5867 /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
 		BC1C4B4B1BFC5F2B001B5867 /* ApiXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApiXml.mm; sourceTree = "<group>"; };
@@ -601,6 +607,8 @@
 		BCDE4EDC1BA6652200244945 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BC18E7261C07069D00ADAA2B /* NSDate+Utilities.h */,
+				BC18E7271C07069D00ADAA2B /* NSDate+Utilities.m */,
 				BCDE4EDD1BA6657500244945 /* NSDictionary+KbSign.h */,
 				BCDE4EDE1BA6657500244945 /* NSDictionary+KbSign.m */,
 				BCDE4EDF1BA6657500244945 /* NSString+crypt.m */,
@@ -733,6 +741,8 @@
 				BC17DEE31C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m */,
 				BC17DEE51C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.h */,
 				BC17DEE61C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m */,
+				BC18E7221C06EC3B00ADAA2B /* KbUserAccessModel.h */,
+				BC18E7231C06EC3B00ADAA2B /* KbUserAccessModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1007,8 +1017,10 @@
 				BCDE4EFA1BA6657500244945 /* NSString+FilterHTML.m in Sources */,
 				BCFF93521B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m in Sources */,
 				6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */,
+				BC18E7281C07069D00ADAA2B /* NSDate+Utilities.m in Sources */,
 				BCD0D5C21BFDC511000F774E /* KbAlipayConfigModel.m in Sources */,
 				BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */,
+				BC18E7241C06EC3B00ADAA2B /* KbUserAccessModel.m in Sources */,
 				BCFE5B9C1B9F575100EC9D05 /* base64.m in Sources */,
 				6E090FE61B86A37B00260BDC /* main.m in Sources */,
 			);
