@@ -222,7 +222,14 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 - (void)onResp:(BaseResp *)resp {
     if([resp isKindOfClass:[PayResp class]]){
-        PAYRESULT payResult = resp.errCode == WXSuccess ? PAYRESULT_SUCCESS : PAYRESULT_FAIL;
+        PAYRESULT payResult;
+        if (resp.errCode == WXErrCodeUserCancel) {
+            payResult = PAYRESULT_ABANDON;
+        } else if (resp.errCode == WXSuccess) {
+            payResult = PAYRESULT_SUCCESS;
+        } else {
+            payResult = PAYRESULT_FAIL;
+        }
         [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
     }
 }
