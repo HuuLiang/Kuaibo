@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, KbPendingOrderItem) {
+    KbPendingOrderId,
+    KbPendingOrderPrice,
+    KbPendingOrderProgramId,
+    KbPendingOrderProgramType,
+    KbPendingOrderPayPointType,
+    KbPendingOrderPaymentType,
+    KbPendingOrderItemCount
+};
+
 @interface KbUtil : NSObject
 
 + (BOOL)isRegistered;
@@ -16,8 +26,14 @@
 + (BOOL)isPaid;
 + (void)setPaid;
 + (void)setPaidPendingWithOrder:(NSArray *)order;
-+ (void)setPayingOrderNo:(NSString *)payingOrderNo;
+
++ (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo;
++ (NSDictionary<NSString *, id> *)payingOrder;
+
+// Methods for convenience
 + (NSString *)payingOrderNo;
++ (KbPaymentType)payingOrderPaymentType;
++ (void)setPayingOrderWithOrderNo:(NSString *)orderNo paymentType:(KbPaymentType)paymentType;
 
 + (NSArray *)orderForSavePending; // For last time not saved successfully to remote
 

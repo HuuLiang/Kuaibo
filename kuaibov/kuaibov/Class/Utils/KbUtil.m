@@ -103,13 +103,27 @@ static NSString *const kPayingOrderKeyName = @"kuaibov_paying_order_keyname";
 #endif
 }
 
-+ (void)setPayingOrderNo:(NSString *)payingOrderNo {
-    [[NSUserDefaults standardUserDefaults] setObject:payingOrderNo forKey:kPayingOrderKeyName];
++ (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo {
+    [[NSUserDefaults standardUserDefaults] setObject:orderInfo forKey:kPayingOrderKeyName];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-+ (NSString *)payingOrderNo {
++ (NSDictionary<NSString *, id> *)payingOrder {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kPayingOrderKeyName];
+}
+
++ (NSString *)payingOrderNo {
+    return [self payingOrder][@(KbPendingOrderId).stringValue];
+}
+
++ (KbPaymentType)payingOrderPaymentType {
+    return ((NSNumber *)[self payingOrder][@(KbPendingOrderPaymentType).stringValue]).unsignedIntegerValue;
+}
+
++ (void)setPayingOrderWithOrderNo:(NSString *)orderNo paymentType:(KbPaymentType)paymentType {
+    NSDictionary *payingOrder = @{@(KbPendingOrderId).stringValue:orderNo,
+                                  @(KbPendingOrderPaymentType).stringValue:@(paymentType)};
+    [self setPayingOrder:payingOrder];
 }
 
 + (NSString *)userIdInPayment {

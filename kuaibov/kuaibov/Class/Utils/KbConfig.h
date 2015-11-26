@@ -42,5 +42,7 @@
 @property (nonatomic,readonly) NSString *baiduLaunchAdId;
 
 + (instancetype)sharedConfig;
++ (instancetype)sharedStandbyConfig;
++ (instancetype)configWithName:(NSString *)configName;
 
 @end

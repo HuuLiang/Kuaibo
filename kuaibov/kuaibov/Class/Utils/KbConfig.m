@@ -8,17 +8,34 @@
 
 #import "KbConfig.h"
 
+static NSString *const kDefaultConfigName = @"config";
+static NSString *const kDefaultStandbyConfigName = @"config_standby";
+
 @implementation KbConfig
 
 + (instancetype)sharedConfig {
     static KbConfig *_config;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString *configPath = [[NSBundle mainBundle] pathForResource:@"config" ofType:@"plist"];
-        NSDictionary *configDic = [[NSDictionary alloc] initWithContentsOfFile:configPath];
-        _config = [[KbConfig alloc] initWithDictionary:configDic];
+        _config = [self configWithName:kDefaultConfigName];
     });
     return _config;
+}
+
++ (instancetype)sharedStandbyConfig {
+    static KbConfig *_standbyConfig;
+    static dispatch_once_t standbyOnceToken;
+    dispatch_once(&standbyOnceToken, ^{
+        _standbyConfig = [self configWithName:kDefaultStandbyConfigName];
+    });
+    return _standbyConfig;
+}
+
++ (instancetype)configWithName:(NSString *)configName {
+    NSString *configPath = [[NSBundle mainBundle] pathForResource:configName ofType:@"plist"];
+    NSDictionary *configDic = [[NSDictionary alloc] initWithContentsOfFile:configPath];
+    KbConfig *config = [[self alloc] initWithDictionary:configDic];
+    return config;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic {

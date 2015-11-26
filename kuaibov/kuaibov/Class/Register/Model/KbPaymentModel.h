@@ -21,6 +21,7 @@ typedef void (^KbPaidCompletionHandler)(BOOL success);
               contentId:(NSString *)contentId
             contentType:(NSString *)contentType
            payPointType:(NSString *)payPointType
+            paymentType:(KbPaymentType)paymentType
       completionHandler:(KbPaidCompletionHandler)handler;
 
 @end

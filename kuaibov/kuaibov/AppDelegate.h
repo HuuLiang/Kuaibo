@@ -17,7 +17,8 @@
                  result:(NSInteger)result
            forProgramId:(NSString *)programId
             programType:(NSString *)programType
-           payPointType:(NSString *)payPointType;
+           payPointType:(NSString *)payPointType
+            paymentType:(KbPaymentType)paymentType;
 
 @end
 

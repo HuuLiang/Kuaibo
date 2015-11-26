@@ -192,7 +192,8 @@ withCompletionHandler:(void (^)(BOOL success))handler {
                                 result:PAYRESULT_SUCCESS
                           forProgramId:@""
                            programType:@""
-                          payPointType:@""];
+                          payPointType:@""
+                           paymentType:KbPaymentTypeAlipay];
     
 }
 
@@ -214,7 +215,7 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
-    [KbUtil setPayingOrderNo:orderNo];
+    [KbUtil setPayingOrderWithOrderNo:orderNo paymentType:paymentType];
     
     void (^PayResultBack)(PAYRESULT result) = ^(PAYRESULT result) {
         @strongify(self);
@@ -241,7 +242,8 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
                                     result:result
                               forProgramId:program.programId.stringValue ?: @""
                                programType:program.type.stringValue ?: @""
-                              payPointType:program.payPointType.stringValue ?: @""];
+                              payPointType:program.payPointType.stringValue ?: @""
+                               paymentType:paymentType];
     };
     
     if (paymentType == KbPaymentTypeAlipay) {
@@ -265,14 +267,16 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
                               result:(PAYRESULT)result
                         forProgramId:(NSString *)programId
                          programType:(NSString *)programType
-                        payPointType:(NSString *)payPointType {
+                        payPointType:(NSString *)payPointType
+                         paymentType:(KbPaymentType)paymentType {
     AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     [appDelegate paidWithOrderId:orderId
                            price:price
                           result:result
                     forProgramId:programId
                      programType:programType
-                    payPointType:payPointType];
+                    payPointType:payPointType
+                     paymentType:paymentType];
 }
 
 - (BOOL)shouldAutorotate {

@@ -122,7 +122,6 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     // Override point for customization after application launch.
     [WXApi registerApp:@"wx4af04eb5b3dbfb56"];
     
-    [self checkPayment];
     [[KbErrorHandler sharedHandler] initialize];
     [self setupCommonStyles];
     [self.window makeKeyWindow];
@@ -144,8 +143,8 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     }
     
     NSArray *order = [KbUtil orderForSavePending];
-    if (order.count == 5) {
-        [self paidWithOrderId:order[0] price:order[1] result:PAYRESULT_SUCCESS forProgramId:order[2] programType:order[3] payPointType:order[4]];
+    if (order.count == KbPendingOrderItemCount) {
+        [self paidWithOrderId:order[KbPendingOrderId] price:order[KbPendingOrderPrice] result:PAYRESULT_SUCCESS forProgramId:order[KbPendingOrderProgramId] programType:order[KbPendingOrderProgramType] payPointType:order[KbPendingOrderPayPointType] paymentType:((NSNumber *)order[KbPendingOrderPaymentType]).unsignedIntegerValue];
     }
     return YES;
 }
@@ -183,12 +182,21 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 - (void)checkPayment {
-    if (![KbUtil isPaid] && [KbUtil payingOrderNo]) {
-        [self.wechatPayOrderQueryRequest queryOrderWithNo:[KbUtil payingOrderNo] completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
-            if ([trade_state isEqualToString:@"SUCCESS"]) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName object:nil userInfo:@{kPaidNotificationOrderNoKey:[KbUtil payingOrderNo], kPaidNotificationPriceKey:@(total_fee).stringValue}];
-            }
-        }];
+    NSString *payingOrderNo = [KbUtil payingOrderNo];
+    KbPaymentType payingType = [KbUtil payingOrderPaymentType];
+    if (![KbUtil isPaid] && payingOrderNo && payingType != KbPaymentTypeNone) {
+        if (payingType == KbPaymentTypeWeChatPay) {
+            [self.wechatPayOrderQueryRequest queryOrderWithNo:payingOrderNo completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
+                if ([trade_state isEqualToString:@"SUCCESS"]) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName
+                                                                        object:nil
+                                                                      userInfo:@{kPaidNotificationOrderNoKey:payingOrderNo,
+                                                                                 kPaidNotificationPriceKey:@(total_fee).stringValue,
+                                                                                 kPaidNotificationPaymentType:@(KbPaymentTypeWeChatPay)}];
+                }
+            }];
+        }
+        
     }
 }
 
@@ -197,8 +205,9 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
                  result:(NSInteger)result
            forProgramId:(NSString *)programId
             programType:(NSString *)programType
-           payPointType:(NSString *)payPointType {
-    [[KbPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType completionHandler:^(BOOL success){
+           payPointType:(NSString *)payPointType
+            paymentType:(KbPaymentType)paymentType {
+    [[KbPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType paymentType:paymentType completionHandler:^(BOOL success){
         if (success && result == PAYRESULT_SUCCESS) {
             [KbUtil setPaid];
         }

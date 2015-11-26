@@ -8,12 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger, KbPaymentType) {
-    KbPaymentTypeNone,
-    KbPaymentTypeAlipay,
-    KbPaymentTypeWeChatPay
-};
-
 typedef void (^KbPaymentAction)(KbPaymentType type);
 
 @interface KbPaymentPopView : UIView

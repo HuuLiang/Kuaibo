@@ -58,6 +58,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
               contentId:(NSString *)contentId
             contentType:(NSString *)contentType
            payPointType:(NSString *)payPointType
+            paymentType:(KbPaymentType)paymentType
       completionHandler:(KbPaidCompletionHandler)handler {
     NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2)};
     
@@ -73,7 +74,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"channelNo":[KbConfig sharedConfig].channelNo,
                              @"contentId":contentId,
                              @"contentType":contentType,
-                             @"pluginType":@(1001),
+                             @"pluginType":@(paymentType),
                              @"payPointType":@(payPointType.integerValue),
                              @"appId":[KbUtil appId],
                              @"versionNo":@([KbUtil appVersion].integerValue),

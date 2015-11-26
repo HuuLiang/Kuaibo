@@ -14,6 +14,7 @@
 		6E0910001B86A37B00260BDC /* kuaibovTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FFF1B86A37B00260BDC /* kuaibovTests.m */; };
 		BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */; };
 		BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */; };
+		BC152F2C1C059F1B000DF875 /* config_standby.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC152F2B1C059F1B000DF875 /* config_standby.plist */; };
 		BC17DEE41C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17DEE31C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m */; };
 		BC17DEE71C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BC17DEE61C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.m */; };
 		BC1C4B561BFC5F2B001B5867 /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = BC1C4B4B1BFC5F2B001B5867 /* ApiXml.mm */; };
@@ -128,6 +129,7 @@
 		BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfigModel.m; sourceTree = "<group>"; };
 		BC039DA61BA1AC5B003E43B2 /* KbSystemConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfig.h; sourceTree = "<group>"; };
 		BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfig.m; sourceTree = "<group>"; };
+		BC152F2B1C059F1B000DF875 /* config_standby.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config_standby.plist; sourceTree = "<group>"; };
 		BC17DEE21C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbWeChatPayQueryOrderRequest.h; sourceTree = "<group>"; };
 		BC17DEE31C02AB9B008FC1F0 /* KbWeChatPayQueryOrderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayQueryOrderRequest.m; sourceTree = "<group>"; };
 		BC17DEE51C02AC86008FC1F0 /* KbAlipayOrderQueryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbAlipayOrderQueryRequest.h; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 			children = (
 				6E090FE41B86A37B00260BDC /* Info.plist */,
 				BCFF05221B986B4D0074BAE2 /* config.plist */,
+				BC152F2B1C059F1B000DF875 /* config_standby.plist */,
 				6E090FE51B86A37B00260BDC /* main.m */,
 				6E2B8AE71B95FA3C00053761 /* Constants.h */,
 				6E2B8AE81B95FA7600053761 /* kb.pch */,
@@ -874,6 +877,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC152F2C1C059F1B000DF875 /* config_standby.plist in Resources */,
 				BCFF05231B986B4D0074BAE2 /* config.plist in Resources */,
 				BCFE5AD01B9F4F1300EC9D05 /* AlipaySDK.bundle in Resources */,
 				BC5DD2B81BAA934500200265 /* Launch Screen.storyboard in Resources */,
@@ -1136,6 +1140,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/WeChatSDK",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
+					"$(PROJECT_DIR)/kuaibov/Class/Utils",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1162,6 +1167,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/WeChatSDK",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
+					"$(PROJECT_DIR)/kuaibov/Class/Utils",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
