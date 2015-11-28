@@ -25,6 +25,19 @@ DefineLazyPropertyInitialization(NSArray, fetchedBanners)
     return [KbBannerResponse class];
 }
 
++ (BOOL)shouldPersistURLResponse {
+    return YES;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        KbBannerResponse *resp = (KbBannerResponse *)self.response;
+        _fetchedBanners = resp.bannerList;
+    }
+    return self;
+}
+
 - (BOOL)fetchBannersWithCompletionHandler:(KbFetchBannersCompletionHandler)handler {
     @weakify(self);
     BOOL success = [self requestURLPath:[KbConfig sharedConfig].bannerURLPath standbyURLPath:[KbConfig sharedStandbyConfig].bannerURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {

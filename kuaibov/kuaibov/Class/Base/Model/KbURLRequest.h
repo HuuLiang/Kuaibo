@@ -29,6 +29,7 @@ typedef void (^KbURLResponseHandler)(KbURLResponseStatus respStatus, NSString *e
 @property (nonatomic,retain) id response;
 
 + (Class)responseClass;  // override this method to provide a custom class to be used when instantiating instances of KbURLResponse
++ (BOOL)shouldPersistURLResponse;
 - (NSURL *)baseURL; // override this method to provide a custom base URL to be used
 - (NSURL *)standbyBaseURL; // override this method to provide a custom standby base URL to be used
 

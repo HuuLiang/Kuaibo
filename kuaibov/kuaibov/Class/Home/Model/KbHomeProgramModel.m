@@ -22,6 +22,19 @@
     return [KbHomeProgramResponse class];
 }
 
++ (BOOL)shouldPersistURLResponse {
+    return YES;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        KbHomeProgramResponse *resp = (KbHomeProgramResponse *)self.response;
+        _fetchedProgramList = resp.columnList;
+    }
+    return self;
+}
+
 - (BOOL)fetchHomeProgramsWithCompletionHandler:(KbFetchHomeProgramsCompletionHandler)handler {
     @weakify(self);
     BOOL success = [self requestURLPath:[KbConfig sharedConfig].homeProgramURLPath standbyURLPath:[KbConfig sharedStandbyConfig].homeProgramURLPath withParams:nil responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {

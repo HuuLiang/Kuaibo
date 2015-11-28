@@ -96,7 +96,9 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
             make.top.equalTo(_headerImageView?_headerImageView.mas_bottom:self.view);
         }];
     }
-
+    
+    self.videoChannels = self.channelModel.fetchedChannels;
+    
     [_channelsView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
         

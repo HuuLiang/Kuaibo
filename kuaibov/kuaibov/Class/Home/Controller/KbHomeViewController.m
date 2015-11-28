@@ -76,6 +76,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         }];
     }
     
+    self.videoPrograms = self.programModel.fetchedProgramList;
+    
     @weakify(self);
     [_collectionView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
@@ -188,6 +190,17 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
                     make.edges.equalTo(_bannerCell.contentView);
                 }];
             }
+            
+            NSMutableArray *imageUrlGroup = [NSMutableArray array];
+            NSMutableArray *titlesGroup = [NSMutableArray array];
+            for (KbProgram *bannerProgram in self.bannerModel.fetchedBanners) {
+                if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeVideo) {
+                    [imageUrlGroup addObject:bannerProgram.coverImg];
+                    [titlesGroup addObject:bannerProgram.title];
+                }
+            }
+            _bannerView.imageURLStringsGroup = imageUrlGroup;
+            _bannerView.titlesGroup = titlesGroup;
         }
         
         return _bannerCell;

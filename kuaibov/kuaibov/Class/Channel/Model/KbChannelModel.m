@@ -21,6 +21,20 @@
 + (Class)responseClass {
     return [KbChannelResponse class];
 }
+
++ (BOOL)shouldPersistURLResponse {
+    return YES;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        KbChannelResponse *resp = self.response;
+        _fetchedChannels = resp.columnList;
+    }
+    return self;
+}
+
 - (BOOL)fetchChannelsWithCompletionHandler:(KbFetchChannelsCompletionHandler)handler {
     @weakify(self);
     BOOL success = [self requestURLPath:[KbConfig sharedConfig].channelURLPath
