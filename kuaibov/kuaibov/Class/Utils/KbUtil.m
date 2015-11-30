@@ -48,24 +48,37 @@ static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kPaidKeyName];
     
 #endif
+    
+    [SFHFKeychainUtils deleteItemForUsername:kUserAccessUsername andServiceName:kUserAccessServicename error:nil];
 }
 
-+ (void)setUserAccessed {
-    [SFHFKeychainUtils storeUsername:kUserAccessUsername andPassword:@([[NSDate date] timeIntervalSince1970]).stringValue forServiceName:kUserAccessServicename updateExisting:YES error:nil];
-    DLog(@"Record user accessed!");
-//    [[NSUserDefaults standardUserDefaults] setObject:@([[NSDate date] timeIntervalSince1970]) forKey:kUserAccessKeyName];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-+ (BOOL)isUserAccessedToday {
-    NSString *timeIntervalString = [SFHFKeychainUtils getPasswordForUsername:kUserAccessUsername andServiceName:kUserAccessServicename error:nil];
-    if (timeIntervalString.length == 0) {
-        return NO;
++ (NSString *)accessId {
+    NSString *accessIdInKeyChain = [SFHFKeychainUtils getPasswordForUsername:kUserAccessUsername andServiceName:kUserAccessServicename error:nil];
+    if (accessIdInKeyChain) {
+        return accessIdInKeyChain;
     }
-//    NSNumber *timeInterval = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAccessKeyName];
-    NSDate *accessedDate = [NSDate dateWithTimeIntervalSince1970:timeIntervalString.doubleValue];
-    return [accessedDate isToday];
+    
+    accessIdInKeyChain = [NSUUID UUID].UUIDString.md5;
+    [SFHFKeychainUtils storeUsername:kUserAccessUsername andPassword:accessIdInKeyChain forServiceName:kUserAccessServicename updateExisting:YES error:nil];
+    return accessIdInKeyChain;
 }
+
+//+ (void)setUserAccessed {
+//    [SFHFKeychainUtils storeUsername:kUserAccessUsername andPassword:@([[NSDate date] timeIntervalSince1970]).stringValue forServiceName:kUserAccessServicename updateExisting:YES error:nil];
+//    DLog(@"Record user accessed!");
+////    [[NSUserDefaults standardUserDefaults] setObject:@([[NSDate date] timeIntervalSince1970]) forKey:kUserAccessKeyName];
+////    [[NSUserDefaults standardUserDefaults] synchronize];
+//}
+//
+//+ (BOOL)isUserAccessedToday {
+//    NSString *timeIntervalString = [SFHFKeychainUtils getPasswordForUsername:kUserAccessUsername andServiceName:kUserAccessServicename error:nil];
+//    if (timeIntervalString.length == 0) {
+//        return NO;
+//    }
+////    NSNumber *timeInterval = [[NSUserDefaults standardUserDefaults] objectForKey:kUserAccessKeyName];
+//    NSDate *accessedDate = [NSDate dateWithTimeIntervalSince1970:timeIntervalString.doubleValue];
+//    return [accessedDate isToday];
+//}
 
 + (BOOL)isRegistered {
     return [self userId] != nil;

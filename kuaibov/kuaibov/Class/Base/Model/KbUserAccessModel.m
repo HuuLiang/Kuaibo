@@ -29,13 +29,9 @@
         return NO;
     }
     
-    if ([KbUtil isUserAccessedToday]) {
-        return NO;
-    }
-    
     @weakify(self);
     BOOL ret = [super requestURLPath:[KbConfig sharedConfig].userAccessURLPath
-                         withParams:@{@"userId":userId}
+                         withParams:@{@"userId":userId,@"accessId":[KbUtil accessId]}
                     responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {
         @strongify(self);
@@ -44,10 +40,9 @@
         if (respStatus == KbURLResponseSuccess) {
             NSString *resp = self.response;
             success = [resp isEqualToString:@"SUCCESS"];
-        }
-        
-        if (success) {
-            [KbUtil setUserAccessed];
+            if (success) {
+                DLog(@"Record user access!");
+            }
         }
     }];
     return ret;
