@@ -18,14 +18,23 @@
 #import "WXApi.h"
 #import "KbAlipayOrderQueryRequest.h"
 #import "KbWeChatPayQueryOrderRequest.h"
-//#import "BaiduMobAdSplash.h"
 #import "KbUserAccessModel.h"
 
-@interface AppDelegate () <WXApiDelegate>
+#ifdef EnableBaiduMobAd
+#import "BaiduMobAdSplash.h"
+#endif
+
+@interface AppDelegate () <WXApiDelegate
+#ifdef EnableBaiduMobAd
+,BaiduMobAdSplashDelegate
+#endif
+>
 @property (nonatomic,retain) KbAlipayOrderQueryRequest *alipayOrderQueryRequest;
 @property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
 
-//@property (nonatomic,retain) BaiduMobAdSplash *splashAd;
+#ifdef EnableBaiduMobAd
+@property (nonatomic,retain) BaiduMobAdSplash *splashAd;
+#endif
 @end
 
 @implementation AppDelegate
@@ -127,11 +136,13 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     [self setupCommonStyles];
     [self.window makeKeyWindow];
     
-//    self.splashAd = [[BaiduMobAdSplash alloc] init];
-//    self.splashAd.delegate = self;
-//    self.splashAd.AdUnitTag = [KbConfig sharedConfig].baiduLaunchAdId;
-//    self.splashAd.canSplashClick = YES;
-//    [self.splashAd loadAndDisplayUsingKeyWindow:self.window];
+#ifdef EnableBaiduMobAd
+    self.splashAd = [[BaiduMobAdSplash alloc] init];
+    self.splashAd.delegate = self;
+    self.splashAd.AdUnitTag = [KbConfig sharedConfig].baiduLaunchAdId;
+    self.splashAd.canSplashClick = YES;
+    [self.splashAd loadAndDisplayUsingKeyWindow:self.window];
+#endif
     
     self.window.hidden = NO;
     
@@ -238,9 +249,11 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     }
 }
 
+#ifdef EnableBaiduMobAd
 #pragma mark - BaiduMobAdSplashDelegate
 
 - (NSString *)publisherId {
     return [KbConfig sharedConfig].baiduAdAppId;
 }
+#endif
 @end

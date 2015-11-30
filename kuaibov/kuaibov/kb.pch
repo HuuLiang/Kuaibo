@@ -49,4 +49,5 @@ typedef NS_ENUM(NSUInteger, KbPaymentType) {
 #define kPaidNotificationPriceKey @"kuaibo_paid_notification_price_key"
 #define kPaidNotificationPaymentType @"kuaibo_paid_notification_payment_type"
 
+//#define EnableBaiduMobAd
 #endif
