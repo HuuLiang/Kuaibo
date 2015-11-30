@@ -19,6 +19,7 @@
 #import "KbAlipayOrderQueryRequest.h"
 #import "KbWeChatPayQueryOrderRequest.h"
 #import "KbUserAccessModel.h"
+#import "MobClick.h"
 
 #ifdef EnableBaiduMobAd
 #import "BaiduMobAdSplash.h"
@@ -128,11 +129,23 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
                                  } error:nil];
 }
 
+- (void)setupMobStatistics {
+#ifdef DEBUG
+    [MobClick setLogEnabled:YES];
+#endif
+    NSString *bundleVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+    if (bundleVersion) {
+        [MobClick setAppVersion:bundleVersion];
+    }
+    [MobClick startWithAppkey:[KbConfig sharedConfig].umengAppId reportPolicy:BATCH channelId:[KbConfig sharedConfig].channelNo];
+    
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [WXApi registerApp:@"wx4af04eb5b3dbfb56"];
+    [WXApi registerApp:[KbConfig sharedConfig].weChatPayAppId];
     
     [[KbErrorHandler sharedHandler] initialize];
+    [self setupMobStatistics];
     [self setupCommonStyles];
     [self.window makeKeyWindow];
     
@@ -222,6 +235,27 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
             programType:(NSString *)programType
            payPointType:(NSString *)payPointType
             paymentType:(KbPaymentType)paymentType {
+    
+    NSString *eventName;
+    if (result == PAYRESULT_ABANDON) {
+        eventName = [KbConfig sharedConfig].umengCancelledPaymentEventId;
+    } else if (result == PAYRESULT_FAIL) {
+        eventName = [KbConfig sharedConfig].umengFailedPaymentEventId;
+    } else if (result == PAYRESULT_SUCCESS) {
+        eventName = [KbConfig sharedConfig].umengSuccessfulPaymentEventId;
+    }
+    
+    NSString *eventLabel;
+    if (paymentType == KbPaymentTypeAlipay) {
+        eventLabel = @"支付宝";
+    } else if (paymentType == KbPaymentTypeWeChatPay) {
+        eventLabel = @"微信支付";
+    }
+    
+    if (eventName && eventLabel) {
+        [MobClick event:eventName label:eventLabel];
+    }
+    
     [[KbPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType paymentType:paymentType completionHandler:^(BOOL success){
         if (success && result == PAYRESULT_SUCCESS) {
             [KbUtil setPaid];

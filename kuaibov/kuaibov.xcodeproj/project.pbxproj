@@ -12,6 +12,7 @@
 		6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FE81B86A37B00260BDC /* AppDelegate.m */; };
 		6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E090FF01B86A37B00260BDC /* Images.xcassets */; };
 		6E0910001B86A37B00260BDC /* kuaibovTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FFF1B86A37B00260BDC /* kuaibovTests.m */; };
+		BC01B8A91C0BFEBA008932E7 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC01B8A61C0BFEBA008932E7 /* libMobClickLibrary.a */; };
 		BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */; };
 		BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */; };
 		BC152F2C1C059F1B000DF875 /* config_standby.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC152F2B1C059F1B000DF875 /* config_standby.plist */; };
@@ -127,6 +128,9 @@
 		6E2B8AE71B95FA3C00053761 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6E2B8AE81B95FA7600053761 /* kb.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kb.pch; sourceTree = "<group>"; };
 		A829465AEB8D6C3264B4F256 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		BC01B8A61C0BFEBA008932E7 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		BC01B8A71C0BFEBA008932E7 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		BC01B8A81C0BFEBA008932E7 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		BC039DA31BA1AA10003E43B2 /* KbSystemConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfigModel.h; sourceTree = "<group>"; };
 		BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfigModel.m; sourceTree = "<group>"; };
 		BC039DA61BA1AC5B003E43B2 /* KbSystemConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfig.h; sourceTree = "<group>"; };
@@ -315,6 +319,7 @@
 				BC84FFC51C046CE60077B57C /* MediaPlayer.framework in Frameworks */,
 				BC84FFC31C046CDD0077B57C /* CoreMotion.framework in Frameworks */,
 				BC84FFC11C046CD50077B57C /* AudioToolbox.framework in Frameworks */,
+				BC01B8A91C0BFEBA008932E7 /* libMobClickLibrary.a in Frameworks */,
 				BC84FFBF1C046CC80077B57C /* StoreKit.framework in Frameworks */,
 				BC84FFBD1C046CC00077B57C /* AdSupport.framework in Frameworks */,
 				BC84FFBB1C046CB80077B57C /* Security.framework in Frameworks */,
@@ -498,6 +503,7 @@
 		6E2B8AEB1B95FD5600053761 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				BC01B8A51C0BFE1D008932E7 /* Umeng */,
 				BC84FFA81C046BA90077B57C /* BaiduMobAd */,
 				BC1C4B471BFC5F2B001B5867 /* PayCommon */,
 				BC1C4B491BFC5F2B001B5867 /* WeChatPay */,
@@ -540,6 +546,16 @@
 				4B8B6ED104721273B48C5C5C /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC01B8A51C0BFE1D008932E7 /* Umeng */ = {
+			isa = PBXGroup;
+			children = (
+				BC01B8A61C0BFEBA008932E7 /* libMobClickLibrary.a */,
+				BC01B8A71C0BFEBA008932E7 /* MobClick.h */,
+				BC01B8A81C0BFEBA008932E7 /* MobClickSocialAnalytics.h */,
+			);
+			path = Umeng;
 			sourceTree = "<group>";
 		};
 		BC1C4B471BFC5F2B001B5867 /* PayCommon */ = {
@@ -1153,6 +1169,7 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/WeChatSDK",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils",
+					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1180,6 +1197,7 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/WeChatSDK",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils",
+					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "Order.h"
 #import "KbProgram.h"
+#import "MobClick.h"
 
 #ifdef EnableBaiduMobAd
 #import "BaiduMobAdView.h"
@@ -259,12 +260,14 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
     };
     
     if (paymentType == KbPaymentTypeAlipay) {
+        [MobClick event:[KbConfig sharedConfig].umengTriggerPaymentEventId label:@"支付宝"];
         [[AlipayManager shareInstance] startAlipay:orderNo
                                              price:@(price).stringValue
                                         withResult:^(PAYRESULT result, Order *order) {
                                             PayResultBack(result);
                                         }];
     } else if (paymentType == KbPaymentTypeWeChatPay) {
+        [MobClick event:[KbConfig sharedConfig].umengTriggerPaymentEventId label:@"微信支付"];
         [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo
                                                                price:price
                                                    completionHandler:^(PAYRESULT payResult) {

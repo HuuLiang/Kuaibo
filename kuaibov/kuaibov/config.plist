@@ -13,7 +13,7 @@
 	<key>ChannelProgramURLPath</key>
 	<string>/video/program.htm</string>
 	<key>ChannelNo</key>
-	<string>QB_VIDEO_IOS_B_00000001</string>
+	<string>QB_VIDEO_QUDAOT_T0000001</string>
 	<key>MoreURLPath</key>
 	<string>/video/agreement.html</string>
 	<key>RegisterURLPath</key>
@@ -50,5 +50,15 @@
 	<string>2340965</string>
 	<key>BaiduLaunchAdId</key>
 	<string>2347258</string>
+	<key>UmengAppId</key>
+	<string>565bc5bee0f55a13a60011b1</string>
+	<key>UmengTriggerPaymentEventId</key>
+	<string>KB_TRIGGER_PAYMENT</string>
+	<key>UmengSuccessfulPaymentEventId</key>
+	<string>KB_SUCCESSFUL_PAYMENT</string>
+	<key>UmengFailedPaymentEventId</key>
+	<string>KB_FAILED_PAYMENT</string>
+	<key>UmengCancelledPaymentEventId</key>
+	<string>KB_CANCELLED_PAYMENT</string>
 </dict>
 </plist>
