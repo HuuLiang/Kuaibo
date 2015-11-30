@@ -15,7 +15,7 @@
 #import "AppDelegate.h"
 #import "Order.h"
 #import "KbProgram.h"
-#import "BaiduMobAdView.h"
+//#import "BaiduMobAdView.h"
 
 @import MediaPlayer;
 @import AVKit;
@@ -23,23 +23,23 @@
 @import AVFoundation.AVAsset;
 @import AVFoundation.AVAssetImageGenerator;
 
-static const CGFloat kDefaultAdBannerHeight = 30;
+//static const CGFloat kDefaultAdBannerHeight = 30;
 
-@interface kbBaseController () <BaiduMobAdViewDelegate>
-@property (nonatomic,retain) BaiduMobAdView *adView;
+@interface kbBaseController () //<BaiduMobAdViewDelegate>
+//@property (nonatomic,retain) BaiduMobAdView *adView;
 
 - (UIViewController *)playerVCWithVideo:(KbVideo *)video;
 @end
 
 @implementation kbBaseController
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _adBannerHeight = kDefaultAdBannerHeight;
-    }
-    return self;
-}
+//- (instancetype)init {
+//    self = [super init];
+//    if (self) {
+//        _adBannerHeight = kDefaultAdBannerHeight;
+//    }
+//    return self;
+//}
 
 - (instancetype)initWithBottomAdBanner:(BOOL)hasBanner {
     self = [self init];
@@ -49,19 +49,19 @@ static const CGFloat kDefaultAdBannerHeight = 30;
     return self;
 }
 
-- (BaiduMobAdView *)adView {
-    if (_adView) {
-        return _adView;
-    }
-    
-    _adView = [[BaiduMobAdView alloc] init];
-    _adView.frame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
-    _adView.AdUnitTag = [KbConfig sharedConfig].baiduBannerAdId;
-    _adView.AdType = BaiduMobAdViewTypeBanner;
-    _adView.delegate = self;
-    [_adView start];
-    return _adView;
-}
+//- (BaiduMobAdView *)adView {
+//    if (_adView) {
+//        return _adView;
+//    }
+//    
+//    _adView = [[BaiduMobAdView alloc] init];
+//    _adView.frame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
+//    _adView.AdUnitTag = [KbConfig sharedConfig].baiduBannerAdId;
+//    _adView.AdType = BaiduMobAdViewTypeBanner;
+//    _adView.delegate = self;
+//    [_adView start];
+//    return _adView;
+//}
 
 - (UIViewController *)playerVCWithVideo:(KbVideo *)video {
     UIViewController *retVC;
@@ -100,24 +100,24 @@ static const CGFloat kDefaultAdBannerHeight = 30;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    if (_bottomAdBanner) {
-        CGRect newFrame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
-        if (!CGRectEqualToRect(newFrame, self.adView.frame)) {
-            if ([self.view.subviews containsObject:self.adView]) {
-                [self.adView removeFromSuperview];
-                self.adView = nil;
-            }
-        }
-        
-        if (![self.view.subviews containsObject:self.adView]) {
-            [self.view addSubview:self.adView];
-        }
-    }
-    
-}
+//- (void)viewDidLayoutSubviews {
+//    [super viewDidLayoutSubviews];
+//    
+//    if (_bottomAdBanner) {
+//        CGRect newFrame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
+//        if (!CGRectEqualToRect(newFrame, self.adView.frame)) {
+//            if ([self.view.subviews containsObject:self.adView]) {
+//                [self.adView removeFromSuperview];
+//                self.adView = nil;
+//            }
+//        }
+//        
+//        if (![self.view.subviews containsObject:self.adView]) {
+//            [self.view addSubview:self.adView];
+//        }
+//    }
+//    
+//}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -294,7 +294,7 @@ withCompletionHandler:(void (^)(NSUInteger result))handler {
 
 #pragma mark - BaiduMobAdViewDelegate
 
-- (NSString *)publisherId {
-    return [KbConfig sharedConfig].baiduAdAppId;
-}
+//- (NSString *)publisherId {
+//    return [KbConfig sharedConfig].baiduAdAppId;
+//}
 @end
