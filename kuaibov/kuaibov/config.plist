@@ -50,6 +50,8 @@
 	<string>2340965</string>
 	<key>BaiduLaunchAdId</key>
 	<string>2347258</string>
+	<key>BaiduWallAdId</key>
+	<string>2357819</string>
 	<key>UmengAppId</key>
 	<string>565bc5bee0f55a13a60011b1</string>
 	<key>UmengTriggerPaymentEventId</key>

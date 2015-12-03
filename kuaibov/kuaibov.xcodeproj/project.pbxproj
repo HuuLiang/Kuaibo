@@ -31,6 +31,8 @@
 		BC1C4B641BFC639C001B5867 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B631BFC639C001B5867 /* libz.tbd */; };
 		BC1C4B661BFC63A3001B5867 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B651BFC63A3001B5867 /* libc++.tbd */; };
 		BC1C4B681BFC63AA001B5867 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */; };
+		BC30950B1C0FF0030099E709 /* baidumobadwallsdk.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC3094FC1C0FF0030099E709 /* baidumobadwallsdk.bundle */; };
+		BC30950C1C0FF0030099E709 /* libBaiduMobAdWallSdk64bit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC3094FF1C0FF0030099E709 /* libBaiduMobAdWallSdk64bit.a */; };
 		BC5DD2B81BAA934500200265 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DD2B71BAA934500200265 /* Launch Screen.storyboard */; };
 		BC84FFB61C046BFC0077B57C /* baidumobadsdk.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC84FFAF1C046BFC0077B57C /* baidumobadsdk.bundle */; };
 		BC84FFB71C046BFC0077B57C /* libBaiduMobAdSdk64bit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC84FFB51C046BFC0077B57C /* libBaiduMobAdSdk64bit.a */; };
@@ -163,6 +165,10 @@
 		BC1C4B631BFC639C001B5867 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		BC1C4B651BFC63A3001B5867 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		BC3094FC1C0FF0030099E709 /* baidumobadwallsdk.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = baidumobadwallsdk.bundle; sourceTree = "<group>"; };
+		BC3094FD1C0FF0030099E709 /* BaiduMobAdWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobAdWall.h; sourceTree = "<group>"; };
+		BC3094FE1C0FF0030099E709 /* BaiduMobAdWallDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobAdWallDelegateProtocol.h; sourceTree = "<group>"; };
+		BC3094FF1C0FF0030099E709 /* libBaiduMobAdWallSdk64bit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobAdWallSdk64bit.a; sourceTree = "<group>"; };
 		BC5DD2B71BAA934500200265 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		BC84FFA91C046BFC0077B57C /* BaiduMobAdCommonConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobAdCommonConfig.h; sourceTree = "<group>"; };
 		BC84FFAA1C046BFC0077B57C /* BaiduMobAdDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobAdDelegateProtocol.h; sourceTree = "<group>"; };
@@ -310,6 +316,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC30950C1C0FF0030099E709 /* libBaiduMobAdWallSdk64bit.a in Frameworks */,
 				BC84FFCD1C046D560077B57C /* WebKit.framework in Frameworks */,
 				BC84FFCB1C046D4F0077B57C /* CoreGraphics.framework in Frameworks */,
 				BC1C4B601BFC638C001B5867 /* CoreTelephony.framework in Frameworks */,
@@ -600,9 +607,21 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		BC3094DF1C0FEFCD0099E709 /* AdWall */ = {
+			isa = PBXGroup;
+			children = (
+				BC3094FC1C0FF0030099E709 /* baidumobadwallsdk.bundle */,
+				BC3094FD1C0FF0030099E709 /* BaiduMobAdWall.h */,
+				BC3094FE1C0FF0030099E709 /* BaiduMobAdWallDelegateProtocol.h */,
+				BC3094FF1C0FF0030099E709 /* libBaiduMobAdWallSdk64bit.a */,
+			);
+			path = AdWall;
+			sourceTree = "<group>";
+		};
 		BC84FFA81C046BA90077B57C /* BaiduMobAd */ = {
 			isa = PBXGroup;
 			children = (
+				BC3094DF1C0FEFCD0099E709 /* AdWall */,
 				BC84FFA91C046BFC0077B57C /* BaiduMobAdCommonConfig.h */,
 				BC84FFAA1C046BFC0077B57C /* BaiduMobAdDelegateProtocol.h */,
 				BC84FFAB1C046BFC0077B57C /* BaiduMobAdInterstitial.h */,
@@ -908,6 +927,7 @@
 				BCFE5AD01B9F4F1300EC9D05 /* AlipaySDK.bundle in Resources */,
 				BC5DD2B81BAA934500200265 /* Launch Screen.storyboard in Resources */,
 				BC84FFB61C046BFC0077B57C /* baidumobadsdk.bundle in Resources */,
+				BC30950B1C0FF0030099E709 /* baidumobadwallsdk.bundle in Resources */,
 				6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1170,6 +1190,7 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
+					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd/AdWall",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1198,6 +1219,7 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
+					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd/AdWall",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";

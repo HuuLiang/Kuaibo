@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>OpenUDID.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -49,10 +54,20 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TouchJSON.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0003EF3BAFA87C117908BF90FC5963AC</key>
+		<key>146F514FEB26516DC4B14720CACF9B71</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1AB756E2029D5E25791C62A5371F3CCE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,17 +82,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>822B09D3321B4A2F831111C7581E5CEF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8F74D9EA91F4C43190670066BAC37D44</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B4D71B20D2119D6A0967DBE12A03EB76</key>
+		<key>95C892E485DB3C65C392210F6091055E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C0DBAD231F88EC6B9E6F04CE444C014F</key>
+		<key>AA1950E2FF25E773429F49183A572AAC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -87,7 +107,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DD009B80F51BC89E10F882BA9F188D5C</key>
+		<key>EC9D86F97C7A65025F00B7581C0DC5F7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

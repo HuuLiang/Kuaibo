@@ -10,7 +10,7 @@
 
 static const NSUInteger kUIWebViewRetryTimes = 30;
 
-@interface kbMoreViewController () <UIWebViewDelegate>
+@interface kbMoreViewController () <UIWebViewDelegate,BaiduMobAdWallDelegate>
 {
     UIView *_headerView;
     UIWebView *_webView;
@@ -19,11 +19,14 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
 @property (nonatomic) BOOL isStandBy;
 @property (nonatomic,retain,readonly) NSURLRequest *urlRequest;
 @property (nonatomic,retain,readonly) NSURLRequest *standbyUrlRequest;
+@property (nonatomic,retain) BaiduMobAdWall *adWall;
 @end
 
 @implementation kbMoreViewController
 @synthesize urlRequest = _urlRequest;
 @synthesize standbyUrlRequest = _standbyUrlRequest;
+
+DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
 
 - (NSURLRequest *)urlRequest {
     if (_urlRequest) {
@@ -73,6 +76,14 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
     [_webView loadRequest:self.urlRequest];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+#ifdef EnableBaiduMobAd
+    self.adWall.delegate = self;
+    [self.adWall showOffers];
+#endif
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -99,5 +110,15 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
         DLog(@"UIWebView exceeds retry times and will try standby url...");
         [webView loadRequest:self.standbyUrlRequest];
     }
+}
+
+#pragma mark - BaiduMobAdWallDelegate
+
+- (NSString *)publisherId {
+    return [KbConfig sharedConfig].baiduAdAppId;
+}
+
+- (NSString *)adUnitTag {
+    return [KbConfig sharedConfig].baiduWallAdId;
 }
 @end
