@@ -67,7 +67,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     }
     
     NSDictionary *params = @{@"uuid":[KbUtil userId],
-                             @"orderNo":orderId.md5,
+                             @"orderNo":orderId,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
                              @"payMoney":@((NSUInteger)(price.doubleValue * 100)),
