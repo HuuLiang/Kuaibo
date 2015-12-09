@@ -822,7 +822,7 @@
 				TargetAttributes = {
 					6E090FDF1B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = QQJ9ECA39A;
+						DevelopmentTeam = BLQ68J5NKX;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1152,9 +1152,9 @@
 					"\"UIKit\"",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeyekuaibo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
 			};
 			name = Debug;
 		};
@@ -1216,9 +1216,9 @@
 					"\"UIKit\"",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeyekuaibo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
 			};
 			name = Release;
 		};
