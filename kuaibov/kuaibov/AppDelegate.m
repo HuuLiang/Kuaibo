@@ -10,28 +10,20 @@
 #import "kbMoreViewController.h"
 #import "KbChannelViewController.h"
 #import "KbHomeViewController.h"
-#import <AlipaySDK/AlipaySDK.h>
-#import "AlipayManager.h"
-#import "WeChatPayManager.h"
 #import "KbActivateModel.h"
 #import "KbPaymentModel.h"
-#import "WXApi.h"
-#import "KbAlipayOrderQueryRequest.h"
-#import "KbWeChatPayQueryOrderRequest.h"
 #import "KbUserAccessModel.h"
 #import "MobClick.h"
+#import "IpaynowPluginApi.h"
 
 #ifdef EnableBaiduMobAd
 #import "BaiduMobAdSplash.h"
 #endif
 
-@interface AppDelegate () <WXApiDelegate
+@interface AppDelegate ()
 #ifdef EnableBaiduMobAd
-,BaiduMobAdSplashDelegate
+<BaiduMobAdSplashDelegate>
 #endif
->
-@property (nonatomic,retain) KbAlipayOrderQueryRequest *alipayOrderQueryRequest;
-@property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
 
 #ifdef EnableBaiduMobAd
 @property (nonatomic,retain) BaiduMobAdSplash *splashAd;
@@ -39,9 +31,6 @@
 @end
 
 @implementation AppDelegate
-
-DefineLazyPropertyInitialization(KbAlipayOrderQueryRequest, alipayOrderQueryRequest)
-DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
 
 - (UIWindow *)window {
     if (_window) {
@@ -142,8 +131,6 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [WXApi registerApp:[KbConfig sharedConfig].weChatPayAppId];
-    
     [[KbErrorHandler sharedHandler] initialize];
     [self setupMobStatistics];
     [self setupCommonStyles];
@@ -170,10 +157,7 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         [[KbUserAccessModel sharedModel] requestUserAccess];
     }
     
-    NSArray *order = [KbUtil orderForSavePending];
-    if (order.count == KbPendingOrderItemCount) {
-        [self paidWithOrderId:order[KbPendingOrderId] price:order[KbPendingOrderPrice] result:PAYRESULT_SUCCESS forProgramId:order[KbPendingOrderProgramId] programType:order[KbPendingOrderProgramType] payPointType:order[KbPendingOrderPayPointType] paymentType:((NSNumber *)order[KbPendingOrderPaymentType]).unsignedIntegerValue];
-    }
+    [[KbPaymentModel sharedModel] processPendingOrder];
     return YES;
 }
 
@@ -189,11 +173,11 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [IpaynowPluginApi willEnterForeground];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self checkPayment];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -201,86 +185,8 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        [[AlipayManager shareInstance] sendNotificationByResult:resultDic];
-    }];
-    [WXApi handleOpenURL:url delegate:self];
-
+    [IpaynowPluginApi application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     return YES;
-}
-
-- (void)checkPayment {
-    NSString *payingOrderNo = [KbUtil payingOrderNo];
-    KbPaymentType payingType = [KbUtil payingOrderPaymentType];
-    if (![KbUtil isPaid] && payingOrderNo && payingType != KbPaymentTypeNone) {
-        if (payingType == KbPaymentTypeWeChatPay) {
-            [self.wechatPayOrderQueryRequest queryOrderWithNo:payingOrderNo completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
-                if ([trade_state isEqualToString:@"SUCCESS"]) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName
-                                                                        object:nil
-                                                                      userInfo:@{kPaidNotificationOrderNoKey:payingOrderNo,
-                                                                                 kPaidNotificationPriceKey:@(total_fee).stringValue,
-                                                                                 kPaidNotificationPaymentType:@(KbPaymentTypeWeChatPay)}];
-                }
-            }];
-        }
-        
-    }
-}
-
-- (void)paidWithOrderId:(NSString *)orderId
-                  price:(NSString *)price
-                 result:(NSInteger)result
-           forProgramId:(NSString *)programId
-            programType:(NSString *)programType
-           payPointType:(NSString *)payPointType
-            paymentType:(KbPaymentType)paymentType {
-    
-    NSString *eventName;
-    if (result == PAYRESULT_ABANDON) {
-        eventName = [KbConfig sharedConfig].umengCancelledPaymentEventId;
-    } else if (result == PAYRESULT_FAIL) {
-        eventName = [KbConfig sharedConfig].umengFailedPaymentEventId;
-    } else if (result == PAYRESULT_SUCCESS) {
-        eventName = [KbConfig sharedConfig].umengSuccessfulPaymentEventId;
-    }
-    
-    NSString *eventLabel;
-    if (paymentType == KbPaymentTypeAlipay) {
-        eventLabel = @"支付宝";
-    } else if (paymentType == KbPaymentTypeWeChatPay) {
-        eventLabel = @"微信支付";
-    }
-    
-    if (eventName && eventLabel) {
-        [MobClick event:eventName label:eventLabel];
-    }
-    
-    [[KbPaymentModel sharedModel] paidWithOrderId:orderId price:price result:result contentId:programId contentType:programType payPointType:payPointType paymentType:paymentType completionHandler:^(BOOL success){
-        if (success && result == PAYRESULT_SUCCESS) {
-            [KbUtil setPaid];
-        }
-    }];
-}
-
-#pragma mark - WeChat delegate
-
-- (void)onReq:(BaseReq *)req {
-    
-}
-
-- (void)onResp:(BaseResp *)resp {
-    if([resp isKindOfClass:[PayResp class]]){
-        PAYRESULT payResult;
-        if (resp.errCode == WXErrCodeUserCancel) {
-            payResult = PAYRESULT_ABANDON;
-        } else if (resp.errCode == WXSuccess) {
-            payResult = PAYRESULT_SUCCESS;
-        } else {
-            payResult = PAYRESULT_FAIL;
-        }
-        [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
-    }
 }
 
 #ifdef EnableBaiduMobAd

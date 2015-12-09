@@ -41,7 +41,8 @@ NSString *const kEncryptionDataName = @"data";
 
 - (NSString *)signedParamRepresentationWithSign:(NSString *)sign
                              encryptionPassword:(NSString *)password
-                                    excludeKeys:(NSArray *)excludedKeys {
+                                    excludeKeys:(NSArray *)excludedKeys
+                              shouldIncludeSign:(BOOL)shouldIncludeSign {
     NSParameterAssert(sign != nil);
     
     __block NSMutableString *params = [NSMutableString string];
@@ -52,7 +53,10 @@ NSString *const kEncryptionDataName = @"data";
         }
     }];
     
-    NSString *signedParams = [NSString stringWithFormat:@"sign=%@%@", sign, params ?: @""];
+    NSString *signedParams = params;
+    if (shouldIncludeSign) {
+        signedParams = [NSString stringWithFormat:@"sign=%@%@", sign, params ?: @""];
+    }
     return [signedParams encryptedStringWithPassword:[password.md5 substringToIndex:16]];
 }
 
@@ -78,7 +82,8 @@ NSString *const kEncryptionDataName = @"data";
 //    
     NSString *params = [self signedParamRepresentationWithSign:sign
                                             encryptionPassword:password
-                                                   excludeKeys:@[pwdKeyName]];
+                                                   excludeKeys:@[pwdKeyName]
+                                             shouldIncludeSign:YES];
 //    NSString *signParam = [NSString stringWithFormat:@"sign=%@", sign];
 //    if (params.length > 0) {
 //        signParam = [signParam stringByAppendingString:params];
@@ -91,7 +96,14 @@ NSString *const kEncryptionDataName = @"data";
 - (NSString *)encryptedStringWithSign:(NSString *)sign
                              password:(NSString *)pwd
                           excludeKeys:(NSArray *)excludedKeys {
-    NSString *params = [self signedParamRepresentationWithSign:sign encryptionPassword:pwd excludeKeys:excludedKeys];
+    return [self encryptedStringWithSign:sign password:pwd excludeKeys:excludedKeys shouldIncludeSign:YES];
+}
+
+- (NSString *)encryptedStringWithSign:(NSString *)sign
+                             password:(NSString *)pwd
+                          excludeKeys:(NSArray *)excludedKeys
+                    shouldIncludeSign:(BOOL)shouldIncludeSign {
+    NSString *params = [self signedParamRepresentationWithSign:sign encryptionPassword:pwd excludeKeys:excludedKeys shouldIncludeSign:shouldIncludeSign];
     return params;
 }
 @end

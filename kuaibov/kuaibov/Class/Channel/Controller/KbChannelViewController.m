@@ -14,20 +14,18 @@
 static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewCellReusableIdentifier";
 static const CGFloat kChannelThumbnailScale = 342.0 / 197.0;
 
-@interface KbChannelViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,BaiduMobAdWallDelegate>
+@interface KbChannelViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
     UIImageView *_headerImageView;
     UICollectionView *_channelsView;
 }
 @property (nonatomic,retain) KbChannelModel *channelModel;
 @property (nonatomic,retain) NSArray *videoChannels;
-@property (nonatomic,retain) BaiduMobAdWall *adWall;
 @end
 
 @implementation KbChannelViewController
 
 DefineLazyPropertyInitialization(KbChannelModel, channelModel)
-DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,7 +53,7 @@ DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
         {
             [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(_headerImageView).offset(5);
-                make.bottom.equalTo(_headerImageView.mas_centerY).offset(2);
+                make.bottom.equalTo(_headerImageView.mas_centerY).offset(3);
                 make.width.equalTo(_headerImageView).multipliedBy(0.08);
             }];
         }
@@ -66,7 +64,9 @@ DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
             if (success) {
                 [self->_headerImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     if (image) {
-                        priceLabel.text = [NSString stringWithFormat:@"%.2f", systemConfigModel.payAmount];
+                        double showPrice = systemConfigModel.payAmount;
+                        BOOL showInteger = (NSUInteger)(showPrice * 100) % 100 == 0;
+                        priceLabel.text = showInteger ? [NSString stringWithFormat:@"%ld", (NSUInteger)showPrice] : [NSString stringWithFormat:@"%.2f", showPrice];
                     } else {
                         priceLabel.text = nil;
                     }
@@ -108,10 +108,10 @@ DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
     }];
     [_channelsView kb_triggerPullToRefresh];
     
-#ifdef EnableBaiduMobAd
-    self.adWall.delegate = self;
-    [self.adWall showOffers];
-#endif
+//#ifdef EnableBaiduMobAd
+//    self.adWall.delegate = self;
+//    [self.adWall showOffers];
+//#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -153,15 +153,7 @@ DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
 
 - (void)onTapHeaderImage {
     if (![KbUtil isPaid]) {
-        @weakify(self);
-        [self payForProgram:nil shouldPopView:YES withCompletionHandler:^(BOOL success) {
-            @strongify(self);
-            if (!success) {
-                return ;
-            }
-            
-            [self didPaidSuccessfully];
-        }];
+        [self payForProgram:nil];
     }
 }
 
@@ -177,7 +169,6 @@ DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
 }
 
 - (void)onPaidNotification:(NSNotification *)notification {
-    [super onPaidNotification:notification];
     [self didPaidSuccessfully];
 }
 
@@ -217,15 +208,5 @@ DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
         programVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:programVC animated:YES];
     }
-}
-
-#pragma mark - BaiduMobAdWallDelegate
-
-- (NSString *)publisherId {
-    return [KbConfig sharedConfig].baiduAdAppId;
-}
-
-- (NSString *)adUnitTag {
-    return [KbConfig sharedConfig].baiduWallAdId;
 }
 @end

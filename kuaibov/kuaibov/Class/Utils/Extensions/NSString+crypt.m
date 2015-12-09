@@ -72,7 +72,7 @@ static NSString *const kPrivateKeyPool = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk
 }
 
 - (NSString *)encryptedStringWithPassword:(NSString *)password {
-    return [self cryptedStringWithPassword:password withOperation:kCCEncrypt];
+    return [self cryptedStringWithPassword:password withOperation:kCCEncrypt]; 
 }
 
 - (NSString *)decryptedStringWithPassword:(NSString *)password; {

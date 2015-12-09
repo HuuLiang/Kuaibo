@@ -26,20 +26,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>AlipayBuyCallBack</string>
+			<string>paynowpayment</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>comjqyingyuanalipayappscheme</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>weixin</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wx4af04eb5b3dbfb56</string>
+				<string>comyeyekuaiboapppaynowurlscheme</string>
 			</array>
 		</dict>
 	</array>

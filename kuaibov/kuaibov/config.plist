@@ -22,24 +22,8 @@
 	<string>/video/systemConfig.htm</string>
 	<key>UserAccessURLPath</key>
 	<string>/video/userAccess.htm</string>
-	<key>AlipayPID</key>
-	<string>2088121199723733</string>
-	<key>AlipaySellerID</key>
-	<string>15268581270@139.com</string>
-	<key>AlipayScheme</key>
-	<string>comjqyingyuanalipayappscheme</string>
-	<key>AlipayPrivateKey</key>
-	<string>MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKJQys69sVJpNmbdNNCph/KeDBiOR2TowZGthn8l+65a0E5n6NxsJzbnD7sCrh2rwUGtxRlC5x16x1H6Cz3P1txzCDsR+pMkxDxNyt0WoV2zmbCXR1XIoJiEglrdK/Hm24EsTuxRGKfj74SA+O2gAozE05QRe6yRjnJi4WEWKW7VAgMBAAECgYB3bTKLgw7hMACTFtcxYEtiu97ygl0NZiRmZ2K6UtwnoTH7PoEbDYic4M22L3ak5ia/iHeo6ozaJ+hX7L4wsKfJR+8UG4Jt4bK/o1qHxwmCZOPItRQk8G6hb3M/XmPIctxhL3a80PGsHD+IEz/gkTjtGCj7S6pzmq5qbA7XEi4qUQJBAM2Wh/6fHj/wxd/8OkkPN3/Fy0QdxX7u7m9VOYkUTug1h4/nNdP1qIaAdId5wk8LH2VQB1cVSY4le/Hve7A15YMCQQDKHebrkZnddCtphvgUFr09zA0d1ZCEtgzh/nBBBuM9prJi4JDBDrYnfw0oHCr97QJhXyIDhwfHBnxHUM3tUwLHAkEAil883UWfiI23wQ/08uOJCTjJnOkk2lBarxh/hyHiEiylN1f5RNZdPVoMFHsBK05jLT92EUjEnyXfjHERoQJFnQJAMTVeh3QHlhc2ipbFx35RzL3lY6IfcXAxasRb6DkZEmWHgPNTyu0eBDe2qFFTVkdiEPrseRdjGV3G3EYcHO/c+QJBAJS2kHuwVDK4qgT9Ks0AkgUGcAogl9kDuhwTYGr3ElgXJlx944tsz2cCn8K5H4EAKQ120f65dNWG59fPlvk0O0c=</string>
-	<key>AlipayNotifyURL</key>
-	<string>http://phas.ihuiyx.com/pd-has/notifyByAlipay.json</string>
-	<key>WeChatPayAppId</key>
-	<string>wx4af04eb5b3dbfb56</string>
-	<key>WeChatPayMchId</key>
-	<string>1281148901</string>
-	<key>WeChatPayPrivateKey</key>
-	<string>hangzhouquba20151112qwertyuiopas</string>
-	<key>WeChatPayNotifyURL</key>
-	<string>http://phas.ihuiyx.com/pd-has/notifyWx.json</string>
+	<key>PayNowScheme</key>
+	<string>comyeyekuaiboapppaynowurlscheme</string>
 	<key>SystemConfigPayAmount</key>
 	<string>PAY_AMOUNT</string>
 	<key>SystemConfigChannelTopImage</key>

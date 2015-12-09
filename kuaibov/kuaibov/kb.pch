@@ -13,11 +13,23 @@
 typedef NS_ENUM(NSUInteger, KbPaymentType) {
     KbPaymentTypeNone,
     KbPaymentTypeAlipay = 1001,
-    KbPaymentTypeWeChatPay = 1008
+    KbPaymentTypeWeChatPay = 1008,
+    KbPaymentTypeUPPay = 1009
 };
+
+typedef NS_ENUM(NSInteger, PAYRESULT)
+{
+    PAYRESULT_SUCCESS   = 0,
+    PAYRESULT_FAIL      = 1,
+    PAYRESULT_ABANDON   = 2,
+    PAYRESULT_UNKNOWN   = 3
+};
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #import "Constants.h"
+#import "PayNowDef.h"
+#import "NSObject+Properties.h"
 #import "UIViewExt.h"
 #import "UIView+StringTag.h"
 #import "NSString+meltutils.h"
@@ -49,14 +61,4 @@ typedef NS_ENUM(NSUInteger, KbPaymentType) {
 #define kPaidNotificationPriceKey @"kuaibo_paid_notification_price_key"
 #define kPaidNotificationPaymentType @"kuaibo_paid_notification_payment_type"
 
-//#define EnableBaiduMobAd
-#ifdef EnableBaiduMobAd
-#import "BaiduMobAdWall.h"
-#else
-typedef NSObject BaiduMobAdWall;
-
-@protocol BaiduMobAdWallDelegate <NSObject>
-
-@end
-#endif
 #endif

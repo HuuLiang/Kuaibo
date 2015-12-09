@@ -22,7 +22,7 @@
     
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    NSArray *properties = [self propertiesOfClass:[instance class]];
+    NSArray *properties = [NSObject propertiesOfClass:[instance class]];
     [properties enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString *propertyName = (NSString *)obj;
         
@@ -61,22 +61,4 @@
 #pragma clang diagnostic pop
 }
 
-- (NSArray *)propertiesOfClass:(Class)cls {
-    NSMutableArray *propertyArr = [[NSMutableArray alloc] init];
-    while (cls != [NSObject class]) {
-        uint propertyCount = 0;
-        objc_property_t *properties = class_copyPropertyList(cls, &propertyCount);
-        for (uint i = 0; i < propertyCount; ++i) {
-            objc_property_t property = properties[i];
-            const char* propertyName = property_getName(property);
-            if (propertyName) {
-                NSString *propName = [NSString stringWithUTF8String:propertyName];
-                [propertyArr addObject:propName];
-            }
-        }
-        free(properties);
-        cls = [cls superclass];
-    }
-    return propertyArr;
-}
 @end

@@ -83,7 +83,7 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
                                completionHandler:^(BOOL success, KbChannelPrograms *programs) {
                                    @strongify(self);
                                    
-                                   if (success) {
+                                   if (success && programs.programList) {
                                        [self.programs addObjectsFromArray:programs.programList];
                                        [self->_programTableView reloadData];
                                    }

@@ -8,7 +8,7 @@
 
 #import "KbPaymentModel.h"
 #import "NSDictionary+KbSign.h"
-#import "AlipayManager.h"
+//#import "AlipayManager.h"
 
 static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
 static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
@@ -52,6 +52,21 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     return @{@"data":encryptedDataString, @"appId":[KbUtil appId]};
 }
 
+- (BOOL)processPendingOrder {
+    NSArray *order = [KbUtil orderForSavePending];
+    if (order.count == KbPendingOrderItemCount) {
+        return [self paidWithOrderId:order[KbPendingOrderId]
+                               price:order[KbPendingOrderPrice]
+                              result:PAYRESULT_SUCCESS
+                           contentId:order[KbPendingOrderProgramId]
+                         contentType:order[KbPendingOrderProgramType]
+                        payPointType:order[KbPendingOrderPayPointType]
+                         paymentType:((NSNumber *)order[KbPendingOrderPaymentType]).unsignedIntegerValue
+                   completionHandler:nil];
+    }
+    return NO;
+}
+
 - (BOOL)paidWithOrderId:(NSString *)orderId
                   price:(NSString *)price
                  result:(NSInteger)result
@@ -60,7 +75,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
            payPointType:(NSString *)payPointType
             paymentType:(KbPaymentType)paymentType
       completionHandler:(KbPaidCompletionHandler)handler {
-    NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2)};
+    NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(3)};
     
     if (nil == [KbUtil userId] || orderId.length == 0 || contentId == nil || contentType == nil) {
         return NO;
@@ -70,7 +85,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"orderNo":orderId,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
-                             @"payMoney":@((NSUInteger)(price.doubleValue * 100)),
+                             @"payMoney":price,//@((NSUInteger)(price.doubleValue * 100)),
                              @"channelNo":[KbConfig sharedConfig].channelNo,
                              @"contentId":contentId,
                              @"contentType":contentType,

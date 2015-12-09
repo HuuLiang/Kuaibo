@@ -62,6 +62,10 @@ static NSString *const kDefaultStandbyConfigName = @"config_standby";
     }];
 }
 
+- (NSString *)paymentSignURLPath {
+    return @"http://120.24.252.114:8084/pd-has/signtureNowdata.json";
+}
+
 - (NSString *)paymentURLPath {
     return @"http://pay.iqu8.net/paycenter/qubaPr.json";
 }

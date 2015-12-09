@@ -24,6 +24,10 @@
     return _instance;
 }
 
+- (UIView *)hudView {
+    return self.textHud;
+}
+
 -(instancetype)init {
     self = [super init];
     if (!self) {

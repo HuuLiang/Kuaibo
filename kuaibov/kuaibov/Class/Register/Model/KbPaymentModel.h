@@ -7,7 +7,6 @@
 //
 
 #import "KbEncryptedURLRequest.h"
-#import "Order.h"
 
 typedef void (^KbPaidCompletionHandler)(BOOL success);
 
@@ -15,6 +14,7 @@ typedef void (^KbPaidCompletionHandler)(BOOL success);
 
 + (instancetype)sharedModel;
 
+- (BOOL)processPendingOrder;
 - (BOOL)paidWithOrderId:(NSString *)orderId
                   price:(NSString *)price
                  result:(NSInteger)result

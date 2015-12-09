@@ -16,9 +16,7 @@
 - (instancetype)initWithBottomAdBanner:(BOOL)hasBanner;
 
 - (void)switchToPlayProgram:(KbProgram *)program;
-- (void)payForProgram:(KbProgram *)program
-        shouldPopView:(BOOL)popped
-withCompletionHandler:(void (^)(BOOL success))handler;
+- (void)payForProgram:(KbProgram *)program;
 - (void)onPaidNotification:(NSNotification *)notification;
 
 @end
