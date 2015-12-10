@@ -14,20 +14,18 @@
 static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewCellReusableIdentifier";
 static const CGFloat kChannelThumbnailScale = 342.0 / 197.0;
 
-@interface KbChannelViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,BaiduMobAdWallDelegate>
+@interface KbChannelViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
     UIImageView *_headerImageView;
     UICollectionView *_channelsView;
 }
 @property (nonatomic,retain) KbChannelModel *channelModel;
 @property (nonatomic,retain) NSArray *videoChannels;
-@property (nonatomic,retain) BaiduMobAdWall *adWall;
 @end
 
 @implementation KbChannelViewController
 
 DefineLazyPropertyInitialization(KbChannelModel, channelModel)
-DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -107,11 +105,6 @@ DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
         [self loadChannels];
     }];
     [_channelsView kb_triggerPullToRefresh];
-    
-#ifdef EnableBaiduMobAd
-    self.adWall.delegate = self;
-    [self.adWall showOffers];
-#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {

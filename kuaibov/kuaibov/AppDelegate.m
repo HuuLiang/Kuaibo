@@ -20,12 +20,16 @@
 #import "KbWeChatPayQueryOrderRequest.h"
 #import "KbUserAccessModel.h"
 #import "MobClick.h"
+#import "KbSystemConfigModel.h"
+#import <objc/runtime.h>
 
 #ifdef EnableBaiduMobAd
 #import "BaiduMobAdSplash.h"
 #endif
 
-@interface AppDelegate () <WXApiDelegate
+static const void *kStartupInstallAssociatedKey = &kStartupInstallAssociatedKey;
+
+@interface AppDelegate () <WXApiDelegate, UIAlertViewDelegate
 #ifdef EnableBaiduMobAd
 ,BaiduMobAdSplashDelegate
 #endif
@@ -174,6 +178,22 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     if (order.count == KbPendingOrderItemCount) {
         [self paidWithOrderId:order[KbPendingOrderId] price:order[KbPendingOrderPrice] result:PAYRESULT_SUCCESS forProgramId:order[KbPendingOrderProgramId] programType:order[KbPendingOrderProgramType] payPointType:order[KbPendingOrderPayPointType] paymentType:((NSNumber *)order[KbPendingOrderPaymentType]).unsignedIntegerValue];
     }
+    
+    [[KbSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+        if (!success) {
+            return ;
+        }
+        
+        if ([KbSystemConfigModel sharedModel].startupInstall.length == 0
+            || [KbSystemConfigModel sharedModel].startupPrompt.length == 0) {
+            return ;
+        }
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:[KbSystemConfigModel sharedModel].startupPrompt delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        objc_setAssociatedObject(alertView, kStartupInstallAssociatedKey, [KbSystemConfigModel sharedModel].startupInstall, OBJC_ASSOCIATION_COPY_NONATOMIC);
+        [alertView show];
+    }];
+    
     return YES;
 }
 
@@ -290,4 +310,13 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     return [KbConfig sharedConfig].baiduAdAppId;
 }
 #endif
+
+#pragma mark - UIAlertViewDelegate 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:@"确定"]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:objc_getAssociatedObject(alertView, kStartupInstallAssociatedKey)]];
+    }
+}
 @end

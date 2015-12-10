@@ -20,6 +20,9 @@ typedef void (^KbFetchSystemConfigCompletionHandler)(BOOL success);
 @property (nonatomic) double payAmount;
 @property (nonatomic) NSString *channelTopImage;
 
+@property (nonatomic) NSString *startupInstall;
+@property (nonatomic) NSString *startupPrompt;
+
 + (instancetype)sharedModel;
 
 - (BOOL)fetchSystemConfigWithCompletionHandler:(KbFetchSystemConfigCompletionHandler)handler;

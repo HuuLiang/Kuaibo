@@ -10,7 +10,7 @@
 
 static const NSUInteger kUIWebViewRetryTimes = 30;
 
-@interface kbMoreViewController () <UIWebViewDelegate,BaiduMobAdWallDelegate>
+@interface kbMoreViewController () <UIWebViewDelegate>
 {
     UIView *_headerView;
     UIWebView *_webView;
@@ -19,14 +19,11 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
 @property (nonatomic) BOOL isStandBy;
 @property (nonatomic,retain,readonly) NSURLRequest *urlRequest;
 @property (nonatomic,retain,readonly) NSURLRequest *standbyUrlRequest;
-@property (nonatomic,retain) BaiduMobAdWall *adWall;
 @end
 
 @implementation kbMoreViewController
 @synthesize urlRequest = _urlRequest;
 @synthesize standbyUrlRequest = _standbyUrlRequest;
-
-DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
 
 - (NSURLRequest *)urlRequest {
     if (_urlRequest) {
@@ -78,10 +75,6 @@ DefineLazyPropertyInitialization(BaiduMobAdWall, adWall)
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-#ifdef EnableBaiduMobAd
-    self.adWall.delegate = self;
-    [self.adWall showOffers];
-#endif
 }
 
 - (void)didReceiveMemoryWarning {
