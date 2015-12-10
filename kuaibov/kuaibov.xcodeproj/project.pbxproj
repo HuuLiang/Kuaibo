@@ -871,7 +871,7 @@
 				TargetAttributes = {
 					6E090FDF1B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = L892JQK7TZ;
+						DevelopmentTeam = BLQ68J5NKX;
 					};
 					6E090FF81B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
@@ -1079,8 +1079,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Suzhou Xinan Paul Information Security Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Suzhou Xinan Paul Information Security Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -1104,7 +1104,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a64b88e0-f4ab-47d4-ac45-deafdc23f478";
+				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1126,8 +1126,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Suzhou Xinan Paul Information Security Co., Ltd.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Suzhou Xinan Paul Information Security Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -1143,7 +1143,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "a64b88e0-f4ab-47d4-ac45-deafdc23f478";
+				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1154,7 +1154,7 @@
 			baseConfigurationReference = A829465AEB8D6C3264B4F256 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Suzhou Xinan Paul Information Security Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1172,9 +1172,9 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd/AdWall",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeyekuaibo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aef7b085-3c59-470e-9b28-9dc29b8dcfcc";
+				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
 			};
 			name = Debug;
 		};
@@ -1183,7 +1183,7 @@
 			baseConfigurationReference = CEB2734AF03850849D8DF430 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Suzhou Xinan Paul Information Security Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1201,9 +1201,9 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd/AdWall",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jqyingyuan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yeyekuaibo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aef7b085-3c59-470e-9b28-9dc29b8dcfcc";
+				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
 			};
 			name = Release;
 		};
