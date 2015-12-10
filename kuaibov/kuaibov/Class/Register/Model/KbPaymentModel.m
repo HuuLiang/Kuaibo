@@ -8,7 +8,6 @@
 
 #import "KbPaymentModel.h"
 #import "NSDictionary+KbSign.h"
-//#import "AlipayManager.h"
 
 static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
 static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
@@ -75,7 +74,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
            payPointType:(NSString *)payPointType
             paymentType:(KbPaymentType)paymentType
       completionHandler:(KbPaidCompletionHandler)handler {
-    NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(3)};
+    NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(0)};
     
     if (nil == [KbUtil userId] || orderId.length == 0 || contentId == nil || contentType == nil) {
         return NO;
