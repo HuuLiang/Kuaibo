@@ -63,7 +63,7 @@ static NSString *const kDefaultStandbyConfigName = @"config_standby";
 }
 
 - (NSString *)paymentSignURLPath {
-    return @"http://120.24.252.114:8084/pd-has/signtureNowdata.json";
+    return @"http://phas.ihuiyx.com/pd-has/signtureNowdata.json";
 }
 
 - (NSString *)paymentURLPath {
