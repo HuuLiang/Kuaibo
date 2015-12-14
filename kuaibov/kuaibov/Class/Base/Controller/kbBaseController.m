@@ -110,7 +110,6 @@ static const CGFloat kDefaultAdBannerHeight = 30;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = HexColor(#f7f7f7);
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
 }
 
 - (void)viewDidLayoutSubviews {

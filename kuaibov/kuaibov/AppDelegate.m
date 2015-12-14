@@ -188,10 +188,10 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
             || [KbSystemConfigModel sharedModel].startupPrompt.length == 0) {
             return ;
         }
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:[KbSystemConfigModel sharedModel].startupPrompt delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        objc_setAssociatedObject(alertView, kStartupInstallAssociatedKey, [KbSystemConfigModel sharedModel].startupInstall, OBJC_ASSOCIATION_COPY_NONATOMIC);
-        [alertView show];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:[KbSystemConfigModel sharedModel].startupPrompt delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//        objc_setAssociatedObject(alertView, kStartupInstallAssociatedKey, [KbSystemConfigModel sharedModel].startupInstall, OBJC_ASSOCIATION_COPY_NONATOMIC);
+//        [alertView show];
     }];
     
     return YES;
