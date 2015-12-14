@@ -16,12 +16,20 @@
 #import "MobClick.h"
 #import "IpaynowPluginApi.h"
 #import "KbSystemConfigModel.h"
+#import "WXApi.h"
+#import "WeChatPayManager.h"
+#import "KbWeChatPayQueryOrderRequest.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<WXApiDelegate>
+
+@property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
 
 @end
 
 @implementation AppDelegate
+
+DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
+
 
 - (UIWindow *)window {
     if (_window) {
@@ -122,6 +130,8 @@
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [WXApi registerApp:[KbConfig sharedConfig].weChatPayAppId];
+    
     [[KbErrorHandler sharedHandler] initialize];
     [self setupMobStatistics];
     [self setupCommonStyles];
@@ -180,6 +190,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self checkPayment];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -190,4 +201,44 @@
     [IpaynowPluginApi application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     return YES;
 }
+
+- (void)checkPayment {
+    NSString *payingOrderNo = [KbUtil payingOrderNo];
+    KbPaymentType payingType = [KbUtil payingOrderPaymentType];
+    if (![KbUtil isPaid] && payingOrderNo && payingType != KbPaymentTypeNone) {
+        if (payingType == KbPaymentTypeWeChatPay) {
+            [self.wechatPayOrderQueryRequest queryOrderWithNo:payingOrderNo completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
+                if ([trade_state isEqualToString:@"SUCCESS"]) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName
+                                                                        object:nil
+                                                                      userInfo:@{kPaidNotificationOrderNoKey:payingOrderNo,
+                                                                                 kPaidNotificationPriceKey:@(total_fee).stringValue,
+                                                                                 kPaidNotificationPaymentType:@(KbPaymentTypeWeChatPay)}];
+                }
+            }];
+        }
+        
+    }
+}
+
+#pragma mark - WeChat delegate
+
+- (void)onReq:(BaseReq *)req {
+    
+}
+
+- (void)onResp:(BaseResp *)resp {
+    if([resp isKindOfClass:[PayResp class]]){
+        PAYRESULT payResult;
+        if (resp.errCode == WXErrCodeUserCancel) {
+            payResult = PAYRESULT_ABANDON;
+        } else if (resp.errCode == WXSuccess) {
+            payResult = PAYRESULT_SUCCESS;
+        } else {
+            payResult = PAYRESULT_FAIL;
+        }
+        [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
+    }
+}
+
 @end

@@ -22,6 +22,11 @@
 @property (nonatomic,readonly) NSString *systemConfigURLPath;
 @property (nonatomic,readonly) NSString *userAccessURLPath;
 
+@property (nonatomic,readonly) NSString *weChatPayAppId;
+@property (nonatomic,readonly) NSString *weChatPayMchId;
+@property (nonatomic,readonly) NSString *weChatPayPrivateKey;
+@property (nonatomic,readonly) NSString *weChatPayNotifyURL;
+
 @property (nonatomic,readonly) NSString *systemConfigPayAmount;
 @property (nonatomic,readonly) NSString *systemConfigChannelTopImage;
 @property (nonatomic,readonly) NSString *systemConfigStartupInstall;

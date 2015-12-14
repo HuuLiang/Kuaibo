@@ -15,6 +15,7 @@
 #import "KbPaymentModel.h"
 #import <objc/runtime.h>
 #import "KbProgram.h"
+#import "WeChatPayManager.h"
 
 @interface KbPaymentViewController () <IpaynowPluginDelegate>
 @property (nonatomic,retain) KbPaymentPopView *popView;
@@ -136,6 +137,24 @@
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
     [KbUtil setPayingOrderWithOrderNo:orderNo paymentType:paymentType];
     
+    if (paymentType==KbPaymentTypeWeChatPay) {
+        [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:price completionHandler:^(PAYRESULT payResult) {
+            if (payResult == PAYRESULT_SUCCESS) {
+                [KbUtil setPaidPendingWithOrder:@[orderNo,
+                                                  @(price).stringValue,
+                                                  program.programId.stringValue ?: @"",
+                                                  program.type.stringValue ?: @"",
+                                                  program.payPointType.stringValue ?: @""]];
+                
+            } else if (payResult == PAYRESULT_FAIL) {
+                [[KbHudManager manager] showHudWithText:@"支付失败"];
+            } else if (payResult == PAYRESULT_ABANDON) {
+                [[KbHudManager manager] showHudWithText:@"支付取消"];
+            }
+        }];
+        
+    } else{
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
     
@@ -160,6 +179,7 @@
             [[KbHudManager manager] showHudWithText:@"服务器获取签名失败！"];
         }
     }];
+    }
 }
 
 - (NSDictionary *)paymentTypeMap {

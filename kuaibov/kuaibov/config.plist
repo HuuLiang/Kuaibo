@@ -24,6 +24,14 @@
 	<string>/video/userAccess.htm</string>
 	<key>PayNowScheme</key>
 	<string>comyeyekuaiboapppaynowurlscheme</string>
+	<key>WeChatPayAppId</key>
+	<string>wx4af04eb5b3dbfb56</string>
+	<key>WeChatPayMchId</key>
+	<string>1281148901</string>
+	<key>WeChatPayPrivateKey</key>
+	<string>hangzhouquba20151112qwertyuiopas</string>
+	<key>WeChatPayNotifyURL</key>
+	<string>http://phas.ihuiyx.com/pd-has/notifyWx.json</string>
 	<key>SystemConfigPayAmount</key>
 	<string>PAY_AMOUNT</string>
 	<key>SystemConfigChannelTopImage</key>
