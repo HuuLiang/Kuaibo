@@ -15,19 +15,10 @@
 #import "KbUserAccessModel.h"
 #import "MobClick.h"
 #import "IpaynowPluginApi.h"
-
-#ifdef EnableBaiduMobAd
-#import "BaiduMobAdSplash.h"
-#endif
+#import "KbSystemConfigModel.h"
 
 @interface AppDelegate ()
-#ifdef EnableBaiduMobAd
-<BaiduMobAdSplashDelegate>
-#endif
 
-#ifdef EnableBaiduMobAd
-@property (nonatomic,retain) BaiduMobAdSplash *splashAd;
-#endif
 @end
 
 @implementation AppDelegate
@@ -158,6 +149,17 @@
     }
     
     [[KbPaymentModel sharedModel] processPendingOrder];
+    [[KbSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+        if (!success) {
+            return ;
+        }
+        
+        if ([KbSystemConfigModel sharedModel].startupInstall.length == 0
+            || [KbSystemConfigModel sharedModel].startupPrompt.length == 0) {
+            return ;
+        }
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
+    }];
     return YES;
 }
 
@@ -188,12 +190,4 @@
     [IpaynowPluginApi application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     return YES;
 }
-
-#ifdef EnableBaiduMobAd
-#pragma mark - BaiduMobAdSplashDelegate
-
-- (NSString *)publisherId {
-    return [KbConfig sharedConfig].baiduAdAppId;
-}
-#endif
 @end

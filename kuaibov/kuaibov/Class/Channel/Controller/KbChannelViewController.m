@@ -10,7 +10,7 @@
 #import "KbChannelModel.h"
 #import "KbProgramViewController.h"
 #import "KbSystemConfigModel.h"
-
+#import "KbProgram.h"
 static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewCellReusableIdentifier";
 static const CGFloat kChannelThumbnailScale = 342.0 / 197.0;
 
@@ -29,6 +29,8 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
     self.title = @"频道";
     
     @weakify(self);
@@ -107,11 +109,6 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
         [self loadChannels];
     }];
     [_channelsView kb_triggerPullToRefresh];
-    
-//#ifdef EnableBaiduMobAd
-//    self.adWall.delegate = self;
-//    [self.adWall showOffers];
-//#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -152,6 +149,8 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 }
 
 - (void)onTapHeaderImage {
+    KbProgram *program=[[KbProgram alloc]init];
+    program.payPointType=@999;
     if (![KbUtil isPaid]) {
         [self payForProgram:nil];
     }

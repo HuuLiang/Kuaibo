@@ -50,6 +50,9 @@
                     self.payAmount = config.value.doubleValue / 100.;
                 } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigChannelTopImage]) {
                     self.channelTopImage = config.value;
+                } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigStartupInstall]) {
+                    self.startupInstall = config.value;
+                    self.startupPrompt = config.memo;
                 }
             }];
         }

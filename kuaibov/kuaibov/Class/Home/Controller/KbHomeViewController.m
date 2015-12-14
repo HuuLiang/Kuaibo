@@ -50,6 +50,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createBtn];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
     // Do any additional setup after loading the view.
     NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
     if (!appName) {

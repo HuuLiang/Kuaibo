@@ -24,6 +24,7 @@
 
 @property (nonatomic,readonly) NSString *systemConfigPayAmount;
 @property (nonatomic,readonly) NSString *systemConfigChannelTopImage;
+@property (nonatomic,readonly) NSString *systemConfigStartupInstall;
 
 @property (nonatomic,readonly) NSString *payNowScheme;
 @property (nonatomic,readonly) NSString *paymentSignURLPath;

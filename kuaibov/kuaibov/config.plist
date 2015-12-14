@@ -28,6 +28,8 @@
 	<string>PAY_AMOUNT</string>
 	<key>SystemConfigChannelTopImage</key>
 	<string>CHANNEL_TOP_IMG</string>
+	<key>SystemConfigStartupInstall</key>
+	<string>START_INSTALL</string>
 	<key>BaiduAdAppId</key>
 	<string>a39921a8</string>
 	<key>BaiduBannerAdId</key>
