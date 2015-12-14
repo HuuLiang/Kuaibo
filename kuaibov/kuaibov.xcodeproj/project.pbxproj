@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		12DEBE631C1EE6DD0062AFE1 /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE5C1C1EE6DD0062AFE1 /* ApiXml.mm */; };
+		12DEBE641C1EE6DD0062AFE1 /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE5E1C1EE6DD0062AFE1 /* payRequsestHandler.mm */; };
+		12DEBE651C1EE6DD0062AFE1 /* WeChatPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE601C1EE6DD0062AFE1 /* WeChatPayManager.m */; };
+		12DEBE661C1EE6DD0062AFE1 /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE621C1EE6DD0062AFE1 /* WXUtil.mm */; };
+		12DEBE6D1C1EEDF50062AFE1 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12DEBE6A1C1EEDF50062AFE1 /* libWeChatSDK.a */; };
+		12DEBE701C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE6F1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m */; };
 		56794F4345B561BA89892950 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B6ED104721273B48C5C5C /* libPods.a */; };
 		6E090FE61B86A37B00260BDC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FE51B86A37B00260BDC /* main.m */; };
 		6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FE81B86A37B00260BDC /* AppDelegate.m */; };
@@ -105,6 +111,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		12DEBE5B1C1EE6DD0062AFE1 /* ApiXml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiXml.h; sourceTree = "<group>"; };
+		12DEBE5C1C1EE6DD0062AFE1 /* ApiXml.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ApiXml.mm; sourceTree = "<group>"; };
+		12DEBE5D1C1EE6DD0062AFE1 /* payRequsestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = payRequsestHandler.h; sourceTree = "<group>"; };
+		12DEBE5E1C1EE6DD0062AFE1 /* payRequsestHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = payRequsestHandler.mm; sourceTree = "<group>"; };
+		12DEBE5F1C1EE6DD0062AFE1 /* WeChatPayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeChatPayManager.h; sourceTree = "<group>"; };
+		12DEBE601C1EE6DD0062AFE1 /* WeChatPayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeChatPayManager.m; sourceTree = "<group>"; };
+		12DEBE611C1EE6DD0062AFE1 /* WXUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXUtil.h; sourceTree = "<group>"; };
+		12DEBE621C1EE6DD0062AFE1 /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
+		12DEBE6A1C1EEDF50062AFE1 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		12DEBE6B1C1EEDF50062AFE1 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		12DEBE6C1C1EEDF50062AFE1 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		12DEBE6E1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbWeChatPayQueryOrderRequest.h; sourceTree = "<group>"; };
+		12DEBE6F1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayQueryOrderRequest.m; sourceTree = "<group>"; };
 		4B8B6ED104721273B48C5C5C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E090FE01B86A37B00260BDC /* kuaibov.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kuaibov.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E090FE41B86A37B00260BDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -282,6 +301,7 @@
 			files = (
 				BC84FFCD1C046D560077B57C /* WebKit.framework in Frameworks */,
 				BC84FFCB1C046D4F0077B57C /* CoreGraphics.framework in Frameworks */,
+				12DEBE6D1C1EEDF50062AFE1 /* libWeChatSDK.a in Frameworks */,
 				BC1C4B601BFC638C001B5867 /* CoreTelephony.framework in Frameworks */,
 				BC683B061C18129F006B19A5 /* libUPPayPlugin.a in Frameworks */,
 				BC683B031C18129F006B19A5 /* libIpaynowPlugin.a in Frameworks */,
@@ -316,6 +336,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		12DEBE5A1C1EE6DD0062AFE1 /* WeChatPay */ = {
+			isa = PBXGroup;
+			children = (
+				12DEBE5B1C1EE6DD0062AFE1 /* ApiXml.h */,
+				12DEBE5C1C1EE6DD0062AFE1 /* ApiXml.mm */,
+				12DEBE5D1C1EE6DD0062AFE1 /* payRequsestHandler.h */,
+				12DEBE5E1C1EE6DD0062AFE1 /* payRequsestHandler.mm */,
+				12DEBE5F1C1EE6DD0062AFE1 /* WeChatPayManager.h */,
+				12DEBE601C1EE6DD0062AFE1 /* WeChatPayManager.m */,
+				12DEBE611C1EE6DD0062AFE1 /* WXUtil.h */,
+				12DEBE621C1EE6DD0062AFE1 /* WXUtil.mm */,
+			);
+			path = WeChatPay;
+			sourceTree = "<group>";
+		};
+		12DEBE691C1EEDF50062AFE1 /* WeChatSDK */ = {
+			isa = PBXGroup;
+			children = (
+				12DEBE6A1C1EEDF50062AFE1 /* libWeChatSDK.a */,
+				12DEBE6B1C1EEDF50062AFE1 /* WXApi.h */,
+				12DEBE6C1C1EEDF50062AFE1 /* WXApiObject.h */,
+			);
+			path = WeChatSDK;
+			sourceTree = "<group>";
+		};
 		6E090FD71B86A37B00260BDC = {
 			isa = PBXGroup;
 			children = (
@@ -477,6 +522,8 @@
 		6E2B8AEB1B95FD5600053761 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				12DEBE691C1EEDF50062AFE1 /* WeChatSDK */,
+				12DEBE5A1C1EE6DD0062AFE1 /* WeChatPay */,
 				BC01B8A51C0BFE1D008932E7 /* Umeng */,
 				BC84FFA81C046BA90077B57C /* BaiduMobAd */,
 				BCFF05181B98699B0074BAE2 /* rac_extobjc */,
@@ -705,6 +752,8 @@
 				BC039DA31BA1AA10003E43B2 /* KbSystemConfigModel.h */,
 				BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */,
 				BCD0D5C01BFDC511000F774E /* KbAlipayConfigModel.h */,
+				12DEBE6E1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.h */,
+				12DEBE6F1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m */,
 				BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */,
 				BC18E7221C06EC3B00ADAA2B /* KbUserAccessModel.h */,
 				BC18E7231C06EC3B00ADAA2B /* KbUserAccessModel.m */,
@@ -822,7 +871,7 @@
 				TargetAttributes = {
 					6E090FDF1B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = BLQ68J5NKX;
+						DevelopmentTeam = P677NX55K9;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -937,10 +986,12 @@
 				BCDE4EFF1BA6657500244945 /* UIViewExt.m in Sources */,
 				BCDE4EFC1BA6657500244945 /* NSString+md5.m in Sources */,
 				BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */,
+				12DEBE651C1EE6DD0062AFE1 /* WeChatPayManager.m in Sources */,
 				BCFE5AB71B9F1FD800EC9D05 /* KbUtil.m in Sources */,
 				BCFF93641B9B942100B2EDF9 /* KbChannelProgramModel.m in Sources */,
 				BCDE4EFB1BA6657500244945 /* NSString+length.m in Sources */,
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
+				12DEBE641C1EE6DD0062AFE1 /* payRequsestHandler.mm in Sources */,
 				BCFF935F1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m in Sources */,
 				BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
@@ -952,6 +1003,7 @@
 				BCFF05141B9861C50074BAE2 /* KbURLRequest.m in Sources */,
 				BCFF05211B986AE40074BAE2 /* KbConfig.m in Sources */,
 				BCFF935B1B9B7DB400B2EDF9 /* KbVideo.m in Sources */,
+				12DEBE661C1EE6DD0062AFE1 /* WXUtil.mm in Sources */,
 				BCFA19D31B9ACE1000B3EE05 /* KbHomeProgramModel.m in Sources */,
 				BCDE4EF61BA6657500244945 /* NSString+crypt.m in Sources */,
 				BCFF936E1B9B9CFC00B2EDF9 /* KbChannelProgramCell.m in Sources */,
@@ -980,7 +1032,9 @@
 				BCFF93521B9B4CCC00B2EDF9 /* KbHomeSectionHeaderView.m in Sources */,
 				6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */,
 				BC18E7281C07069D00ADAA2B /* NSDate+Utilities.m in Sources */,
+				12DEBE631C1EE6DD0062AFE1 /* ApiXml.mm in Sources */,
 				BCD0D5C21BFDC511000F774E /* KbAlipayConfigModel.m in Sources */,
+				12DEBE701C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m in Sources */,
 				BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */,
 				BC18E7241C06EC3B00ADAA2B /* KbUserAccessModel.m in Sources */,
 				6E090FE61B86A37B00260BDC /* main.m in Sources */,
@@ -1099,7 +1153,7 @@
 			baseConfigurationReference = A829465AEB8D6C3264B4F256 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1152,9 +1206,9 @@
 					"\"UIKit\"",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yeyekuaibo.app;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.hello.--25UI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1163,7 +1217,7 @@
 			baseConfigurationReference = CEB2734AF03850849D8DF430 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1216,9 +1270,9 @@
 					"\"UIKit\"",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yeyekuaibo.app;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.hello.--25UI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -1238,6 +1292,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kuaibov.video.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kuaibov.app/kuaibov";
 			};
 			name = Debug;
@@ -1254,6 +1309,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kuaibov.video.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8699c8af-caa0-4fc6-8264-ead3502b9d3b";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/kuaibov.app/kuaibov";
 			};
 			name = Release;
