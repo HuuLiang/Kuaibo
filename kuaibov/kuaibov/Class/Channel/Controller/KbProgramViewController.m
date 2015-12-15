@@ -39,8 +39,6 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
     // Do any additional setup after loading the view.
     self.title = _channel.name;
     self.view.backgroundColor = [UIColor whiteColor];

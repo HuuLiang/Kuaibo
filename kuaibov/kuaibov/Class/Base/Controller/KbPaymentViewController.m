@@ -9,20 +9,17 @@
 #import "KbPaymentViewController.h"
 #import "KbPaymentPopView.h"
 #import "KbSystemConfigModel.h"
-#import "IpaynowPluginApi.h"
 #import "IPNPreSignMessageUtil.h"
-#import "KbPaymentSignModel.h"
 #import "KbPaymentModel.h"
 #import <objc/runtime.h>
 #import "KbProgram.h"
 #import "WeChatPayManager.h"
 
-@interface KbPaymentViewController () <IpaynowPluginDelegate>
+@interface KbPaymentViewController () 
 @property (nonatomic,retain) KbPaymentPopView *popView;
 @property (nonatomic) NSNumber *payAmount;
 
 @property (nonatomic,retain) KbProgram *programToPayFor;
-@property (nonatomic,retain) IPNPreSignMessageUtil *paymentInfo;
 
 @property (nonatomic,readonly,retain) NSDictionary *paymentTypeMap;
 @end
@@ -136,49 +133,37 @@
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
     [KbUtil setPayingOrderWithOrderNo:orderNo paymentType:paymentType];
-    
     if (paymentType==KbPaymentTypeWeChatPay) {
         [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:price completionHandler:^(PAYRESULT payResult) {
-            if (payResult == PAYRESULT_SUCCESS) {
-                [KbUtil setPaidPendingWithOrder:@[orderNo,
-                                                  @(price).stringValue,
-                                                  program.programId.stringValue ?: @"",
-                                                  program.type.stringValue ?: @"",
-                                                  program.payPointType.stringValue ?: @""]];
-                
-            } else if (payResult == PAYRESULT_FAIL) {
-                [[KbHudManager manager] showHudWithText:@"支付失败"];
-            } else if (payResult == PAYRESULT_ABANDON) {
-                [[KbHudManager manager] showHudWithText:@"支付取消"];
+            @strongify(self);
+            IPNPayResult IPNResult=[self paymentResultFromPayresult:payResult];
+            [self IpaynowPluginResult:IPNResult errCode:nil errInfo:nil];
+        }];
+    } else {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
+        
+        IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
+        preSign.consumerId = [KbConfig sharedConfig].channelNo;
+        preSign.mhtOrderNo = orderNo;
+        preSign.mhtOrderName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
+        preSign.mhtOrderType = kPayNowNormalOrderType;
+        preSign.mhtCurrencyType = kPayNowRMBCurrencyType;
+        preSign.mhtOrderAmt = [NSString stringWithFormat:@"%ld", @(price*100).unsignedIntegerValue];
+        preSign.mhtOrderDetail = [preSign.mhtOrderName stringByAppendingString:@"终身会员"];
+        preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
+        preSign.mhtCharset = kPayNowDefaultCharset;
+        preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
+        
+        [[KbPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
+            @strongify(self);
+            if (success) {
+                self.paymentInfo = preSign;
+                [IpaynowPluginApi pay:signedData AndScheme:[KbConfig sharedConfig].payNowScheme viewController:self delegate:self];
+            } else {
+                [[KbHudManager manager] showHudWithText:@"服务器获取签名失败！"];
             }
         }];
-        
-    } else{
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
-    
-    IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
-    preSign.consumerId = [KbConfig sharedConfig].channelNo;
-    preSign.mhtOrderNo = orderNo;
-    preSign.mhtOrderName = @"家庭影院";//[NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
-    preSign.mhtOrderType = kPayNowNormalOrderType;
-    preSign.mhtCurrencyType = kPayNowRMBCurrencyType;
-    preSign.mhtOrderAmt = [NSString stringWithFormat:@"%ld", @(price*100).unsignedIntegerValue];
-    preSign.mhtOrderDetail = [preSign.mhtOrderName stringByAppendingString:@"终身会员"];
-    preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
-    preSign.mhtCharset = kPayNowDefaultCharset;
-    preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
-    
-    [[KbPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
-        @strongify(self);
-        if (success) {
-            self.paymentInfo = preSign;
-            [IpaynowPluginApi pay:signedData AndScheme:[KbConfig sharedConfig].payNowScheme viewController:self delegate:self];
-        } else {
-            [[KbHudManager manager] showHudWithText:@"服务器获取签名失败！"];
-        }
-    }];
     }
 }
 
@@ -214,6 +199,14 @@
                                 @(IPNPayResultFail):@(PAYRESULT_FAIL),
                                 @(IPNPayResultCancel):@(PAYRESULT_ABANDON),
                                 @(IPNPayResultUnknown):@(PAYRESULT_UNKNOWN)};
+    return ((NSNumber *)resultMap[@(result)]).unsignedIntegerValue;
+}
+
+-(IPNPayResult)paymentResultFromPayresult:(PAYRESULT)result{
+    NSDictionary *resultMap = @{@(PAYRESULT_SUCCESS):@(IPNPayResultSuccess),
+                                @(PAYRESULT_FAIL):@(IPNPayResultFail),
+                                @(PAYRESULT_ABANDON):@(IPNPayResultCancel),
+                                @(PAYRESULT_UNKNOWN):@(IPNPayResultUnknown)};
     return ((NSNumber *)resultMap[@(result)]).unsignedIntegerValue;
 }
 

@@ -29,8 +29,6 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
     self.title = @"频道";
     
     @weakify(self);

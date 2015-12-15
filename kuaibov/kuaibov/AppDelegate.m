@@ -15,10 +15,13 @@
 #import "KbUserAccessModel.h"
 #import "MobClick.h"
 #import "IpaynowPluginApi.h"
+#import "IPNPreSignMessageUtil.h"
 #import "KbSystemConfigModel.h"
 #import "WXApi.h"
 #import "WeChatPayManager.h"
 #import "KbWeChatPayQueryOrderRequest.h"
+#import "KbPaymentViewController.h"
+#import "KbPaymentSignModel.h"
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -199,6 +202,7 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     [IpaynowPluginApi application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+    [WXApi handleOpenURL:url delegate:self];
     return YES;
 }
 
@@ -209,11 +213,12 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         if (payingType == KbPaymentTypeWeChatPay) {
             [self.wechatPayOrderQueryRequest queryOrderWithNo:payingOrderNo completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
                 if ([trade_state isEqualToString:@"SUCCESS"]) {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName
-                                                                        object:nil
-                                                                      userInfo:@{kPaidNotificationOrderNoKey:payingOrderNo,
-                                                                                 kPaidNotificationPriceKey:@(total_fee).stringValue,
-                                                                                 kPaidNotificationPaymentType:@(KbPaymentTypeWeChatPay)}];
+                    KbPaymentViewController *payController = [KbPaymentViewController sharedPaymentVC];
+                    IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
+                    preSign.mhtOrderNo=payingOrderNo;
+                    preSign.mhtOrderAmt = @(total_fee*100).stringValue;
+                    payController.paymentInfo = preSign;
+                    [payController IpaynowPluginResult:IPNPayResultSuccess errCode:nil errInfo:nil];
                 }
             }];
         }
