@@ -136,6 +136,10 @@
     if (paymentType==KbPaymentTypeWeChatPay) {
         [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:price completionHandler:^(PAYRESULT payResult) {
             @strongify(self);
+            IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
+            preSign.mhtOrderNo=orderNo;
+            preSign.mhtOrderAmt = @(price*100).stringValue;
+            self.paymentInfo = preSign;
             IPNPayResult IPNResult=[self paymentResultFromPayresult:payResult];
             [self IpaynowPluginResult:IPNResult errCode:nil errInfo:nil];
         }];
