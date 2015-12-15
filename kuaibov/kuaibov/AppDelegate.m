@@ -22,10 +22,21 @@
 #import "KbWeChatPayQueryOrderRequest.h"
 #import "KbPaymentViewController.h"
 #import "KbPaymentSignModel.h"
+#ifdef EnableBaiduMobAd
+#import "BaiduMobAdSplash.h"
+#endif
 
-@interface AppDelegate ()<WXApiDelegate>
+@interface AppDelegate ()<WXApiDelegate
+#ifdef EnableBaiduMobAd
+,BaiduMobAdSplashDelegate
+#endif
+>
 
 @property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
+
+#ifdef EnableBaiduMobAd
+@property (nonatomic,retain) BaiduMobAdSplash *splashAd;
+#endif
 
 @end
 
@@ -245,5 +256,13 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
     }
 }
+
+#ifdef EnableBaiduMobAd
+#pragma mark - BaiduMobAdSplashDelegate
+
+- (NSString *)publisherId {
+    return [KbConfig sharedConfig].baiduAdAppId;
+}
+#endif
 
 @end
