@@ -11,14 +11,18 @@
 #import "KbProgramViewController.h"
 #import "KbSystemConfigModel.h"
 #import "KbProgram.h"
-static NSString *const kChannelCellReusableIdentifier = @"ChannelCollectionViewCellReusableIdentifier";
-static const CGFloat kChannelThumbnailScale = 342.0 / 197.0;
 
-@interface KbChannelViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+static NSString *const kPaymentCellReusableIdentifier = @"PaymentCellReusableIdentifier";
+static NSString *const kChannelCellReusableIdentifier = @"ChannelCellReusableIdentifier";
+
+@interface KbChannelViewController () <UITableViewDataSource,UITableViewDelegate>//<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
-    UIImageView *_headerImageView;
-    UICollectionView *_channelsView;
+    UITableView *_layoutTableView;
+    
+    UIImageView *_paymentImageView;
+    UILabel *_priceLabel;
 }
+@property (nonatomic,retain) UITableViewCell *paymentCell;
 @property (nonatomic,retain) KbChannelModel *channelModel;
 @property (nonatomic,retain) NSArray *videoChannels;
 @end
@@ -27,146 +31,96 @@ static const CGFloat kChannelThumbnailScale = 342.0 / 197.0;
 
 DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 
+- (UITableViewCell *)paymentCell {
+    if (_paymentCell) {
+        return _paymentCell;
+    }
+    
+    _paymentCell = [[UITableViewCell alloc] init];
+    
+    UIImageView *backgroundImageView = [[UIImageView alloc] init];
+    backgroundImageView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+    _paymentCell.backgroundView = backgroundImageView;
+    
+    _priceLabel = [[UILabel alloc] init];
+    _priceLabel.textColor = [UIColor redColor];
+    _priceLabel.textAlignment = NSTextAlignmentRight;
+    _priceLabel.adjustsFontSizeToFitWidth = YES;
+    [backgroundImageView addSubview:_priceLabel];
+    {
+        [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(backgroundImageView).offset(5);
+            make.bottom.equalTo(backgroundImageView.mas_centerY).offset(3);
+            make.width.equalTo(backgroundImageView).multipliedBy(0.08);
+        }];
+    }
+    return _paymentCell;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"频道";
-    
-    @weakify(self);
-    if (![KbUtil isPaid]) {
-        _headerImageView = [[UIImageView alloc] init];
-        _headerImageView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1.0];
-        _headerImageView.userInteractionEnabled = YES;
-        [_headerImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapHeaderImage)]];
-        [self.view addSubview:_headerImageView];
-        {
-            [_headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.and.right.top.equalTo(self.view);
-                make.height.equalTo(_headerImageView.mas_width).with.multipliedBy(0.5);
-            }];
-        }
-        
-        UILabel *priceLabel = [[UILabel alloc] init];
-        priceLabel.textColor = [UIColor redColor];
-        priceLabel.textAlignment = NSTextAlignmentRight;
-        priceLabel.adjustsFontSizeToFitWidth = YES;
-        [_headerImageView addSubview:priceLabel];
-        {
-            [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(_headerImageView).offset(5);
-                make.bottom.equalTo(_headerImageView.mas_centerY).offset(3);
-                make.width.equalTo(_headerImageView).multipliedBy(0.08);
-            }];
-        }
-        
-        KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
-        [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
-            @strongify(self);
-            if (success) {
-                [self->_headerImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                    if (image) {
-                        double showPrice = systemConfigModel.payAmount;
-                        BOOL showInteger = (NSUInteger)(showPrice * 100) % 100 == 0;
-                        priceLabel.text = showInteger ? [NSString stringWithFormat:@"%ld", (NSUInteger)showPrice] : [NSString stringWithFormat:@"%.2f", showPrice];
-                    } else {
-                        priceLabel.text = nil;
-                    }
-                }];
-            }
-        }];
-    }
-    
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumInteritemSpacing = 5;
-    layout.minimumLineSpacing = 5;
-    layout.sectionInset = UIEdgeInsetsMake(6, 6, 6, 6);
 
-    CGSize itemSize = CGSizeZero;
-    itemSize.width  = (mainWidth - layout.sectionInset.left - layout.sectionInset.right - layout.minimumInteritemSpacing) / 2;
-    itemSize.height = itemSize.width / kChannelThumbnailScale;
-    layout.itemSize = itemSize;
-    
-    _channelsView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    _channelsView.delegate = self;
-    _channelsView.dataSource = self;
-    _channelsView.backgroundColor = [UIColor whiteColor];
-    [_channelsView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kChannelCellReusableIdentifier];
-    [self.view addSubview:_channelsView];
+    _layoutTableView = [[UITableView alloc] init];
+    _layoutTableView.delegate = self;
+    _layoutTableView.dataSource = self;
+    _layoutTableView.backgroundColor = [UIColor whiteColor];
+    _layoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [_layoutTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kChannelCellReusableIdentifier];
+    [_layoutTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kPaymentCellReusableIdentifier];
+    [self.view addSubview:_layoutTableView];
     {
-        [_channelsView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.and.right.equalTo(self.view);
-            make.bottom.equalTo(self.view).offset(-self.adBannerHeight);
-            make.top.equalTo(_headerImageView?_headerImageView.mas_bottom:self.view);
+        [_layoutTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
         }];
     }
     
     self.videoChannels = self.channelModel.fetchedChannels;
     
-    [_channelsView kb_addPullToRefreshWithHandler:^{
+    @weakify(self);
+    [_layoutTableView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
-        
         [self loadChannels];
     }];
-    [_channelsView kb_triggerPullToRefresh];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    if ([KbUtil isPaid]) {
-        if (_headerImageView) {
-            [_headerImageView removeFromSuperview];
-            
-            [_channelsView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(self.view);
-            }];
-        }
-        [self.navigationController setNavigationBarHidden:NO animated:animated];
-    } else {
-        [self.navigationController setNavigationBarHidden:YES animated:animated];
-    }
+    [_layoutTableView kb_triggerPullToRefresh];
 }
 
 - (void)loadChannels {
     @weakify(self);
-    [self.channelModel fetchChannelsWithCompletionHandler:^(BOOL success, NSArray *channels) {
+    [self.channelModel fetchChannelsWithCompletionHandler:^(BOOL success, NSArray<KbChannel *> *channels) {
         @strongify(self);
-        [self->_channelsView kb_endPullToRefresh];
+        [self->_layoutTableView kb_endPullToRefresh];
         
         if (success) {
             NSMutableArray *videoChannels = [NSMutableArray array];
-            [channels enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (((KbChannel *)obj).type.unsignedIntegerValue == KbChannelTypeVideo) {
+            [channels enumerateObjectsUsingBlock:^(KbChannel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.type.unsignedIntegerValue == KbChannelTypeVideo
+                    || obj.type.unsignedIntegerValue == KbChannelTypeBanner) {
                     [videoChannels addObject:obj];
                 }
             }];
             
             self.videoChannels = videoChannels;
-            [self->_channelsView reloadData];
+            
+            NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self numberOfSectionsInTableView:self->_layoutTableView]-1];
+            [self->_layoutTableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }];
-}
-
-- (void)onTapHeaderImage {
-    KbProgram *program=[[KbProgram alloc]init];
-    program.payPointType=@999;
+    
     if (![KbUtil isPaid]) {
-        [self payForProgram:nil];
-    }
-}
-
-- (void)didPaidSuccessfully {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    if (_headerImageView) {
-        [_headerImageView removeFromSuperview];
-        
-        [_channelsView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view);
+        KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
+        [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+            @strongify(self);
+            if (self && success) {
+                [self->_layoutTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
         }];
     }
+    
 }
 
 - (void)onPaidNotification:(NSNotification *)notification {
-    [self didPaidSuccessfully];
+    [_layoutTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -174,36 +128,113 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UICollectionViewDataSource / UICollectionViewDelegateFlowLayout
+#pragma mark - UITableViewDataSource,UITableViewDelegate
 
-//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-//    return 1;
-//}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.videoChannels.count;
+- (BOOL)isPaymentCellInSection:(NSUInteger)section {
+    return section < [self numberOfSectionsInTableView:_layoutTableView] - 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kChannelCellReusableIdentifier forIndexPath:indexPath];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if ([KbUtil isPaid]) {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSString *cellIdentifier = [self isPaymentCellInSection:indexPath.section] ? kPaymentCellReusableIdentifier : kChannelCellReusableIdentifier;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (!cell.backgroundView) {
-        cell.backgroundView = [[UIImageView alloc] initWithFrame:cell.bounds];
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.layer.borderWidth = 0.5;
+        imageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        [imageView YPB_addAnimationForImageAppearing];
+        
+        cell.backgroundView = imageView;
+        [cell.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(cell).insets(UIEdgeInsetsMake(0, 0, kDefaultItemSpacing, 0));
+        }];
+        
+        if ([self isPaymentCellInSection:indexPath.section]) {
+            _paymentImageView = imageView;
+            _priceLabel = [[UILabel alloc] init];
+            _priceLabel.textColor = [UIColor redColor];
+            _priceLabel.textAlignment = NSTextAlignmentRight;
+            _priceLabel.adjustsFontSizeToFitWidth = YES;
+            [cell.backgroundView addSubview:_priceLabel];
+            {
+                [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(cell.backgroundView).offset(5);
+                    make.bottom.equalTo(cell.backgroundView.mas_centerY).offset(3);
+                    make.width.equalTo(cell.backgroundView).multipliedBy(0.08);
+                }];
+            }
+        }
     }
     
-    KbChannel *channel = self.videoChannels[indexPath.row];
     UIImageView *channelImageView = (UIImageView *)cell.backgroundView;
-    [channelImageView sd_setImageWithURL:[NSURL URLWithString:channel.columnImg]];
+    if (![self isPaymentCellInSection:indexPath.section]) {
+        KbChannel *channel = self.videoChannels[indexPath.row];
+        [channelImageView sd_setImageWithURL:[NSURL URLWithString:channel.columnImg]];
+    } else {
+        KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
+        [self->_paymentImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage]
+                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+         {
+             if (image) {
+                 double showPrice = systemConfigModel.payAmount;
+                 BOOL showInteger = (NSUInteger)(showPrice * 100) % 100 == 0;
+                 self->_priceLabel.text = showInteger ? [NSString stringWithFormat:@"%ld", (NSUInteger)showPrice] : [NSString stringWithFormat:@"%.2f", showPrice];
+             } else {
+                 self->_priceLabel.text = nil;
+             }
+         }];
+    }
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    KbChannel *selectedChannel = self.videoChannels[indexPath.row];
-    if (selectedChannel) {
-        KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
-        programVC.bottomAdBanner = YES;
-        programVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:programVC animated:YES];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if ([self isPaymentCellInSection:section]) {
+        return 1;
+    } else {
+        return self.videoChannels.count;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    const CGFloat normalHeight = CGRectGetWidth(tableView.frame) / 3 + kDefaultItemSpacing;
+    if ([self isPaymentCellInSection:indexPath.section]) {
+        return normalHeight;
+    } else {
+        KbChannel *channel = self.videoChannels[indexPath.row];
+        if (channel.type.unsignedIntegerValue == KbChannelTypeVideo) {
+            return normalHeight;
+        } else if (channel.type.unsignedIntegerValue == KbChannelTypeBanner){
+            return CGRectGetWidth(tableView.frame) / 4.5 + kDefaultItemSpacing;
+        }
+    }
+    return 0;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self isPaymentCellInSection:indexPath.section]) {
+        if (![KbUtil isPaid]) {
+            [self payForProgram:nil];
+        }
+    } else {
+        KbChannel *selectedChannel = self.videoChannels[indexPath.row];
+        if (selectedChannel.type.unsignedIntegerValue == KbChannelTypeVideo) {
+            KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
+            programVC.bottomAdBanner = YES;
+            programVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:programVC animated:YES];
+        } else if (selectedChannel.type.unsignedIntegerValue == KbChannelTypeBanner) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:selectedChannel.spreadUrl]];
+        }
     }
 }
 @end

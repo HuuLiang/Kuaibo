@@ -9,11 +9,16 @@
 #import "KbProgramViewController.h"
 #import "KbChannel.h"
 #import "KbChannelProgramModel.h"
-#import "KbChannelProgramCell.h"
+#import "KbProgramCell.h"
 
-@interface KbProgramViewController () <UITableViewDataSource,UITableViewDelegate>
+static const NSUInteger kDefaultPageSize = 10;
+static NSString *const kProgramCellReusableIdentifier = @"ProgramCellReusableIdentifier";
+static const CGFloat kThumbnailScale = 230. / 168.;
+
+@interface KbProgramViewController () <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 {
-    UITableView *_programTableView;
+    //UITableView *_programTableView;
+    UICollectionView *_layoutCollectionView;
 }
 @property (nonatomic,retain) KbChannel *channel;
 @property (nonatomic,retain) KbChannelProgramModel *programModel;
@@ -21,8 +26,6 @@
 @property (nonatomic,retain) NSMutableArray *programs;
 @property (nonatomic) NSUInteger currentPage;
 @end
-
-static const NSUInteger kDefaultPageSize = 10;
 
 @implementation KbProgramViewController
 
@@ -42,34 +45,34 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
     // Do any additional setup after loading the view.
     self.title = _channel.name;
     self.view.backgroundColor = [UIColor whiteColor];
+
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.minimumInteritemSpacing = kDefaultItemSpacing;
+    layout.minimumLineSpacing = kDefaultItemSpacing;
     
-    _programTableView = [[UITableView alloc] init];
-    _programTableView.delegate = self;
-    _programTableView.dataSource = self;
-    _programTableView.rowHeight = 90;
-    _programTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [_programTableView registerClass:[KbChannelProgramCell class]
-              forCellReuseIdentifier:[KbChannelProgramCell reusableIdentifier]];
-    [self.view addSubview:_programTableView];
+    _layoutCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    _layoutCollectionView.backgroundColor = [UIColor whiteColor];
+    _layoutCollectionView.delegate = self;
+    _layoutCollectionView.dataSource = self;
+    [_layoutCollectionView registerClass:[KbProgramCell class] forCellWithReuseIdentifier:kProgramCellReusableIdentifier];
+    [self.view addSubview:_layoutCollectionView];
     {
-        [_programTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.equalTo(self.view);
-            make.bottom.equalTo(self.view).offset(-self.adBannerHeight);
+        [_layoutCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
         }];
     }
     
-
     @weakify(self);
-    [_programTableView kb_addPullToRefreshWithHandler:^{
+    [_layoutCollectionView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
-        
+
         self.currentPage = 0;
         [self.programs removeAllObjects];
         [self loadPrograms];
     }];
-    [_programTableView kb_triggerPullToRefresh];
-    
-    [_programTableView kb_addPagingRefreshWithHandler:^{
+    [_layoutCollectionView kb_triggerPullToRefresh];
+
+    [_layoutCollectionView kb_addPagingRefreshWithHandler:^{
         @strongify(self);
         [self loadPrograms];
     }];
@@ -84,14 +87,25 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
                                    @strongify(self);
                                    
                                    if (success && programs.programList) {
+                                       NSUInteger prevCount = self.programs.count;
                                        [self.programs addObjectsFromArray:programs.programList];
-                                       [self->_programTableView reloadData];
+                                       
+                                       NSMutableArray *indexPaths = [NSMutableArray array];
+                                       for (NSUInteger i = 0; i < programs.programList.count; ++i) {
+                                           [indexPaths addObject:[NSIndexPath indexPathForRow:i+prevCount inSection:0]];
+                                       }
+                                       
+                                       if (prevCount == 0) {
+                                           [self->_layoutCollectionView reloadData];
+                                       } else if (indexPaths.count > 0) {
+                                           [self->_layoutCollectionView insertItemsAtIndexPaths:indexPaths];
+                                       }
                                    }
                                    
-                                   [self->_programTableView kb_endPullToRefresh];
+                                   [self->_layoutCollectionView kb_endPullToRefresh];
                                    
                                    if (self.programs.count >= programs.items.unsignedIntegerValue) {
-                                       [self->_programTableView kb_pagingRefreshNoMoreData];
+                                       [self->_layoutCollectionView kb_pagingRefreshNoMoreData];
                                    }
     }];
 }
@@ -110,34 +124,34 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
     return self.programs[indexPath.row];
 }
 
-#pragma mark - UITableViewDataSource / UITableViewDelegate
+#pragma mark - Collection View Delegate & DataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.programs.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    KbChannelProgramCell *cell = [tableView dequeueReusableCellWithIdentifier:[KbChannelProgramCell reusableIdentifier] forIndexPath:indexPath];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    KbProgramCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kProgramCellReusableIdentifier forIndexPath:indexPath];
     
     KbChannelProgram *program = [self channelProgramOfIndexPath:indexPath];
-    cell.title = program.title;
-    cell.detail = program.specialDesc;
+    cell.titleText = program.title;
+    cell.detailText = program.specialDesc;
     cell.imageURL = [NSURL URLWithString:program.coverImg];
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    KbChannelProgram *program = [self channelProgramOfIndexPath:indexPath];
-    [self switchToPlayProgram:program];
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
+    return self.programs.count;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        cell.kb_borderSide = KbBorderTopSide | KbBorderBottomSide;
-    } else {
-        cell.kb_borderSide = KbBorderBottomSide;
-    }
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    const CGFloat itemWidth = (CGRectGetWidth(collectionView.bounds) - kDefaultItemSpacing) / 2;
+    const CGFloat itemHeight = itemWidth / kThumbnailScale;
+    return CGSizeMake(itemWidth, itemHeight);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    KbChannelProgram *program = [self channelProgramOfIndexPath:indexPath];
+    [self switchToPlayProgram:program];
 }
 @end

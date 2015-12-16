@@ -14,7 +14,7 @@
 
 @end
 
-typedef void (^KbFetchChannelsCompletionHandler)(BOOL success, NSArray *channels);
+typedef void (^KbFetchChannelsCompletionHandler)(BOOL success, NSArray<KbChannel *> *channels);
 
 @interface KbChannelModel : KbEncryptedURLRequest
 

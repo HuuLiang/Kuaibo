@@ -55,35 +55,53 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     
     KbHomeViewController *homeVC         = [[KbHomeViewController alloc] initWithBottomAdBanner:YES];
     UINavigationController *homeNav      = [[UINavigationController alloc] initWithRootViewController:homeVC];
-    homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:@"首页"
-                                                                         image:[UIImage imageNamed:@"btm_home"]
-                                                                 selectedImage:[UIImage imageNamed:@"btm_home_sel"]];
+    homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:nil
+                                                                         image:[UIImage imageNamed:@"home_normal"]
+                                                                 selectedImage:[UIImage imageNamed:@"home_highlight"]];
     
     KbChannelViewController *channelVC   = [[KbChannelViewController alloc] initWithBottomAdBanner:YES];
     UINavigationController *channelNav   = [[UINavigationController alloc] initWithRootViewController:channelVC];
-    channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:@"频道"
-                                                                         image:[UIImage imageNamed:@"btm_c"]
-                                                                 selectedImage:[UIImage imageNamed:@"btm_c_sel"]];
+    channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:nil
+                                                                         image:[UIImage imageNamed:@"channel_normal"]
+                                                                 selectedImage:[UIImage imageNamed:@"channel_highlight"]];
 
     kbMoreViewController *moreVC         = [[kbMoreViewController alloc] init];
-    moreVC.tabBarItem                    = [[UITabBarItem alloc] initWithTitle:@"更多"
-                                                                         image:[UIImage imageNamed:@"btm_more"]
-                                                                 selectedImage:[UIImage imageNamed:@"btm_more_sel"]];
+    UINavigationController *moreNav      = [[UINavigationController alloc] initWithRootViewController:moreVC];
+    moreNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:nil
+                                                                         image:[UIImage imageNamed:@"more_normal"]
+                                                                 selectedImage:[UIImage imageNamed:@"more_highlight"]];
     
-    UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    tabBarController.viewControllers     = @[homeNav,channelNav,moreVC];
-    tabBarController.tabBar.translucent  = NO;
-    _window.rootViewController           = tabBarController;
+    UITabBarController *tabBarController    = [[UITabBarController alloc] init];
+    tabBarController.viewControllers        = @[homeNav,channelNav,moreNav];
+    tabBarController.tabBar.translucent     = NO;
+    tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar_background"];
+    
+    NSUInteger itemCount = tabBarController.viewControllers.count;
+    for (NSUInteger i = 0; i < itemCount-1; ++i) {
+        UIImageView *separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tab_separator"]];
+        separator.bounds = CGRectMake(0, 0, 1, CGRectGetHeight(tabBarController.tabBar.bounds));
+        separator.center = CGPointMake(mainWidth/itemCount*(i+1), CGRectGetHeight(tabBarController.tabBar.bounds)/2);
+        [tabBarController.tabBar addSubview:separator];
+    }
+    _window.rootViewController              = tabBarController;
     return _window;
 }
 
 - (void)setupCommonStyles {
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav_background"] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:-6 forBarMetrics:UIBarMetricsDefault];
+    
     [UIViewController aspect_hookSelector:@selector(viewDidLoad)
                               withOptions:AspectPositionAfter
                                usingBlock:^(id<AspectInfo> aspectInfo){
                                    UIViewController *thisVC = [aspectInfo instance];
                                    thisVC.navigationController.navigationBar.translucent = NO;
-                                   thisVC.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+                                   thisVC.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+                                   thisVC.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:20.],
+                                                                                                     NSForegroundColorAttributeName:[UIColor whiteColor]};
+                                   
+                                   thisVC.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+                                   thisVC.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] bk_initWithTitle:@"返回" style:UIBarButtonItemStylePlain handler:nil];
     } error:nil];
     
     [UINavigationController aspect_hookSelector:@selector(preferredStatusBarStyle)
@@ -129,6 +147,23 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
                                      }
                                      [[aspectInfo originalInvocation] setReturnValue:&result];
                                  } error:nil];
+    
+    // No title in tabbar item
+    [UITabBarItem aspect_hookSelector:@selector(title)
+                          withOptions:AspectPositionInstead
+                           usingBlock:^(id<AspectInfo> aspectInfo)
+    {
+        NSString *title;
+        [[aspectInfo originalInvocation] setReturnValue:&title];
+    } error:nil];
+    
+    [UITabBarItem aspect_hookSelector:@selector(imageInsets)
+                          withOptions:AspectPositionInstead
+                           usingBlock:^(id<AspectInfo> aspectInfo)
+    {
+        UIEdgeInsets imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+        [[aspectInfo originalInvocation] setReturnValue:&imageInsets];
+    } error:nil];
 }
 
 - (void)setupMobStatistics {
@@ -182,7 +217,8 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
             || [KbSystemConfigModel sharedModel].startupPrompt.length == 0) {
             return ;
         }
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
+        
+        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
     }];
     return YES;
 }

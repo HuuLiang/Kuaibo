@@ -10,15 +10,15 @@
 #import "KbHomeBannerModel.h"
 #import "KbHomeProgramModel.h"
 #import "KbHomeSectionHeaderView.h"
-#import "KbHomeCollectionViewLayout.h"
+//#import "KbHomeCollectionViewLayout.h"
 #import "KbHomeProgramCell.h"
 #import <SDCycleScrollView.h>
 
-@interface KbHomeViewController () <UICollectionViewDataSource,KbHomeCollectionViewLayoutDelegate,SDCycleScrollViewDelegate>
+@interface KbHomeViewController () <UITableViewDataSource,UITableViewDelegate,SDCycleScrollViewDelegate>
 {
-    UICollectionView *_collectionView;
+    UITableView *_layoutTableView;
     
-    UICollectionViewCell *_bannerCell;
+    UITableViewCell *_bannerCell;
     SDCycleScrollView *_bannerView;
 }
 @property (nonatomic,retain) KbHomeBannerModel *bannerModel;
@@ -28,9 +28,9 @@
 @property (nonatomic,retain) NSArray *videoPrograms;
 @end
 
-static NSString *const kBannerCellReusableIdentifier = @"HomeCollectionViewBannerCellReusableIdentifer";
-static NSString *const kProgramCellReusableIdentifier = @"HomeCollectionViewProgramCellReusableIdentifer";
-static NSString *const kHeaderViewReusableIdentifier = @"HomeCollectionViewHeaderReusableIdentifier";
+static NSString *const kProgramCellReusableIdentifier = @"ProgramCellReusableIdentifier";
+static NSString *const kAdBannerCellReusableIdentifier = @"AdBannerCellReusableIdentifier";
+static NSString *const kSectionHeaderReusableIdentifier = @"SectionHeaderReusableIdentifier";
 
 @implementation KbHomeViewController
 @synthesize dataFetchDispatchGroup = _dataFetchDispatchGroup;
@@ -59,32 +59,30 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     self.title = appName;
     self.view.backgroundColor = HexColor(#f7f7f7);
     
-    KbHomeCollectionViewLayout *layout = [[KbHomeCollectionViewLayout alloc] initWithDelegate:self];
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
-                                         collectionViewLayout:layout];
-    _collectionView.dataSource = self;
-    _collectionView.delegate = layout;
-    _collectionView.backgroundColor = HexColor(#f7f7f7);
-    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kBannerCellReusableIdentifier];
-    [_collectionView registerClass:[KbHomeProgramCell class] forCellWithReuseIdentifier:kProgramCellReusableIdentifier];
-    [_collectionView registerClass:[KbHomeSectionHeaderView class]
-        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier];
-    [self.view addSubview:_collectionView];
+    _layoutTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _layoutTableView.backgroundColor = [UIColor whiteColor];
+    _layoutTableView.delegate = self;
+    _layoutTableView.dataSource = self;
+    _layoutTableView.sectionFooterHeight = 0.1;
+    _layoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [_layoutTableView registerClass:[KbHomeProgramCell class] forCellReuseIdentifier:kProgramCellReusableIdentifier];
+    [_layoutTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kAdBannerCellReusableIdentifier];
+    [_layoutTableView registerClass:[KbHomeSectionHeaderView class] forHeaderFooterViewReuseIdentifier:kSectionHeaderReusableIdentifier];
+    [self.view addSubview:_layoutTableView];
     {
-        [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.equalTo(self.view);
-            make.bottom.equalTo(self.view).offset(-self.adBannerHeight);
+        [_layoutTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
         }];
     }
     
     self.videoPrograms = self.programModel.fetchedProgramList;
     
     @weakify(self);
-    [_collectionView kb_addPullToRefreshWithHandler:^{
+    [_layoutTableView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
         [self reloadData];
     }];
-    [_collectionView kb_triggerPullToRefresh];
+    [_layoutTableView kb_triggerPullToRefresh];
 }
 
 //添加点击多次的手势
@@ -182,7 +180,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         
         dispatch_group_wait(self.dataFetchDispatchGroup, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self->_collectionView kb_endPullToRefresh];
+            [self->_layoutTableView kb_endPullToRefresh];
         });
     });
 }
@@ -217,24 +215,54 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         if (success) {
             NSMutableArray *videoPrograms = [NSMutableArray array];
             [programs enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (((KbPrograms *)obj).type.unsignedIntegerValue == KbProgramTypeVideo) {
+                if (((KbPrograms *)obj).type.unsignedIntegerValue == KbProgramTypeVideo
+                    || ((KbPrograms *)obj).type.unsignedIntegerValue == KbProgramTypeBanner) {
                     [videoPrograms addObject:obj];
                 }
             }];
             
             self.videoPrograms = videoPrograms;
-            [self->_collectionView reloadData];
+            [self->_layoutTableView reloadData];
         }
     }];
 }
 
-- (KbProgram *)programOfIndexPath:(NSIndexPath *)indexPath {
+- (NSArray<KbProgram *> *)programsForCellAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         return nil;
     }
     
     KbPrograms *programs = self.videoPrograms[indexPath.section-1];
-    return programs.programList[indexPath.item];
+    
+    NSMutableArray *programsForCell = [NSMutableArray array];
+    for (NSUInteger i = 0; i < 3; ++i) {
+        NSUInteger index = indexPath.row * 3 + i;
+        if (index < programs.programList.count) {
+            [programsForCell addObject:programs.programList[index]];
+        }
+    }
+    return programsForCell.count > 0 ? programsForCell : nil;
+}
+
+- (KbProgram *)adProgramAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return nil;
+    }
+    
+    KbPrograms *programs = self.videoPrograms[indexPath.section-1];
+    if (programs.type.unsignedIntegerValue == KbProgramTypeBanner) {
+        return programs.programList[indexPath.row];
+    }
+    return nil;
+}
+
+- (BOOL)isAdBannerInSection:(NSUInteger)section {
+    if (section == 0) {
+        return NO;
+    }
+    
+    KbPrograms *programs = self.videoPrograms[section-1];
+    return programs.type.unsignedIntegerValue == KbProgramTypeBanner;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -242,26 +270,13 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UICollectionViewDataSource
+#pragma mark - Table View Delegate & DataSource
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return self.videoPrograms.count + 1;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
-    } else {
-        KbPrograms *programs = self.videoPrograms[section-1];
-        return programs.programList.count;
-    }
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         if (!_bannerCell) {
-            _bannerCell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannerCellReusableIdentifier forIndexPath:indexPath];
-            
+            _bannerCell = [[UITableViewCell alloc] init];;
+
             _bannerView = [[SDCycleScrollView alloc] init];
             _bannerView.autoScrollTimeInterval = 3;
             _bannerView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
@@ -273,7 +288,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
                     make.edges.equalTo(_bannerCell.contentView);
                 }];
             }
-            
+
             NSMutableArray *imageUrlGroup = [NSMutableArray array];
             NSMutableArray *titlesGroup = [NSMutableArray array];
             for (KbProgram *bannerProgram in self.bannerModel.fetchedBanners) {
@@ -289,35 +304,114 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return _bannerCell;
         
     } else {
-        KbHomeProgramCell *programCell = [collectionView dequeueReusableCellWithReuseIdentifier:kProgramCellReusableIdentifier forIndexPath:indexPath];
+        KbProgram *adProgram = [self adProgramAtIndexPath:indexPath];
+        if (adProgram) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kAdBannerCellReusableIdentifier forIndexPath:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            if (!cell.backgroundView) {
+                UIImageView *backgroundView = [[UIImageView alloc] init];
+                [backgroundView YPB_addAnimationForImageAppearing];
+                cell.backgroundView = backgroundView;
+            }
+            
+            UIImageView *backgroundView = (UIImageView *)cell.backgroundView;
+            [backgroundView sd_setImageWithURL:[NSURL URLWithString:adProgram.coverImg]];
+            
+            [cell bk_whenTapped:^{
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:adProgram.videoUrl]];
+            }];
+            return cell;
+        } else {
+            KbHomeProgramCell *programCell = [tableView dequeueReusableCellWithIdentifier:kProgramCellReusableIdentifier forIndexPath:indexPath];
+            programCell.backgroundColor = [UIColor whiteColor];
+            
+            NSArray<KbProgram *> *programsForCell = [self programsForCellAtIndexPath:indexPath];
+            KbProgram *leftProgram = programsForCell.count > 0 ? programsForCell[0] : nil;
+            KbProgram *rightTopProgram = programsForCell.count > 1 ? programsForCell[1] : nil;
+            KbProgram *rightBottomProgram = programsForCell.count > 2 ? programsForCell[2] : nil;
+            
+            [programCell setItem:[KbHomeProgramItem itemWithImageURL:leftProgram.coverImg
+                                                               title:leftProgram.title
+                                                            subtitle:leftProgram.specialDesc]
+                      atPosition:KbHomeProgramLeftItem];
+            
+            [programCell setItem:[KbHomeProgramItem itemWithImageURL:rightTopProgram.coverImg
+                                                               title:rightTopProgram.title
+                                                            subtitle:rightTopProgram.specialDesc]
+                      atPosition:KbHomeProgramRightTopItem];
+            
+            [programCell setItem:[KbHomeProgramItem itemWithImageURL:rightBottomProgram.coverImg
+                                                               title:rightBottomProgram.title
+                                                            subtitle:rightBottomProgram.specialDesc]
+                      atPosition:KbHomeProgramRightBottomItem];
+            
+            @weakify(self);
+            programCell.action = ^(KbHomeProgramItemPosition position) {
+                @strongify(self);
+                
+                NSArray<KbProgram *> *programsForCell = [self programsForCellAtIndexPath:indexPath];
+                if (programsForCell.count < position) {
+                    return ;
+                }
+                
+                [self switchToPlayProgram:programsForCell[position]];
+            };
+            return programCell;
+        }
+    }
+    
+}
 
-        KbProgram *program = [self programOfIndexPath:indexPath];
-        programCell.imageURL = [NSURL URLWithString:program.coverImg];
-        programCell.titleText = program.title;
-        programCell.detailText = program.specialDesc;
-        return programCell;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.videoPrograms.count + 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return 1;
+    } else {
+        KbPrograms *programs = self.videoPrograms[section-1];
+        if (programs.type.unsignedIntegerValue == KbProgramTypeBanner) {
+            return programs.programList.count;
+        } else {
+            return (programs.programList.count + 2) / 3;
+        }
     }
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
+        return CGRectGetWidth(tableView.bounds) / 2;
+    } else if ([self isAdBannerInSection:indexPath.section]) {
+        return CGRectGetWidth(tableView.bounds) / 4;
+    } else {
+        return CGRectGetHeight(tableView.bounds) * 0.3;
+    }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
         return nil;
     }
     
-    KbHomeSectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kHeaderViewReusableIdentifier forIndexPath:indexPath];
+    KbPrograms *programs = self.videoPrograms[section-1];
+    if (programs.type.unsignedIntegerValue == KbProgramTypeBanner) {
+        return nil;
+    }
     
-    KbPrograms *programs = self.videoPrograms[indexPath.section-1];
+    KbHomeSectionHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kSectionHeaderReusableIdentifier];
     headerView.title = programs.name;
     return headerView;
 }
 
-#pragma mark - KbHomeCollectionViewLayoutDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    KbProgram *program = [self programOfIndexPath:indexPath];
-    [self switchToPlayProgram:program];
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0 || [self isAdBannerInSection:section]) {
+        return 0.1;
+    } else {
+        return MIN(CGRectGetHeight(tableView.frame) * 0.1, 40);
+    }
 }
-
 #pragma mark - SDCycleScrollViewDelegate
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {

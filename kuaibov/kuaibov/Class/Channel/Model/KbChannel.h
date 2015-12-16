@@ -11,7 +11,8 @@
 typedef NS_ENUM(NSUInteger, KbChannelType) {
     KbChannelTypeNone = 0,
     KbChannelTypeVideo = 1,
-    KbChannelTypePicture = 2
+    KbChannelTypePicture = 2,
+    KbChannelTypeBanner = 3
 };
 
 @protocol KbChannel <NSObject>
@@ -23,6 +24,7 @@ typedef NS_ENUM(NSUInteger, KbChannelType) {
 @property (nonatomic) NSNumber *columnId;
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *columnImg;
+@property (nonatomic) NSString *spreadUrl;
 @property (nonatomic) NSNumber *type;
 @property (nonatomic) NSNumber *showNumber;
 @property (nonatomic) NSNumber *items;

@@ -223,4 +223,8 @@ static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
 + (NSString *)appId {
     return @"QUBA_2001";
 }
+
++ (NSNumber *)pV {
+    return @200;
+}
 @end

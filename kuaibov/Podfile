@@ -9,6 +9,7 @@ pod 'MBProgressHUD', '~> 0.9.1'
 pod 'MJRefresh', '~> 2.4.7'
 pod 'SFHFKeychainUtils', '~> 0.0.1'
 pod 'OpenSSL', '~> 1.0.204'
+pod 'BlocksKit', '~> 2.2.5'
 
 # Github page: https://github.com/steipete/Aspects
 pod 'Aspects','~>1.4.1'

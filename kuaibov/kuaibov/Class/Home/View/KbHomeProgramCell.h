@@ -2,16 +2,33 @@
 //  KbHomeProgramCell.h
 //  kuaibov
 //
-//  Created by Sean Yue on 15/9/10.
-//  Copyright (c) 2015年 kuaibov. All rights reserved.
+//  Created by Sean Yue on 15/12/16.
+//  Copyright © 2015年 kuaibov. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface KbHomeProgramCell : UICollectionViewCell
+typedef NS_ENUM(NSUInteger, KbHomeProgramItemPosition) {
+    KbHomeProgramLeftItem,
+    KbHomeProgramRightTopItem,
+    KbHomeProgramRightBottomItem
+};
 
-@property (nonatomic,retain) NSURL *imageURL;
-@property (nonatomic) NSString *titleText;
-@property (nonatomic) NSString *detailText;
+@interface KbHomeProgramItem : NSObject
+@property (nonatomic) NSString *imageURL;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *subtitle;
+
++ (instancetype)itemWithImageURL:(NSString *)imageURL title:(NSString *)title subtitle:(NSString *)subtitle;
+
+@end
+
+typedef void (^KbHomeProgramCellAction)(KbHomeProgramItemPosition position);
+
+@interface KbHomeProgramCell : UITableViewCell
+
+@property (nonatomic,copy) KbHomeProgramCellAction action;
+
+- (void)setItem:(KbHomeProgramItem *)item atPosition:(KbHomeProgramItemPosition)position;
 
 @end

@@ -46,6 +46,8 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
 #import <Aspects.h>
 #import <Masonry.h>
 #import <UIImageView+WebCache.h>
+#import <BlocksKit+UIKit.h>
+#import "UIImageView+YPBAnimation.h"
 
 #define APP_VER        [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
 #define BUILD_VER      [[NSBundle mainBundle].infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]
@@ -55,11 +57,12 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
 
 #define HexColor(hex) [UIColor colorWithHexString:@#hex]
 #define Color_DefaultBorder HexColor(#dbdbdb)
+#define kDefaultItemSpacing (3)
 
 #define kPaidNotificationName @"kuaibo_paid_notification"
 #define kPaidNotificationOrderNoKey @"kuaibo_paid_notification_order_key"
 #define kPaidNotificationPriceKey @"kuaibo_paid_notification_price_key"
 #define kPaidNotificationPaymentType @"kuaibo_paid_notification_payment_type"
 
-#define EnableBaiduMobAd
+//#define EnableBaiduMobAd
 #endif

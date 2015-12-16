@@ -7,13 +7,14 @@
 //
 
 #import "kbMoreViewController.h"
+#import "KbSystemConfigModel.h"
 
 static const NSUInteger kUIWebViewRetryTimes = 30;
 
 @interface kbMoreViewController () <UIWebViewDelegate>
 {
-    UIView *_headerView;
     UIWebView *_webView;
+    UIImageView *_topImageView;
 }
 @property (nonatomic) NSUInteger retryTimes;
 @property (nonatomic) BOOL isStandBy;
@@ -48,29 +49,77 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _headerView = [[UIView alloc] init];
-    _headerView.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:_headerView];
-    {
-        [_headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.right.equalTo(self.view);
-            make.height.mas_equalTo(20);
-        }];
-    }
+    self.title = @"更多";
+    
+    _topImageView = [[UIImageView alloc] init];
+    _topImageView.userInteractionEnabled = YES;
+    [_topImageView YPB_addAnimationForImageAppearing];
+    [self.view addSubview:_topImageView];
+//    {
+//        [_topImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.left.right.equalTo(self.view);
+//            make.height.equalTo(_topImageView.mas_width).dividedBy(4);
+//        }];
+//    }
     
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
     [self.view addSubview:_webView];
-    {
-        [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.equalTo(self.view);
-            make.top.equalTo(_headerView.mas_bottom);
-        }];
-    }
+//    {
+//        [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.bottom.equalTo(self.view);
+//            make.top.equalTo(_topImageView.mas_bottom);
+//        }];
+//    }
+    
+    [_topImageView bk_whenTapped:^{
+        NSString *spreadURL = [KbSystemConfigModel sharedModel].spreadURL;
+        if (spreadURL) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:spreadURL]];
+        }
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     self.retryTimes = 0;
     self.isStandBy = NO;
     [_webView loadRequest:self.urlRequest];
+    
+    [self loadTopImage];
+}
+
+- (void)loadTopImage {
+    @weakify(self);
+    [[KbSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+        @strongify(self);
+        if (success) {
+            NSString *topImage = [KbSystemConfigModel sharedModel].spreadTopImage;
+            if (topImage.length == 0) {
+                [self.view setNeedsLayout];
+                return ;
+            }
+            
+            [self->_topImageView sd_setImageWithURL:[NSURL URLWithString:topImage] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [self.view setNeedsLayout];
+            }];
+            
+        }
+    }];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    const CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+    const CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
+    _topImageView.frame = _topImageView.image ? CGRectMake(0, 0, viewWidth, viewWidth/4) : CGRectZero;
+    _topImageView.hidden = _topImageView.image == nil;
+    
+    _webView.frame = CGRectMake(0, CGRectGetMaxY(_topImageView.frame),
+                                viewWidth, viewHeight - CGRectGetHeight(_topImageView.frame));
+    
 }
 
 - (void)didReceiveMemoryWarning {

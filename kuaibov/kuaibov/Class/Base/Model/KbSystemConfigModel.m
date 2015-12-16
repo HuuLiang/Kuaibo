@@ -53,6 +53,10 @@
                 } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigStartupInstall]) {
                     self.startupInstall = config.value;
                     self.startupPrompt = config.memo;
+                } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigSpreadTopImage]) {
+                    self.spreadTopImage = config.value;
+                } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigSpreadURL]) {
+                    self.spreadURL = config.value;
                 }
             }];
         }

@@ -19,6 +19,8 @@ typedef void (^KbFetchSystemConfigCompletionHandler)(BOOL success);
 
 @property (nonatomic) double payAmount;
 @property (nonatomic) NSString *channelTopImage;
+@property (nonatomic) NSString *spreadTopImage;
+@property (nonatomic) NSString *spreadURL;
 
 @property (nonatomic) NSString *startupInstall;
 @property (nonatomic) NSString *startupPrompt;

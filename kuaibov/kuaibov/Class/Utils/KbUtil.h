@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, KbPendingOrderItem) {
 + (NSString *)deviceName;
 + (NSString *)appVersion;
 + (NSString *)appId;
++ (NSNumber *)pV;
 
 // For test only
 + (void)removeKeyChainEntries;

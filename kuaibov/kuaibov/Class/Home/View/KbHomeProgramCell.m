@@ -2,74 +2,103 @@
 //  KbHomeProgramCell.m
 //  kuaibov
 //
-//  Created by Sean Yue on 15/9/10.
-//  Copyright (c) 2015年 kuaibov. All rights reserved.
+//  Created by Sean Yue on 15/12/16.
+//  Copyright © 2015年 kuaibov. All rights reserved.
 //
 
 #import "KbHomeProgramCell.h"
+#import "KbHomeProgramItemView.h"
+
+static const CGFloat kLeftImageScale = 493. / 361.;
+
+@implementation KbHomeProgramItem
+
++ (instancetype)itemWithImageURL:(NSString *)imageURL title:(NSString *)title subtitle:(NSString *)subtitle {
+    if (imageURL.length == 0) {
+        return nil;
+    }
+    
+    KbHomeProgramItem *item = [[self alloc] init];
+    item.imageURL = imageURL;
+    item.title = title;
+    item.subtitle = subtitle;
+    return item;
+}
+
+@end
 
 @interface KbHomeProgramCell ()
-{
-    UIImageView *_imageView;
-    UILabel *_titleLabel;
-    UILabel *_detailLabel;
-}
+@property (nonatomic,retain) NSMutableDictionary<NSNumber *, KbHomeProgramItemView *> *imageViews;
 @end
 
 @implementation KbHomeProgramCell
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        _imageView = [[UIImageView alloc] init];
-        self.backgroundView = _imageView;
-        
-        _detailLabel = [[UILabel alloc] init];
-        _detailLabel.font = [UIFont boldSystemFontOfSize:10.];
-        _detailLabel.textColor = [UIColor whiteColor];
-        _detailLabel.adjustsFontSizeToFitWidth = YES;
-        [_imageView addSubview:_detailLabel];
-        {
-            [_detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(_imageView).with.offset(10);
-                make.right.equalTo(_imageView).with.offset(-10);
-                make.bottom.equalTo(_imageView).with.offset(-10);
-            }];
-        }
-        
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = [UIFont boldSystemFontOfSize:14.];
-        _titleLabel.textColor = [UIColor whiteColor];
-        [_imageView addSubview:_titleLabel];
-        {
-            [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.and.right.equalTo(_detailLabel);
-                make.bottom.equalTo(_detailLabel.mas_top).with.offset(-1);
-            }];
-        }
+        self.backgroundColor = [UIColor whiteColor];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }
 
-- (void)setImageURL:(NSURL *)imageURL {
-    _imageURL = imageURL;
+- (void)setItem:(KbHomeProgramItem *)item atPosition:(KbHomeProgramItemPosition)position {
+    KbHomeProgramItemView *itemView = self.imageViews[@(position)];
+    if (!itemView) {
+        itemView = [[KbHomeProgramItemView alloc] init];
+        [self.imageViews setObject:itemView forKey:@(position)];
+        [self addSubview:itemView];
+        [self setConstraintsOfItemView:itemView atPosition:position];
+        
+        @weakify(self);
+        [itemView bk_whenTapped:^{
+            @strongify(self);
+            if (self.action) {
+                self.action(position);
+            }
+        }];
+    }
     
-    [_imageView sd_setImageWithURL:imageURL];
+    itemView.imageURL = [NSURL URLWithString:item.imageURL];
+    itemView.titleText = item.title;
+    itemView.detailText = item.subtitle;
 }
 
-- (void)setTitleText:(NSString *)titleText {
-    _titleLabel.text = titleText;
+- (void)setConstraintsOfItemView:(KbHomeProgramItemView *)itemView atPosition:(KbHomeProgramItemPosition)position {
+    switch (position) {
+        case KbHomeProgramLeftItem:
+        {
+            [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.top.equalTo(self);
+                make.bottom.equalTo(self).offset(-kDefaultItemSpacing);
+                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(2./3.);
+            }];
+            break;
+        }
+        case KbHomeProgramRightTopItem:
+        {
+            [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.top.equalTo(self);
+                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(1./3.);
+                make.height.equalTo(self).offset(-kDefaultItemSpacing).multipliedBy(0.5);
+            }];
+            break;
+        }
+        case KbHomeProgramRightBottomItem:
+        {
+            [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(self);
+                make.bottom.equalTo(self).offset(-kDefaultItemSpacing);
+                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(1./3.);
+                make.height.equalTo(self).offset(-kDefaultItemSpacing).multipliedBy(0.5);
+            }];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
-- (NSString *)titleText {
-    return _titleLabel.text;
-}
-
-- (void)setDetailText:(NSString *)detailText {
-    _detailLabel.text = detailText;
-}
-
-- (NSString *)detailText {
-    return _detailLabel.text;
-}
 @end

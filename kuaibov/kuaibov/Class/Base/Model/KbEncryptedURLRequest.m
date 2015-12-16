@@ -23,7 +23,7 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
              kEncryptionKeyName:[self class].signKey,
              @"imsi":@"999999999999999",
              @"channelNo":[KbConfig sharedConfig].channelNo,
-             @"pV":@(1)
+             @"pV":[KbUtil pV]
              };
 }
 
