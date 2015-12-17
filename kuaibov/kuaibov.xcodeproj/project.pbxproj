@@ -33,7 +33,6 @@
 		BC1C4B641BFC639C001B5867 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B631BFC639C001B5867 /* libz.tbd */; };
 		BC1C4B661BFC63A3001B5867 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B651BFC63A3001B5867 /* libc++.tbd */; };
 		BC1C4B681BFC63AA001B5867 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */; };
-		BC5DD2B81BAA934500200265 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5DD2B71BAA934500200265 /* Launch Screen.storyboard */; };
 		BC683B021C18129F006B19A5 /* ipaynow.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC683AF01C18129F006B19A5 /* ipaynow.bundle */; };
 		BC683B031C18129F006B19A5 /* libIpaynowPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC683AF41C18129F006B19A5 /* libIpaynowPlugin.a */; };
 		BC683B051C18129F006B19A5 /* 说明.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC683AF61C18129F006B19A5 /* 说明.rtf */; };
@@ -163,7 +162,6 @@
 		BC1C4B631BFC639C001B5867 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		BC1C4B651BFC63A3001B5867 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		BC5DD2B71BAA934500200265 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		BC683AF01C18129F006B19A5 /* ipaynow.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ipaynow.bundle; sourceTree = "<group>"; };
 		BC683AF11C18129F006B19A5 /* IpaynowPluginApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpaynowPluginApi.h; sourceTree = "<group>"; };
 		BC683AF21C18129F006B19A5 /* IpaynowPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpaynowPluginDelegate.h; sourceTree = "<group>"; };
@@ -387,7 +385,6 @@
 				6E090FE71B86A37B00260BDC /* AppDelegate.h */,
 				6E090FE81B86A37B00260BDC /* AppDelegate.m */,
 				6E090FF01B86A37B00260BDC /* Images.xcassets */,
-				BC5DD2B71BAA934500200265 /* Launch Screen.storyboard */,
 				6E090FE31B86A37B00260BDC /* Supporting Files */,
 				6E2B8AD21B95F92600053761 /* Class */,
 			);
@@ -912,7 +909,6 @@
 				BC152F2C1C059F1B000DF875 /* config_standby.plist in Resources */,
 				BCFF05231B986B4D0074BAE2 /* config.plist in Resources */,
 				BC683B051C18129F006B19A5 /* 说明.rtf in Resources */,
-				BC5DD2B81BAA934500200265 /* Launch Screen.storyboard in Resources */,
 				BC84FFB61C046BFC0077B57C /* baidumobadsdk.bundle in Resources */,
 				BC683B021C18129F006B19A5 /* ipaynow.bundle in Resources */,
 				6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */,

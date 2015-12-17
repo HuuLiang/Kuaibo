@@ -9,8 +9,6 @@
 #import "KbHomeProgramCell.h"
 #import "KbHomeProgramItemView.h"
 
-static const CGFloat kLeftImageScale = 493. / 361.;
-
 @implementation KbHomeProgramItem
 
 + (instancetype)itemWithImageURL:(NSString *)imageURL title:(NSString *)title subtitle:(NSString *)subtitle {
