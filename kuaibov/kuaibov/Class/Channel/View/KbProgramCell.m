@@ -28,7 +28,7 @@
         _detailLabel = [[UILabel alloc] init];
         _detailLabel.font = [UIFont boldSystemFontOfSize:10.];
         _detailLabel.textColor = [UIColor whiteColor];
-        _detailLabel.adjustsFontSizeToFitWidth = YES;
+        //_detailLabel.adjustsFontSizeToFitWidth = YES;
         [_imageView addSubview:_detailLabel];
         {
             [_detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
