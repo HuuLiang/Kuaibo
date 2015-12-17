@@ -231,6 +231,10 @@
 }
 
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(KbPaymentInfo *)paymentInfo {
+    paymentInfo.paymentResult = @(result);
+    paymentInfo.paymentStatus = @(KbPaymentStatusNotProcessed);
+    [paymentInfo save];
+    
     if (result == PAYRESULT_SUCCESS) {
         [self hidePayment];
         [[KbHudManager manager] showHudWithText:@"支付成功"];
@@ -241,9 +245,6 @@
         [[KbHudManager manager] showHudWithText:@"支付失败"];
     }
     
-    paymentInfo.paymentResult = @(result);
-    paymentInfo.paymentStatus = @(KbPaymentStatusNotProcessed);
-    [paymentInfo save];
     [[KbPaymentModel sharedModel] commitPaymentInfo:paymentInfo];
 }
 
