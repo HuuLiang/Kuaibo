@@ -11,7 +11,6 @@
 		12DEBE641C1EE6DD0062AFE1 /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE5E1C1EE6DD0062AFE1 /* payRequsestHandler.mm */; };
 		12DEBE651C1EE6DD0062AFE1 /* WeChatPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE601C1EE6DD0062AFE1 /* WeChatPayManager.m */; };
 		12DEBE661C1EE6DD0062AFE1 /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE621C1EE6DD0062AFE1 /* WXUtil.mm */; };
-		12DEBE6D1C1EEDF50062AFE1 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12DEBE6A1C1EEDF50062AFE1 /* libWeChatSDK.a */; };
 		12DEBE701C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 12DEBE6F1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m */; };
 		56794F4345B561BA89892950 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8B6ED104721273B48C5C5C /* libPods.a */; };
 		6E090FE61B86A37B00260BDC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FE51B86A37B00260BDC /* main.m */; };
@@ -118,9 +117,6 @@
 		12DEBE601C1EE6DD0062AFE1 /* WeChatPayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeChatPayManager.m; sourceTree = "<group>"; };
 		12DEBE611C1EE6DD0062AFE1 /* WXUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXUtil.h; sourceTree = "<group>"; };
 		12DEBE621C1EE6DD0062AFE1 /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
-		12DEBE6A1C1EEDF50062AFE1 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
-		12DEBE6B1C1EEDF50062AFE1 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		12DEBE6C1C1EEDF50062AFE1 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		12DEBE6E1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbWeChatPayQueryOrderRequest.h; sourceTree = "<group>"; };
 		12DEBE6F1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayQueryOrderRequest.m; sourceTree = "<group>"; };
 		4B8B6ED104721273B48C5C5C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -299,7 +295,6 @@
 			files = (
 				BC84FFCD1C046D560077B57C /* WebKit.framework in Frameworks */,
 				BC84FFCB1C046D4F0077B57C /* CoreGraphics.framework in Frameworks */,
-				12DEBE6D1C1EEDF50062AFE1 /* libWeChatSDK.a in Frameworks */,
 				BC1C4B601BFC638C001B5867 /* CoreTelephony.framework in Frameworks */,
 				BC683B061C18129F006B19A5 /* libUPPayPlugin.a in Frameworks */,
 				BC683B031C18129F006B19A5 /* libIpaynowPlugin.a in Frameworks */,
@@ -347,16 +342,6 @@
 				12DEBE621C1EE6DD0062AFE1 /* WXUtil.mm */,
 			);
 			path = WeChatPay;
-			sourceTree = "<group>";
-		};
-		12DEBE691C1EEDF50062AFE1 /* WeChatSDK */ = {
-			isa = PBXGroup;
-			children = (
-				12DEBE6A1C1EEDF50062AFE1 /* libWeChatSDK.a */,
-				12DEBE6B1C1EEDF50062AFE1 /* WXApi.h */,
-				12DEBE6C1C1EEDF50062AFE1 /* WXApiObject.h */,
-			);
-			path = WeChatSDK;
 			sourceTree = "<group>";
 		};
 		6E090FD71B86A37B00260BDC = {
@@ -519,7 +504,6 @@
 		6E2B8AEB1B95FD5600053761 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				12DEBE691C1EEDF50062AFE1 /* WeChatSDK */,
 				12DEBE5A1C1EE6DD0062AFE1 /* WeChatPay */,
 				BC01B8A51C0BFE1D008932E7 /* Umeng */,
 				BC84FFA81C046BA90077B57C /* BaiduMobAd */,

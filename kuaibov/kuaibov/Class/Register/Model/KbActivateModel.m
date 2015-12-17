@@ -45,7 +45,8 @@ static NSString *const kSuccessResponse = @"SUCCESS";
                              @"sdkV":sdkV,
                              @"cpuV":@"",
                              @"appV":[KbUtil appVersion],
-                             @"appVN":@""};
+                             @"appVN":@"",
+                             @"ccn":[KbConfig sharedConfig].packageSigningCertificate};
     
     BOOL success = [self requestURLPath:[KbConfig sharedConfig].registerURLPath withParams:params responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
         NSString *userId;

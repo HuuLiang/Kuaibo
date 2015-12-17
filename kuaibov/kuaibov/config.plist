@@ -60,5 +60,7 @@
 	<string>KB_FAILED_PAYMENT</string>
 	<key>UmengCancelledPaymentEventId</key>
 	<string>KB_CANCELLED_PAYMENT</string>
+	<key>PackageSigningCertificate</key>
+	<string>iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.</string>
 </dict>
 </plist>

@@ -48,6 +48,8 @@
 @property (nonatomic,readonly) NSString *umengFailedPaymentEventId;
 @property (nonatomic,readonly) NSString *umengCancelledPaymentEventId;
 
+@property (nonatomic,readonly) NSString *packageSigningCertificate;
+
 + (instancetype)sharedConfig;
 + (instancetype)sharedStandbyConfig;
 + (instancetype)configWithName:(NSString *)configName;
