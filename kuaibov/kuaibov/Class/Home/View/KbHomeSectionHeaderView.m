@@ -32,10 +32,10 @@
         }
         
         _backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_section_background"]];
-        [self addSubview:_backgroundView];
+        [self insertSubview:_backgroundView belowSubview:_separatorView];
         {
             [_backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(_separatorView.mas_bottom);
+                make.top.equalTo(_separatorView);
                 make.left.equalTo(self);
                 make.bottom.equalTo(self).offset(-kDefaultItemSpacing);
                 make.width.equalTo(_backgroundView.mas_height).multipliedBy(4);
