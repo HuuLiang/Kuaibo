@@ -8,9 +8,12 @@
 
 #import "KbPaymentModel.h"
 #import "NSDictionary+KbSign.h"
+#import "KbPaymentInfo.h"
 
 static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
 static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
+
+typedef void (^KbPaymentCompletionHandler)(BOOL success);
 
 @implementation KbPaymentModel
 
@@ -51,19 +54,28 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     return @{@"data":encryptedDataString, @"appId":[KbUtil appId]};
 }
 
-- (BOOL)processPendingOrder {
-    NSArray *order = [KbUtil orderForSavePending];
-    if (order.count == KbPendingOrderItemCount) {
-        return [self paidWithOrderId:order[KbPendingOrderId]
-                               price:order[KbPendingOrderPrice]
-                              result:PAYRESULT_SUCCESS
-                           contentId:order[KbPendingOrderProgramId]
-                         contentType:order[KbPendingOrderProgramType]
-                        payPointType:order[KbPendingOrderPayPointType]
-                         paymentType:((NSNumber *)order[KbPendingOrderPaymentType]).unsignedIntegerValue
-                   completionHandler:nil];
-    }
-    return NO;
+- (void)commitUnprocessedOrders {
+    NSArray<KbPaymentInfo *> *unprocessedPaymentInfos = [KbUtil paidNotProcessedPaymentInfos];
+    [unprocessedPaymentInfos enumerateObjectsUsingBlock:^(KbPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self commitPaymentInfo:obj];
+    }];
+}
+
+- (BOOL)commitPaymentInfo:(KbPaymentInfo *)paymentInfo {
+    return [self paidWithOrderId:paymentInfo.orderId
+                           price:paymentInfo.orderPrice.stringValue
+                          result:paymentInfo.paymentResult.unsignedIntegerValue
+                       contentId:paymentInfo.contentId.stringValue
+                     contentType:paymentInfo.contentType.stringValue
+                    payPointType:paymentInfo.payPointType.stringValue
+                     paymentType:paymentInfo.paymentType.unsignedIntegerValue
+               completionHandler:^(BOOL success)
+    {
+        if (success) {
+            paymentInfo.paymentStatus = @(KbPaymentStatusProcessed);
+            [paymentInfo save];
+        }
+    }];
 }
 
 - (BOOL)paidWithOrderId:(NSString *)orderId
@@ -73,10 +85,10 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
             contentType:(NSString *)contentType
            payPointType:(NSString *)payPointType
             paymentType:(KbPaymentType)paymentType
-      completionHandler:(KbPaidCompletionHandler)handler {
+      completionHandler:(KbPaymentCompletionHandler)handler {
     NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(0)};
     
-    if (nil == [KbUtil userId] || orderId.length == 0 || contentId == nil || contentType == nil) {
+    if (nil == [KbUtil userId] || orderId.length == 0) {
         return NO;
     }
     
@@ -86,8 +98,8 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
                              @"imei":@"999999999999999",
                              @"payMoney":price,//@((NSUInteger)(price.doubleValue * 100)),
                              @"channelNo":[KbConfig sharedConfig].channelNo,
-                             @"contentId":contentId,
-                             @"contentType":contentType,
+                             @"contentId":contentId ?: @"",
+                             @"contentType":contentType ?: @"",
                              @"pluginType":@(paymentType),
                              @"payPointType":@(payPointType.integerValue),
                              @"appId":[KbUtil appId],

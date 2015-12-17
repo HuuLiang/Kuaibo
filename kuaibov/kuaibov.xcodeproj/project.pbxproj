@@ -32,6 +32,8 @@
 		BC1C4B641BFC639C001B5867 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B631BFC639C001B5867 /* libz.tbd */; };
 		BC1C4B661BFC63A3001B5867 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B651BFC63A3001B5867 /* libc++.tbd */; };
 		BC1C4B681BFC63AA001B5867 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */; };
+		BC2B1A6A1C22FDB400870AAF /* KbPaymentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2B1A691C22FDB400870AAF /* KbPaymentInfo.m */; };
+		BC2B1A6D1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2B1A6C1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m */; };
 		BC683B021C18129F006B19A5 /* ipaynow.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC683AF01C18129F006B19A5 /* ipaynow.bundle */; };
 		BC683B031C18129F006B19A5 /* libIpaynowPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC683AF41C18129F006B19A5 /* libIpaynowPlugin.a */; };
 		BC683B051C18129F006B19A5 /* 说明.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC683AF61C18129F006B19A5 /* 说明.rtf */; };
@@ -158,6 +160,10 @@
 		BC1C4B631BFC639C001B5867 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		BC1C4B651BFC63A3001B5867 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		BC2B1A681C22FDB400870AAF /* KbPaymentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbPaymentInfo.h; sourceTree = "<group>"; };
+		BC2B1A691C22FDB400870AAF /* KbPaymentInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentInfo.m; sourceTree = "<group>"; };
+		BC2B1A6B1C2303F800870AAF /* NSMutableDictionary+SafeCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SafeCoding.h"; sourceTree = "<group>"; };
+		BC2B1A6C1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SafeCoding.m"; sourceTree = "<group>"; };
 		BC683AF01C18129F006B19A5 /* ipaynow.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ipaynow.bundle; sourceTree = "<group>"; };
 		BC683AF11C18129F006B19A5 /* IpaynowPluginApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpaynowPluginApi.h; sourceTree = "<group>"; };
 		BC683AF21C18129F006B19A5 /* IpaynowPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpaynowPluginDelegate.h; sourceTree = "<group>"; };
@@ -671,6 +677,8 @@
 				BC1731B01C16CAE00065DD97 /* NSObject+Properties.m */,
 				BC88FF3E1C21547B00384C35 /* UIImageView+YPBAnimation.h */,
 				BC88FF3F1C21547B00384C35 /* UIImageView+YPBAnimation.m */,
+				BC2B1A6B1C2303F800870AAF /* NSMutableDictionary+SafeCoding.h */,
+				BC2B1A6C1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -709,6 +717,8 @@
 			children = (
 				BCFB9A321BA736D300106BCA /* KbActivateModel.h */,
 				BCFB9A331BA736D300106BCA /* KbActivateModel.m */,
+				BC2B1A681C22FDB400870AAF /* KbPaymentInfo.h */,
+				BC2B1A691C22FDB400870AAF /* KbPaymentInfo.m */,
 				BCFB9A2F1BA72C6500106BCA /* KbPaymentModel.h */,
 				BCFB9A301BA72C6500106BCA /* KbPaymentModel.m */,
 			);
@@ -998,6 +1008,7 @@
 				BCFF05271B986F690074BAE2 /* KbHomeBannerModel.m in Sources */,
 				BC1B213A1C17CE0A00BE87C4 /* KbPaymentViewController.m in Sources */,
 				BCDE4EF91BA6657500244945 /* UIColor+hexColor.m in Sources */,
+				BC2B1A6D1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m in Sources */,
 				BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */,
 				BCFCA9DA1BA16B8E00B15020 /* KbHudManager.m in Sources */,
 				BCFF052E1B9870790074BAE2 /* KbChannelModel.m in Sources */,
@@ -1017,6 +1028,7 @@
 				BC88FF4B1C217DAB00384C35 /* KbHomeSectionHeaderView.m in Sources */,
 				BC18E7241C06EC3B00ADAA2B /* KbUserAccessModel.m in Sources */,
 				6E090FE61B86A37B00260BDC /* main.m in Sources */,
+				BC2B1A6A1C22FDB400870AAF /* KbPaymentInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,18 +7,17 @@
 //
 
 #import "kbBaseController.h"
-#import "IpaynowPluginApi.h"
-#import "KbPaymentSignModel.h"
 
 @class KbProgram;
+@class KbPaymentInfo;
 
-@interface KbPaymentViewController : kbBaseController<IpaynowPluginDelegate>
-
-@property (nonatomic,retain) IPNPreSignMessageUtil *paymentInfo;
+@interface KbPaymentViewController : kbBaseController
 
 + (instancetype)sharedPaymentVC;
 
 - (void)popupPaymentInView:(UIView *)view forProgram:(KbProgram *)program;
 - (void)hidePayment;
-- (void)IpaynowPluginResult:(IPNPayResult)result errCode:(NSString *)errCode errInfo:(NSString *)errInfo ;
+
+- (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(KbPaymentInfo *)paymentInfo;
+
 @end

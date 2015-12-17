@@ -8,44 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, KbPendingOrderItem) {
-    KbPendingOrderId,
-    KbPendingOrderPrice,
-    KbPendingOrderProgramId,
-    KbPendingOrderProgramType,
-    KbPendingOrderPayPointType,
-    KbPendingOrderPaymentType,
-    KbPendingOrderItemCount
-};
+extern NSString *const kPaymentInfoKeyName;
+@class KbPaymentInfo;
 
 @interface KbUtil : NSObject
 
 + (BOOL)isRegistered;
 + (void)setRegisteredWithUserId:(NSString *)userId;
 
++ (NSArray<KbPaymentInfo *> *)allPaymentInfos;
++ (NSArray<KbPaymentInfo *> *)payingPaymentInfos;
++ (NSArray<KbPaymentInfo *> *)paidNotProcessedPaymentInfos;
 + (BOOL)isPaid;
-+ (void)setPaid;
-+ (void)setPaidPendingWithOrder:(NSArray *)order;
-
-+ (void)setPayingOrder:(NSDictionary<NSString *, id> *)orderInfo;
-+ (NSDictionary<NSString *, id> *)payingOrder;
-
-// Methods for convenience
-+ (NSString *)payingOrderNo;
-+ (KbPaymentType)payingOrderPaymentType;
-+ (void)setPayingOrderWithOrderNo:(NSString *)orderNo paymentType:(KbPaymentType)paymentType;
 
 + (NSString *)accessId;
-
-+ (NSArray *)orderForSavePending; // For last time not saved successfully to remote
-
 + (NSString *)userId;
 + (NSString *)deviceName;
 + (NSString *)appVersion;
 + (NSString *)appId;
 + (NSNumber *)pV;
-
-// For test only
-+ (void)removeKeyChainEntries;
 
 @end

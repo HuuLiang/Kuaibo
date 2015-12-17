@@ -22,22 +22,9 @@
 #import "KbWeChatPayQueryOrderRequest.h"
 #import "KbPaymentViewController.h"
 #import "KbPaymentSignModel.h"
-#ifdef EnableBaiduMobAd
-#import "BaiduMobAdSplash.h"
-#endif
 
-@interface AppDelegate ()<WXApiDelegate
-#ifdef EnableBaiduMobAd
-,BaiduMobAdSplashDelegate
-#endif
->
-
+@interface AppDelegate () <WXApiDelegate>
 @property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
-
-#ifdef EnableBaiduMobAd
-@property (nonatomic,retain) BaiduMobAdSplash *splashAd;
-#endif
-
 @end
 
 @implementation AppDelegate
@@ -185,15 +172,6 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     [self setupMobStatistics];
     [self setupCommonStyles];
     [self.window makeKeyWindow];
-    
-#ifdef EnableBaiduMobAd
-    self.splashAd = [[BaiduMobAdSplash alloc] init];
-    self.splashAd.delegate = self;
-    self.splashAd.AdUnitTag = [KbConfig sharedConfig].baiduLaunchAdId;
-    self.splashAd.canSplashClick = YES;
-    [self.splashAd loadAndDisplayUsingKeyWindow:self.window];
-#endif
-    
     self.window.hidden = NO;
     
     if (![KbUtil isRegistered]) {
@@ -207,7 +185,7 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         [[KbUserAccessModel sharedModel] requestUserAccess];
     }
     
-    [[KbPaymentModel sharedModel] processPendingOrder];
+    [[KbPaymentModel sharedModel] commitUnprocessedOrders];
     [[KbSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
         if (!success) {
             return ;
@@ -218,7 +196,7 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
             return ;
         }
         
-        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
     }];
     return YES;
 }
@@ -254,23 +232,22 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 - (void)checkPayment {
-    NSString *payingOrderNo = [KbUtil payingOrderNo];
-    KbPaymentType payingType = [KbUtil payingOrderPaymentType];
-    if (![KbUtil isPaid] && payingOrderNo && payingType != KbPaymentTypeNone) {
-        if (payingType == KbPaymentTypeWeChatPay) {
-            [self.wechatPayOrderQueryRequest queryOrderWithNo:payingOrderNo completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
+    if ([KbUtil isPaid]) {
+        return ;
+    }
+    
+    NSArray<KbPaymentInfo *> *payingPaymentInfos = [KbUtil payingPaymentInfos];
+    [payingPaymentInfos enumerateObjectsUsingBlock:^(KbPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        KbPaymentType paymentType = obj.paymentType.unsignedIntegerValue;
+        if (paymentType == KbPaymentTypeWeChatPay) {
+            [self.wechatPayOrderQueryRequest queryOrderWithNo:obj.orderId completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
                 if ([trade_state isEqualToString:@"SUCCESS"]) {
-                    KbPaymentViewController *payController = [KbPaymentViewController sharedPaymentVC];
-                    IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
-                    preSign.mhtOrderNo=payingOrderNo;
-                    preSign.mhtOrderAmt = @(total_fee*100).stringValue;
-                    payController.paymentInfo = preSign;
-                    [payController IpaynowPluginResult:IPNPayResultSuccess errCode:nil errInfo:nil];
+                    KbPaymentViewController *paymentVC = [KbPaymentViewController sharedPaymentVC];
+                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
                 }
             }];
         }
-        
-    }
+    }];
 }
 
 #pragma mark - WeChat delegate
@@ -292,13 +269,5 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
     }
 }
-
-#ifdef EnableBaiduMobAd
-#pragma mark - BaiduMobAdSplashDelegate
-
-- (NSString *)publisherId {
-    return [KbConfig sharedConfig].baiduAdAppId;
-}
-#endif
 
 @end

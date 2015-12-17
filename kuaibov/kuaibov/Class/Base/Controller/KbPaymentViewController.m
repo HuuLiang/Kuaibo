@@ -14,12 +14,16 @@
 #import <objc/runtime.h>
 #import "KbProgram.h"
 #import "WeChatPayManager.h"
+#import "KbPaymentInfo.h"
+#import "IpaynowPluginApi.h"
+#import "KbPaymentSignModel.h"
 
-@interface KbPaymentViewController () 
+@interface KbPaymentViewController () <IpaynowPluginDelegate>
 @property (nonatomic,retain) KbPaymentPopView *popView;
 @property (nonatomic) NSNumber *payAmount;
 
 @property (nonatomic,retain) KbProgram *programToPayFor;
+@property (nonatomic,retain) KbPaymentInfo *paymentInfo;
 
 @property (nonatomic,readonly,retain) NSDictionary *paymentTypeMap;
 @end
@@ -132,16 +136,24 @@
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
-    [KbUtil setPayingOrderWithOrderNo:orderNo paymentType:paymentType];
+    
+    // Payment info
+    KbPaymentInfo *paymentInfo = [[KbPaymentInfo alloc] init];
+    paymentInfo.orderId = orderNo;
+    paymentInfo.orderPrice = @((NSUInteger)(price * 100));
+    paymentInfo.contentId = program.programId;
+    paymentInfo.contentType = program.type;
+    paymentInfo.payPointType = program.payPointType;
+    paymentInfo.paymentType = @(paymentType);
+    paymentInfo.paymentResult = @(PAYRESULT_UNKNOWN);
+    paymentInfo.paymentStatus = @(KbPaymentStatusPaying);
+    [paymentInfo save];
+    self.paymentInfo = paymentInfo;
+    
     if (paymentType==KbPaymentTypeWeChatPay) {
         [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:price completionHandler:^(PAYRESULT payResult) {
             @strongify(self);
-            IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
-            preSign.mhtOrderNo=orderNo;
-            preSign.mhtOrderAmt = @(price*100).stringValue;
-            self.paymentInfo = preSign;
-            IPNPayResult IPNResult=[self paymentResultFromPayresult:payResult];
-            [self IpaynowPluginResult:IPNResult errCode:nil errInfo:nil];
+            [self notifyPaymentResult:payResult withPaymentInfo:self.paymentInfo];
         }];
     } else {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -162,7 +174,6 @@
         [[KbPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
             @strongify(self);
             if (success) {
-                self.paymentInfo = preSign;
                 [IpaynowPluginApi pay:signedData AndScheme:[KbConfig sharedConfig].payNowScheme viewController:self delegate:self];
             } else {
                 [[KbHudManager manager] showHudWithText:@"服务器获取签名失败！"];
@@ -219,41 +230,27 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)IpaynowPluginResult:(IPNPayResult)result errCode:(NSString *)errCode errInfo:(NSString *)errInfo {
-    NSLog(@"PayResult:%ld\nerrorCode:%@\nerrorInfo:%@", result,errCode,errInfo);
-    
-    NSString *contentId = self.programToPayFor.programId.stringValue ?: @"";
-    NSString *contentType = self.programToPayFor.type.stringValue ?: @"";
-    NSString *payPointType = self.programToPayFor.payPointType.stringValue ?: @"999";
-    
-    if (result == IPNPayResultSuccess) {
-        [KbUtil setPaidPendingWithOrder:@[self.paymentInfo.mhtOrderNo,
-                                          self.paymentInfo.mhtOrderAmt,
-                                          contentId,
-                                          contentType,
-                                          payPointType]];
-        
+- (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(KbPaymentInfo *)paymentInfo {
+    if (result == PAYRESULT_SUCCESS) {
         [self hidePayment];
         [[KbHudManager manager] showHudWithText:@"支付成功"];
         [[NSNotificationCenter defaultCenter] postNotificationName:kPaidNotificationName object:nil];
-    } else if (result == IPNPayResultCancel) {
+    } else if (result == PAYRESULT_ABANDON) {
         [[KbHudManager manager] showHudWithText:@"支付取消"];
     } else {
         [[KbHudManager manager] showHudWithText:@"支付失败"];
     }
     
-    [[KbPaymentModel sharedModel] paidWithOrderId:self.paymentInfo.mhtOrderNo
-                                            price:self.paymentInfo.mhtOrderAmt
-                                           result:[self paymentResultFromPayNowResult:result]
-                                        contentId:contentId
-                                      contentType:contentType
-                                     payPointType:payPointType
-                                      paymentType:[self paymentTypeFromPayNowType:self.paymentInfo.payChannelType.integerValue]
-                                completionHandler:^(BOOL success){
-                                    if (success && result == IPNPayResultSuccess) {
-                                        [KbUtil setPaid];
-                                    }
-                                }];
+    paymentInfo.paymentResult = @(result);
+    paymentInfo.paymentStatus = @(KbPaymentStatusNotProcessed);
+    [paymentInfo save];
+    [[KbPaymentModel sharedModel] commitPaymentInfo:paymentInfo];
+}
+
+- (void)IpaynowPluginResult:(IPNPayResult)result errCode:(NSString *)errCode errInfo:(NSString *)errInfo {
+    DLog(@"PayNow Result:%ld\nerrorCode:%@\nerrorInfo:%@", result,errCode,errInfo);
+    PAYRESULT payResult = [self paymentResultFromPayNowResult:result];
+    [self notifyPaymentResult:payResult withPaymentInfo:self.paymentInfo];
 }
 
 @end
