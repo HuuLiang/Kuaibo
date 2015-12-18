@@ -55,28 +55,20 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
     _topImageView.userInteractionEnabled = YES;
     [_topImageView YPB_addAnimationForImageAppearing];
     [self.view addSubview:_topImageView];
-//    {
-//        [_topImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.left.right.equalTo(self.view);
-//            make.height.equalTo(_topImageView.mas_width).dividedBy(4);
-//        }];
-//    }
     
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
     [self.view addSubview:_webView];
-//    {
-//        [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.bottom.equalTo(self.view);
-//            make.top.equalTo(_topImageView.mas_bottom);
-//        }];
-//    }
     
     [_topImageView bk_whenTapped:^{
         NSString *spreadURL = [KbSystemConfigModel sharedModel].spreadURL;
         if (spreadURL) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:spreadURL]];
         }
+    }];
+    
+    [self.navigationController.navigationBar bk_whenTouches:1 tapped:5 handler:^{
+        [[KbHudManager manager] showHudWithText:[NSString stringWithFormat:@"Server:%@\nChannelNo:%@\nPackageCertificate:%@", [KbConfig sharedConfig].baseURL, [KbConfig sharedConfig].channelNo, [KbConfig sharedConfig].packageSigningCertificate]];
     }];
 }
 

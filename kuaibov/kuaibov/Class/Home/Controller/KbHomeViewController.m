@@ -49,7 +49,6 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self createBtn];
     // Do any additional setup after loading the view.
     NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
     if (!appName) {
@@ -83,88 +82,6 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         [self reloadData];
     }];
     [_layoutTableView kb_triggerPullToRefresh];
-}
-
-//添加点击多次的手势
--(void)createBtn{
-    UIView *view=[[UIView alloc]init];
-    view.frame=CGRectMake(0, 0, 30, 30);
-    view.backgroundColor=[UIColor clearColor];
-    view.layer.cornerRadius=10;
-    view.layer.masksToBounds=YES;
-    UIBarButtonItem *btnItem=[[UIBarButtonItem alloc]initWithCustomView:view];
-    self.navigationItem.rightBarButtonItem=btnItem;
-    //添加手势
-    UITapGestureRecognizer *tap2=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap2:)];
-    tap2.numberOfTapsRequired=5;
-    [view addGestureRecognizer:tap2];
-}
-
-//添加点击多次的手势点击方法
--(void)tap2:(UITapGestureRecognizer *)tap{
-    
-    //    NSLog(@"被三击了");
-    UIView *view=[[UIView alloc]init];
-    view.frame=CGRectMake(self.view.frame.size.width/2-75, self.view.frame.size.height/2-100, 150, 200);
-    view.backgroundColor=[UIColor blackColor];
-    view.layer.cornerRadius=20;
-    view.layer.masksToBounds=YES;
-    [self.view addSubview:view];
-    
-    NSString *channelNo=[KbConfig sharedConfig].channelNo;//渠道号
-//    NSString *appId=[KbUtil appId];//appid
-    NSString *versionStr=[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];//版本号
-    
-    UILabel *label1=[[UILabel alloc]init];
-    label1.numberOfLines=0;
-    label1.text=[NSString stringWithFormat:@"channelNo:%@",channelNo];
-    label1.textColor=[UIColor whiteColor];
-    label1.adjustsFontSizeToFitWidth=YES;
-    [view addSubview:label1];
-    {
-        [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
-            //            make.center.equalTo(view);
-            make.top.equalTo(view.mas_top).with.offset(30);
-            make.left.equalTo(view.mas_left).with.offset(0);
-            make.width.equalTo(@150);
-            make.height.equalTo(@40);
-        }];
-    }
-    UILabel *label2=[[UILabel alloc]init];
-    label2.numberOfLines=0;
-    label2.text=@"2015 11.28 16:00";
-    label2.textColor=[UIColor whiteColor];
-    label2.adjustsFontSizeToFitWidth=YES;
-    [view addSubview:label2];
-    {
-        [label2 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(view);
-            make.width.equalTo(@150);
-            make.height.equalTo(@40);
-        }];
-    }
-    UILabel *label3=[[UILabel alloc]init];
-    label3.numberOfLines=0;
-    label3.text=[NSString stringWithFormat:@"Version:%@",versionStr];
-    label3.textColor=[UIColor whiteColor];
-    label3.adjustsFontSizeToFitWidth=YES;
-    [view addSubview:label3];
-    {
-        [label3 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(view.mas_bottom).with.offset(-30);
-            make.left.equalTo(view.mas_left).with.offset(0);
-            make.width.equalTo(@150);
-            make.height.equalTo(@40);
-        }];
-    }
-    
-    [UIView animateWithDuration:1 delay:3 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        //
-        view.alpha=0;
-    } completion:^(BOOL finished) {
-        //
-        [view removeFromSuperview];
-    }];
 }
 
 - (void)reloadData {
