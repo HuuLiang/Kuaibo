@@ -302,7 +302,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     } else if ([self isAdBannerInSection:indexPath.section]) {
         return CGRectGetWidth(tableView.bounds) / 4;
     } else {
-        return CGRectGetHeight(tableView.bounds) * 0.3;
+        const CGFloat imageScale = [KbHomeProgramCell imageScale];
+        return (CGRectGetWidth(tableView.bounds)-kDefaultItemSpacing+imageScale*kDefaultItemSpacing/2)/(imageScale*1.5)+kDefaultItemSpacing;//CGRectGetHeight(tableView.bounds) * 0.3;
     }
 }
 

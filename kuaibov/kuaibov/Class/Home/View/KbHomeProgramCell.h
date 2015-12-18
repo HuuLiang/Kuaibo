@@ -29,6 +29,7 @@ typedef void (^KbHomeProgramCellAction)(KbHomeProgramItemPosition position);
 
 @property (nonatomic,copy) KbHomeProgramCellAction action;
 
++ (CGFloat)imageScale;
 - (void)setItem:(KbHomeProgramItem *)item atPosition:(KbHomeProgramItemPosition)position;
 
 @end

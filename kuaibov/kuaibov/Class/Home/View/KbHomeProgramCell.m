@@ -71,7 +71,8 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
             [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.top.equalTo(self);
                 make.bottom.equalTo(self).offset(-kDefaultItemSpacing);
-                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(2./3.);
+                make.width.equalTo(itemView.mas_height).multipliedBy([[self class] imageScale]);
+//                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(2./3.);
             }];
             break;
         }
@@ -79,8 +80,9 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
         {
             [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.top.equalTo(self);
-                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(1./3.);
+                //make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(1./3.);
                 make.height.equalTo(self).offset(-kDefaultItemSpacing).multipliedBy(0.5);
+                make.width.equalTo(itemView.mas_height).multipliedBy([[self class] imageScale]);
             }];
             break;
         }
@@ -89,14 +91,19 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
             [itemView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(self);
                 make.bottom.equalTo(self).offset(-kDefaultItemSpacing);
-                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(1./3.);
+                //make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(1./3.);
                 make.height.equalTo(self).offset(-kDefaultItemSpacing).multipliedBy(0.5);
+                make.width.equalTo(itemView.mas_height).multipliedBy([[self class] imageScale]);
             }];
             break;
         }
         default:
             break;
     }
+}
+
++ (CGFloat)imageScale {
+    return 230./168.;
 }
 
 @end
