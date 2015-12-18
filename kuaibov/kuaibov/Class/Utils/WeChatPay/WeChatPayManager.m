@@ -36,6 +36,8 @@
     [req setKey:[KbConfig sharedConfig].weChatPayPrivateKey];
     //设置回调URL
     [req setNotifyUrl:[KbConfig sharedConfig].weChatPayNotifyURL];
+    //设置附加数据
+    [req setAttach:[KbConfig sharedConfig].paymentReservedData];
     
     //获取到实际调起微信支付的参数后，在app端调起支付
     NSMutableDictionary *dict = [req sendPayWithOrderNo:orderNo price:@(price*100).unsignedIntegerValue];

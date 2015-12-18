@@ -61,7 +61,7 @@
     long     last_errcode;
 	//debug信息
     NSMutableString *debugInfo;
-    NSString *appid,*mchid,*spkey,*notifyUrl;
+    NSString *appid,*mchid,*spkey,*notifyUrl,*attachData;
 }
 //初始化函数
 -(BOOL) init:(NSString *)app_id mch_id:(NSString *)mch_id;
@@ -71,6 +71,8 @@
 -(void) setKey:(NSString *)key;
 //设置回调地址
 -(void) setNotifyUrl:(NSString *)url;
+//设置附加数据
+-(void) setAttach:(NSString *)attach;
 //创建package签名
 -(NSString*) createMd5Sign:(NSMutableDictionary*)dict;
 //获取package带参数的签名包

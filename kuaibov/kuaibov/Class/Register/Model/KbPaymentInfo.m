@@ -18,6 +18,7 @@ static NSString *const kPaymentInfoPayPointTypeKeyName = @"kuaibov_paymentinfo_p
 static NSString *const kPaymentInfoPaymentTypeKeyName = @"kuaibov_paymentinfo_paymenttype_keyname";
 static NSString *const kPaymentInfoPaymentResultKeyName = @"kuaibov_paymentinfo_paymentresult_keyname";
 static NSString *const kPaymentInfoPaymentStatusKeyName = @"kuaibov_paymentinfo_paymentstatus_keyname";
+static NSString *const kPaymentInfoPaymentTimeKeyName = @"kuaibov_paymentinfo_paymenttime_keyname";
 
 @implementation KbPaymentInfo
 
@@ -41,6 +42,7 @@ static NSString *const kPaymentInfoPaymentStatusKeyName = @"kuaibov_paymentinfo_
     paymentInfo.paymentType = payment[kPaymentInfoPaymentTypeKeyName];
     paymentInfo.paymentResult = payment[kPaymentInfoPaymentResultKeyName];
     paymentInfo.paymentStatus = payment[kPaymentInfoPaymentStatusKeyName];
+    paymentInfo.paymentTime = payment[kPaymentInfoPaymentTimeKeyName];
     return paymentInfo;
 }
 
@@ -55,6 +57,7 @@ static NSString *const kPaymentInfoPaymentStatusKeyName = @"kuaibov_paymentinfo_
     [payment safelySetObject:self.paymentType forKey:kPaymentInfoPaymentTypeKeyName];
     [payment safelySetObject:self.paymentResult forKey:kPaymentInfoPaymentResultKeyName];
     [payment safelySetObject:self.paymentStatus forKey:kPaymentInfoPaymentStatusKeyName];
+    [payment safelySetObject:self.paymentTime forKey:kPaymentInfoPaymentTimeKeyName];
     return payment;
 }
 

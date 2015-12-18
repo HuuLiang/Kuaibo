@@ -28,6 +28,10 @@
 -(void) setNotifyUrl:(NSString *)url {
     notifyUrl = url;
 }
+
+-(void) setAttach:(NSString *)attach {
+    attachData = attach;
+}
 //获取debug信息
 -(NSString*) getDebugifo
 {
@@ -180,6 +184,9 @@
     [packageParams setObject: orderNo           forKey:@"out_trade_no"];//商户订单号
     //[packageParams setObject: @"196.168.1.1"    forKey:@"spbill_create_ip"];//发器支付的机器ip
     [packageParams setObject: order_price       forKey:@"total_fee"];       //订单金额，单位为分
+    if (attachData) {
+        [packageParams setObject:attachData         forKey:@"attach"];   //附加数据
+    }
     
     //获取prepayId（预支付交易会话标识）
     NSString *prePayid;

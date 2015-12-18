@@ -170,6 +170,7 @@
         preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
         preSign.mhtCharset = kPayNowDefaultCharset;
         preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
+        preSign.mhtReserved = [KbConfig sharedConfig].paymentReservedData;
         
         [[KbPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
             @strongify(self);
@@ -231,8 +232,12 @@
 }
 
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(KbPaymentInfo *)paymentInfo {
+    NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
+    [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];
+    
     paymentInfo.paymentResult = @(result);
     paymentInfo.paymentStatus = @(KbPaymentStatusNotProcessed);
+    paymentInfo.paymentTime = [dateFormmater stringFromDate:[NSDate date]];
     [paymentInfo save];
     
     if (result == PAYRESULT_SUCCESS) {

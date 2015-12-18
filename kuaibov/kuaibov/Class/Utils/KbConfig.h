@@ -44,6 +44,8 @@
 
 @property (nonatomic,readonly) NSString *packageSigningCertificate;
 
+@property (nonatomic,readonly) NSString *paymentReservedData;
+
 + (instancetype)sharedConfig;
 + (instancetype)sharedStandbyConfig;
 + (instancetype)configWithName:(NSString *)configName;

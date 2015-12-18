@@ -62,52 +62,64 @@ typedef void (^KbPaymentCompletionHandler)(BOOL success);
 }
 
 - (BOOL)commitPaymentInfo:(KbPaymentInfo *)paymentInfo {
-    return [self paidWithOrderId:paymentInfo.orderId
-                           price:paymentInfo.orderPrice.stringValue
-                          result:paymentInfo.paymentResult.unsignedIntegerValue
-                       contentId:paymentInfo.contentId.stringValue
-                     contentType:paymentInfo.contentType.stringValue
-                    payPointType:paymentInfo.payPointType.stringValue
-                     paymentType:paymentInfo.paymentType.unsignedIntegerValue
-               completionHandler:^(BOOL success)
-    {
-        if (success) {
-            paymentInfo.paymentStatus = @(KbPaymentStatusProcessed);
-            [paymentInfo save];
+    @weakify(self);
+    return [self commitPaymentInfo:paymentInfo withCompletionHandler:^(BOOL success) {
+        @strongify(self);
+        if (!success) {
+            [self retryToCommitPaymentInfo:paymentInfo withTryTimes:3];
         }
     }];
 }
 
-- (BOOL)paidWithOrderId:(NSString *)orderId
-                  price:(NSString *)price
-                 result:(NSInteger)result
-              contentId:(NSString *)contentId
-            contentType:(NSString *)contentType
-           payPointType:(NSString *)payPointType
-            paymentType:(KbPaymentType)paymentType
-      completionHandler:(KbPaymentCompletionHandler)handler {
+- (void)retryToCommitPaymentInfo:(KbPaymentInfo *)paymentInfo withTryTimes:(NSUInteger)times {
+    [self retryToCommitPaymentInfo:paymentInfo withTryTimes:times currentTryTime:0];
+}
+
+- (void)retryToCommitPaymentInfo:(KbPaymentInfo *)paymentInfo withTryTimes:(NSUInteger)times currentTryTime:(NSUInteger)currentTime {
+    if (currentTime < times) {
+        @weakify(self);
+        [self commitPaymentInfo:paymentInfo withCompletionHandler:^(BOOL success) {
+            @strongify(self);
+            if (!success) {
+                [self retryToCommitPaymentInfo:paymentInfo withTryTimes:times currentTryTime:currentTime+1];
+            }
+        }];
+        
+    }
+}
+
+- (BOOL)commitPaymentInfo:(KbPaymentInfo *)paymentInfo withCompletionHandler:(KbPaymentCompletionHandler)handler {
     NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(0)};
     
-    if (nil == [KbUtil userId] || orderId.length == 0) {
+    if (nil == [KbUtil userId] || paymentInfo.orderId.length == 0) {
         return NO;
     }
     
     NSDictionary *params = @{@"uuid":[KbUtil userId],
-                             @"orderNo":orderId,
+                             @"orderNo":paymentInfo.orderId,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
-                             @"payMoney":price,//@((NSUInteger)(price.doubleValue * 100)),
+                             @"payMoney":paymentInfo.orderPrice.stringValue,
                              @"channelNo":[KbConfig sharedConfig].channelNo,
-                             @"contentId":contentId ?: @"",
-                             @"contentType":contentType ?: @"",
-                             @"pluginType":@(paymentType),
-                             @"payPointType":@(payPointType.integerValue),
+                             @"contentId":paymentInfo.contentId.stringValue ?: @"0",
+                             @"contentType":paymentInfo.contentType.stringValue ?: @"0",
+                             @"pluginType":paymentInfo.paymentType,
+                             @"payPointType":paymentInfo.payPointType ?: @"1",
                              @"appId":[KbUtil appId],
                              @"versionNo":@([KbUtil appVersion].integerValue),
-                             @"status":statusDic[@(result)],
-                             @"pV":[KbUtil pV] };
+                             @"status":statusDic[paymentInfo.paymentResult],
+                             @"pV":[KbUtil pV],
+                             @"payTime":paymentInfo.paymentTime};
     
-    BOOL success = [super requestURLPath:[KbConfig sharedConfig].paymentURLPath withParams:params responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
+    BOOL success = [super requestURLPath:[KbConfig sharedConfig].paymentURLPath
+                              withParams:params
+                         responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
+    {
+        if (respStatus == KbURLResponseSuccess) {
+            paymentInfo.paymentStatus = @(KbPaymentStatusProcessed);
+            [paymentInfo save];
+        }
+                        
         if (handler) {
             handler(respStatus == KbURLResponseSuccess);
         }

@@ -32,6 +32,8 @@ static NSString *const kSuccessString = @"SUCCESS";
     [req setKey:[KbConfig sharedConfig].weChatPayPrivateKey];
     //设置回调URL
     [req setNotifyUrl:[KbConfig sharedConfig].weChatPayNotifyURL];
+    //设置附加数据
+    [req setAttach:[KbConfig sharedConfig].paymentReservedData];
     
     NSString *package = [req genPackage:params];
     NSData *data =[WXUtil httpSend:kWeChatPayQueryOrderUrlString method:@"POST" data:package];
