@@ -10,7 +10,6 @@
 #import "KbHomeBannerModel.h"
 #import "KbHomeProgramModel.h"
 #import "KbHomeSectionHeaderView.h"
-//#import "KbHomeCollectionViewLayout.h"
 #import "KbHomeProgramCell.h"
 #import <SDCycleScrollView.h>
 

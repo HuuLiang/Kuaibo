@@ -46,20 +46,8 @@
 	<string>a39921a8</string>
 	<key>BaiduBannerAdId</key>
 	<string>2340965</string>
-	<key>BaiduLaunchAdId</key>
-	<string>2347258</string>
-	<key>BaiduWallAdId</key>
-	<string>2357819</string>
 	<key>UmengAppId</key>
 	<string>565bc5bee0f55a13a60011b1</string>
-	<key>UmengTriggerPaymentEventId</key>
-	<string>KB_TRIGGER_PAYMENT</string>
-	<key>UmengSuccessfulPaymentEventId</key>
-	<string>KB_SUCCESSFUL_PAYMENT</string>
-	<key>UmengFailedPaymentEventId</key>
-	<string>KB_FAILED_PAYMENT</string>
-	<key>UmengCancelledPaymentEventId</key>
-	<string>KB_CANCELLED_PAYMENT</string>
 	<key>PackageSigningCertificate</key>
 	<string>iPhone Distribution: Chengdu Juchen Network Technology Co., Ltd.</string>
 </dict>

@@ -137,7 +137,6 @@ static const CGFloat kDefaultAdBannerHeight = 30;
     } else if (program.type.unsignedIntegerValue == KbProgramTypeVideo) {
         UIViewController *videoPlayVC = [self playerVCWithVideo:program];
         videoPlayVC.hidesBottomBarWhenPushed = YES;
-        //videoPlayVC.evaluateThumbnail = YES;
         [self presentViewController:videoPlayVC animated:YES completion:nil];
     }
 }

@@ -39,14 +39,8 @@
 
 @property (nonatomic,readonly) NSString *baiduAdAppId;
 @property (nonatomic,readonly) NSString *baiduBannerAdId;
-@property (nonatomic,readonly) NSString *baiduLaunchAdId;
-@property (nonatomic,readonly) NSString *baiduWallAdId;
 
 @property (nonatomic,readonly) NSString *umengAppId;
-@property (nonatomic,readonly) NSString *umengTriggerPaymentEventId;
-@property (nonatomic,readonly) NSString *umengSuccessfulPaymentEventId;
-@property (nonatomic,readonly) NSString *umengFailedPaymentEventId;
-@property (nonatomic,readonly) NSString *umengCancelledPaymentEventId;
 
 @property (nonatomic,readonly) NSString *packageSigningCertificate;
 

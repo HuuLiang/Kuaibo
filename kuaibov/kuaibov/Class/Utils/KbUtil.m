@@ -15,8 +15,6 @@
 NSString *const kPaymentInfoKeyName = @"kuaibov_paymentinfo_keyname";
 
 static NSString *const kRegisterKeyName = @"kuaibov_register_keyname";
-static NSString *const kPaidKeyName = @"kuaibov_paid_keyname";
-static NSString *const kPayingOrderKeyName = @"kuaibov_paying_order_keyname";
 static NSString *const kUserAccessUsername = @"kuaibov_user_access_username";
 static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
 

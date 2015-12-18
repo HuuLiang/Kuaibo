@@ -93,7 +93,6 @@
 		BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05331B9871830074BAE2 /* KbChannel.m */; };
 		BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05361B9872050074BAE2 /* KbURLResponse.m */; };
 		BCFF935B1B9B7DB400B2EDF9 /* KbVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF935A1B9B7DB400B2EDF9 /* KbVideo.m */; };
-		BCFF935F1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF935E1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m */; };
 		BCFF93641B9B942100B2EDF9 /* KbChannelProgramModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93631B9B942100B2EDF9 /* KbChannelProgramModel.m */; };
 		BCFF93671B9B967A00B2EDF9 /* KbChannelProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93661B9B967A00B2EDF9 /* KbChannelProgram.m */; };
 		BCFF936A1B9B977800B2EDF9 /* KbProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF93691B9B977800B2EDF9 /* KbProgram.m */; };
@@ -282,8 +281,6 @@
 		BCFF05361B9872050074BAE2 /* KbURLResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbURLResponse.m; sourceTree = "<group>"; };
 		BCFF93591B9B7DB400B2EDF9 /* KbVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbVideo.h; sourceTree = "<group>"; };
 		BCFF935A1B9B7DB400B2EDF9 /* KbVideo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbVideo.m; sourceTree = "<group>"; };
-		BCFF935D1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbVideoPlayViewController.h; sourceTree = "<group>"; };
-		BCFF935E1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbVideoPlayViewController.m; sourceTree = "<group>"; };
 		BCFF93601B9B82ED00B2EDF9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		BCFF93621B9B942100B2EDF9 /* KbChannelProgramModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbChannelProgramModel.h; sourceTree = "<group>"; };
 		BCFF93631B9B942100B2EDF9 /* KbChannelProgramModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbChannelProgramModel.m; sourceTree = "<group>"; };
@@ -479,8 +476,6 @@
 			children = (
 				BCE9B63C1B98551200D70B9E /* kbBaseController.h */,
 				BCE9B63B1B98551200D70B9E /* kbBaseController.m */,
-				BCFF935D1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.h */,
-				BCFF935E1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m */,
 				BC1B21381C17CE0A00BE87C4 /* KbPaymentViewController.h */,
 				BC1B21391C17CE0A00BE87C4 /* KbPaymentViewController.m */,
 			);
@@ -981,7 +976,6 @@
 				BCDE4EFB1BA6657500244945 /* NSString+length.m in Sources */,
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
 				12DEBE641C1EE6DD0062AFE1 /* payRequsestHandler.mm in Sources */,
-				BCFF935F1B9B7FBB00B2EDF9 /* KbVideoPlayViewController.m in Sources */,
 				BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */,
 				BC88FF431C2164E100384C35 /* KbHomeProgramCell.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
@@ -1149,8 +1143,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/Alipay",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/AliPay",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/AliPayPlugin",
 				);
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
@@ -1158,11 +1150,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/WeChatSDK",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd/AdWall",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/IpaynowPlugin",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/UPPayPlugin",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WechatPlugin",
@@ -1215,8 +1205,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/Alipay",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/AliPay",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/AliPayPlugin",
 				);
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
@@ -1224,11 +1212,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/WeChatSDK",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd/AdWall",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/IpaynowPlugin",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/UPPayPlugin",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WechatPlugin",

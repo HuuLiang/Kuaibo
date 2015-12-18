@@ -15,13 +15,11 @@
 #import "KbUserAccessModel.h"
 #import "MobClick.h"
 #import "IpaynowPluginApi.h"
-#import "IPNPreSignMessageUtil.h"
 #import "KbSystemConfigModel.h"
 #import "WXApi.h"
 #import "WeChatPayManager.h"
 #import "KbWeChatPayQueryOrderRequest.h"
 #import "KbPaymentViewController.h"
-#import "KbPaymentSignModel.h"
 
 @interface AppDelegate () <WXApiDelegate>
 @property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
