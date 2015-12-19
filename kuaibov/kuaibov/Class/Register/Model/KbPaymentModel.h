@@ -13,6 +13,7 @@
 
 + (instancetype)sharedModel;
 
+- (void)startRetryingToCommitUnprocessedOrders;
 - (void)commitUnprocessedOrders;
 - (BOOL)commitPaymentInfo:(KbPaymentInfo *)paymentInfo;
 

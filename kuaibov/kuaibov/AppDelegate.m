@@ -183,7 +183,7 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         [[KbUserAccessModel sharedModel] requestUserAccess];
     }
     
-    [[KbPaymentModel sharedModel] commitUnprocessedOrders];
+    [[KbPaymentModel sharedModel] startRetryingToCommitUnprocessedOrders];
     [[KbSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
         if (!success) {
             return ;

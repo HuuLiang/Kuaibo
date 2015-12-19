@@ -10,10 +10,16 @@
 #import "NSDictionary+KbSign.h"
 #import "KbPaymentInfo.h"
 
+static const NSTimeInterval kRetryingTimeInterval = 180;
+
 static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
 static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
 
 typedef void (^KbPaymentCompletionHandler)(BOOL success);
+
+@interface KbPaymentModel ()
+@property (nonatomic,retain) NSTimer *retryingTimer;
+@end
 
 @implementation KbPaymentModel
 
@@ -54,6 +60,24 @@ typedef void (^KbPaymentCompletionHandler)(BOOL success);
     return @{@"data":encryptedDataString, @"appId":[KbUtil appId]};
 }
 
+- (void)startRetryingToCommitUnprocessedOrders {
+    if (!self.retryingTimer) {
+        @weakify(self);
+        self.retryingTimer = [NSTimer bk_scheduledTimerWithTimeInterval:kRetryingTimeInterval block:^(NSTimer *timer) {
+            @strongify(self);
+            DLog(@"Payment: on retrying to commit unprocessed orders!");
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                [self commitUnprocessedOrders];
+            });
+        } repeats:YES];
+    }
+}
+
+- (void)stopRetryingToCommitUnprocessedOrders {
+    [self.retryingTimer invalidate];
+    self.retryingTimer = nil;
+}
+
 - (void)commitUnprocessedOrders {
     NSArray<KbPaymentInfo *> *unprocessedPaymentInfos = [KbUtil paidNotProcessedPaymentInfos];
     [unprocessedPaymentInfos enumerateObjectsUsingBlock:^(KbPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -62,30 +86,7 @@ typedef void (^KbPaymentCompletionHandler)(BOOL success);
 }
 
 - (BOOL)commitPaymentInfo:(KbPaymentInfo *)paymentInfo {
-    @weakify(self);
-    return [self commitPaymentInfo:paymentInfo withCompletionHandler:^(BOOL success) {
-        @strongify(self);
-        if (!success) {
-            [self retryToCommitPaymentInfo:paymentInfo withTryTimes:3];
-        }
-    }];
-}
-
-- (void)retryToCommitPaymentInfo:(KbPaymentInfo *)paymentInfo withTryTimes:(NSUInteger)times {
-    [self retryToCommitPaymentInfo:paymentInfo withTryTimes:times currentTryTime:0];
-}
-
-- (void)retryToCommitPaymentInfo:(KbPaymentInfo *)paymentInfo withTryTimes:(NSUInteger)times currentTryTime:(NSUInteger)currentTime {
-    if (currentTime < times) {
-        @weakify(self);
-        [self commitPaymentInfo:paymentInfo withCompletionHandler:^(BOOL success) {
-            @strongify(self);
-            if (!success) {
-                [self retryToCommitPaymentInfo:paymentInfo withTryTimes:times currentTryTime:currentTime+1];
-            }
-        }];
-        
-    }
+    return [self commitPaymentInfo:paymentInfo withCompletionHandler:nil];
 }
 
 - (BOOL)commitPaymentInfo:(KbPaymentInfo *)paymentInfo withCompletionHandler:(KbPaymentCompletionHandler)handler {
@@ -118,6 +119,8 @@ typedef void (^KbPaymentCompletionHandler)(BOOL success);
         if (respStatus == KbURLResponseSuccess) {
             paymentInfo.paymentStatus = @(KbPaymentStatusProcessed);
             [paymentInfo save];
+        } else {
+            DLog(@"Payment: fails to commit the order with orderId:%@", paymentInfo.orderId);
         }
                         
         if (handler) {
