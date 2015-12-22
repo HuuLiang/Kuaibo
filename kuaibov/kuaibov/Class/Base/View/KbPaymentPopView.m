@@ -52,11 +52,11 @@ static const CGFloat kBackButtonInsets = 10;
 }
 
 - (CGPoint)alipayButtonOrigin {
-    return CGPointMake(self.imageSize.width * 0.05, self.imageSize.height * 0.535);
+    return CGPointMake(self.imageSize.width * 0.05, self.imageSize.height * 0.567);
 }
 
 - (CGPoint)wechatPayButtonOrigin {
-    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.67);
+    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.710);
 }
 
 - (CGPoint)upPayButtonOrigin {
@@ -145,6 +145,7 @@ static const CGFloat kBackButtonInsets = 10;
                 make.size.mas_equalTo(self.payButtonSize);
             }];
         }
+        upPayButton.hidden=YES;
         
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton setImage:[UIImage imageNamed:@"payment_back"] forState:UIControlStateNormal];
@@ -153,7 +154,8 @@ static const CGFloat kBackButtonInsets = 10;
         [self addSubview:backButton];
         {
             [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.top.equalTo(self).offset(5);
+                make.right.equalTo(self).offset(5);
+                make.top.equalTo(self).offset(0);
                 make.size.mas_equalTo(self.backButtonSize);
             }];
         }
@@ -193,7 +195,7 @@ static const CGFloat kBackButtonInsets = 10;
 
 - (void)onAlipay {
     if (self.paymentAction) {
-        self.paymentAction(KbPaymentTypeAlipay);
+//        self.paymentAction(KbPaymentTypeAlipay);
     }
 }
 
@@ -205,7 +207,7 @@ static const CGFloat kBackButtonInsets = 10;
 
 - (void)onUPPay {
     if (self.paymentAction) {
-        self.paymentAction(KbPaymentTypeUPPay);
+//        self.paymentAction(KbPaymentTypeUPPay);
     }
 }
 
