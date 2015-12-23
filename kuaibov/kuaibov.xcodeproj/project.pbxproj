@@ -1188,7 +1188,7 @@
 					"\"UIKit\"",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yeyekuaibo.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yykuaibo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "183624ba-b1d5-4e86-8a29-e8da7cd0e69f";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1250,7 +1250,7 @@
 					"\"UIKit\"",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yeyekuaibo.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yykuaibo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "183624ba-b1d5-4e86-8a29-e8da7cd0e69f";
 				TARGETED_DEVICE_FAMILY = "1,2";
