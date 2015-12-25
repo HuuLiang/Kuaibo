@@ -195,7 +195,7 @@ static const CGFloat kBackButtonInsets = 10;
 
 - (void)onAlipay {
     if (self.paymentAction) {
-//        self.paymentAction(KbPaymentTypeAlipay);
+        self.paymentAction(KbPaymentTypeAlipay);
     }
 }
 

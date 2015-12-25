@@ -174,10 +174,10 @@
         
         [[KbPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
             @strongify(self);
-            if (success) {
+            if (success && [KbPaymentSignModel sharedModel].appId.length > 0) {
                 [IpaynowPluginApi pay:signedData AndScheme:[KbConfig sharedConfig].payNowScheme viewController:self delegate:self];
             } else {
-                [[KbHudManager manager] showHudWithText:@"服务器获取签名失败！"];
+                [[KbHudManager manager] showHudWithText:@"无法获取支付信息"];
             }
         }];
     }

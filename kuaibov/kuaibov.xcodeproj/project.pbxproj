@@ -34,10 +34,10 @@
 		BC1C4B681BFC63AA001B5867 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BC1C4B671BFC63AA001B5867 /* libsqlite3.tbd */; };
 		BC2B1A6A1C22FDB400870AAF /* KbPaymentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2B1A691C22FDB400870AAF /* KbPaymentInfo.m */; };
 		BC2B1A6D1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2B1A6C1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m */; };
+		BC5F1ABB1C2CF7380047BCF4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC5F1ABA1C2CF7380047BCF4 /* Launch Screen.storyboard */; };
 		BC683B021C18129F006B19A5 /* ipaynow.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC683AF01C18129F006B19A5 /* ipaynow.bundle */; };
 		BC683B031C18129F006B19A5 /* libIpaynowPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC683AF41C18129F006B19A5 /* libIpaynowPlugin.a */; };
 		BC683B051C18129F006B19A5 /* 说明.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC683AF61C18129F006B19A5 /* 说明.rtf */; };
-		BC683B061C18129F006B19A5 /* libUPPayPlugin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC683AF81C18129F006B19A5 /* libUPPayPlugin.a */; };
 		BC683B071C18129F006B19A5 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC683AFC1C18129F006B19A5 /* libWeChatSDK.a */; };
 		BC683B081C18129F006B19A5 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BC683B001C18129F006B19A5 /* AlipaySDK.bundle */; };
 		BC683B091C18129F006B19A5 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC683B011C18129F006B19A5 /* AlipaySDK.framework */; };
@@ -163,15 +163,13 @@
 		BC2B1A691C22FDB400870AAF /* KbPaymentInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentInfo.m; sourceTree = "<group>"; };
 		BC2B1A6B1C2303F800870AAF /* NSMutableDictionary+SafeCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SafeCoding.h"; sourceTree = "<group>"; };
 		BC2B1A6C1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SafeCoding.m"; sourceTree = "<group>"; };
+		BC5F1ABA1C2CF7380047BCF4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		BC683AF01C18129F006B19A5 /* ipaynow.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ipaynow.bundle; sourceTree = "<group>"; };
 		BC683AF11C18129F006B19A5 /* IpaynowPluginApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpaynowPluginApi.h; sourceTree = "<group>"; };
 		BC683AF21C18129F006B19A5 /* IpaynowPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpaynowPluginDelegate.h; sourceTree = "<group>"; };
 		BC683AF31C18129F006B19A5 /* IPNPreSignMessageUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPNPreSignMessageUtil.h; sourceTree = "<group>"; };
 		BC683AF41C18129F006B19A5 /* libIpaynowPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIpaynowPlugin.a; sourceTree = "<group>"; };
 		BC683AF61C18129F006B19A5 /* 说明.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "说明.rtf"; sourceTree = "<group>"; };
-		BC683AF81C18129F006B19A5 /* libUPPayPlugin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUPPayPlugin.a; sourceTree = "<group>"; };
-		BC683AF91C18129F006B19A5 /* UPPayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPayPlugin.h; sourceTree = "<group>"; };
-		BC683AFA1C18129F006B19A5 /* UPPayPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UPPayPluginDelegate.h; sourceTree = "<group>"; };
 		BC683AFC1C18129F006B19A5 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		BC683AFD1C18129F006B19A5 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		BC683AFE1C18129F006B19A5 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
@@ -299,7 +297,6 @@
 				BC84FFCD1C046D560077B57C /* WebKit.framework in Frameworks */,
 				BC84FFCB1C046D4F0077B57C /* CoreGraphics.framework in Frameworks */,
 				BC1C4B601BFC638C001B5867 /* CoreTelephony.framework in Frameworks */,
-				BC683B061C18129F006B19A5 /* libUPPayPlugin.a in Frameworks */,
 				BC683B031C18129F006B19A5 /* libIpaynowPlugin.a in Frameworks */,
 				BC84FFC91C046D010077B57C /* CoreLocation.framework in Frameworks */,
 				BC84FFC71C046CF80077B57C /* MessageUI.framework in Frameworks */,
@@ -373,6 +370,7 @@
 				6E090FE71B86A37B00260BDC /* AppDelegate.h */,
 				6E090FE81B86A37B00260BDC /* AppDelegate.m */,
 				6E090FF01B86A37B00260BDC /* Images.xcassets */,
+				BC5F1ABA1C2CF7380047BCF4 /* Launch Screen.storyboard */,
 				6E090FE31B86A37B00260BDC /* Supporting Files */,
 				6E2B8AD21B95F92600053761 /* Class */,
 			);
@@ -560,7 +558,6 @@
 			isa = PBXGroup;
 			children = (
 				BC683AEF1C18129F006B19A5 /* IpaynowPlugin */,
-				BC683AF71C18129F006B19A5 /* UPPayPlugin */,
 				BC683AFB1C18129F006B19A5 /* WechatPlugin */,
 				BC683AFF1C18129F006B19A5 /* AliPayPlugin */,
 				BC17316B1C1681740065DD97 /* PayNowDef.h */,
@@ -588,16 +585,6 @@
 				BC683AF61C18129F006B19A5 /* 说明.rtf */,
 			);
 			path = IpaynowPlugin;
-			sourceTree = "<group>";
-		};
-		BC683AF71C18129F006B19A5 /* UPPayPlugin */ = {
-			isa = PBXGroup;
-			children = (
-				BC683AF81C18129F006B19A5 /* libUPPayPlugin.a */,
-				BC683AF91C18129F006B19A5 /* UPPayPlugin.h */,
-				BC683AFA1C18129F006B19A5 /* UPPayPluginDelegate.h */,
-			);
-			path = UPPayPlugin;
 			sourceTree = "<group>";
 		};
 		BC683AFB1C18129F006B19A5 /* WechatPlugin */ = {
@@ -895,6 +882,7 @@
 			files = (
 				BC683B081C18129F006B19A5 /* AlipaySDK.bundle in Resources */,
 				BC152F2C1C059F1B000DF875 /* config_standby.plist in Resources */,
+				BC5F1ABB1C2CF7380047BCF4 /* Launch Screen.storyboard in Resources */,
 				BCFF05231B986B4D0074BAE2 /* config.plist in Resources */,
 				BC683B051C18129F006B19A5 /* 说明.rtf in Resources */,
 				BC84FFB61C046BFC0077B57C /* baidumobadsdk.bundle in Resources */,
