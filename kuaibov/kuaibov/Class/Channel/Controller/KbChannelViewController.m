@@ -181,10 +181,16 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
         KbChannel *channel = self.videoChannels[indexPath.row];
         [channelImageView sd_setImageWithURL:[NSURL URLWithString:channel.columnImg]];
     } else {
+        @weakify(self);
         KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
-        [self->_paymentImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage]
+        [channelImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage]
                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
          {
+             @strongify(self);
+             if (!self) {
+                 return ;
+             }
+             
              if (image) {
                  double showPrice = systemConfigModel.payAmount;
                  BOOL showInteger = (NSUInteger)(showPrice * 100) % 100 == 0;
