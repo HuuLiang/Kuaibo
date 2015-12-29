@@ -23,6 +23,10 @@
     return _theInstance;
 }
 
+- (BOOL)shouldPostErrorNotification {
+    return NO;
+}
+
 - (BOOL)requestUserAccess {
     NSString *userId = [KbUtil userId];
     if (!userId) {

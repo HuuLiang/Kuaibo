@@ -41,12 +41,42 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
     return [mergedParams encryptedDictionarySignedTogetherWithDictionary:commonParams keyOrders:[[self class] keyOrdersOfCommonParams] passwordKeyName:kEncryptionKeyName];
 }
 
-- (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
-    return [self requestURLPath:urlPath standbyURLPath:nil withParams:params responseHandler:responseHandler];
+- (BOOL)requestURLPath:(NSString *)urlPath
+            withParams:(NSDictionary *)params
+       responseHandler:(KbURLResponseHandler)responseHandler {
+    return [self requestURLPath:urlPath
+                 standbyURLPath:nil
+                     withParams:params
+                responseHandler:responseHandler];
 }
 
-- (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
-    return [super requestURLPath:urlPath standbyURLPath:standbyUrlPath withParams:[self encryptWithParams:params] responseHandler:responseHandler];
+- (BOOL)requestURLPath:(NSString *)urlPath
+        standbyURLPath:(NSString *)standbyUrlPath
+            withParams:(NSDictionary *)params
+       responseHandler:(KbURLResponseHandler)responseHandler
+{
+    BOOL willUseStandby = standbyUrlPath.length > 0;
+    
+    NSDictionary *encryptedParams = [self encryptWithParams:params];
+    
+    @weakify(self);
+    BOOL ret = [self requestURLPath:urlPath
+                         withParams:encryptedParams
+                          isStandby:NO
+                  shouldNotifyError:!willUseStandby
+                    responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
+    {
+        @strongify(self);
+        
+        if (willUseStandby && respStatus == KbURLResponseFailedByNetwork) {
+            [self requestURLPath:standbyUrlPath withParams:params isStandby:YES shouldNotifyError:YES responseHandler:responseHandler];
+        } else {
+            if (responseHandler) {
+                responseHandler(respStatus, errorMessage);
+            }
+        }
+    }];
+    return ret;
 }
 
 - (id)decryptResponse:(id)encryptedResponse {

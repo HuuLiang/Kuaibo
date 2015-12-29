@@ -32,7 +32,7 @@
 #define KB_STANDBY_BASE_URL             @"http://7xomw1.com2.z0.glb.qiniucdn.com"
 #define KB_STANDBY_HOME_PAGE_URL        @"/iosvideo/homePage.json"
 #define KB_STANDBY_CHANNEL_URL          @"/iosvideo/channelRanking.json"
-#define KB_STANDBY_CHANNEL_PROGRAM_URL  @"/iosvideo/program_80_1.json"
+#define KB_STANDBY_CHANNEL_PROGRAM_URL  @"/iosvideo/program_%@_%@.json"
 #define KB_STANDBY_AGREEMENT_URL        @"/iosvideo/agreement1.html"
 #define KB_STANDBY_SYSTEM_CONFIG_URL    @"/iosvideo/systemConfig.json"
 

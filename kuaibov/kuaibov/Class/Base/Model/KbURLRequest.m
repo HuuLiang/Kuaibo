@@ -147,28 +147,29 @@
     return YES;
 }
 
-- (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
-    BOOL useStandbyRequest = standbyUrlPath.length > 0;
-    BOOL success = [self requestURLPath:urlPath
-                             withParams:params
-                              isStandby:NO
-                      shouldNotifyError:!useStandbyRequest
-                        responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
-    {
-        if (useStandbyRequest && respStatus == KbURLResponseFailedByNetwork) {
-            [self requestURLPath:standbyUrlPath withParams:params isStandby:YES shouldNotifyError:YES responseHandler:responseHandler];
-        } else {
-            if (responseHandler) {
-                responseHandler(respStatus,errorMessage);
-            }
-        }
-    }];
-    return success;
-}
+//- (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler {
+//    BOOL useStandbyRequest = standbyUrlPath.length > 0;
+//    BOOL success = [self requestURLPath:urlPath
+//                             withParams:params
+//                              isStandby:NO
+//                      shouldNotifyError:!useStandbyRequest
+//                        responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
+//    {
+//        if (useStandbyRequest && respStatus == KbURLResponseFailedByNetwork) {
+//            [self requestURLPath:standbyUrlPath withParams:params isStandby:YES shouldNotifyError:YES responseHandler:responseHandler];
+//        } else {
+//            if (responseHandler) {
+//                responseHandler(respStatus,errorMessage);
+//            }
+//        }
+//    }];
+//    return success;
+//}
 
 -(BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler
 {
-    return [self requestURLPath:urlPath standbyURLPath:nil withParams:params responseHandler:responseHandler];
+    return [self requestURLPath:urlPath withParams:params isStandby:NO shouldNotifyError:YES responseHandler:responseHandler];
+    //return [self requestURLPath:urlPath standbyURLPath:nil withParams:params responseHandler:responseHandler];
 }
 
 - (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler {

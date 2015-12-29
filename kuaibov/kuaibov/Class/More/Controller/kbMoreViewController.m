@@ -8,8 +8,9 @@
 
 #import "kbMoreViewController.h"
 #import "KbSystemConfigModel.h"
+#import <AFNetworkReachabilityManager.h>
 
-static const NSUInteger kUIWebViewRetryTimes = 30;
+//static const NSUInteger kUIWebViewRetryTimes = 30;
 
 @interface kbMoreViewController () <UIWebViewDelegate>
 {
@@ -21,6 +22,8 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
 @property (nonatomic,retain,readonly) NSURLRequest *urlRequest;
 @property (nonatomic,retain,readonly) NSURLRequest *standbyUrlRequest;
 @end
+
+@import WebKit;
 
 @implementation kbMoreViewController
 @synthesize urlRequest = _urlRequest;
@@ -76,9 +79,19 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.retryTimes = 0;
-    self.isStandBy = NO;
-    [_webView loadRequest:self.urlRequest];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSHTTPURLResponse *response;
+        NSError *error;
+        [NSURLConnection sendSynchronousRequest:self.urlRequest returningResponse:&response error:&error];
+        NSInteger responseCode = response.statusCode;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (responseCode == 502) {
+                [_webView loadRequest:self.standbyUrlRequest];
+            } else {
+                [_webView loadRequest:self.urlRequest];
+            }
+        });
+    });
     
     [self loadTopImage];
 }
@@ -122,24 +135,28 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
 
 #pragma mark - UIWebViewDelegate
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (self.retryTimes++ > kUIWebViewRetryTimes && !self.isStandBy) {
-        [webView stopLoading];
-        self.retryTimes = 0;
-        self.isStandBy = YES;
-        
-        DLog(@"UIWebView exceeds retry times and will try standby url...");
-        [webView loadRequest:self.standbyUrlRequest];
-    }
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if (!self.isStandBy) {
-        self.retryTimes = 0;
-        self.isStandBy = YES;
-        
-        DLog(@"UIWebView exceeds retry times and will try standby url...");
-        [webView loadRequest:self.standbyUrlRequest];
-    }
-}
+//- (void)webViewDidFinishLoad:(UIWebView *)webView {
+//    if (self.retryTimes++ > kUIWebViewRetryTimes && !self.isStandBy) {
+//        [webView stopLoading];
+//        self.retryTimes = 0;
+//        self.isStandBy = YES;
+//        
+//        DLog(@"UIWebView exceeds retry times and will try standby url...");
+//        [webView loadRequest:self.standbyUrlRequest];
+//    }
+//}
+//
+//- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+//    if (!self.isStandBy) {
+//        self.retryTimes = 0;
+//        self.isStandBy = YES;
+//        
+//        DLog(@"UIWebView exceeds retry times and will try standby url...");
+//        [webView loadRequest:self.standbyUrlRequest];
+//    }
+//}
+//
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    return YES;
+//}
 @end

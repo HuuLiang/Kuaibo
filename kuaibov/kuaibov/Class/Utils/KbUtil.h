@@ -25,4 +25,6 @@ extern NSString *const kPaymentInfoKeyName;
 + (NSString *)userId;
 + (NSString *)deviceName;
 
++ (void)startMonitoringNetwork;
+
 @end

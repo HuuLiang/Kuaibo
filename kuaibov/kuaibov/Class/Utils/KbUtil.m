@@ -11,6 +11,8 @@
 #import <sys/sysctl.h>
 #import "NSDate+Utilities.h"
 #import "KbPaymentInfo.h"
+#import <AFNetworkReachabilityManager.h>
+#import "KbHudManager.h"
 
 NSString *const kPaymentInfoKeyName = @"kuaibov_paymentinfo_keyname";
 
@@ -88,5 +90,14 @@ static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
     free(machine);
     
     return name;
+}
+
++ (void)startMonitoringNetwork {
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        if (status == AFNetworkReachabilityStatusReachableViaWWAN) {
+            [[KbHudManager manager] showHudWithText:@"您正在使用数据流量连接网络\n建议您连接到WIFI后观看视频"];
+        }
+    }];
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 @end

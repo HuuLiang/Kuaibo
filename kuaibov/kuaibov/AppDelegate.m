@@ -165,6 +165,7 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     // Override point for customization after application launch.
     [WXApi registerApp:KB_WECHAT_APP_ID];
     
+    [KbUtil startMonitoringNetwork];
     [[KbErrorHandler sharedHandler] initialize];
     [self setupMobStatistics];
     [self setupCommonStyles];

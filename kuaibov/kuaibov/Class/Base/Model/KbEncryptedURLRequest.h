@@ -16,4 +16,9 @@
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params;
 - (id)decryptResponse:(id)encryptedResponse;
 
+- (BOOL)requestURLPath:(NSString *)urlPath
+        standbyURLPath:(NSString *)standbyUrlPath
+            withParams:(NSDictionary *)params
+       responseHandler:(KbURLResponseHandler)responseHandler;
+
 @end

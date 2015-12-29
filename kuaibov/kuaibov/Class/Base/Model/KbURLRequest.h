@@ -36,9 +36,15 @@ typedef void (^KbURLResponseHandler)(KbURLResponseStatus respStatus, NSString *e
 - (BOOL)shouldPostErrorNotification;
 - (KbURLRequestMethod)requestMethod;
 
+- (BOOL)requestURLPath:(NSString *)urlPath
+            withParams:(NSDictionary *)params
+             isStandby:(BOOL)isStandBy
+     shouldNotifyError:(BOOL)shouldNotifyError
+       responseHandler:(KbURLResponseHandler)responseHandler;
 - (BOOL)requestURLPath:(NSString *)urlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler;
 
-- (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler;
+
+//- (BOOL)requestURLPath:(NSString *)urlPath standbyURLPath:(NSString *)standbyUrlPath withParams:(NSDictionary *)params responseHandler:(KbURLResponseHandler)responseHandler;
 
 // For subclass pre/post processing response object
 - (void)processResponseObject:(id)responseObject withResponseHandler:(KbURLResponseHandler)responseHandler;
