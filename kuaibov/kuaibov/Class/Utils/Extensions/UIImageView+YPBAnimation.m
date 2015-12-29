@@ -25,6 +25,10 @@ static const void *kImageAppearingAnimationAssociatedKey = &kImageAppearingAnima
 }
 
 - (void)YPB_addAnimationForImageAppearing {
+    if ([UIDevice currentDevice].systemVersion.floatValue < 8) {
+        return ;
+    }
+    
     if ([self ypb_appearingAnimation]) {
         return ;
     }
