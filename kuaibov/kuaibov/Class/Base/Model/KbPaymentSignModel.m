@@ -42,21 +42,21 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
 }
 
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params {
-    NSDictionary *signParams = @{  @"appId":[KbUtil appId],
+    NSDictionary *signParams = @{  @"appId":KB_REST_APP_ID,
                                    @"key":kSignKey,
                                    @"imsi":@"999999999999999",
-                                   @"channelNo":[KbConfig sharedConfig].channelNo,
-                                   @"pV":[KbUtil pV] };
+                                   @"channelNo":KB_CHANNEL_NO,
+                                   @"pV":KB_REST_PV };
     
     NSString *sign = [signParams signWithDictionary:[self class].commonParams keyOrders:[self class].keyOrdersOfCommonParams];
     NSString *encryptedDataString = [params encryptedStringWithSign:sign password:kPaymentEncryptionPassword excludeKeys:@[@"key"] shouldIncludeSign:NO];
-    return @{@"data":encryptedDataString, @"appId":[KbUtil appId]};
+    return @{@"data":encryptedDataString, @"appId":KB_REST_APP_ID};
 }
 
 - (BOOL)signWithPreSignMessage:(IPNPreSignMessageUtil *)preSign completionHandler:(KbPaymentSignCompletionHandler)handler {
     @weakify(self);
     NSDictionary *params = [self signParamsFromPreSignMessage:preSign];
-    BOOL ret = [self requestURLPath:[KbConfig sharedConfig].paymentSignURLPath
+    BOOL ret = [self requestURLPath:KB_PAYMENT_SIGN_URL
                          withParams:params
                     responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {

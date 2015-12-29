@@ -24,8 +24,8 @@
                 completionHandler:(KbFetchChannelProgramCompletionHandler)handler {
     @weakify(self);
     NSDictionary *params = @{@"columnId":columnId, @"page":@(pageNo), @"pageSize":@(pageSize)};
-    BOOL success = [self requestURLPath:[KbConfig sharedConfig].channelProgramURLPath
-                         standbyURLPath:[KbConfig sharedStandbyConfig].channelProgramURLPath
+    BOOL success = [self requestURLPath:KB_CHANNEL_PROGRAM_URL
+                         standbyURLPath:KB_STANDBY_CHANNEL_PROGRAM_URL
                              withParams:params
                         responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {

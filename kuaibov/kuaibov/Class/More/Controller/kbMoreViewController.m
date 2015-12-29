@@ -31,7 +31,7 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
         return _urlRequest;
     }
     
-    NSString *urlString = [[KbConfig sharedConfig].baseURL stringByAppendingString:[KbConfig sharedConfig].moreURLPath];
+    NSString *urlString = [KB_BASE_URL stringByAppendingString:KB_AGREEMENT_URL];
     _urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
     return _urlRequest;
 }
@@ -41,7 +41,7 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
         return _standbyUrlRequest;
     }
     
-    NSString *urlString = [[KbConfig sharedStandbyConfig].baseURL stringByAppendingString:[KbConfig sharedStandbyConfig].moreURLPath];
+    NSString *urlString = [KB_STANDBY_BASE_URL stringByAppendingString:KB_STANDBY_AGREEMENT_URL];
     _standbyUrlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
     return _standbyUrlRequest;
 }
@@ -68,7 +68,8 @@ static const NSUInteger kUIWebViewRetryTimes = 30;
     }];
     
     [self.navigationController.navigationBar bk_whenTouches:1 tapped:5 handler:^{
-        [[KbHudManager manager] showHudWithText:[NSString stringWithFormat:@"Server:%@\nChannelNo:%@\nPackageCertificate:%@", [KbConfig sharedConfig].baseURL, [KbConfig sharedConfig].channelNo, [KbConfig sharedConfig].packageSigningCertificate]];
+        NSString *baseURLString = [KB_BASE_URL stringByReplacingCharactersInRange:NSMakeRange(0, KB_BASE_URL.length-6) withString:@"******"];
+        [[KbHudManager manager] showHudWithText:[NSString stringWithFormat:@"Server:%@\nChannelNo:%@\nPackageCertificate:%@", baseURLString, KB_CHANNEL_NO, KB_PACKAGE_CERTIFICATE]];
     }];
 }
 

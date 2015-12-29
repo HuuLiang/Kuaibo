@@ -49,15 +49,15 @@ typedef void (^KbPaymentCompletionHandler)(BOOL success);
 }
 
 - (NSDictionary *)encryptWithParams:(NSDictionary *)params {
-    NSDictionary *signParams = @{  @"appId":[KbUtil appId],
+    NSDictionary *signParams = @{  @"appId":KB_REST_APP_ID,
                                    @"key":kSignKey,
                                    @"imsi":@"999999999999999",
-                                   @"channelNo":[KbConfig sharedConfig].channelNo,
-                                   @"pV":[KbUtil pV] };
+                                   @"channelNo":KB_CHANNEL_NO,
+                                   @"pV":KB_REST_PV };
     
     NSString *sign = [signParams signWithDictionary:[self class].commonParams keyOrders:[self class].keyOrdersOfCommonParams];
     NSString *encryptedDataString = [params encryptedStringWithSign:sign password:kPaymentEncryptionPassword excludeKeys:@[@"key"]];
-    return @{@"data":encryptedDataString, @"appId":[KbUtil appId]};
+    return @{@"data":encryptedDataString, @"appId":KB_REST_APP_ID};
 }
 
 - (void)startRetryingToCommitUnprocessedOrders {
@@ -101,18 +101,18 @@ typedef void (^KbPaymentCompletionHandler)(BOOL success);
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
                              @"payMoney":paymentInfo.orderPrice.stringValue,
-                             @"channelNo":[KbConfig sharedConfig].channelNo,
+                             @"channelNo":KB_CHANNEL_NO,
                              @"contentId":paymentInfo.contentId.stringValue ?: @"0",
                              @"contentType":paymentInfo.contentType.stringValue ?: @"0",
                              @"pluginType":paymentInfo.paymentType,
                              @"payPointType":paymentInfo.payPointType ?: @"1",
-                             @"appId":[KbUtil appId],
-                             @"versionNo":@([KbUtil appVersion].integerValue),
+                             @"appId":KB_REST_APP_ID,
+                             @"versionNo":@(KB_REST_APP_VERSION.integerValue),
                              @"status":statusDic[paymentInfo.paymentResult],
-                             @"pV":[KbUtil pV],
+                             @"pV":KB_REST_PV,
                              @"payTime":paymentInfo.paymentTime};
     
-    BOOL success = [super requestURLPath:[KbConfig sharedConfig].paymentURLPath
+    BOOL success = [super requestURLPath:KB_PAYMENT_COMMIT_URL
                               withParams:params
                          responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {

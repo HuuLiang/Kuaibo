@@ -30,7 +30,7 @@
     }
     
     @weakify(self);
-    BOOL ret = [super requestURLPath:[KbConfig sharedConfig].userAccessURLPath
+    BOOL ret = [super requestURLPath:KB_USER_ACCESS_URL
                          withParams:@{@"userId":userId,@"accessId":[KbUtil accessId]}
                     responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {

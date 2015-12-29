@@ -17,7 +17,10 @@ typedef void (^KbFetchHomeProgramsCompletionHandler)(BOOL success, NSArray *prog
 
 @interface KbHomeProgramModel : KbEncryptedURLRequest
 
-@property (nonatomic,retain,readonly) NSArray *fetchedProgramList;
+@property (nonatomic,retain,readonly) NSArray<KbPrograms *> *fetchedProgramList;
+@property (nonatomic,retain,readonly) NSArray<KbPrograms *> *fetchedVideoAndAdProgramList;
+
+@property (nonatomic,retain,readonly) NSArray<KbProgram *> *fetchedBannerPrograms;
 
 - (BOOL)fetchHomeProgramsWithCompletionHandler:(KbFetchHomeProgramsCompletionHandler)handler;
 

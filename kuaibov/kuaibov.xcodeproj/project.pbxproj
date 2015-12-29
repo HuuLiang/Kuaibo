@@ -20,7 +20,6 @@
 		BC01B8A91C0BFEBA008932E7 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC01B8A61C0BFEBA008932E7 /* libMobClickLibrary.a */; };
 		BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */; };
 		BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */; };
-		BC152F2C1C059F1B000DF875 /* config_standby.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC152F2B1C059F1B000DF875 /* config_standby.plist */; };
 		BC1731AE1C16C50B0065DD97 /* KbPaymentSignModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1731AD1C16C50B0065DD97 /* KbPaymentSignModel.m */; };
 		BC1731B11C16CAE00065DD97 /* NSObject+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1731B01C16CAE00065DD97 /* NSObject+Properties.m */; };
 		BC18E7241C06EC3B00ADAA2B /* KbUserAccessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC18E7231C06EC3B00ADAA2B /* KbUserAccessModel.m */; };
@@ -85,9 +84,6 @@
 		BCFE5AB71B9F1FD800EC9D05 /* KbUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */; };
 		BCFF05141B9861C50074BAE2 /* KbURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05131B9861C50074BAE2 /* KbURLRequest.m */; };
 		BCFF051E1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF051B1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m */; };
-		BCFF05211B986AE40074BAE2 /* KbConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05201B986AE40074BAE2 /* KbConfig.m */; };
-		BCFF05231B986B4D0074BAE2 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCFF05221B986B4D0074BAE2 /* config.plist */; };
-		BCFF05271B986F690074BAE2 /* KbHomeBannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05261B986F690074BAE2 /* KbHomeBannerModel.m */; };
 		BCFF052E1B9870790074BAE2 /* KbChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF052D1B9870790074BAE2 /* KbChannelModel.m */; };
 		BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05331B9871830074BAE2 /* KbChannel.m */; };
 		BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFF05361B9872050074BAE2 /* KbURLResponse.m */; };
@@ -139,7 +135,6 @@
 		BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfigModel.m; sourceTree = "<group>"; };
 		BC039DA61BA1AC5B003E43B2 /* KbSystemConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfig.h; sourceTree = "<group>"; };
 		BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfig.m; sourceTree = "<group>"; };
-		BC152F2B1C059F1B000DF875 /* config_standby.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config_standby.plist; sourceTree = "<group>"; };
 		BC17316B1C1681740065DD97 /* PayNowDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PayNowDef.h; sourceTree = "<group>"; };
 		BC1731AC1C16C50B0065DD97 /* KbPaymentSignModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbPaymentSignModel.h; sourceTree = "<group>"; };
 		BC1731AD1C16C50B0065DD97 /* KbPaymentSignModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentSignModel.m; sourceTree = "<group>"; };
@@ -162,6 +157,7 @@
 		BC2B1A691C22FDB400870AAF /* KbPaymentInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentInfo.m; sourceTree = "<group>"; };
 		BC2B1A6B1C2303F800870AAF /* NSMutableDictionary+SafeCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SafeCoding.h"; sourceTree = "<group>"; };
 		BC2B1A6C1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SafeCoding.m"; sourceTree = "<group>"; };
+		BC5A6E691C322BCA006AD77A /* KbConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KbConfig.h; sourceTree = "<group>"; };
 		BC683AF01C18129F006B19A5 /* ipaynow.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ipaynow.bundle; sourceTree = "<group>"; };
 		BC683AF11C18129F006B19A5 /* IpaynowPluginApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpaynowPluginApi.h; sourceTree = "<group>"; };
 		BC683AF21C18129F006B19A5 /* IpaynowPluginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpaynowPluginDelegate.h; sourceTree = "<group>"; };
@@ -264,11 +260,6 @@
 		BCFF051B1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RACEXTRuntimeExtensions.m; sourceTree = "<group>"; };
 		BCFF051C1B9869B30074BAE2 /* RACEXTScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACEXTScope.h; sourceTree = "<group>"; };
 		BCFF051D1B9869B30074BAE2 /* RACmetamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RACmetamacros.h; sourceTree = "<group>"; };
-		BCFF051F1B986AE40074BAE2 /* KbConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbConfig.h; sourceTree = "<group>"; };
-		BCFF05201B986AE40074BAE2 /* KbConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbConfig.m; sourceTree = "<group>"; };
-		BCFF05221B986B4D0074BAE2 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
-		BCFF05251B986F690074BAE2 /* KbHomeBannerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeBannerModel.h; sourceTree = "<group>"; };
-		BCFF05261B986F690074BAE2 /* KbHomeBannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeBannerModel.m; sourceTree = "<group>"; };
 		BCFF052C1B9870790074BAE2 /* KbChannelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbChannelModel.h; sourceTree = "<group>"; };
 		BCFF052D1B9870790074BAE2 /* KbChannelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbChannelModel.m; sourceTree = "<group>"; };
 		BCFF05321B9871830074BAE2 /* KbChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbChannel.h; sourceTree = "<group>"; };
@@ -378,11 +369,10 @@
 			isa = PBXGroup;
 			children = (
 				6E090FE41B86A37B00260BDC /* Info.plist */,
-				BCFF05221B986B4D0074BAE2 /* config.plist */,
-				BC152F2B1C059F1B000DF875 /* config_standby.plist */,
 				6E090FE51B86A37B00260BDC /* main.m */,
 				6E2B8AE71B95FA3C00053761 /* Constants.h */,
 				6E2B8AE81B95FA7600053761 /* kb.pch */,
+				BC5A6E691C322BCA006AD77A /* KbConfig.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -505,8 +495,6 @@
 				BC84FFA81C046BA90077B57C /* BaiduMobAd */,
 				BCFF05181B98699B0074BAE2 /* rac_extobjc */,
 				BCDE4EDC1BA6652200244945 /* Extensions */,
-				BCFF051F1B986AE40074BAE2 /* KbConfig.h */,
-				BCFF05201B986AE40074BAE2 /* KbConfig.m */,
 				BCFE5AB51B9F1FD800EC9D05 /* KbUtil.h */,
 				BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */,
 				BCFCA9D81BA16B8E00B15020 /* KbHudManager.h */,
@@ -748,8 +736,6 @@
 		BCFF05241B986EF30074BAE2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BCFF05251B986F690074BAE2 /* KbHomeBannerModel.h */,
-				BCFF05261B986F690074BAE2 /* KbHomeBannerModel.m */,
 				BCFA19D11B9ACE1000B3EE05 /* KbHomeProgramModel.h */,
 				BCFA19D21B9ACE1000B3EE05 /* KbHomeProgramModel.m */,
 			);
@@ -878,8 +864,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC683B081C18129F006B19A5 /* AlipaySDK.bundle in Resources */,
-				BC152F2C1C059F1B000DF875 /* config_standby.plist in Resources */,
-				BCFF05231B986B4D0074BAE2 /* config.plist in Resources */,
 				BC683B051C18129F006B19A5 /* 说明.rtf in Resources */,
 				BC84FFB61C046BFC0077B57C /* baidumobadsdk.bundle in Resources */,
 				BC683B021C18129F006B19A5 /* ipaynow.bundle in Resources */,
@@ -968,7 +952,6 @@
 				BCFF93671B9B967A00B2EDF9 /* KbChannelProgram.m in Sources */,
 				BCFF05141B9861C50074BAE2 /* KbURLRequest.m in Sources */,
 				BC88FF401C21547B00384C35 /* UIImageView+YPBAnimation.m in Sources */,
-				BCFF05211B986AE40074BAE2 /* KbConfig.m in Sources */,
 				BCFF935B1B9B7DB400B2EDF9 /* KbVideo.m in Sources */,
 				12DEBE661C1EE6DD0062AFE1 /* WXUtil.mm in Sources */,
 				BCFA19D31B9ACE1000B3EE05 /* KbHomeProgramModel.m in Sources */,
@@ -983,7 +966,6 @@
 				BCE9B6521B98559D00D70B9E /* kbMoreViewController.m in Sources */,
 				BCDE4EF51BA6657500244945 /* NSDictionary+KbSign.m in Sources */,
 				BCFF051E1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m in Sources */,
-				BCFF05271B986F690074BAE2 /* KbHomeBannerModel.m in Sources */,
 				BC1B213A1C17CE0A00BE87C4 /* KbPaymentViewController.m in Sources */,
 				BCDE4EF91BA6657500244945 /* UIColor+hexColor.m in Sources */,
 				BC2B1A6D1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m in Sources */,

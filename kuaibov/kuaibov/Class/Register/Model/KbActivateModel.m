@@ -34,7 +34,7 @@ static NSString *const kSuccessResponse = @"SUCCESS";
                       __IPHONE_OS_VERSION_MAX_ALLOWED / 10000,
                       (__IPHONE_OS_VERSION_MAX_ALLOWED % 10000) / 100];
     
-    NSDictionary *params = @{@"cn":[KbConfig sharedConfig].channelNo,
+    NSDictionary *params = @{@"cn":KB_CHANNEL_NO,
                              @"imsi":@"999999999999999",
                              @"imei":@"999999999999999",
                              @"sms":@"00000000000",
@@ -44,11 +44,11 @@ static NSString *const kSuccessResponse = @"SUCCESS";
                              @"mf":[UIDevice currentDevice].model,
                              @"sdkV":sdkV,
                              @"cpuV":@"",
-                             @"appV":[KbUtil appVersion],
+                             @"appV":KB_REST_APP_VERSION,
                              @"appVN":@"",
-                             @"ccn":[KbConfig sharedConfig].packageSigningCertificate};
+                             @"ccn":KB_PACKAGE_CERTIFICATE};
     
-    BOOL success = [self requestURLPath:[KbConfig sharedConfig].registerURLPath withParams:params responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
+    BOOL success = [self requestURLPath:KB_ACTIVATE_URL withParams:params responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage) {
         NSString *userId;
         if (respStatus == KbURLResponseSuccess) {
             NSString *resp = self.response;

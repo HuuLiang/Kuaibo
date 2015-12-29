@@ -7,7 +7,6 @@
 //
 
 #import "KbHomeViewController.h"
-#import "KbHomeBannerModel.h"
 #import "KbHomeProgramModel.h"
 #import "KbHomeSectionHeaderView.h"
 #import "KbHomeProgramCell.h"
@@ -20,11 +19,8 @@
     UITableViewCell *_bannerCell;
     SDCycleScrollView *_bannerView;
 }
-@property (nonatomic,retain) KbHomeBannerModel *bannerModel;
 @property (nonatomic,retain) KbHomeProgramModel *programModel;
 @property (nonatomic,retain,readonly) dispatch_group_t dataFetchDispatchGroup;
-
-@property (nonatomic,retain) NSArray *videoPrograms;
 @end
 
 static NSString *const kProgramCellReusableIdentifier = @"ProgramCellReusableIdentifier";
@@ -34,7 +30,6 @@ static NSString *const kSectionHeaderReusableIdentifier = @"SectionHeaderReusabl
 @implementation KbHomeViewController
 @synthesize dataFetchDispatchGroup = _dataFetchDispatchGroup;
 
-DefineLazyPropertyInitialization(KbHomeBannerModel, bannerModel)
 DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 
 - (dispatch_group_t)dataFetchDispatchGroup {
@@ -73,52 +68,23 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         }];
     }
     
-    self.videoPrograms = self.programModel.fetchedProgramList;
-    
     @weakify(self);
     [_layoutTableView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
-        [self reloadData];
+        [self reloadPrograms];
     }];
     [_layoutTableView kb_triggerPullToRefresh];
 }
 
-- (void)reloadData {
-    dispatch_group_enter(self.dataFetchDispatchGroup);
-    [self reloadBanners];
-    
-    dispatch_group_enter(self.dataFetchDispatchGroup);
-    [self reloadPrograms];
-    
-    @weakify(self);
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        @strongify(self);
-        
-        dispatch_group_wait(self.dataFetchDispatchGroup, DISPATCH_TIME_FOREVER);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self->_layoutTableView kb_endPullToRefresh];
-        });
-    });
+- (NSArray *)videoProgramsFromProgramList:(NSArray<KbProgram *> *)programList {
+    return [programList bk_select:^BOOL(KbProgram *program) {
+        return program.type.unsignedIntegerValue == KbProgramTypeVideo;
+    }];
 }
 
-- (void)reloadBanners {
-    @weakify(self);
-    [self.bannerModel fetchBannersWithCompletionHandler:^(BOOL success, NSArray *banners) {
-        @strongify(self);
-        dispatch_group_leave(self.dataFetchDispatchGroup);
-        
-        if (success) {
-            NSMutableArray *imageUrlGroup = [NSMutableArray array];
-            NSMutableArray *titlesGroup = [NSMutableArray array];
-            for (KbProgram *bannerProgram in banners) {
-                if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeVideo) {
-                    [imageUrlGroup addObject:bannerProgram.coverImg];
-                    [titlesGroup addObject:bannerProgram.title];
-                }
-            }
-            self->_bannerView.imageURLStringsGroup = imageUrlGroup;
-            self->_bannerView.titlesGroup = titlesGroup;
-        }
+- (NSArray *)bannerProgramsFromProgramList:(NSArray<KbProgram *> *)programList {
+    return [programList bk_select:^BOOL(KbProgram *program) {
+        return program.type.unsignedIntegerValue == KbProgramTypeBanner;
     }];
 }
 
@@ -126,29 +92,20 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     @weakify(self);
     [self.programModel fetchHomeProgramsWithCompletionHandler:^(BOOL success, NSArray *programs) {
         @strongify(self);
-        dispatch_group_leave(self.dataFetchDispatchGroup);
         
         if (success) {
-            NSMutableArray *videoPrograms = [NSMutableArray array];
-            [programs enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (((KbPrograms *)obj).type.unsignedIntegerValue == KbProgramTypeVideo
-                    || ((KbPrograms *)obj).type.unsignedIntegerValue == KbProgramTypeBanner) {
-                    [videoPrograms addObject:obj];
-                }
-            }];
-            
-            self.videoPrograms = videoPrograms;
             [self->_layoutTableView reloadData];
         }
+        [self->_layoutTableView kb_endPullToRefresh];
     }];
 }
 
 - (NSArray<KbProgram *> *)programsForCellAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return nil;
+        return self.programModel.fetchedBannerPrograms;
     }
     
-    KbPrograms *programs = self.videoPrograms[indexPath.section-1];
+    KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
     
     NSMutableArray *programsForCell = [NSMutableArray array];
     for (NSUInteger i = 0; i < 3; ++i) {
@@ -165,8 +122,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return nil;
     }
     
-    KbPrograms *programs = self.videoPrograms[indexPath.section-1];
-    if (programs.type.unsignedIntegerValue == KbProgramTypeBanner) {
+    KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
+    if (programs.type.unsignedIntegerValue == KbProgramTypeAd) {
         return programs.programList[indexPath.row];
     }
     return nil;
@@ -177,8 +134,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return NO;
     }
     
-    KbPrograms *programs = self.videoPrograms[section-1];
-    return programs.type.unsignedIntegerValue == KbProgramTypeBanner;
+    KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
+    return programs.type.unsignedIntegerValue == KbProgramTypeAd;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -204,19 +161,16 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
                     make.edges.equalTo(_bannerCell.contentView);
                 }];
             }
-
-            NSMutableArray *imageUrlGroup = [NSMutableArray array];
-            NSMutableArray *titlesGroup = [NSMutableArray array];
-            for (KbProgram *bannerProgram in self.bannerModel.fetchedBanners) {
-                if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeVideo) {
-                    [imageUrlGroup addObject:bannerProgram.coverImg];
-                    [titlesGroup addObject:bannerProgram.title];
-                }
-            }
-            _bannerView.imageURLStringsGroup = imageUrlGroup;
-            _bannerView.titlesGroup = titlesGroup;
         }
         
+        NSMutableArray *imageUrlGroup = [NSMutableArray array];
+        NSMutableArray *titlesGroup = [NSMutableArray array];
+        for (KbProgram *bannerProgram in self.programModel.fetchedBannerPrograms) {
+            [imageUrlGroup addObject:bannerProgram.coverImg];
+            [titlesGroup addObject:bannerProgram.title];
+        }
+        _bannerView.imageURLStringsGroup = imageUrlGroup;
+        _bannerView.titlesGroup = titlesGroup;
         return _bannerCell;
         
     } else {
@@ -280,15 +234,15 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.videoPrograms.count + 1;
+    return self.programModel.fetchedVideoAndAdProgramList.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
     } else {
-        KbPrograms *programs = self.videoPrograms[section-1];
-        if (programs.type.unsignedIntegerValue == KbProgramTypeBanner) {
+        KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
+        if (programs.type.unsignedIntegerValue == KbProgramTypeAd) {
             return programs.programList.count;
         } else {
             return (programs.programList.count + 2) / 3;
@@ -312,8 +266,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return nil;
     }
     
-    KbPrograms *programs = self.videoPrograms[section-1];
-    if (programs.type.unsignedIntegerValue == KbProgramTypeBanner) {
+    KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
+    if (programs.type.unsignedIntegerValue == KbProgramTypeAd) {
         return nil;
     }
     
@@ -332,7 +286,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 #pragma mark - SDCycleScrollViewDelegate
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    KbProgram *bannerProgram = self.bannerModel.fetchedBanners[index];
+    KbProgram *bannerProgram = self.programModel.fetchedBannerPrograms[index];
     [self switchToPlayProgram:bannerProgram];
 }
 @end

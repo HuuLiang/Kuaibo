@@ -64,7 +64,7 @@ static const CGFloat kDefaultAdBannerHeight = 30;
     
     _adView = [[BaiduMobAdView alloc] init];
     _adView.frame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
-    _adView.AdUnitTag = [KbConfig sharedConfig].baiduBannerAdId;
+    _adView.AdUnitTag = KB_BAIDU_BANNER_AD_ID;
     _adView.AdType = BaiduMobAdViewTypeBanner;
     _adView.delegate = self;
     [_adView start];
@@ -164,7 +164,7 @@ static const CGFloat kDefaultAdBannerHeight = 30;
 #pragma mark - BaiduMobAdViewDelegate
 
 - (NSString *)publisherId {
-    return [KbConfig sharedConfig].baiduAdAppId;
+    return KB_BAIDU_AD_APP_ID;
 }
 #endif
 @end

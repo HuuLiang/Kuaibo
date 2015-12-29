@@ -89,16 +89,4 @@ static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
     
     return name;
 }
-
-+ (NSString *)appVersion {
-    return [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
-}
-
-+ (NSString *)appId {
-    return @"QUBA_2001";
-}
-
-+ (NSNumber *)pV {
-    return @200;
-}
 @end

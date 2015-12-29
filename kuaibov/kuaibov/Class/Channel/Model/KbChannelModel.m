@@ -37,8 +37,8 @@
 
 - (BOOL)fetchChannelsWithCompletionHandler:(KbFetchChannelsCompletionHandler)handler {
     @weakify(self);
-    BOOL success = [self requestURLPath:[KbConfig sharedConfig].channelURLPath
-                         standbyURLPath:[KbConfig sharedStandbyConfig].channelURLPath
+    BOOL success = [self requestURLPath:KB_CHANNEL_URL
+                         standbyURLPath:KB_STANDBY_CHANNEL_URL
                              withParams:nil
                         responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {

@@ -132,7 +132,7 @@
                 price:(double)price
           paymentType:(KbPaymentType)paymentType {
     @weakify(self);
-    NSString *channelNo = [KbConfig sharedConfig].channelNo;
+    NSString *channelNo = KB_CHANNEL_NO;
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
@@ -160,7 +160,7 @@
         [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
         
         IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
-        preSign.consumerId = [KbConfig sharedConfig].channelNo;
+        preSign.consumerId = KB_CHANNEL_NO;
         preSign.mhtOrderNo = orderNo;
         preSign.mhtOrderName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
         preSign.mhtOrderType = kPayNowNormalOrderType;
@@ -170,12 +170,12 @@
         preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
         preSign.mhtCharset = kPayNowDefaultCharset;
         preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
-        preSign.mhtReserved = [KbConfig sharedConfig].paymentReservedData;
+        preSign.mhtReserved = KB_PAYMENT_RESERVE_DATA;
         
         [[KbPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
             @strongify(self);
             if (success && [KbPaymentSignModel sharedModel].appId.length > 0) {
-                [IpaynowPluginApi pay:signedData AndScheme:[KbConfig sharedConfig].payNowScheme viewController:self delegate:self];
+                [IpaynowPluginApi pay:signedData AndScheme:KB_PAYNOW_SCHEME viewController:self delegate:self];
             } else {
                 [[KbHudManager manager] showHudWithText:@"无法获取支付信息"];
             }

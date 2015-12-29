@@ -19,11 +19,11 @@ static NSString *const kEncryptionPasssword = @"f7@j3%#5aiG$4";
 }
 
 + (NSDictionary *)commonParams {
-    return @{@"appId":[KbUtil appId],
+    return @{@"appId":KB_REST_APP_ID,
              kEncryptionKeyName:[self class].signKey,
              @"imsi":@"999999999999999",
-             @"channelNo":[KbConfig sharedConfig].channelNo,
-             @"pV":[KbUtil pV]
+             @"channelNo":KB_CHANNEL_NO,
+             @"pV":KB_REST_PV
              };
 }
 

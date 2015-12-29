@@ -56,11 +56,11 @@
 }
 
 - (NSURL *)baseURL {
-    return [NSURL URLWithString:[KbConfig sharedConfig].baseURL];
+    return [NSURL URLWithString:KB_BASE_URL];
 }
 
 - (NSURL *)standbyBaseURL {
-    return [NSURL URLWithString:[KbConfig sharedStandbyConfig].baseURL];
+    return [NSURL URLWithString:KB_STANDBY_BASE_URL];
 }
 
 - (BOOL)shouldPostErrorNotification {

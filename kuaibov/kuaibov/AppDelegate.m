@@ -159,12 +159,12 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     if (bundleVersion) {
         [MobClick setAppVersion:bundleVersion];
     }
-    [MobClick startWithAppkey:[KbConfig sharedConfig].umengAppId reportPolicy:BATCH channelId:[KbConfig sharedConfig].channelNo];
+    [MobClick startWithAppkey:KB_UMENG_APP_ID reportPolicy:BATCH channelId:KB_CHANNEL_NO];
     
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [WXApi registerApp:[KbConfig sharedConfig].weChatPayAppId];
+    [WXApi registerApp:KB_WECHAT_APP_ID];
     
     [[KbErrorHandler sharedHandler] initialize];
     [self setupMobStatistics];

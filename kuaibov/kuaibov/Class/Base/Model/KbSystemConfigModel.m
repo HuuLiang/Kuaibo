@@ -33,8 +33,8 @@
 
 - (BOOL)fetchSystemConfigWithCompletionHandler:(KbFetchSystemConfigCompletionHandler)handler {
     @weakify(self);
-    BOOL success = [self requestURLPath:[KbConfig sharedConfig].systemConfigURLPath
-                         standbyURLPath:[KbConfig sharedStandbyConfig].systemConfigURLPath
+    BOOL success = [self requestURLPath:KB_SYSTEM_CONFIG_URL
+                         standbyURLPath:KB_STANDBY_SYSTEM_CONFIG_URL
                              withParams:nil
                         responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {
@@ -46,16 +46,16 @@
             [resp.confis enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 KbSystemConfig *config = obj;
                 
-                if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigPayAmount]) {
+                if ([config.name isEqualToString:KB_SYSTEM_CONFIG_PAY_AMOUNT]) {
                     self.payAmount = config.value.doubleValue / 100.;
-                } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigChannelTopImage]) {
+                } else if ([config.name isEqualToString:KB_SYSTEM_CONFIG_CHANNEL_TOP_IMAGE]) {
                     self.channelTopImage = config.value;
-                } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigStartupInstall]) {
+                } else if ([config.name isEqualToString:KB_SYSTEM_CONFIG_STARTUP_INSTALL]) {
                     self.startupInstall = config.value;
                     self.startupPrompt = config.memo;
-                } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigSpreadTopImage]) {
+                } else if ([config.name isEqualToString:KB_SYSTEM_CONFIG_SPREAD_TOP_IMAGE]) {
                     self.spreadTopImage = config.value;
-                } else if ([config.name isEqualToString:[KbConfig sharedConfig].systemConfigSpreadURL]) {
+                } else if ([config.name isEqualToString:KB_SYSTEM_CONFIG_SPREAD_URL]) {
                     self.spreadURL = config.value;
                 }
             }];
