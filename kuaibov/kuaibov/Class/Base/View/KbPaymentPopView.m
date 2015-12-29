@@ -46,9 +46,9 @@ static const CGFloat kBackButtonInsets = 10;
 
 - (CGRect)priceRect {
     return CGRectMake(self.imageSize.width * 0.7,
-                      self.imageSize.height * 0.33,
+                      self.imageSize.height * 0.35,
                       self.imageSize.width * 0.2,
-                      self.imageSize.height * 0.08);
+                      self.imageSize.height * 0.07);
 }
 
 - (CGPoint)alipayButtonOrigin {

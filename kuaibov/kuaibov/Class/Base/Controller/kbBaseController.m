@@ -13,64 +13,17 @@
 #import "MobClick.h"
 #import "KbPaymentViewController.h"
 
-#ifdef EnableBaiduMobAd
-#import "BaiduMobAdView.h"
-#endif
-
 @import MediaPlayer;
 @import AVKit;
 @import AVFoundation.AVPlayer;
 @import AVFoundation.AVAsset;
 @import AVFoundation.AVAssetImageGenerator;
 
-#ifdef EnableBaiduMobAd
-static const CGFloat kDefaultAdBannerHeight = 30;
-#endif
-
 @interface kbBaseController ()
-#ifdef EnableBaiduMobAd
-<BaiduMobAdViewDelegate>
-
-@property (nonatomic,retain) BaiduMobAdView *adView;
-#endif
 - (UIViewController *)playerVCWithVideo:(KbVideo *)video;
 @end
 
 @implementation kbBaseController
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-#ifdef EnableBaiduMobAd
-        _adBannerHeight = kDefaultAdBannerHeight;
-#endif
-    }
-    return self;
-}
-
-- (instancetype)initWithBottomAdBanner:(BOOL)hasBanner {
-    self = [self init];
-    if (self) {
-        _bottomAdBanner = hasBanner;
-    }
-    return self;
-}
-
-#ifdef EnableBaiduMobAd
-- (BaiduMobAdView *)adView {
-    if (_adView) {
-        return _adView;
-    }
-    
-    _adView = [[BaiduMobAdView alloc] init];
-    _adView.frame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
-    _adView.AdUnitTag = KB_BAIDU_BANNER_AD_ID;
-    _adView.AdType = BaiduMobAdViewTypeBanner;
-    _adView.delegate = self;
-    [_adView start];
-    return _adView;
-}
-#endif
 
 - (UIViewController *)playerVCWithVideo:(KbVideo *)video {
     UIViewController *retVC;
@@ -108,25 +61,6 @@ static const CGFloat kDefaultAdBannerHeight = 30;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPaidNotification:) name:kPaidNotificationName object:nil];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-#ifdef EnableBaiduMobAd
-    if (_bottomAdBanner) {
-        CGRect newFrame = CGRectMake(0, self.view.bounds.size.height-self.adBannerHeight, self.view.bounds.size.width, self.adBannerHeight);
-        if (!CGRectEqualToRect(newFrame, self.adView.frame)) {
-            if ([self.view.subviews containsObject:self.adView]) {
-                [self.adView removeFromSuperview];
-                self.adView = nil;
-            }
-        }
-        
-        if (![self.view.subviews containsObject:self.adView]) {
-            [self.view addSubview:self.adView];
-        }
-    }
-#endif
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -159,12 +93,4 @@ static const CGFloat kDefaultAdBannerHeight = 30;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#ifdef EnableBaiduMobAd
-#pragma mark - BaiduMobAdViewDelegate
-
-- (NSString *)publisherId {
-    return KB_BAIDU_AD_APP_ID;
-}
-#endif
 @end

@@ -14,7 +14,6 @@
 #import "KbPaymentModel.h"
 #import "KbUserAccessModel.h"
 #import "MobClick.h"
-#import "IpaynowPluginApi.h"
 #import "KbSystemConfigModel.h"
 #import "WXApi.h"
 #import "WeChatPayManager.h"
@@ -38,13 +37,13 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
     _window                              = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.backgroundColor              = [UIColor whiteColor];
     
-    KbHomeViewController *homeVC         = [[KbHomeViewController alloc] initWithBottomAdBanner:YES];
+    KbHomeViewController *homeVC         = [[KbHomeViewController alloc] init];
     UINavigationController *homeNav      = [[UINavigationController alloc] initWithRootViewController:homeVC];
     homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:nil
                                                                          image:[UIImage imageNamed:@"home_normal"]
                                                                  selectedImage:[UIImage imageNamed:@"home_highlight"]];
     
-    KbChannelViewController *channelVC   = [[KbChannelViewController alloc] initWithBottomAdBanner:YES];
+    KbChannelViewController *channelVC   = [[KbChannelViewController alloc] init];
     UINavigationController *channelNav   = [[UINavigationController alloc] initWithRootViewController:channelVC];
     channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:nil
                                                                          image:[UIImage imageNamed:@"channel_normal"]
@@ -211,7 +210,6 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    [IpaynowPluginApi willEnterForeground];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -224,7 +222,6 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    [IpaynowPluginApi application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     [WXApi handleOpenURL:url delegate:self];
     return YES;
 }

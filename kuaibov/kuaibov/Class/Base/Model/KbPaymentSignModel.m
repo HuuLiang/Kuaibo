@@ -6,9 +6,10 @@
 //  Copyright © 2015年 kuaibov. All rights reserved.
 //
 
+#ifdef __KB_PAYMENT_SIGN__
+
 #import "KbPaymentSignModel.h"
 #import "NSDictionary+KbSign.h"
-#import "IPNPreSignMessageUtil.h"
 #import <objc/runtime.h>
 
 static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
@@ -114,3 +115,4 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     }
 }
 @end
+#endif

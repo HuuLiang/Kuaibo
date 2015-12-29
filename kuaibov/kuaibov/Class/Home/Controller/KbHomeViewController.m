@@ -64,7 +64,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     [self.view addSubview:_layoutTableView];
     {
         [_layoutTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
+            make.edges.equalTo(self.view);
         }];
     }
     
@@ -287,6 +287,11 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     KbProgram *bannerProgram = self.programModel.fetchedBannerPrograms[index];
-    [self switchToPlayProgram:bannerProgram];
+    if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeVideo) {
+        [self switchToPlayProgram:bannerProgram];
+    } else if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeAd) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:bannerProgram.videoUrl]];
+    }
+    
 }
 @end

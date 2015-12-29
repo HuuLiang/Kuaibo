@@ -9,16 +9,13 @@
 #import "KbPaymentViewController.h"
 #import "KbPaymentPopView.h"
 #import "KbSystemConfigModel.h"
-#import "IPNPreSignMessageUtil.h"
 #import "KbPaymentModel.h"
 #import <objc/runtime.h>
 #import "KbProgram.h"
 #import "WeChatPayManager.h"
 #import "KbPaymentInfo.h"
-#import "IpaynowPluginApi.h"
-#import "KbPaymentSignModel.h"
 
-@interface KbPaymentViewController () <IpaynowPluginDelegate>
+@interface KbPaymentViewController ()
 @property (nonatomic,retain) KbPaymentPopView *popView;
 @property (nonatomic) NSNumber *payAmount;
 
@@ -156,75 +153,76 @@
             [self notifyPaymentResult:payResult withPaymentInfo:self.paymentInfo];
         }];
     } else {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
-        
-        IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
-        preSign.consumerId = KB_CHANNEL_NO;
-        preSign.mhtOrderNo = orderNo;
-        preSign.mhtOrderName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
-        preSign.mhtOrderType = kPayNowNormalOrderType;
-        preSign.mhtCurrencyType = kPayNowRMBCurrencyType;
-        preSign.mhtOrderAmt = [NSString stringWithFormat:@"%ld", @(price*100).unsignedIntegerValue];
-        preSign.mhtOrderDetail = [preSign.mhtOrderName stringByAppendingString:@"终身会员"];
-        preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
-        preSign.mhtCharset = kPayNowDefaultCharset;
-        preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
-        preSign.mhtReserved = KB_PAYMENT_RESERVE_DATA;
-        
-        [[KbPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
-            @strongify(self);
-            if (success && [KbPaymentSignModel sharedModel].appId.length > 0) {
-                [IpaynowPluginApi pay:signedData AndScheme:KB_PAYNOW_SCHEME viewController:self delegate:self];
-            } else {
-                [[KbHudManager manager] showHudWithText:@"无法获取支付信息"];
-            }
-        }];
+        [[KbHudManager manager] showHudWithText:@"无法获取支付信息"];
+//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//        [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
+//        
+//        IPNPreSignMessageUtil *preSign =[[IPNPreSignMessageUtil alloc] init];
+//        preSign.consumerId = KB_CHANNEL_NO;
+//        preSign.mhtOrderNo = orderNo;
+//        preSign.mhtOrderName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"] ?: @"家庭影院";
+//        preSign.mhtOrderType = kPayNowNormalOrderType;
+//        preSign.mhtCurrencyType = kPayNowRMBCurrencyType;
+//        preSign.mhtOrderAmt = [NSString stringWithFormat:@"%ld", @(price*100).unsignedIntegerValue];
+//        preSign.mhtOrderDetail = [preSign.mhtOrderName stringByAppendingString:@"终身会员"];
+//        preSign.mhtOrderStartTime = [dateFormatter stringFromDate:[NSDate date]];
+//        preSign.mhtCharset = kPayNowDefaultCharset;
+//        preSign.payChannelType = ((NSNumber *)self.paymentTypeMap[@(paymentType)]).stringValue;
+//        preSign.mhtReserved = KB_PAYMENT_RESERVE_DATA;
+//        
+//        [[KbPaymentSignModel sharedModel] signWithPreSignMessage:preSign completionHandler:^(BOOL success, NSString *signedData) {
+//            @strongify(self);
+//            if (success && [KbPaymentSignModel sharedModel].appId.length > 0) {
+//                [IpaynowPluginApi pay:signedData AndScheme:KB_PAYNOW_SCHEME viewController:self delegate:self];
+//            } else {
+//                [[KbHudManager manager] showHudWithText:@"无法获取支付信息"];
+//            }
+//        }];
     }
 }
 
-- (NSDictionary *)paymentTypeMap {
-    if (_paymentTypeMap) {
-        return _paymentTypeMap;
-    }
-    
-    _paymentTypeMap = @{@(KbPaymentTypeAlipay):@(PayNowChannelTypeAlipay),
-                          @(KbPaymentTypeWeChatPay):@(PayNowChannelTypeWeChatPay),
-                          @(KbPaymentTypeUPPay):@(PayNowChannelTypeUPPay)};
-    return _paymentTypeMap;
-}
+//- (NSDictionary *)paymentTypeMap {
+//    if (_paymentTypeMap) {
+//        return _paymentTypeMap;
+//    }
+//    
+//    _paymentTypeMap = @{@(KbPaymentTypeAlipay):@(PayNowChannelTypeAlipay),
+//                          @(KbPaymentTypeWeChatPay):@(PayNowChannelTypeWeChatPay),
+//                          @(KbPaymentTypeUPPay):@(PayNowChannelTypeUPPay)};
+//    return _paymentTypeMap;
+//}
 
-- (KbPaymentType)paymentTypeFromPayNowType:(PayNowChannelType)type {
-    __block KbPaymentType retType = KbPaymentTypeNone;
-    [self.paymentTypeMap enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([(NSNumber *)obj isEqualToNumber:@(type)]) {
-            retType = ((NSNumber *)key).unsignedIntegerValue;
-            *stop = YES;
-            return ;
-        }
-    }];
-    return retType;
-}
-
-- (PayNowChannelType)payNowTypeFromPaymentType:(KbPaymentType)type {
-    return ((NSNumber *)self.paymentTypeMap[@(type)]).unsignedIntegerValue;
-}
-
-- (PAYRESULT)paymentResultFromPayNowResult:(IPNPayResult)result {
-    NSDictionary *resultMap = @{@(IPNPayResultSuccess):@(PAYRESULT_SUCCESS),
-                                @(IPNPayResultFail):@(PAYRESULT_FAIL),
-                                @(IPNPayResultCancel):@(PAYRESULT_ABANDON),
-                                @(IPNPayResultUnknown):@(PAYRESULT_UNKNOWN)};
-    return ((NSNumber *)resultMap[@(result)]).unsignedIntegerValue;
-}
-
--(IPNPayResult)paymentResultFromPayresult:(PAYRESULT)result{
-    NSDictionary *resultMap = @{@(PAYRESULT_SUCCESS):@(IPNPayResultSuccess),
-                                @(PAYRESULT_FAIL):@(IPNPayResultFail),
-                                @(PAYRESULT_ABANDON):@(IPNPayResultCancel),
-                                @(PAYRESULT_UNKNOWN):@(IPNPayResultUnknown)};
-    return ((NSNumber *)resultMap[@(result)]).unsignedIntegerValue;
-}
+//- (KbPaymentType)paymentTypeFromPayNowType:(PayNowChannelType)type {
+//    __block KbPaymentType retType = KbPaymentTypeNone;
+//    [self.paymentTypeMap enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+//        if ([(NSNumber *)obj isEqualToNumber:@(type)]) {
+//            retType = ((NSNumber *)key).unsignedIntegerValue;
+//            *stop = YES;
+//            return ;
+//        }
+//    }];
+//    return retType;
+//}
+//
+//- (PayNowChannelType)payNowTypeFromPaymentType:(KbPaymentType)type {
+//    return ((NSNumber *)self.paymentTypeMap[@(type)]).unsignedIntegerValue;
+//}
+//
+//- (PAYRESULT)paymentResultFromPayNowResult:(IPNPayResult)result {
+//    NSDictionary *resultMap = @{@(IPNPayResultSuccess):@(PAYRESULT_SUCCESS),
+//                                @(IPNPayResultFail):@(PAYRESULT_FAIL),
+//                                @(IPNPayResultCancel):@(PAYRESULT_ABANDON),
+//                                @(IPNPayResultUnknown):@(PAYRESULT_UNKNOWN)};
+//    return ((NSNumber *)resultMap[@(result)]).unsignedIntegerValue;
+//}
+//
+//-(IPNPayResult)paymentResultFromPayresult:(PAYRESULT)result{
+//    NSDictionary *resultMap = @{@(PAYRESULT_SUCCESS):@(IPNPayResultSuccess),
+//                                @(PAYRESULT_FAIL):@(IPNPayResultFail),
+//                                @(PAYRESULT_ABANDON):@(IPNPayResultCancel),
+//                                @(PAYRESULT_UNKNOWN):@(IPNPayResultUnknown)};
+//    return ((NSNumber *)resultMap[@(result)]).unsignedIntegerValue;
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -253,10 +251,10 @@
     [[KbPaymentModel sharedModel] commitPaymentInfo:paymentInfo];
 }
 
-- (void)IpaynowPluginResult:(IPNPayResult)result errCode:(NSString *)errCode errInfo:(NSString *)errInfo {
-    DLog(@"PayNow Result:%ld\nerrorCode:%@\nerrorInfo:%@", result,errCode,errInfo);
-    PAYRESULT payResult = [self paymentResultFromPayNowResult:result];
-    [self notifyPaymentResult:payResult withPaymentInfo:self.paymentInfo];
-}
+//- (void)IpaynowPluginResult:(IPNPayResult)result errCode:(NSString *)errCode errInfo:(NSString *)errInfo {
+//    DLog(@"PayNow Result:%ld\nerrorCode:%@\nerrorInfo:%@", result,errCode,errInfo);
+//    PAYRESULT payResult = [self paymentResultFromPayNowResult:result];
+//    [self notifyPaymentResult:payResult withPaymentInfo:self.paymentInfo];
+//}
 
 @end

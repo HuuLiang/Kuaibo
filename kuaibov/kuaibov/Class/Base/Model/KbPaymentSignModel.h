@@ -6,6 +6,8 @@
 //  Copyright © 2015年 kuaibov. All rights reserved.
 //
 
+#ifdef __KB_PAYMENT_SIGN__
+
 #import "KbEncryptedURLRequest.h"
 
 @class IPNPreSignMessageUtil;
@@ -23,3 +25,4 @@ typedef void (^KbPaymentSignCompletionHandler)(BOOL success, NSString *signedDat
 - (BOOL)signWithPreSignMessage:(IPNPreSignMessageUtil *)preSign completionHandler:(KbPaymentSignCompletionHandler)handler;
 
 @end
+#endif

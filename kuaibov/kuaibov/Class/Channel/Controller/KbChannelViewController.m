@@ -71,7 +71,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     [self.view addSubview:_layoutTableView];
     {
         [_layoutTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, self.adBannerHeight, 0));
+            make.edges.equalTo(self.view);
         }];
     }
     
@@ -229,7 +229,6 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
         KbChannel *selectedChannel = self.videoChannels[indexPath.row];
         if (selectedChannel.type.unsignedIntegerValue == KbChannelTypeVideo) {
             KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
-            programVC.bottomAdBanner = YES;
             programVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:programVC animated:YES];
         } else if (selectedChannel.type.unsignedIntegerValue == KbChannelTypeBanner) {
