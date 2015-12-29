@@ -21,7 +21,7 @@
 #define KB_CHANNEL_URL          @"/iosvideo/channelRanking.htm"
 #define KB_CHANNEL_PROGRAM_URL  @"/iosvideo/program.htm"
 #define KB_AGREEMENT_URL        @"/iosvideo/agreement.html"
-#define KB_ACTIVATE_URL         @"/iosvideo/jihuo.htm"
+#define KB_ACTIVATE_URL         @"/iosvideo/activat.htm"
 #define KB_SYSTEM_CONFIG_URL    @"/iosvideo/systemConfig.htm"
 #define KB_USER_ACCESS_URL      @"/iosvideo/userAccess.htm"
 
