@@ -1024,24 +1024,16 @@
 			baseConfigurationReference = A829465AEB8D6C3264B4F256 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Yueyang Business Service Co., Ltd.";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Yueyang Business Service Co., Ltd.";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/kuaibov/Class/Vendor/AliPayPlugin",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
-					"$(PROJECT_DIR)/kuaibov/Class/Vendor/IpaynowPlugin",
-					"$(PROJECT_DIR)/kuaibov/Class/Vendor/UPPayPlugin",
-					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WechatPlugin",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/Umeng",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WeChatSDK",
 				);
@@ -1088,24 +1080,16 @@
 			baseConfigurationReference = CEB2734AF03850849D8DF430 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Yueyang Business Service Co., Ltd.";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Yueyang Business Service Co., Ltd.";
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/kuaibov/Class/Vendor/AliPayPlugin",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/BaiduMobAd",
 					"$(PROJECT_DIR)/kuaibov/Class/Utils",
-					"$(PROJECT_DIR)/kuaibov/Class/Utils/Umeng",
-					"$(PROJECT_DIR)/kuaibov/Class/Vendor/IpaynowPlugin",
-					"$(PROJECT_DIR)/kuaibov/Class/Vendor/UPPayPlugin",
-					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WechatPlugin",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/Umeng",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WeChatSDK",
 				);
