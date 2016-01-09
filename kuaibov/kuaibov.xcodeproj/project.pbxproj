@@ -49,6 +49,8 @@
 		BC88FF431C2164E100384C35 /* KbHomeProgramCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC88FF421C2164E100384C35 /* KbHomeProgramCell.m */; };
 		BC88FF461C2167DC00384C35 /* KbHomeProgramItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC88FF451C2167DC00384C35 /* KbHomeProgramItemView.m */; };
 		BC88FF4B1C217DAB00384C35 /* KbHomeSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC88FF4A1C217DAB00384C35 /* KbHomeSectionHeaderView.m */; };
+		BCCD691C1C40BE8B005EA26B /* KbWeChatPayConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCD691B1C40BE8B005EA26B /* KbWeChatPayConfig.m */; };
+		BCCD691F1C40C2C3005EA26B /* KbAlipayConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCD691E1C40C2C3005EA26B /* KbAlipayConfig.m */; };
 		BCD0D5C21BFDC511000F774E /* KbAlipayConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */; };
 		BCDE4EF51BA6657500244945 /* NSDictionary+KbSign.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDE4EDE1BA6657500244945 /* NSDictionary+KbSign.m */; };
 		BCDE4EF61BA6657500244945 /* NSString+crypt.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDE4EDF1BA6657500244945 /* NSString+crypt.m */; };
@@ -68,6 +70,7 @@
 		BCE9B6581B9855F900D70B9E /* KbHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9B6571B9855F900D70B9E /* KbHomeViewController.m */; };
 		BCFA19D31B9ACE1000B3EE05 /* KbHomeProgramModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA19D21B9ACE1000B3EE05 /* KbHomeProgramModel.m */; };
 		BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */; };
+		BCFB2A701C3FE861003E327D /* KbWeChatPayConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFB2A6F1C3FE861003E327D /* KbWeChatPayConfigModel.m */; };
 		BCFB9A311BA72C6500106BCA /* KbPaymentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFB9A301BA72C6500106BCA /* KbPaymentModel.m */; };
 		BCFB9A341BA736D300106BCA /* KbActivateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFB9A331BA736D300106BCA /* KbActivateModel.m */; };
 		BCFC63311BA5CBF500CEA45A /* CryptTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCFC63301BA5CBF500CEA45A /* CryptTestCase.m */; };
@@ -174,6 +177,10 @@
 		BC88FF451C2167DC00384C35 /* KbHomeProgramItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeProgramItemView.m; sourceTree = "<group>"; };
 		BC88FF491C217DAB00384C35 /* KbHomeSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeSectionHeaderView.h; sourceTree = "<group>"; };
 		BC88FF4A1C217DAB00384C35 /* KbHomeSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeSectionHeaderView.m; sourceTree = "<group>"; };
+		BCCD691A1C40BE8B005EA26B /* KbWeChatPayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbWeChatPayConfig.h; sourceTree = "<group>"; };
+		BCCD691B1C40BE8B005EA26B /* KbWeChatPayConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayConfig.m; sourceTree = "<group>"; };
+		BCCD691D1C40C2C3005EA26B /* KbAlipayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbAlipayConfig.h; sourceTree = "<group>"; };
+		BCCD691E1C40C2C3005EA26B /* KbAlipayConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbAlipayConfig.m; sourceTree = "<group>"; };
 		BCD0D5C01BFDC511000F774E /* KbAlipayConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbAlipayConfigModel.h; sourceTree = "<group>"; };
 		BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbAlipayConfigModel.m; sourceTree = "<group>"; };
 		BCDE4EDD1BA6657500244945 /* NSDictionary+KbSign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+KbSign.h"; sourceTree = "<group>"; };
@@ -212,6 +219,8 @@
 		BCFA19D21B9ACE1000B3EE05 /* KbHomeProgramModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeProgramModel.m; sourceTree = "<group>"; };
 		BCFA1CAE1B98A5A3007E6904 /* KbProgramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbProgramViewController.h; sourceTree = "<group>"; };
 		BCFA1CAF1B98A5A3007E6904 /* KbProgramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbProgramViewController.m; sourceTree = "<group>"; };
+		BCFB2A6E1C3FE861003E327D /* KbWeChatPayConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbWeChatPayConfigModel.h; sourceTree = "<group>"; };
+		BCFB2A6F1C3FE861003E327D /* KbWeChatPayConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayConfigModel.m; sourceTree = "<group>"; };
 		BCFB9A2F1BA72C6500106BCA /* KbPaymentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbPaymentModel.h; sourceTree = "<group>"; };
 		BCFB9A301BA72C6500106BCA /* KbPaymentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentModel.m; sourceTree = "<group>"; };
 		BCFB9A321BA736D300106BCA /* KbActivateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbActivateModel.h; sourceTree = "<group>"; };
@@ -633,10 +642,16 @@
 				BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */,
 				BC039DA31BA1AA10003E43B2 /* KbSystemConfigModel.h */,
 				BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */,
+				BCCD691D1C40C2C3005EA26B /* KbAlipayConfig.h */,
+				BCCD691E1C40C2C3005EA26B /* KbAlipayConfig.m */,
 				BCD0D5C01BFDC511000F774E /* KbAlipayConfigModel.h */,
+				BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */,
+				BCCD691A1C40BE8B005EA26B /* KbWeChatPayConfig.h */,
+				BCCD691B1C40BE8B005EA26B /* KbWeChatPayConfig.m */,
+				BCFB2A6E1C3FE861003E327D /* KbWeChatPayConfigModel.h */,
+				BCFB2A6F1C3FE861003E327D /* KbWeChatPayConfigModel.m */,
 				12DEBE6E1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.h */,
 				12DEBE6F1C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m */,
-				BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */,
 				BC18E7221C06EC3B00ADAA2B /* KbUserAccessModel.h */,
 				BC18E7231C06EC3B00ADAA2B /* KbUserAccessModel.m */,
 				BC1731AC1C16C50B0065DD97 /* KbPaymentSignModel.h */,
@@ -868,6 +883,7 @@
 				BC88FF431C2164E100384C35 /* KbHomeProgramCell.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
 				BCFB9A311BA72C6500106BCA /* KbPaymentModel.m in Sources */,
+				BCCD691C1C40BE8B005EA26B /* KbWeChatPayConfig.m in Sources */,
 				BCFC63341BA5E92800CEA45A /* KbEncryptedURLRequest.m in Sources */,
 				BCFF93671B9B967A00B2EDF9 /* KbChannelProgram.m in Sources */,
 				BCFF05141B9861C50074BAE2 /* KbURLRequest.m in Sources */,
@@ -906,9 +922,11 @@
 				12DEBE701C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m in Sources */,
 				BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */,
 				BC88FF4B1C217DAB00384C35 /* KbHomeSectionHeaderView.m in Sources */,
+				BCCD691F1C40C2C3005EA26B /* KbAlipayConfig.m in Sources */,
 				BC18E7241C06EC3B00ADAA2B /* KbUserAccessModel.m in Sources */,
 				6E090FE61B86A37B00260BDC /* main.m in Sources */,
 				BC2B1A6A1C22FDB400870AAF /* KbPaymentInfo.m in Sources */,
+				BCFB2A701C3FE861003E327D /* KbWeChatPayConfigModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1025,7 +1043,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Yueyang Business Service Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jiangxi HopeDa Group Corporation Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
@@ -1068,9 +1086,9 @@
 					"\"UIKit\"",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yykuaibo.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.caoliukuaibo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "183624ba-b1d5-4e86-8a29-e8da7cd0e69f";
+				PROVISIONING_PROFILE = "4191b970-9a50-4b7c-b0d0-5ef799a46c91";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1081,7 +1099,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Yueyang Business Service Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jiangxi HopeDa Group Corporation Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
@@ -1124,9 +1142,9 @@
 					"\"UIKit\"",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yykuaibo.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.caoliukuaibo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "183624ba-b1d5-4e86-8a29-e8da7cd0e69f";
+				PROVISIONING_PROFILE = "4191b970-9a50-4b7c-b0d0-5ef799a46c91";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

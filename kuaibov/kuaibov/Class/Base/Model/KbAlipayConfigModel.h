@@ -7,21 +7,13 @@
 //
 
 #import "KbEncryptedURLRequest.h"
-
-@interface KbAlipayConfig : KbURLResponse
-
-@property (nonatomic,retain) NSString *partner;
-@property (nonatomic,retain) NSString *privateKey;
-@property (nonatomic,retain) NSString *productInfo;
-@property (nonatomic,retain) NSString *seller;
-@property (nonatomic,retain) NSString *notifyUrl;
-
-@end
-
-typedef void (^KbFetchAlipayConfigCompletionHandler)(BOOL success, KbAlipayConfig *config);
+#import "KbAlipayConfig.h"
 
 @interface KbAlipayConfigModel : KbEncryptedURLRequest
 
-- (BOOL)fetchAlipayConfigWithCompletionHandler:(KbFetchAlipayConfigCompletionHandler)handler;
+@property (nonatomic,readonly,retain) KbAlipayConfig *fetchedConfig;
+
++ (instancetype)sharedModel;
+- (BOOL)fetchAlipayConfigWithCompletionHandler:(KbCompletionHandler)handler;
 
 @end

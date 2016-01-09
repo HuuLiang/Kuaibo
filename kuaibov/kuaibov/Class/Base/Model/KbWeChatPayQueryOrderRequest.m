@@ -9,6 +9,7 @@
 #import "KbWeChatPayQueryOrderRequest.h"
 #import "payRequsestHandler.h"
 #import "WXUtil.h"
+#import "KbWeChatPayConfig.h"
 
 static NSString *const kWeChatPayQueryOrderUrlString = @"https://api.mch.weixin.qq.com/pay/orderquery";
 static NSString *const kSuccessString = @"SUCCESS";
@@ -21,21 +22,13 @@ static NSString *const kSuccessString = @"SUCCESS";
         srand( (unsigned)time(0) );
         NSString *noncestr  = [NSString stringWithFormat:@"%d", rand()];
         
-        NSMutableDictionary *params = @{@"appid":KB_WECHAT_APP_ID,
-                                        @"mch_id":KB_WECHAT_MCH_ID,
+        NSMutableDictionary *params = @{@"appid":[KbWeChatPayConfig defaultConfig].appId,
+                                        @"mch_id":[KbWeChatPayConfig defaultConfig].mchId,
                                         @"out_trade_no":orderNo,
                                         @"nonce_str":noncestr}.mutableCopy;
         //创建支付签名对象
         payRequsestHandler *req = [[payRequsestHandler alloc] init];
-        //初始化支付签名对象
-        [req init:KB_WECHAT_APP_ID mch_id:KB_WECHAT_MCH_ID];
-        //设置密钥
-        [req setKey:KB_WECHAT_PRIVATE_KEY];
-        //设置回调URL
-        [req setNotifyUrl:KB_WECHAT_NOTIFY_URL];
-        //设置附加数据
-        [req setAttach:KB_PAYMENT_RESERVE_DATA];
-        
+
         NSString *package = [req genPackage:params];
         NSData *data =[WXUtil httpSend:kWeChatPayQueryOrderUrlString method:@"POST" data:package];
         

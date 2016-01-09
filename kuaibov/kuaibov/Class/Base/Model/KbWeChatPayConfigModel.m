@@ -1,17 +1,17 @@
 //
-//  KbAlipayConfigModel.m
+//  KbWeChatPayConfigModel.m
 //  kuaibov
 //
-//  Created by Sean Yue on 15/11/19.
-//  Copyright © 2015年 kuaibov. All rights reserved.
+//  Created by Sean Yue on 16/1/8.
+//  Copyright © 2016年 kuaibov. All rights reserved.
 //
 
-#import "KbAlipayConfigModel.h"
+#import "KbWeChatPayConfigModel.h"
 
-@implementation KbAlipayConfigModel
+@implementation KbWeChatPayConfigModel
 
 + (instancetype)sharedModel {
-    static KbAlipayConfigModel *_sharedModel;
+    static KbWeChatPayConfigModel *_sharedModel;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedModel = [[self alloc] init];
@@ -20,27 +20,23 @@
 }
 
 + (Class)responseClass {
-    return [KbAlipayConfig class];
+    return [KbWeChatPayConfig class];
 }
 
 - (BOOL)shouldPostErrorNotification {
     return NO;
 }
 
-- (KbAlipayConfig *)fetchedConfig {
-    return self.response;
-}
-
-- (BOOL)fetchAlipayConfigWithCompletionHandler:(KbCompletionHandler)handler {
+- (BOOL)fetchWeChatPayConfigWithCompletionHandler:(KbCompletionHandler)handler {
     @weakify(self);
-    BOOL ret = [self requestURLPath:KB_ALIPAY_CONFIG_URL
-                     standbyURLPath:KB_STANDBY_ALIPAY_CONFIG_URL
+    BOOL ret = [self requestURLPath:KB_WECHATPAY_CONFIG_URL
+                     standbyURLPath:KB_STANDBY_WECHATPAY_CONFIG_URL
                          withParams:nil
                     responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {
         @strongify(self);
         
-        KbAlipayConfig *config;
+        KbWeChatPayConfig *config;
         if (respStatus == KbURLResponseSuccess) {
             config = self.response;
             [config saveAsDefaultConfig];

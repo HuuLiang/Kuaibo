@@ -19,6 +19,7 @@
 #import "WeChatPayManager.h"
 #import "KbWeChatPayQueryOrderRequest.h"
 #import "KbPaymentViewController.h"
+#import "KbWeChatPayConfigModel.h"
 
 @interface AppDelegate () <WXApiDelegate>
 @property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
@@ -163,8 +164,6 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [WXApi registerApp:KB_WECHAT_APP_ID];
-    
     [KbUtil startMonitoringNetwork];
     [[KbErrorHandler sharedHandler] initialize];
     [self setupMobStatistics];
@@ -196,6 +195,15 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
     }];
+    
+    [[KbWeChatPayConfigModel sharedModel] fetchWeChatPayConfigWithCompletionHandler:^(BOOL success, id obj) {
+        KbWeChatPayConfig *config = [KbWeChatPayConfig defaultConfig];
+        if (config.isValid) {
+            [WXApi registerApp:config.appId];
+        }
+    }];
+    
+
     return YES;
 }
 

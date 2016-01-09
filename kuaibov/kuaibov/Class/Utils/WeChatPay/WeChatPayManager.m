@@ -30,14 +30,6 @@
     
     //创建支付签名对象
     payRequsestHandler *req = [[payRequsestHandler alloc] init];
-    //初始化支付签名对象
-    [req init:KB_WECHAT_APP_ID mch_id:KB_WECHAT_MCH_ID];
-    //设置密钥
-    [req setKey:KB_WECHAT_PRIVATE_KEY];
-    //设置回调URL
-    [req setNotifyUrl:KB_WECHAT_NOTIFY_URL];
-    //设置附加数据
-    [req setAttach:KB_PAYMENT_RESERVE_DATA];
     
     //获取到实际调起微信支付的参数后，在app端调起支付
     NSMutableDictionary *dict = [req sendPayWithOrderNo:orderNo price:@(price*100).unsignedIntegerValue];

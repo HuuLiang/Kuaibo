@@ -63,4 +63,5 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
 #define kPaidNotificationPriceKey @"kuaibo_paid_notification_price_key"
 #define kPaidNotificationPaymentType @"kuaibo_paid_notification_payment_type"
 
+typedef void (^KbCompletionHandler)(BOOL success, id obj);
 #endif

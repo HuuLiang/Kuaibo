@@ -14,6 +14,8 @@
 #import "KbProgram.h"
 #import "WeChatPayManager.h"
 #import "KbPaymentInfo.h"
+#import "KbWeChatPayConfigModel.h"
+#import "KbAlipayConfigModel.h"
 
 @interface KbPaymentViewController ()
 @property (nonatomic,retain) KbPaymentPopView *popView;
@@ -104,7 +106,11 @@
     [systemConfigModel fetchSystemConfigWithCompletionHandler:^(BOOL success) {
         @strongify(self);
         if (success) {
+#ifdef DEBUG
+            self.payAmount = @(0.01);
+#else
             self.payAmount = @(systemConfigModel.payAmount);
+#endif
         }
     }];
 }
@@ -133,9 +139,9 @@
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
-
-    if (paymentType==KbPaymentTypeWeChatPay) {
-        // Payment info
+    
+    void (^SetPayment)(void) = ^{
+        @strongify(self);
         KbPaymentInfo *paymentInfo = [[KbPaymentInfo alloc] init];
         paymentInfo.orderId = orderNo;
         paymentInfo.orderPrice = @((NSUInteger)(price * 100));
@@ -147,11 +153,32 @@
         paymentInfo.paymentStatus = @(KbPaymentStatusPaying);
         [paymentInfo save];
         self.paymentInfo = paymentInfo;
-        
-        [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:price completionHandler:^(PAYRESULT payResult) {
+    };
+    
+    if (paymentType==KbPaymentTypeWeChatPay) {
+        // Payment info
+        void (^PayBlock)(void) = ^{
             @strongify(self);
-            [self notifyPaymentResult:payResult withPaymentInfo:self.paymentInfo];
-        }];
+            KbWeChatPayConfig *config = [KbWeChatPayConfig defaultConfig];
+            if (!config.isValid) {
+                [[KbHudManager manager] showHudWithText:@"无法获取微信支付信息"];
+                return ;
+            }
+            
+            SetPayment();
+            [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:price completionHandler:^(PAYRESULT payResult) {
+                [self notifyPaymentResult:payResult withPaymentInfo:self.paymentInfo];
+            }];
+        };
+        
+        KbWeChatPayConfig *config = [KbWeChatPayConfig defaultConfig];
+        if (config.isValid) {
+            PayBlock();
+        } else {
+            [[KbWeChatPayConfigModel sharedModel] fetchWeChatPayConfigWithCompletionHandler:^(BOOL success, id obj) {
+                PayBlock();
+            }];
+        }
     } else {
         [[KbHudManager manager] showHudWithText:@"无法获取支付信息"];
 //        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
