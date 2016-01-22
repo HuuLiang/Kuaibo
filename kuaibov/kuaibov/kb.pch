@@ -42,6 +42,7 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
 #import "KbUtil.h"
 #import "KbHudManager.h"
 #import "KbErrorHandler.h"
+#import "UIImage+color.h"
 #import <Aspects.h>
 #import <Masonry.h>
 #import <UIImageView+WebCache.h>

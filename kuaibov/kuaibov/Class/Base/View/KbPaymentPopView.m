@@ -1,219 +1,268 @@
 //
 //  KbPaymentPopView.m
-//  kuaibov
+//  JQKuaibo
 //
-//  Created by Sean Yue on 15/11/13.
-//  Copyright © 2015年 kuaibov. All rights reserved.
+//  Created by Sean Yue on 15/12/26.
+//  Copyright © 2015年 iqu8. All rights reserved.
 //
 
 #import "KbPaymentPopView.h"
+#import <objc/runtime.h>
 
-static const NSUInteger kRegisteringDetailLabelTag = 1;
-static const CGFloat kBackButtonInsets = 10;
+static const CGFloat kHeaderImageScale = 691./453.;
+static const CGFloat kFooterImageScale = 1065./108.;
+static const CGFloat kCellHeight = 60;
 
-@interface KbPaymentPopView ()
+static const void *kPaymentButtonAssociatedKey = &kPaymentButtonAssociatedKey;
 
-@property (nonatomic,readonly) CGSize contentViewSize;
-@property (nonatomic,readonly) CGSize imageSize;
-@property (nonatomic,readonly) CGRect priceRect;
-
-@property (nonatomic,readonly) CGSize payButtonSize;
-@property (nonatomic,readonly) CGSize backButtonSize;
-@property (nonatomic,readonly) CGPoint alipayButtonOrigin;
-@property (nonatomic,readonly) CGPoint wechatPayButtonOrigin;
-@property (nonatomic,readonly) CGPoint upPayButtonOrigin;
-@end
-
-@implementation KbPaymentPopView (Size)
-
-- (CGSize)payButtonSize {
-    return CGSizeMake(self.imageSize.width * 633. / 695., self.imageSize.height * 118. / 939.);
+@interface KbPaymentPopView () <UITableViewDataSource,UITableViewDelegate>
+{
+    UITableViewCell *_headerCell;
+    UITableViewCell *_footerCell;
+    
+    UIImageView *_headerImageView;
+    UIImageView *_footerImageView;
+    UILabel *_priceLabel;
 }
-
-- (CGSize)backButtonSize {
-    return CGSizeMake(self.imageSize.width * 81. / 695. + kBackButtonInsets * 2,
-                      self.imageSize.height * 80. / 939. + kBackButtonInsets * 2);
-}
-
-- (CGSize)imageSize {
-    const CGFloat imageWidth = [UIScreen mainScreen].bounds.size.width * 0.9;
-    return CGSizeMake(imageWidth, imageWidth*939./695.);
-}
-
-- (CGSize)contentSize {
-    return self.imageSize;
-}
-
-- (CGRect)priceRect {
-    return CGRectMake(self.imageSize.width * 0.7,
-                      self.imageSize.height * 0.35,
-                      self.imageSize.width * 0.2,
-                      self.imageSize.height * 0.07);
-}
-
-- (CGPoint)alipayButtonOrigin {
-    return CGPointMake(self.imageSize.width * 0.05, self.imageSize.height * 0.567);
-}
-
-- (CGPoint)wechatPayButtonOrigin {
-    return CGPointMake(self.alipayButtonOrigin.x, self.imageSize.height * 0.710);
-}
-
-- (CGPoint)upPayButtonOrigin {
-    return CGPointMake(self.alipayButtonOrigin.x, 2 * self.wechatPayButtonOrigin.y - self.alipayButtonOrigin.y);
-}
+@property (nonatomic,retain) NSMutableDictionary<NSIndexPath *, UITableViewCell *> *cells;
 @end
 
 @implementation KbPaymentPopView
 
-+ (instancetype)sharedInstance {
-    static KbPaymentPopView *_sharedPaymentPopView;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedPaymentPopView = [[KbPaymentPopView alloc] init];
-    });
-    return _sharedPaymentPopView;
-}
+DefineLazyPropertyInitialization(NSMutableDictionary, cells)
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.layer.cornerRadius = 3;
-        
-        UIImage *image = [UIImage imageNamed:@"payment"];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        [self addSubview:imageView];
-        {
-            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.left.right.equalTo(self);
-                make.bottom.equalTo(self).offset(-18);
-            }];
-        }
-        
-        UILabel *priceLabel = [[UILabel alloc] init];
-        priceLabel.tag = kRegisteringDetailLabelTag;
-        priceLabel.backgroundColor = [UIColor clearColor];
-        priceLabel.font = [UIFont boldSystemFontOfSize:20.];
-        priceLabel.textColor = [UIColor redColor];
-        priceLabel.textAlignment = NSTextAlignmentCenter;
-        priceLabel.adjustsFontSizeToFitWidth = YES;
-        [self addSubview:priceLabel];
-        {
-            [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(self.priceRect.origin.x);
-                make.top.equalTo(self).offset(self.priceRect.origin.y);
-                make.size.mas_equalTo(self.priceRect.size);
-            }];
-        }
-        
-        UIButton *alipayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [alipayButton setImage:[UIImage imageNamed:@"alipay_normal"] forState:UIControlStateNormal];
-        [alipayButton setImage:[UIImage imageNamed:@"alipay_highlight"] forState:UIControlStateHighlighted];
-        [alipayButton addTarget:self action:@selector(onAlipay) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:alipayButton];
-        {
-            [alipayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(self.alipayButtonOrigin.x);
-                make.top.equalTo(self).offset(self.alipayButtonOrigin.y);
-                make.size.mas_equalTo(self.payButtonSize);
-            }];
-        }
-        
-        UIButton *wechatPayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [wechatPayButton setImage:[UIImage imageNamed:@"wechatpay_normal"] forState:UIControlStateNormal];
-        [wechatPayButton setImage:[UIImage imageNamed:@"wechatpay_highlight"] forState:UIControlStateHighlighted];
-        [wechatPayButton addTarget:self action:@selector(onWeChatPay) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:wechatPayButton];
-        {
-            [wechatPayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(self.wechatPayButtonOrigin.x);
-                make.top.equalTo(self).offset(self.wechatPayButtonOrigin.y);
-                make.size.mas_equalTo(self.payButtonSize);
-            }];
-        }
-        
-        UIButton *upPayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [upPayButton setImage:[UIImage imageNamed:@"uppay_normal"] forState:UIControlStateNormal];
-        [upPayButton setImage:[UIImage imageNamed:@"uppay_highlight"] forState:UIControlStateHighlighted];
-        [upPayButton addTarget:self action:@selector(onUPPay) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:upPayButton];
-        {
-            [upPayButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(self.upPayButtonOrigin.x);
-                make.top.equalTo(self).offset(self.upPayButtonOrigin.y);
-                make.size.mas_equalTo(self.payButtonSize);
-            }];
-        }
-        upPayButton.hidden=YES;
-        
-        UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [backButton setImage:[UIImage imageNamed:@"payment_back"] forState:UIControlStateNormal];
-        [backButton addTarget:self action:@selector(onBack) forControlEvents:UIControlEventTouchUpInside];
-        backButton.contentEdgeInsets = UIEdgeInsetsMake(kBackButtonInsets, kBackButtonInsets, kBackButtonInsets, kBackButtonInsets);
-        [self addSubview:backButton];
-        {
-            [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(self).offset(5);
-                make.top.equalTo(self).offset(0);
-                make.size.mas_equalTo(self.backButtonSize);
-            }];
-        }
+        self.delegate = self;
+        self.dataSource = self;
+        self.scrollEnabled = NO;
+        self.layer.cornerRadius = lround(mainWidth*0.08);
+        self.layer.masksToBounds = YES;
     }
     return self;
 }
 
-- (void)showInView:(UIView *)view {
-    self.frame = view.bounds;
-    self.alpha = 0;
-    [view addSubview:self];
+- (CGFloat)viewHeightRelativeToWidth:(CGFloat)width {
+    const CGFloat headerImageHeight = width / kHeaderImageScale;
+    const CGFloat footerImageHeight = kCellHeight;
     
-    [UIView animateWithDuration:0.25 animations:^{
-        self.alpha = 1.0;
+    __block CGFloat cellHeights = headerImageHeight+footerImageHeight;
+    [self.cells enumerateKeysAndObjectsUsingBlock:^(NSIndexPath * _Nonnull key, UITableViewCell * _Nonnull obj, BOOL * _Nonnull stop) {
+        cellHeights += [self tableView:self heightForRowAtIndexPath:key];
     }];
+    
+    cellHeights += [self tableView:self heightForHeaderInSection:1];
+    return cellHeights;
 }
 
-- (void)hide {
-    [UIView animateWithDuration:0.25 animations:^{
-        self.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self removeFromSuperview];
-    }];
+- (void)addPaymentWithImage:(UIImage *)image
+                      title:(NSString *)title
+                  available:(BOOL)available
+                     action:(JQKPaymentAction)action
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.cells.count inSection:1];
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"payment_item_background"]];
+    [cell addSubview:backgroundView];
+    {
+        [backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(cell).insets(UIEdgeInsetsMake(5, 10, 5, 10));
+        }];
+    }
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [backgroundView addSubview:imageView];
+    {
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(backgroundView);
+            make.left.equalTo(backgroundView).offset(10);
+            make.height.equalTo(backgroundView).multipliedBy(0.7);
+            make.width.equalTo(imageView.mas_height);
+        }];
+    }
+    
+    UIButton *button;
+    if (available) {
+        button = [[UIButton alloc] init];
+        objc_setAssociatedObject(cell, kPaymentButtonAssociatedKey, button, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        
+        UIImage *image = [UIImage imageNamed:@"payment_normal_button"];
+        [button setBackgroundImage:image forState:UIControlStateNormal];
+        [button setBackgroundImage:[UIImage imageNamed:@"payment_highlight_button"] forState:UIControlStateHighlighted];
+        [backgroundView addSubview:button];
+        {
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.right.height.equalTo(backgroundView);
+                make.width.equalTo(button.mas_height).multipliedBy(image.size.width/image.size.height);
+            }];
+        }
+        [button bk_addEventHandler:^(id sender) {
+            if (action) {
+                action(sender);
+            }
+        } forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.font = [UIFont boldSystemFontOfSize:lround(mainWidth*0.048)];
+    titleLabel.text = title;
+    [backgroundView addSubview:titleLabel];
+    {
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(imageView.mas_right).offset(10);
+            make.centerY.equalTo(backgroundView);
+            make.right.equalTo(button?button.mas_left:backgroundView);
+        }];
+    }
+    
+    [self.cells setObject:cell forKey:indexPath];
+}
+
+- (void)setHeaderImageURL:(NSURL *)headerImageURL {
+    _headerImageURL = headerImageURL;
+    [_headerImageView sd_setImageWithURL:headerImageURL placeholderImage:[UIImage imageNamed:@"payment_header_placeholder"] options:SDWebImageDelayPlaceholder];
 }
 
 - (void)setShowPrice:(NSNumber *)showPrice {
-    _showPrice = showPrice;
-    
-    UILabel *detailLabel = (UILabel *)[self viewWithTag:kRegisteringDetailLabelTag];
-    if (showPrice) {
-        BOOL showInteger = (NSUInteger)(showPrice.doubleValue * 100) % 100 == 0;
-        detailLabel.text = showInteger ? [NSString stringWithFormat:@"%ld", showPrice.unsignedIntegerValue] : [NSString stringWithFormat:@"%.2f", showPrice.doubleValue];
+    double price = showPrice.doubleValue;
+    BOOL showInteger = (NSUInteger)(price * 100) % 100 == 0;
+    _priceLabel.text = showInteger ? [NSString stringWithFormat:@"%ld", (NSUInteger)price] : [NSString stringWithFormat:@"%.2f", price];
+}
+
+#pragma mark - UITableViewDataSource,UITableViewDelegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        if (!_headerCell) {
+            _headerCell = [[UITableViewCell alloc] init];
+            _headerCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            _headerImageView = [[UIImageView alloc] init];
+            [_headerImageView sd_setImageWithURL:_headerImageURL placeholderImage:[UIImage imageNamed:@"payment_header_placeholder"] options:SDWebImageDelayPlaceholder];
+            [_headerCell addSubview:_headerImageView];
+            {
+                [_headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.edges.equalTo(_headerCell);
+                }];
+            }
+            
+            _priceLabel = [[UILabel alloc] init];
+            _priceLabel.textColor = [UIColor redColor];
+            _priceLabel.font = [UIFont boldSystemFontOfSize:18.];
+            _priceLabel.textAlignment = NSTextAlignmentCenter;
+            [_headerImageView addSubview:_priceLabel];
+            {
+                [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//                    make.top.equalTo(_headerImageView.mas_centerY).multipliedBy(1.15);
+                    make.centerY.equalTo(_headerImageView).multipliedBy(1.6);
+                    make.centerX.equalTo(_headerImageView).multipliedBy(1.6);
+                    make.width.equalTo(_headerImageView).multipliedBy(0.2);
+                }];
+            }
+            
+            UIButton *closeButton = [[UIButton alloc] init];
+            closeButton.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+            [closeButton setImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+            [_headerCell addSubview:closeButton];
+            {
+                [closeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.right.equalTo(_headerCell);
+                    make.size.mas_equalTo(CGSizeMake(40, 40));
+                }];
+            }
+            
+            @weakify(self);
+            [closeButton bk_addEventHandler:^(id sender) {
+                @strongify(self);
+                if (self.closeAction) {
+                    self.closeAction(sender);
+                }
+            } forControlEvents:UIControlEventTouchUpInside];
+        }
+        return _headerCell;
+    } else if (indexPath.section == 2) {
+        if (!_footerCell) {
+            _footerCell = [[UITableViewCell alloc] init];
+            _footerCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            _footerImageView = [[UIImageView alloc] initWithImage:_footerImage];
+            [_footerCell addSubview:_footerImageView];
+            {
+                [_footerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.center.equalTo(_footerCell);
+                    make.height.equalTo(_footerCell).multipliedBy(0.45);
+                    make.width.equalTo(_footerImageView.mas_height).multipliedBy(kFooterImageScale);
+                }];
+            }
+        }
+        return _footerCell;
     } else {
-        detailLabel.text = @"???";
+        NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
+        return self.cells[cellIndexPath];
+    }
+    
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 1) {
+        return self.cells.count;
+    } else {
+        return 1;
     }
 }
 
-- (void)onAlipay {
-    if (self.paymentAction) {
-        self.paymentAction(KbPaymentTypeAlipay);
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return CGRectGetWidth(tableView.bounds) / kHeaderImageScale;
+    } else {
+        return kCellHeight;
     }
 }
 
-- (void)onWeChatPay {
-    if (self.paymentAction) {
-        self.paymentAction(KbPaymentTypeWeChatPay);
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc] init];
+    
+    UIImageView *paymentHeader = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"payment_section"]];
+    [headerView addSubview:paymentHeader];
+    {
+        [paymentHeader mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(headerView);
+        }];
     }
+    return headerView;
 }
 
-- (void)onUPPay {
-    if (self.paymentAction) {
-//        self.paymentAction(KbPaymentTypeUPPay);
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        return 30;
     }
+    return 0;
 }
 
-- (void)onBack {
-    if (self.backAction) {
-        self.backAction();
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (![self pointInside:point withEvent:event]) {
+        return nil;
     }
+    
+    __block UIView *hitView;
+    [self.cells enumerateKeysAndObjectsUsingBlock:^(NSIndexPath * _Nonnull key, UITableViewCell * _Nonnull obj, BOOL * _Nonnull stop) {
+        CGPoint cellPoint = [self convertPoint:point toView:obj];
+        if ([obj pointInside:cellPoint withEvent:event]) {
+            hitView = objc_getAssociatedObject(obj, kPaymentButtonAssociatedKey);
+            *stop = YES;
+        }
+    }];
+    
+    if (hitView) {
+        return hitView;
+    }
+    return [super hitTest:point withEvent:event];
 }
 @end

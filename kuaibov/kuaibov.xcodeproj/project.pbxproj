@@ -51,6 +51,7 @@
 		BC88FF4B1C217DAB00384C35 /* KbHomeSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC88FF4A1C217DAB00384C35 /* KbHomeSectionHeaderView.m */; };
 		BCB9C7831C5215970078DF03 /* KbConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB9C7821C5215970078DF03 /* KbConfiguration.m */; };
 		BCB9C7851C5215C90078DF03 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCB9C7841C5215C90078DF03 /* config.plist */; };
+		BCB9C7881C521A630078DF03 /* UIImage+color.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB9C7871C521A630078DF03 /* UIImage+color.m */; };
 		BCCD691C1C40BE8B005EA26B /* KbWeChatPayConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCD691B1C40BE8B005EA26B /* KbWeChatPayConfig.m */; };
 		BCCD691F1C40C2C3005EA26B /* KbAlipayConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCD691E1C40C2C3005EA26B /* KbAlipayConfig.m */; };
 		BCD0D5C21BFDC511000F774E /* KbAlipayConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */; };
@@ -182,6 +183,8 @@
 		BCB9C7811C5215970078DF03 /* KbConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbConfiguration.h; sourceTree = "<group>"; };
 		BCB9C7821C5215970078DF03 /* KbConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbConfiguration.m; sourceTree = "<group>"; };
 		BCB9C7841C5215C90078DF03 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		BCB9C7861C521A630078DF03 /* UIImage+color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+color.h"; sourceTree = "<group>"; };
+		BCB9C7871C521A630078DF03 /* UIImage+color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+color.m"; sourceTree = "<group>"; };
 		BCCD691A1C40BE8B005EA26B /* KbWeChatPayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbWeChatPayConfig.h; sourceTree = "<group>"; };
 		BCCD691B1C40BE8B005EA26B /* KbWeChatPayConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayConfig.m; sourceTree = "<group>"; };
 		BCCD691D1C40C2C3005EA26B /* KbAlipayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbAlipayConfig.h; sourceTree = "<group>"; };
@@ -579,6 +582,8 @@
 				BCDE4EF01BA6657500244945 /* UIView+StringTag.m */,
 				BCDE4EF11BA6657500244945 /* UIViewExt.h */,
 				BCDE4EF21BA6657500244945 /* UIViewExt.m */,
+				BCB9C7861C521A630078DF03 /* UIImage+color.h */,
+				BCB9C7871C521A630078DF03 /* UIImage+color.m */,
 				BCDE4EF31BA6657500244945 /* UIImage+crop.h */,
 				BCDE4EF41BA6657500244945 /* UIImage+crop.m */,
 				BC1731AF1C16CAE00065DD97 /* NSObject+Properties.h */,
@@ -892,6 +897,7 @@
 				BC88FF431C2164E100384C35 /* KbHomeProgramCell.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
 				BCFB9A311BA72C6500106BCA /* KbPaymentModel.m in Sources */,
+				BCB9C7881C521A630078DF03 /* UIImage+color.m in Sources */,
 				BCCD691C1C40BE8B005EA26B /* KbWeChatPayConfig.m in Sources */,
 				BCFC63341BA5E92800CEA45A /* KbEncryptedURLRequest.m in Sources */,
 				BCFF93671B9B967A00B2EDF9 /* KbChannelProgram.m in Sources */,

@@ -45,8 +45,7 @@
     }
     
     @weakify(self);
-    _popView = [[KbPaymentPopView alloc] init];
-    _popView.paymentAction = ^(KbPaymentType type) {
+    void (^Pay)(KbPaymentType type) = ^(KbPaymentType type) {
         @strongify(self);
         if (!self.payAmount) {
             [[KbHudManager manager] showHudWithText:@"无法获取价格信息,请检查网络配置！"];
@@ -57,7 +56,19 @@
                       price:self.payAmount.doubleValue
                 paymentType:type];
     };
-    _popView.backAction = ^{
+    
+    _popView = [[KbPaymentPopView alloc] init];
+    _popView.headerImageURL = [NSURL URLWithString:[KbSystemConfigModel sharedModel].paymentImage];
+    _popView.footerImage = [UIImage imageNamed:@"payment_footer"];
+    [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
+        Pay(KbPaymentTypeAlipay);
+    }];
+    
+    [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
+        Pay(KbPaymentTypeWeChatPay);
+    }];
+    
+    _popView.closeAction = ^(id sender){
         @strongify(self);
         [self hidePayment];
     };
@@ -72,7 +83,9 @@
     {
         [self.popView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self.view);
-            make.size.mas_equalTo(self.popView.contentSize);
+            
+            const CGFloat width = mainWidth * 0.95;
+            make.size.mas_equalTo(CGSizeMake(width, [self.popView viewHeightRelativeToWidth:width]));
         }];
     }
 }

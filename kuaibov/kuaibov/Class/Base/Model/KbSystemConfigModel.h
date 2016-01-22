@@ -18,6 +18,7 @@ typedef void (^KbFetchSystemConfigCompletionHandler)(BOOL success);
 @interface KbSystemConfigModel : KbEncryptedURLRequest
 
 @property (nonatomic) double payAmount;
+@property (nonatomic) NSString *paymentImage;
 @property (nonatomic) NSString *channelTopImage;
 @property (nonatomic) NSString *spreadTopImage;
 @property (nonatomic) NSString *spreadURL;

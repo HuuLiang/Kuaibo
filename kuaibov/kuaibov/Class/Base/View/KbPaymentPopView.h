@@ -1,26 +1,26 @@
 //
 //  KbPaymentPopView.h
-//  kuaibov
+//  JQKuaibo
 //
-//  Created by Sean Yue on 15/11/13.
-//  Copyright © 2015年 kuaibov. All rights reserved.
+//  Created by Sean Yue on 15/12/26.
+//  Copyright © 2015年 iqu8. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-typedef void (^KbPaymentAction)(KbPaymentType type);
-typedef void (^KbBackAction)(void);
+typedef void (^JQKPaymentAction)(id sender);
 
-@interface KbPaymentPopView : UIView
+@interface KbPaymentPopView : UITableView
 
-@property (nonatomic,copy) KbPaymentAction paymentAction;
-@property (nonatomic,copy) KbBackAction backAction;
+@property (nonatomic) NSURL *headerImageURL;
 
+//@property (nonatomic,retain) UIImage *headerImage;
+@property (nonatomic,retain) UIImage *footerImage;
+//@property (nonatomic,copy) JQKPaymentAction paymentAction;
+@property (nonatomic,copy) JQKPaymentAction closeAction;
 @property (nonatomic) NSNumber *showPrice;
-@property (nonatomic,readonly) CGSize contentSize;
 
-+ (instancetype)sharedInstance;
+- (void)addPaymentWithImage:(UIImage *)image title:(NSString *)title available:(BOOL)available action:(JQKPaymentAction)action;
+- (CGFloat)viewHeightRelativeToWidth:(CGFloat)width;
 
-- (void)showInView:(UIView *)view;
-- (void)hide;
 @end

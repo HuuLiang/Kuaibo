@@ -48,6 +48,8 @@
                 
                 if ([config.name isEqualToString:KB_SYSTEM_CONFIG_PAY_AMOUNT]) {
                     self.payAmount = config.value.doubleValue / 100.;
+                } else if ([config.name isEqualToString:KB_SYSTEM_CONFIG_PAY_IMG]) {
+                    self.paymentImage = config.value;
                 } else if ([config.name isEqualToString:KB_SYSTEM_CONFIG_CHANNEL_TOP_IMAGE]) {
                     self.channelTopImage = config.value;
                 } else if ([config.name isEqualToString:KB_SYSTEM_CONFIG_STARTUP_INSTALL]) {
