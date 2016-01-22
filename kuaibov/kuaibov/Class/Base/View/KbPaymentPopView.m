@@ -246,23 +246,23 @@ DefineLazyPropertyInitialization(NSMutableDictionary, cells)
     return 0;
 }
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    if (![self pointInside:point withEvent:event]) {
-        return nil;
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
+    UITableViewCell *cell = self.cells[cellIndexPath];
+    if (cell) {
+        UIButton *paymentButton = objc_getAssociatedObject(cell, kPaymentButtonAssociatedKey);
+        paymentButton.highlighted = YES;
     }
-    
-    __block UIView *hitView;
-    [self.cells enumerateKeysAndObjectsUsingBlock:^(NSIndexPath * _Nonnull key, UITableViewCell * _Nonnull obj, BOOL * _Nonnull stop) {
-        CGPoint cellPoint = [self convertPoint:point toView:obj];
-        if ([obj pointInside:cellPoint withEvent:event]) {
-            hitView = objc_getAssociatedObject(obj, kPaymentButtonAssociatedKey);
-            *stop = YES;
-        }
-    }];
-    
-    if (hitView) {
-        return hitView;
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
+    UITableViewCell *cell = self.cells[cellIndexPath];
+    if (cell) {
+        UIButton *paymentButton = objc_getAssociatedObject(cell, kPaymentButtonAssociatedKey);
+        paymentButton.highlighted = NO;
+        [paymentButton sendActionsForControlEvents:UIControlEventTouchUpInside];
     }
-    return [super hitTest:point withEvent:event];
 }
 @end
