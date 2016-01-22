@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D8CF8AE960BB6DE80D5FC54CEEF5CA61FD3ADB74",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D8CF8AE960BB6DE80D5FC54CEEF5CA61FD3ADB74" : 0,
+    "03B7B344A6DB87228FF7314743D580C21283A0E4" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D79CA6D5-4851-42FA-BA4A-0D6418984666",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D8CF8AE960BB6DE80D5FC54CEEF5CA61FD3ADB74" : "kuaibovideo",
+    "03B7B344A6DB87228FF7314743D580C21283A0E4" : "JQKuaibo\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "kuaibov",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "kuaibov\/kuaibov.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git.coding.net:seanyue\/JQKuaibo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "03B7B344A6DB87228FF7314743D580C21283A0E4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/realzzz\/kuaibovideo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D8CF8AE960BB6DE80D5FC54CEEF5CA61FD3ADB74"
+    }
+  ]
+}

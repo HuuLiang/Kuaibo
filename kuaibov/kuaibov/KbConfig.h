@@ -8,8 +8,9 @@
 
 #ifndef KbConfig_h
 #define KbConfig_h
+#import "KbConfiguration.h"
 
-#define KB_CHANNEL_NO           @"QB_VIDEO_IOS_T_T0000002"
+#define KB_CHANNEL_NO           [KbConfiguration sharedConfig].channelNo
 #define KB_PACKAGE_CERTIFICATE  @"iPhone Distribution: Shanghai Yueyang Business Service Co., Ltd."
 
 #define KB_REST_APP_ID          @"QUBA_2001"

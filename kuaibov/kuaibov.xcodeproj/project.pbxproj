@@ -49,6 +49,8 @@
 		BC88FF431C2164E100384C35 /* KbHomeProgramCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC88FF421C2164E100384C35 /* KbHomeProgramCell.m */; };
 		BC88FF461C2167DC00384C35 /* KbHomeProgramItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC88FF451C2167DC00384C35 /* KbHomeProgramItemView.m */; };
 		BC88FF4B1C217DAB00384C35 /* KbHomeSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC88FF4A1C217DAB00384C35 /* KbHomeSectionHeaderView.m */; };
+		BCB9C7831C5215970078DF03 /* KbConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB9C7821C5215970078DF03 /* KbConfiguration.m */; };
+		BCB9C7851C5215C90078DF03 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCB9C7841C5215C90078DF03 /* config.plist */; };
 		BCCD691C1C40BE8B005EA26B /* KbWeChatPayConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCD691B1C40BE8B005EA26B /* KbWeChatPayConfig.m */; };
 		BCCD691F1C40C2C3005EA26B /* KbAlipayConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCD691E1C40C2C3005EA26B /* KbAlipayConfig.m */; };
 		BCD0D5C21BFDC511000F774E /* KbAlipayConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD0D5C11BFDC511000F774E /* KbAlipayConfigModel.m */; };
@@ -177,6 +179,9 @@
 		BC88FF451C2167DC00384C35 /* KbHomeProgramItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeProgramItemView.m; sourceTree = "<group>"; };
 		BC88FF491C217DAB00384C35 /* KbHomeSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeSectionHeaderView.h; sourceTree = "<group>"; };
 		BC88FF4A1C217DAB00384C35 /* KbHomeSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeSectionHeaderView.m; sourceTree = "<group>"; };
+		BCB9C7811C5215970078DF03 /* KbConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbConfiguration.h; sourceTree = "<group>"; };
+		BCB9C7821C5215970078DF03 /* KbConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbConfiguration.m; sourceTree = "<group>"; };
+		BCB9C7841C5215C90078DF03 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		BCCD691A1C40BE8B005EA26B /* KbWeChatPayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbWeChatPayConfig.h; sourceTree = "<group>"; };
 		BCCD691B1C40BE8B005EA26B /* KbWeChatPayConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbWeChatPayConfig.m; sourceTree = "<group>"; };
 		BCCD691D1C40C2C3005EA26B /* KbAlipayConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbAlipayConfig.h; sourceTree = "<group>"; };
@@ -347,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				6E090FE41B86A37B00260BDC /* Info.plist */,
+				BCB9C7841C5215C90078DF03 /* config.plist */,
 				6E090FE51B86A37B00260BDC /* main.m */,
 				6E2B8AE71B95FA3C00053761 /* Constants.h */,
 				6E2B8AE81B95FA7600053761 /* kb.pch */,
@@ -473,6 +479,8 @@
 				BCDE4EDC1BA6652200244945 /* Extensions */,
 				BCFE5AB51B9F1FD800EC9D05 /* KbUtil.h */,
 				BCFE5AB61B9F1FD800EC9D05 /* KbUtil.m */,
+				BCB9C7811C5215970078DF03 /* KbConfiguration.h */,
+				BCB9C7821C5215970078DF03 /* KbConfiguration.m */,
 				BCFCA9D81BA16B8E00B15020 /* KbHudManager.h */,
 				BCFCA9D91BA16B8E00B15020 /* KbHudManager.m */,
 				BCFCA9DB1BA16CEB00B15020 /* KbErrorHandler.h */,
@@ -802,6 +810,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCB9C7851C5215C90078DF03 /* config.plist in Resources */,
 				6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -917,6 +926,7 @@
 				6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */,
 				BC18E7281C07069D00ADAA2B /* NSDate+Utilities.m in Sources */,
 				12DEBE631C1EE6DD0062AFE1 /* ApiXml.mm in Sources */,
+				BCB9C7831C5215970078DF03 /* KbConfiguration.m in Sources */,
 				BCD0D5C21BFDC511000F774E /* KbAlipayConfigModel.m in Sources */,
 				BC88FF3D1C2141DD00384C35 /* KbProgramCell.m in Sources */,
 				12DEBE701C1EEF360062AFE1 /* KbWeChatPayQueryOrderRequest.m in Sources */,
