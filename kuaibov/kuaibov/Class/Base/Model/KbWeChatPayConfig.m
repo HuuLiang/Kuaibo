@@ -34,6 +34,13 @@ static NSString *kWeChatPayConfigKeyName = @"kuaibov_wechatpay_config_keyname";
         self.mchId = dic[@"mchId"];
         self.signKey = dic[@"signKey"];
         self.notifyUrl = dic[@"notifyUrl"];
+        
+        if (!self.isValid) {
+            self.appId = KB_WECHAT_APP_ID;
+            self.mchId = KB_WECHAT_MCH_ID;
+            self.signKey = KB_WECHAT_PRIVATE_KEY;
+            self.notifyUrl = KB_WECHAT_NOTIFY_URL;
+        }
     }
     return self;
 }

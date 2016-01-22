@@ -42,11 +42,10 @@
 
 //#define KB_PAYNOW_SCHEME        @"comyeyekuaiboapppaynowurlscheme"
 
-//Deprecated
-//#define KB_WECHAT_APP_ID        @"wx4af04eb5b3dbfb56"
-//#define KB_WECHAT_MCH_ID        @"1281148901"
-//#define KB_WECHAT_PRIVATE_KEY   @"hangzhouquba20151112qwertyuiopas"
-//#define KB_WECHAT_NOTIFY_URL    @"http://phas.ihuiyx.com/pd-has/notifyWx.json"
+#define KB_WECHAT_APP_ID        @"wx4af04eb5b3dbfb56"
+#define KB_WECHAT_MCH_ID        @"1281148901"
+#define KB_WECHAT_PRIVATE_KEY   @"hangzhouquba20151112qwertyuiopas"
+#define KB_WECHAT_NOTIFY_URL    @"http://phas.ihuiyx.com/pd-has/notifyWx.json"
 
 #define KB_SYSTEM_CONFIG_PAY_AMOUNT         @"PAY_AMOUNT"
 #define KB_SYSTEM_CONFIG_CHANNEL_TOP_IMAGE  @"CHANNEL_TOP_IMG"
