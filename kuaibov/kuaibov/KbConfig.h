@@ -11,7 +11,7 @@
 #import "KbConfiguration.h"
 
 #define KB_CHANNEL_NO           [KbConfiguration sharedConfig].channelNo
-#define KB_PACKAGE_CERTIFICATE  @"iPhone Distribution: Shanghai Yueyang Business Service Co., Ltd."
+#define KB_PACKAGE_CERTIFICATE  @"iPhone Distribution: Mianzhu Zhongkai Auto Sales Co.,Ltd."
 
 #define KB_REST_APP_ID          @"QUBA_2001"
 #define KB_REST_PV              @200
