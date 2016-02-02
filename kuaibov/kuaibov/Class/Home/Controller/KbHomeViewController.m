@@ -76,18 +76,6 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     [_layoutTableView kb_triggerPullToRefresh];
 }
 
-- (NSArray *)videoProgramsFromProgramList:(NSArray<KbProgram *> *)programList {
-    return [programList bk_select:^BOOL(KbProgram *program) {
-        return program.type.unsignedIntegerValue == KbProgramTypeVideo;
-    }];
-}
-
-- (NSArray *)bannerProgramsFromProgramList:(NSArray<KbProgram *> *)programList {
-    return [programList bk_select:^BOOL(KbProgram *program) {
-        return program.type.unsignedIntegerValue == KbProgramTypeBanner;
-    }];
-}
-
 - (void)reloadPrograms {
     @weakify(self);
     [self.programModel fetchHomeProgramsWithCompletionHandler:^(BOOL success, NSArray *programs) {
