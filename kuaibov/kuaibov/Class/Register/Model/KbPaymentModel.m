@@ -15,8 +15,6 @@ static const NSTimeInterval kRetryingTimeInterval = 180;
 static NSString *const kSignKey = @"qdge^%$#@(sdwHs^&";
 static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
 
-typedef void (^KbPaymentCompletionHandler)(BOOL success);
-
 @interface KbPaymentModel ()
 @property (nonatomic,retain) NSTimer *retryingTimer;
 @end
@@ -89,7 +87,7 @@ typedef void (^KbPaymentCompletionHandler)(BOOL success);
     return [self commitPaymentInfo:paymentInfo withCompletionHandler:nil];
 }
 
-- (BOOL)commitPaymentInfo:(KbPaymentInfo *)paymentInfo withCompletionHandler:(KbPaymentCompletionHandler)handler {
+- (BOOL)commitPaymentInfo:(KbPaymentInfo *)paymentInfo withCompletionHandler:(KbCompletionHandler)handler {
     NSDictionary *statusDic = @{@(PAYRESULT_SUCCESS):@(1), @(PAYRESULT_FAIL):@(0), @(PAYRESULT_ABANDON):@(2), @(PAYRESULT_UNKNOWN):@(0)};
     
     if (nil == [KbUtil userId] || paymentInfo.orderId.length == 0) {
@@ -124,7 +122,7 @@ typedef void (^KbPaymentCompletionHandler)(BOOL success);
         }
                         
         if (handler) {
-            handler(respStatus == KbURLResponseSuccess);
+            handler(respStatus == KbURLResponseSuccess, errorMessage);
         }
     }];
     return success;

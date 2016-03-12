@@ -15,20 +15,12 @@
 #import "KbUserAccessModel.h"
 #import "MobClick.h"
 #import "KbSystemConfigModel.h"
-#import "WXApi.h"
-#import "WeChatPayManager.h"
-#import "KbWeChatPayQueryOrderRequest.h"
-#import "KbPaymentViewController.h"
-#import "KbWeChatPayConfigModel.h"
 
-@interface AppDelegate () <WXApiDelegate>
-@property (nonatomic,retain) KbWeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
+@interface AppDelegate ()
+
 @end
 
 @implementation AppDelegate
-
-DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
-
 
 - (UIWindow *)window {
     if (_window) {
@@ -164,6 +156,7 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[KbPaymentManager sharedManager] setup];
     [KbUtil startMonitoringNetwork];
     [[KbErrorHandler sharedHandler] initialize];
     [self setupMobStatistics];
@@ -195,14 +188,6 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
         
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
     }];
-    
-    [[KbWeChatPayConfigModel sharedModel] fetchWeChatPayConfigWithCompletionHandler:^(BOOL success, id obj) {
-        KbWeChatPayConfig *config = [KbWeChatPayConfig defaultConfig];
-        if (config.isValid) {
-            [WXApi registerApp:config.appId];
-        }
-    }];
-    
 
     return YES;
 }
@@ -223,7 +208,6 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self checkPayment];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -231,47 +215,12 @@ DefineLazyPropertyInitialization(KbWeChatPayQueryOrderRequest, wechatPayOrderQue
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    [WXApi handleOpenURL:url delegate:self];
+    [[KbPaymentManager sharedManager] handleOpenURL:url];
     return YES;
 }
 
-- (void)checkPayment {
-    if ([KbUtil isPaid]) {
-        return ;
-    }
-    
-    NSArray<KbPaymentInfo *> *payingPaymentInfos = [KbUtil payingPaymentInfos];
-    [payingPaymentInfos enumerateObjectsUsingBlock:^(KbPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        KbPaymentType paymentType = obj.paymentType.unsignedIntegerValue;
-        if (paymentType == KbPaymentTypeWeChatPay) {
-            [self.wechatPayOrderQueryRequest queryOrderWithNo:obj.orderId completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
-                if ([trade_state isEqualToString:@"SUCCESS"]) {
-                    KbPaymentViewController *paymentVC = [KbPaymentViewController sharedPaymentVC];
-                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
-                }
-            }];
-        }
-    }];
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+    [[KbPaymentManager sharedManager] handleOpenURL:url];
+    return YES;
 }
-
-#pragma mark - WeChat delegate
-
-- (void)onReq:(BaseReq *)req {
-    
-}
-
-- (void)onResp:(BaseResp *)resp {
-    if([resp isKindOfClass:[PayResp class]]){
-        PAYRESULT payResult;
-        if (resp.errCode == WXErrCodeUserCancel) {
-            payResult = PAYRESULT_ABANDON;
-        } else if (resp.errCode == WXSuccess) {
-            payResult = PAYRESULT_SUCCESS;
-        } else {
-            payResult = PAYRESULT_FAIL;
-        }
-        [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
-    }
-}
-
 @end

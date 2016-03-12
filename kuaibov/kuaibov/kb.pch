@@ -25,30 +25,6 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
     PAYRESULT_UNKNOWN   = 3
 };
 
-// Include any system framework and library headers here that should be included in all compilation units.
-// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
-#import "Constants.h"
-#import "NSObject+Properties.h"
-#import "UIViewExt.h"
-#import "UIView+StringTag.h"
-#import "NSString+meltutils.h"
-#import "NSString+md5.h"
-#import "NSString+length.h"
-#import "UIColor+hexColor.h"
-#import "UIView+border.h"
-#import "UIScrollView+Refresh.h"
-#import "RACEXTScope.h"
-#import "KbConfig.h"
-#import "KbUtil.h"
-#import "KbHudManager.h"
-#import "KbErrorHandler.h"
-#import "UIImage+color.h"
-#import <Aspects.h>
-#import <Masonry.h>
-#import <UIImageView+WebCache.h>
-#import <BlocksKit+UIKit.h>
-#import "UIImageView+YPBAnimation.h"
-
 #define APP_VER        [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
 #define BUILD_VER      [[NSBundle mainBundle].infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]
 #define mainHeight     [ [ UIScreen mainScreen ] bounds ].size.height
@@ -65,4 +41,29 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
 #define kPaidNotificationPaymentType @"kuaibo_paid_notification_payment_type"
 
 typedef void (^KbCompletionHandler)(BOOL success, id obj);
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "Constants.h"
+#import "NSObject+Properties.h"
+#import "UIViewExt.h"
+#import "UIView+StringTag.h"
+#import "NSString+meltutils.h"
+#import "NSString+md5.h"
+#import "NSString+length.h"
+#import "UIColor+hexColor.h"
+#import "UIView+border.h"
+#import "UIScrollView+Refresh.h"
+#import "RACEXTScope.h"
+#import "KbConfig.h"
+#import "KbUtil.h"
+#import "KbHudManager.h"
+#import "KbPaymentManager.h"
+#import "KbErrorHandler.h"
+#import "UIImage+color.h"
+#import <Aspects.h>
+#import <Masonry.h>
+#import <UIImageView+WebCache.h>
+#import <BlocksKit+UIKit.h>
+#import "UIImageView+YPBAnimation.h"
 #endif

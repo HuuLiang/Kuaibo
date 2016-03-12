@@ -28,7 +28,7 @@
 #define KB_ALIPAY_CONFIG_URL    @"/iosvideo/aliConfig.htm"
 #define KB_WECHATPAY_CONFIG_URL @"/iosvideo/weixinConfig.htm"
 
-#define KB_PAYMENT_SIGN_URL     @"http://phas.ihuiyx.com/pd-has/signtureNowdata.json"
+//#define KB_PAYMENT_SIGN_URL     @"http://phas.ihuiyx.com/pd-has/signtureNowdata.json"
 #define KB_PAYMENT_COMMIT_URL   @"http://pay.iqu8.net/paycenter/qubaPr.json"
 #define KB_PAYMENT_RESERVE_DATA [NSString stringWithFormat:@"%@$%@", KB_REST_APP_ID, KB_CHANNEL_NO]
 
