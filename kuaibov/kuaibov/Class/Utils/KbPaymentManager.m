@@ -63,7 +63,7 @@ static NSString *const kIAppPayPublicKey = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQK
     
     KbPaymentInfo *paymentInfo = [[KbPaymentInfo alloc] init];
     paymentInfo.orderId = orderNo;
-    paymentInfo.orderPrice = @((NSUInteger)(price * 100));
+    paymentInfo.orderPrice = @(price);
     paymentInfo.contentId = program.programId;
     paymentInfo.contentType = program.type;
     paymentInfo.payPointType = program.payPointType;
@@ -78,7 +78,11 @@ static NSString *const kIAppPayPublicKey = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQK
     order.appId = kIAppPayAppId;
     order.cpPrivateKey = kIAppPayPrivateKey;
     order.cpOrderId = orderNo;
+#ifdef DEBUG
     order.waresId = @"2";
+#else
+    order.waresId = @"1";
+#endif
     order.price = [NSString stringWithFormat:@"%.2f", price/100.];
     order.appUserId = [KbUtil userId] ?: @"UnregisterUser";
     order.cpPrivateInfo = KB_PAYMENT_RESERVE_DATA;
