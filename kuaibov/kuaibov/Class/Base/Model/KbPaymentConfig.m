@@ -94,7 +94,7 @@ static KbPaymentConfig *_shardConfig;
 
 - (void)setAsCurrentConfig {
     KbPaymentConfig *currentConfig = [[self class] sharedConfig];
-    currentConfig.weixinInfo = self.weixinInfo;
+    currentConfig.weixinInfo = self.weixinInfo ?: [KbWeChatPaymentConfig defaultConfig];
     currentConfig.iappPayInfo = self.iappPayInfo;
     currentConfig.alipayInfo = self.alipayInfo;
 }
