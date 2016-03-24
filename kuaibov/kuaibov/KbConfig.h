@@ -25,11 +25,11 @@
 #define KB_ACTIVATE_URL         @"/iosvideo/activat.htm"
 #define KB_SYSTEM_CONFIG_URL    @"/iosvideo/systemConfig.htm"
 #define KB_USER_ACCESS_URL      @"/iosvideo/userAccess.htm"
-#define KB_ALIPAY_CONFIG_URL    @"/iosvideo/aliConfig.htm"
-#define KB_WECHATPAY_CONFIG_URL @"/iosvideo/weixinConfig.htm"
 
-#define KB_PAYMENT_COMMIT_URL   @"http://pay.iqu8.net/paycenter/qubaPr.json"
-#define KB_PAYMENT_RESERVE_DATA [NSString stringWithFormat:@"%@$%@", KB_REST_APP_ID, KB_CHANNEL_NO]
+#define KB_PAYMENT_CONFIG_URL           @"http://pay.iqu8.net/paycenter/payConfig.json"
+#define KB_STANDBY_PAYMENT_CONFIG_URL   @"http://appcdn.mqu8.com/static/iosvideo/payConfig_%@.json"
+#define KB_PAYMENT_COMMIT_URL           @"http://pay.iqu8.net/paycenter/qubaPr.json"
+#define KB_PAYMENT_RESERVE_DATA         [NSString stringWithFormat:@"%@$%@", KB_REST_APP_ID, KB_CHANNEL_NO]
 
 #define KB_STANDBY_BASE_URL             @"http://7xomw1.com2.z0.glb.qiniucdn.com"
 #define KB_STANDBY_HOME_PAGE_URL        @"/iosvideo/homePage.json"
@@ -42,10 +42,10 @@
 
 //#define KB_PAYNOW_SCHEME        @"comyeyekuaiboapppaynowurlscheme"
 
-#define KB_WECHAT_APP_ID        @"wx4af04eb5b3dbfb56"
-#define KB_WECHAT_MCH_ID        @"1281148901"
-#define KB_WECHAT_PRIVATE_KEY   @"hangzhouquba20151112qwertyuiopas"
-#define KB_WECHAT_NOTIFY_URL    @"http://phas.ihuiyx.com/pd-has/notifyWx.json"
+//#define KB_WECHAT_APP_ID        @"wx4af04eb5b3dbfb56"
+//#define KB_WECHAT_MCH_ID        @"1281148901"
+//#define KB_WECHAT_PRIVATE_KEY   @"hangzhouquba20151112qwertyuiopas"
+//#define KB_WECHAT_NOTIFY_URL    @"http://phas.ihuiyx.com/pd-has/notifyWx.json"
 
 #define KB_SYSTEM_CONFIG_PAY_AMOUNT         @"PAY_AMOUNT"
 #define KB_SYSTEM_CONFIG_PAY_IMG            @"PAY_IMG"

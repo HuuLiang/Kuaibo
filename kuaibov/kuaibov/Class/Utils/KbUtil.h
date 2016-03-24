@@ -19,6 +19,7 @@ extern NSString *const kPaymentInfoKeyName;
 + (NSArray<KbPaymentInfo *> *)allPaymentInfos;
 + (NSArray<KbPaymentInfo *> *)payingPaymentInfos;
 + (NSArray<KbPaymentInfo *> *)paidNotProcessedPaymentInfos;
++ (KbPaymentInfo *)successfulPaymentInfo;
 + (BOOL)isPaid;
 
 + (NSString *)accessId;

@@ -10,21 +10,26 @@
 #import "KbPaymentInfo.h"
 #import "KbPaymentViewController.h"
 #import "KbProgram.h"
+#import "KbPaymentConfigModel.h"
+
+#import "WXApi.h"
+#import "WeChatPayQueryOrderRequest.h"
+#import "WeChatPayManager.h"
 
 #import <IapppayAlphaKit/IapppayAlphaOrderUtils.h>
 #import <IapppayAlphaKit/IapppayAlphaKit.h>
 
 static NSString *const kAlipaySchemeUrl = @"comyykuaiboappalipayschemeurl";
-static NSString *const kIAppPayAppId = @"3004169606";
-static NSString *const kIAppPayPrivateKey = @"MIICXQIBAAKBgQC/bZHYvOsvBKbrtGrvRQUC/IE1nkSdEbpkMw//O/LWApWCK3UthMS9BMwR93qbrflnkDK44yHtqdzMlPrTGtkPVGvEdn3npLXBIHvGjTNjmAjaCZYoDlhSnUiShuHLNnRgxLCj+bzYAItY74NSO5eTqNSwVXknq660qU1LtwRORwIDAQABAoGAbCQa82TuO5aWMauviVHlXeWFnOO3AUCFmptaGycjrRCyo2GnhbpuZhWyryeuhQoITiAg91+gyCFgkdZLyDxviAZYDexPqsmE6wd4SuC/GTibftyKFdqknwGAEa4oXBVnp+LRfFxq0Cx5LBKHEShznaZFlC9qhpLmbfgUi4WGOnkCQQDfz9/Y4Nq5yzDiekQNezTWqVJXccOBPEr6NwVV+NA5NyGlb3cC6+Ct9sIf5xFGV7uBTAHg9Xbjz9HhPd3Yj+v1AkEA2vVoaajsFC2HGvXbMUX0DWFxMgkMtbHtanjMpRwpKOZj16Tq9TQ26E6mnrA+/2GBB+65ajMmLJpSRrY59d6HywJANY7mL10nmlxwd1Hw5RT9wPzF8p0Lvupxuszd3wPquDZkO9WfsjhGDPtG2yGNdbra6QcKUA4NhFigDfmjFAbk3QJBAKvUoS8iILqpC/jtbinZ8u+5Q6L3lSDV1DKVQExmsCpnu3zU8Iqjgl+GsZ2hRJ8X/rGh96JPJ6sjJGRXx16bV0cCQQDY3Dlmt+6xPh4TRzu42g4+Pmh0fku0rCadYPwzSiKTpJ2MsucRNCXWi+wL0F1J/a7NKomTIScOYMEyeq9ZmqBu";
-static NSString *const kIAppPayPublicKey = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6UQ1g13TyzURwJqb8qNa/vSuHjcB1iZyqmswiFJjzG+S58BHewYN1K/EXOL9YY+aRVSG4/hZc7BVYnKiu6tSSN0RZiZsknMQI+bK0rYGB3ruoRIfSzwkzvl6eFqkDaCeROdapwgok3ovbwg6yums8YxI+xQ6kJinA86XlpfA+NQIDAQAB";
 
-@interface KbPaymentManager () <IapppayAlphaKitPayRetDelegate>
+@interface KbPaymentManager () <IapppayAlphaKitPayRetDelegate,WXApiDelegate>
 @property (nonatomic,retain) KbPaymentInfo *paymentInfo;
 @property (nonatomic,copy) KbPaymentCompletionHandler completionHandler;
+@property (nonatomic,retain) WeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
 @end
 
 @implementation KbPaymentManager
+
+DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQueryRequest)
 
 + (instancetype)sharedManager {
     static KbPaymentManager *_sharedManager;
@@ -36,12 +41,16 @@ static NSString *const kIAppPayPublicKey = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQK
 }
 
 - (void)setup {
-    [[IapppayAlphaKit sharedInstance] setAppAlipayScheme:kAlipaySchemeUrl];
-    [[IapppayAlphaKit sharedInstance] setAppId:kIAppPayAppId mACID:KB_CHANNEL_NO];
+    [[KbPaymentConfigModel sharedModel] fetchConfigWithCompletionHandler:^(BOOL success, id obj) {
+        [[IapppayAlphaKit sharedInstance] setAppAlipayScheme:kAlipaySchemeUrl];
+        [[IapppayAlphaKit sharedInstance] setAppId:[KbPaymentConfig sharedConfig].iappPayInfo.appid mACID:KB_CHANNEL_NO];
+        [WXApi registerApp:[KbPaymentConfig sharedConfig].weixinInfo.appId];
+    }];
 }
 
 - (void)handleOpenURL:(NSURL *)url {
     [[IapppayAlphaKit sharedInstance] handleOpenUrl:url];
+    [WXApi handleOpenURL:url delegate:self];
 }
 
 - (BOOL)startPaymentWithType:(KbPaymentType)type
@@ -74,24 +83,51 @@ static NSString *const kIAppPayPublicKey = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQK
     self.paymentInfo = paymentInfo;
     self.completionHandler = handler;
     
-    IapppayAlphaOrderUtils *order = [[IapppayAlphaOrderUtils alloc] init];
-    order.appId = kIAppPayAppId;
-    order.cpPrivateKey = kIAppPayPrivateKey;
-    order.cpOrderId = orderNo;
+    BOOL success = YES;
+    if (type == KbPaymentTypeWeChatPay) {
+        @weakify(self);
+        [[WeChatPayManager sharedInstance] startWeChatPayWithOrderNo:orderNo price:price completionHandler:^(PAYRESULT payResult) {
+            @strongify(self);
+            if (self.completionHandler) {
+                self.completionHandler(payResult, self.paymentInfo);
+            }
+        }];
+    } else {
+        IapppayAlphaOrderUtils *order = [[IapppayAlphaOrderUtils alloc] init];
+        order.appId = [KbPaymentConfig sharedConfig].iappPayInfo.appid;
+        order.cpPrivateKey = [KbPaymentConfig sharedConfig].iappPayInfo.privateKey;
+        order.cpOrderId = orderNo;
 #ifdef DEBUG
-    order.waresId = @"2";
+        order.waresId = @"2";
 #else
-    order.waresId = @"1";
+        order.waresId = [KbPaymentConfig sharedConfig].iappPayInfo.waresid;
 #endif
-    order.price = [NSString stringWithFormat:@"%.2f", price/100.];
-    order.appUserId = [KbUtil userId] ?: @"UnregisterUser";
-    order.cpPrivateInfo = KB_PAYMENT_RESERVE_DATA;
+        order.price = [NSString stringWithFormat:@"%.2f", price/100.];
+        order.appUserId = [KbUtil userId] ?: @"UnregisterUser";
+        order.cpPrivateInfo = KB_PAYMENT_RESERVE_DATA;
+        
+        NSString *trandData = [order getTrandData];
+        success = [[IapppayAlphaKit sharedInstance] makePayForTrandInfo:trandData
+                                                          payMethodType:payType.unsignedIntegerValue
+                                                            payDelegate:self];
+    }
     
-    NSString *trandData = [order getTrandData];
-    BOOL success = [[IapppayAlphaKit sharedInstance] makePayForTrandInfo:trandData
-                                                           payMethodType:payType.unsignedIntegerValue
-                                                             payDelegate:self];
     return success;
+}
+
+- (void)checkPayment {
+    NSArray<KbPaymentInfo *> *payingPaymentInfos = [KbUtil payingPaymentInfos];
+    [payingPaymentInfos enumerateObjectsUsingBlock:^(KbPaymentInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        KbPaymentType paymentType = obj.paymentType.unsignedIntegerValue;
+        if (paymentType == KbPaymentTypeWeChatPay) {
+            [self.wechatPayOrderQueryRequest queryOrderWithNo:obj.orderId completionHandler:^(BOOL success, NSString *trade_state, double total_fee) {
+                if ([trade_state isEqualToString:@"SUCCESS"]) {
+                    KbPaymentViewController *paymentVC = [KbPaymentViewController sharedPaymentVC];
+                    [paymentVC notifyPaymentResult:PAYRESULT_SUCCESS withPaymentInfo:obj];
+                }
+            }];
+        }
+    }];
 }
 
 #pragma mark - IapppayAlphaKitPayRetDelegate
@@ -107,6 +143,26 @@ static NSString *const kIAppPayPublicKey = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQK
     
     if (self.completionHandler) {
         self.completionHandler(paymentResult.integerValue, self.paymentInfo);
+    }
+}
+
+#pragma mark - WeChat delegate
+
+- (void)onReq:(BaseReq *)req {
+    
+}
+
+- (void)onResp:(BaseResp *)resp {
+    if([resp isKindOfClass:[PayResp class]]){
+        PAYRESULT payResult;
+        if (resp.errCode == WXErrCodeUserCancel) {
+            payResult = PAYRESULT_ABANDON;
+        } else if (resp.errCode == WXSuccess) {
+            payResult = PAYRESULT_SUCCESS;
+        } else {
+            payResult = PAYRESULT_FAIL;
+        }
+        [[WeChatPayManager sharedInstance] sendNotificationByResult:payResult];
     }
 }
 @end

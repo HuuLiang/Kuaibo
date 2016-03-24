@@ -20,6 +20,6 @@ typedef void (^KbPaymentCompletionHandler)(PAYRESULT payResult, KbPaymentInfo *p
 - (BOOL)startPaymentWithType:(KbPaymentType)type price:(NSUInteger)price forProgram:(KbProgram *)program completionHandler:(KbPaymentCompletionHandler)handler;
 
 - (void)handleOpenURL:(NSURL *)url;
-//- (void)checkPayment;
+- (void)checkPayment;
 
 @end

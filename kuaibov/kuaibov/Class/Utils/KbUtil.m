@@ -67,14 +67,18 @@ static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
     }];
 }
 
-+ (BOOL)isPaid {
-    return [self.allPaymentInfos bk_any:^BOOL(id obj) {
++ (KbPaymentInfo *)successfulPaymentInfo {
+    return [self.allPaymentInfos bk_match:^BOOL(id obj) {
         KbPaymentInfo *paymentInfo = obj;
         if (paymentInfo.paymentResult.unsignedIntegerValue == PAYRESULT_SUCCESS) {
             return YES;
         }
         return NO;
     }];
+}
+
++ (BOOL)isPaid {
+    return [self successfulPaymentInfo] != nil;
 }
 
 + (NSString *)userId {

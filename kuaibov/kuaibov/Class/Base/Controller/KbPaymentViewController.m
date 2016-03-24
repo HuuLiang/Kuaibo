@@ -13,6 +13,7 @@
 #import <objc/runtime.h>
 #import "KbProgram.h"
 #import "KbPaymentInfo.h"
+#import "KbPaymentConfig.h"
 
 @interface KbPaymentViewController ()
 @property (nonatomic,retain) KbPaymentPopView *popView;
@@ -59,13 +60,16 @@
     _popView = [[KbPaymentPopView alloc] init];
     _popView.headerImageURL = [NSURL URLWithString:[KbSystemConfigModel sharedModel].paymentImage];
     _popView.footerImage = [UIImage imageNamed:@"payment_footer"];
-    [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
-        Pay(KbPaymentTypeAlipay);
-    }];
     
     [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
         Pay(KbPaymentTypeWeChatPay);
     }];
+    
+    if ([KbPaymentConfig sharedConfig].iappPayInfo) {
+        [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
+            Pay(KbPaymentTypeAlipay);
+        }];
+    }
     
     _popView.closeAction = ^(id sender){
         @strongify(self);
@@ -148,9 +152,10 @@
           paymentType:(KbPaymentType)paymentType {
     @weakify(self);
     [[KbPaymentManager sharedManager] startPaymentWithType:paymentType
-                                                     price:price*100
-                                                forProgram:program
-                                         completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo) {
+                                                      price:price*100
+                                                 forProgram:program
+                                          completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo)
+    {
         @strongify(self);
         [self notifyPaymentResult:payResult withPaymentInfo:paymentInfo];
     }];
@@ -162,6 +167,10 @@
 }
 
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(KbPaymentInfo *)paymentInfo {
+    if (result == PAYRESULT_SUCCESS && [KbUtil successfulPaymentInfo]) {
+        return ;
+    }
+    
     NSDateFormatter *dateFormmater = [[NSDateFormatter alloc] init];
     [dateFormmater setDateFormat:@"yyyyMMddHHmmss"];
     
