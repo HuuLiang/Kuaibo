@@ -14,7 +14,7 @@
 #define KB_PACKAGE_CERTIFICATE  @"iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd."
 
 #define KB_REST_APP_ID          @"QUBA_2001"
-#define KB_REST_PV              @200
+#define KB_REST_PV              @210
 #define KB_REST_APP_VERSION     ((NSString *)([NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]))
 
 #define KB_BASE_URL             @"http://iv.ihuiyx.com"

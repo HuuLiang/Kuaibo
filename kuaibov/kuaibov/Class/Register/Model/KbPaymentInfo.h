@@ -27,6 +27,12 @@ typedef NS_ENUM(NSUInteger, KbPaymentStatus) {
 @property (nonatomic) NSNumber *paymentType;
 @property (nonatomic) NSNumber *paymentResult;
 @property (nonatomic) NSNumber *paymentStatus;
+@property (nonatomic) NSString *reservedData;
+// 商户信息
+@property (nonatomic) NSString *appId;
+@property (nonatomic) NSString *mchId;
+@property (nonatomic) NSString *signKey;
+@property (nonatomic) NSString *notifyUrl;
 
 + (instancetype)paymentInfoFromDictionary:(NSDictionary *)payment;
 - (void)save;

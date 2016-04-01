@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, KbPaymentType) {
     KbPaymentTypeNone,
     KbPaymentTypeAlipay = 1001,
     KbPaymentTypeWeChatPay = 1008,
-    KbPaymentTypeUPPay = 1009
+    KbPaymentTypeIAppPay = 1009
 };
 
 typedef NS_ENUM(NSInteger, PAYRESULT)

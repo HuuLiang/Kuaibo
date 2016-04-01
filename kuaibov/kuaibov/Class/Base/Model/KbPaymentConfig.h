@@ -8,6 +8,12 @@
 
 #import "KbURLResponse.h"
 
+typedef NS_ENUM(NSUInteger, KbIAppPayType) {
+    KbIAppPayTypeUnknown = 0,
+    KbIAppPayTypeWeChat = 1 << 0,
+    KbIAppPayTypeAlipay = 1 << 1
+};
+
 @interface KbWeChatPaymentConfig : NSObject
 @property (nonatomic) NSString *appId;
 @property (nonatomic) NSString *mchId;
@@ -31,6 +37,7 @@
 @property (nonatomic) NSString *publicKey;
 @property (nonatomic) NSString *notifyUrl;
 @property (nonatomic) NSNumber *waresid;
+@property (nonatomic) NSNumber *supportPayTypes;
 
 + (instancetype)defaultConfig;
 @end

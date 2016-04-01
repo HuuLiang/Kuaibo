@@ -17,7 +17,11 @@ typedef void (^KbPaymentCompletionHandler)(PAYRESULT payResult, KbPaymentInfo *p
 + (instancetype)sharedManager;
 
 - (void)setup;
-- (BOOL)startPaymentWithType:(KbPaymentType)type price:(NSUInteger)price forProgram:(KbProgram *)program completionHandler:(KbPaymentCompletionHandler)handler;
+- (BOOL)startPaymentWithType:(KbPaymentType)type
+                     subType:(KbPaymentType)subType
+                       price:(NSUInteger)price
+                  forProgram:(KbProgram *)program
+           completionHandler:(KbPaymentCompletionHandler)handler;
 
 - (void)handleOpenURL:(NSURL *)url;
 - (void)checkPayment;

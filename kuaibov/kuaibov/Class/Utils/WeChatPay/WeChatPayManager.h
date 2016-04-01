@@ -10,10 +10,11 @@
 
 typedef void (^WeChatPayCompletionHandler)(PAYRESULT payResult);
 
+@class KbPaymentInfo;
 @interface WeChatPayManager : NSObject
 
 + (instancetype)sharedInstance;
 
-- (void)startWeChatPayWithOrderNo:(NSString *)orderNo price:(NSUInteger)price completionHandler:(WeChatPayCompletionHandler)handler;
+- (void)startWithPayment:(KbPaymentInfo *)paymentInfo completionHandler:(WeChatPayCompletionHandler)handler;
 - (void)sendNotificationByResult:(PAYRESULT)result;
 @end

@@ -72,7 +72,7 @@
     
     [self.navigationController.navigationBar bk_whenTouches:1 tapped:5 handler:^{
         NSString *baseURLString = [KB_BASE_URL stringByReplacingCharactersInRange:NSMakeRange(0, KB_BASE_URL.length-6) withString:@"******"];
-        [[KbHudManager manager] showHudWithText:[NSString stringWithFormat:@"Server:%@\nChannelNo:%@\nPackageCertificate:%@", baseURLString, KB_CHANNEL_NO, KB_PACKAGE_CERTIFICATE]];
+        [[KbHudManager manager] showHudWithText:[NSString stringWithFormat:@"Server:%@\nChannelNo:%@\nPackageCertificate:%@\npV:%@", baseURLString, KB_CHANNEL_NO, KB_PACKAGE_CERTIFICATE, KB_REST_PV]];
     }];
 }
 

@@ -59,7 +59,7 @@ static NSString *const kPaymentEncryptionPassword = @"wdnxs&*@#!*qb)*&qiang";
     @weakify(self);
     BOOL ret = [self requestURLPath:KB_PAYMENT_CONFIG_URL
                      standbyURLPath:[NSString stringWithFormat:KB_STANDBY_PAYMENT_CONFIG_URL, KB_REST_APP_ID]
-                         withParams:@{@"appId":KB_REST_APP_ID, @"channelNo":KB_CHANNEL_NO}
+                         withParams:@{@"appId":KB_REST_APP_ID, @"channelNo":KB_CHANNEL_NO, @"pV":KB_REST_PV}
                     responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {
         @strongify(self);
