@@ -16,8 +16,9 @@
 #define KB_REST_APP_ID          @"QUBA_2001"
 #define KB_REST_PV              @210
 #define KB_REST_APP_VERSION     ((NSString *)([NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]))
-
-#define KB_BASE_URL             @"http://iv.ihuiyx.com"
+//http://120.24.252.114:8093
+#define KB_BASE_URL             @"http://120.24.252.114:8093"
+//#define KB_BASE_URL             @"http://iv.ihuiyx.com"
 #define KB_HOME_PAGE_URL        @"/iosvideo/homePage.htm"
 #define KB_CHANNEL_URL          @"/iosvideo/channelRanking.htm"
 #define KB_CHANNEL_PROGRAM_URL  @"/iosvideo/program.htm"

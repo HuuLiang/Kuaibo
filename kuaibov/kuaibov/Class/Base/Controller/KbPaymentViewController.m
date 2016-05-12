@@ -158,6 +158,10 @@
 }
 
 - (void)hidePayment {
+    if (self.handler) {
+        self.handler();
+    }
+    
     [UIView animateWithDuration:0.25 animations:^{
         self.view.alpha = 0;
     } completion:^(BOOL finished) {

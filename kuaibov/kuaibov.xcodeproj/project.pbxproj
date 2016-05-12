@@ -12,6 +12,9 @@
 		6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FE81B86A37B00260BDC /* AppDelegate.m */; };
 		6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E090FF01B86A37B00260BDC /* Images.xcassets */; };
 		6E0910001B86A37B00260BDC /* kuaibovTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E090FFF1B86A37B00260BDC /* kuaibovTests.m */; };
+		B3BFB3FC1CE43A9300DC0448 /* kbHomeFreeVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BFB3FB1CE43A9300DC0448 /* kbHomeFreeVideoCell.m */; };
+		B3BFB40B1CE45C8C00DC0448 /* kbKVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BFB40A1CE45C8C00DC0448 /* kbKVideoPlayerViewController.m */; };
+		B3BFB40E1CE45CE100DC0448 /* kbKVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BFB40D1CE45CE100DC0448 /* kbKVideoPlayer.m */; };
 		BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */; };
 		BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */; };
 		BC1731B11C16CAE00065DD97 /* NSObject+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1731B01C16CAE00065DD97 /* NSObject+Properties.m */; };
@@ -119,6 +122,12 @@
 		6E2B8AE71B95FA3C00053761 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6E2B8AE81B95FA7600053761 /* kb.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kb.pch; sourceTree = "<group>"; };
 		A829465AEB8D6C3264B4F256 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		B3BFB3FA1CE43A9300DC0448 /* kbHomeFreeVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kbHomeFreeVideoCell.h; sourceTree = "<group>"; };
+		B3BFB3FB1CE43A9300DC0448 /* kbHomeFreeVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kbHomeFreeVideoCell.m; sourceTree = "<group>"; };
+		B3BFB4091CE45C8C00DC0448 /* kbKVideoPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kbKVideoPlayerViewController.h; sourceTree = "<group>"; };
+		B3BFB40A1CE45C8C00DC0448 /* kbKVideoPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kbKVideoPlayerViewController.m; sourceTree = "<group>"; };
+		B3BFB40C1CE45CE100DC0448 /* kbKVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kbKVideoPlayer.h; sourceTree = "<group>"; };
+		B3BFB40D1CE45CE100DC0448 /* kbKVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kbKVideoPlayer.m; sourceTree = "<group>"; };
 		BC039DA31BA1AA10003E43B2 /* KbSystemConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfigModel.h; sourceTree = "<group>"; };
 		BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfigModel.m; sourceTree = "<group>"; };
 		BC039DA61BA1AC5B003E43B2 /* KbSystemConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfig.h; sourceTree = "<group>"; };
@@ -440,6 +449,8 @@
 				BCE9B63B1B98551200D70B9E /* kbBaseController.m */,
 				BC1B21381C17CE0A00BE87C4 /* KbPaymentViewController.h */,
 				BC1B21391C17CE0A00BE87C4 /* KbPaymentViewController.m */,
+				B3BFB4091CE45C8C00DC0448 /* kbKVideoPlayerViewController.h */,
+				B3BFB40A1CE45C8C00DC0448 /* kbKVideoPlayerViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -511,6 +522,8 @@
 		BC1C4B5B1BFC60DE001B5867 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B3BFB40C1CE45CE100DC0448 /* kbKVideoPlayer.h */,
+				B3BFB40D1CE45CE100DC0448 /* kbKVideoPlayer.m */,
 				BC1C4B5C1BFC60FB001B5867 /* KbPaymentPopView.h */,
 				BC1C4B5D1BFC60FB001B5867 /* KbPaymentPopView.m */,
 			);
@@ -641,6 +654,8 @@
 				BC88FF421C2164E100384C35 /* KbHomeProgramCell.m */,
 				BC88FF441C2167DC00384C35 /* KbHomeProgramItemView.h */,
 				BC88FF451C2167DC00384C35 /* KbHomeProgramItemView.m */,
+				B3BFB3FA1CE43A9300DC0448 /* kbHomeFreeVideoCell.h */,
+				B3BFB3FB1CE43A9300DC0448 /* kbHomeFreeVideoCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -917,6 +932,7 @@
 				BCDE4EFF1BA6657500244945 /* UIViewExt.m in Sources */,
 				BCDE4EFC1BA6657500244945 /* NSString+md5.m in Sources */,
 				BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */,
+				B3BFB40B1CE45C8C00DC0448 /* kbKVideoPlayerViewController.m in Sources */,
 				BCFE5AB71B9F1FD800EC9D05 /* KbUtil.m in Sources */,
 				BCFF93641B9B942100B2EDF9 /* KbChannelProgramModel.m in Sources */,
 				BCDE4EFB1BA6657500244945 /* NSString+length.m in Sources */,
@@ -947,6 +963,7 @@
 				BCDE4EF51BA6657500244945 /* NSDictionary+KbSign.m in Sources */,
 				BCFF051E1B9869B30074BAE2 /* RACEXTRuntimeExtensions.m in Sources */,
 				BC1B213A1C17CE0A00BE87C4 /* KbPaymentViewController.m in Sources */,
+				B3BFB40E1CE45CE100DC0448 /* kbKVideoPlayer.m in Sources */,
 				BCDE4EF91BA6657500244945 /* UIColor+hexColor.m in Sources */,
 				BC2B1A6D1C2303F800870AAF /* NSMutableDictionary+SafeCoding.m in Sources */,
 				BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */,
@@ -961,6 +978,7 @@
 				BCDE4EFA1BA6657500244945 /* NSString+FilterHTML.m in Sources */,
 				BC88FF461C2167DC00384C35 /* KbHomeProgramItemView.m in Sources */,
 				6E090FE91B86A37B00260BDC /* AppDelegate.m in Sources */,
+				B3BFB3FC1CE43A9300DC0448 /* kbHomeFreeVideoCell.m in Sources */,
 				BC18E7281C07069D00ADAA2B /* NSDate+Utilities.m in Sources */,
 				BCB9C7831C5215970078DF03 /* KbConfiguration.m in Sources */,
 				BC88FF3D1C2141DD00384C35 /* KbProgramCell.m in Sources */,
@@ -1090,6 +1108,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
 				DEPLOYMENT_POSTPROCESSING = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1151,6 +1170,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

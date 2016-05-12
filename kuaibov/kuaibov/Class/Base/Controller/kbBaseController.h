@@ -13,5 +13,5 @@
 - (void)switchToPlayProgram:(KbProgram *)program;
 - (void)payForProgram:(KbProgram *)program;
 - (void)onPaidNotification:(NSNotification *)notification;
-
+- (void)switchToPlayFreeProgram:(KbProgram *)program;
 @end
