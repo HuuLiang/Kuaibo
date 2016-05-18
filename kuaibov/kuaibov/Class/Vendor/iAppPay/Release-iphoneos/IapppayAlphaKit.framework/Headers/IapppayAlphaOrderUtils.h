@@ -20,7 +20,7 @@
 
 @property (nonatomic, copy) NSString *waresId;          //商品ID（必须）
 
-@property (nonatomic, copy) NSString *price;            //商品价格<单位：元>（必须）
+@property (nonatomic, copy) NSString *price;            //商品价格<单位：元>（条件）
 
 @property (nonatomic, copy) NSString *appUserId;        //用户在商户应用的唯一标识（必须）String(32)
 
