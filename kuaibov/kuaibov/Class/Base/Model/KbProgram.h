@@ -15,8 +15,7 @@ typedef NS_ENUM(NSUInteger, KbProgramType) {
     KbProgramTypeVideo = 1,
     KbProgramTypePicture = 2,
     KbProgramTypeAd = 3,
-    KbProgramTypeBanner = 4,
-    KbProgramTypeFree = 5
+    KbProgramTypeBanner = 4
 };
 
 @protocol KbProgramUrl <NSObject>

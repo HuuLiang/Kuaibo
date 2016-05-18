@@ -12,7 +12,6 @@
 #import "KbProgram.h"
 #import "MobClick.h"
 #import "KbPaymentViewController.h"
-#import "kbKVideoPlayerViewController.h"
 
 @import MediaPlayer;
 @import AVKit;
@@ -73,17 +72,6 @@
         UIViewController *videoPlayVC = [self playerVCWithVideo:program];
         videoPlayVC.hidesBottomBarWhenPushed = YES;
         [self presentViewController:videoPlayVC animated:YES completion:nil];
-    }
-}
-//免费试看
-- (void)switchToPlayFreeProgram:(KbProgram *)program {
-
-    if (program.type.unsignedIntegerValue == KbProgramTypeVideo) {
-    
-        kbKVideoPlayerViewController *playVc = [[kbKVideoPlayerViewController alloc] initWithVideo:program];
-        
-        playVc.hidesBottomBarWhenPushed = YES;
-        [self presentViewController:playVc animated:YES completion:nil];
     }
 }
 

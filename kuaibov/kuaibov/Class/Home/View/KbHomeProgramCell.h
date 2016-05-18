@@ -11,9 +11,7 @@
 typedef NS_ENUM(NSUInteger, KbHomeProgramItemPosition) {
     KbHomeProgramLeftItem,
     KbHomeProgramRightTopItem,
-    KbHomeProgramRightBottomItem,
-    kbHomeFreeLeftItem,
-    kbHomeFreeRightItem
+    KbHomeProgramRightBottomItem
 };
 
 @interface KbHomeProgramItem : NSObject

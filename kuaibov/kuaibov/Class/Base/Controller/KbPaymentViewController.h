@@ -11,10 +11,7 @@
 @class KbProgram;
 @class KbPaymentInfo;
 
-typedef void(^hideButtonHandler)();
 @interface KbPaymentViewController : kbBaseController
-
-@property (nonatomic,copy)hideButtonHandler handler;
 
 + (instancetype)sharedPaymentVC;
 

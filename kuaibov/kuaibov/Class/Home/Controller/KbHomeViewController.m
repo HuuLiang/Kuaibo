@@ -11,9 +11,6 @@
 #import "KbHomeSectionHeaderView.h"
 #import "KbHomeProgramCell.h"
 #import <SDCycleScrollView.h>
-#import "kbHomeFreeVideoCell.h"
-//#import "KbPaymentViewController.h"
-//#import "kbKVideoPlayerViewController.h"
 
 @interface KbHomeViewController () <UITableViewDataSource,UITableViewDelegate,SDCycleScrollViewDelegate>
 {
@@ -29,7 +26,6 @@
 static NSString *const kProgramCellReusableIdentifier = @"ProgramCellReusableIdentifier";
 static NSString *const kAdBannerCellReusableIdentifier = @"AdBannerCellReusableIdentifier";
 static NSString *const kSectionHeaderReusableIdentifier = @"SectionHeaderReusableIdentifier";
-static NSString *const kFreeSectionCellReusableIdentifier = @"FreeBannerCellReusableIdentifier";
 
 @implementation KbHomeViewController
 @synthesize dataFetchDispatchGroup = _dataFetchDispatchGroup;
@@ -52,6 +48,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     if (!appName) {
         appName = @"快播";
     }
+    
     self.title = appName;
     self.view.backgroundColor = HexColor(#f7f7f7);
     
@@ -63,7 +60,6 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     _layoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_layoutTableView registerClass:[KbHomeProgramCell class] forCellReuseIdentifier:kProgramCellReusableIdentifier];
     [_layoutTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kAdBannerCellReusableIdentifier];
-    [_layoutTableView registerClass:[kbHomeFreeVideoCell class] forCellReuseIdentifier:kFreeSectionCellReusableIdentifier];
     [_layoutTableView registerClass:[KbHomeSectionHeaderView class] forHeaderFooterViewReuseIdentifier:kSectionHeaderReusableIdentifier];
     [self.view addSubview:_layoutTableView];
     {
@@ -79,7 +75,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     }];
     [_layoutTableView kb_triggerPullToRefresh];
 }
-//刷新数据
+
 - (void)reloadPrograms {
     @weakify(self);
     [self.programModel fetchHomeProgramsWithCompletionHandler:^(BOOL success, NSArray *programs) {
@@ -120,10 +116,9 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     }
     return nil;
 }
+
 - (BOOL)isAdBannerInSection:(NSUInteger)section {
     if (section == 0) {
-        return NO;
-    }else if (section==1){
         return NO;
     }
     
@@ -142,7 +137,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     if (indexPath.section == 0) {
         if (!_bannerCell) {
             _bannerCell = [[UITableViewCell alloc] init];;
-            
+
             _bannerView = [[SDCycleScrollView alloc] init];
             _bannerView.autoScrollTimeInterval = 3;
             _bannerView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
@@ -166,26 +161,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         _bannerView.titlesGroup = titlesGroup;
         return _bannerCell;
         
-    }else if (indexPath.section == 1){
-        kbHomeFreeVideoCell *freeCell = [tableView dequeueReusableCellWithIdentifier:kFreeSectionCellReusableIdentifier forIndexPath:indexPath];
-        freeCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        NSArray<KbProgram *> *programsForCell = [self programsForCellAtIndexPath:indexPath];
-        KbProgram *leftFree = programsForCell.count > 0 ? programsForCell[0] : nil;
-        KbProgram *rightFree = programsForCell.count > 1 ? programsForCell[1] : nil;
-        [freeCell setItem:[KbHomeProgramItem itemWithImageURL:leftFree.coverImg title:leftFree.title subtitle:leftFree.specialDesc] atPosition:kbHomeFreeLeftItem];
-        [freeCell setItem:[KbHomeProgramItem itemWithImageURL:rightFree.coverImg title:rightFree.title subtitle:rightFree.specialDesc] atPosition:kbHomeFreeRightItem];
-        @weakify(self);
-        freeCell.action = ^(KbHomeProgramItemPosition position) {
-            @strongify(self);
-            NSArray<KbProgram *> *programsForCell = [self programsForCellAtIndexPath:indexPath];
-            if (programsForCell.count < position-3) {
-                return ;
-            }
-            [self switchToPlayFreeProgram:programsForCell[position-3]];
-        };
-        return freeCell;
-    }
-    else{
+    } else {
         KbProgram *adProgram = [self adProgramAtIndexPath:indexPath];
         if (adProgram) {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kAdBannerCellReusableIdentifier forIndexPath:indexPath];
@@ -204,7 +180,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:adProgram.videoUrl]];
             }];
             return cell;
-        } else{
+        } else {
             KbHomeProgramCell *programCell = [tableView dequeueReusableCellWithIdentifier:kProgramCellReusableIdentifier forIndexPath:indexPath];
             programCell.backgroundColor = [UIColor whiteColor];
             
@@ -252,8 +228,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
-    }
-    else {
+    } else {
         KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
         if (programs.type.unsignedIntegerValue == KbProgramTypeAd) {
             return programs.programList.count;
@@ -266,10 +241,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         return CGRectGetWidth(tableView.bounds) / 2;
-    }else if (indexPath.section == 1){
-        return CGRectGetWidth(tableView.bounds)/3;
-    
-    }else if ([self isAdBannerInSection:indexPath.section]) {
+    } else if ([self isAdBannerInSection:indexPath.section]) {
         return CGRectGetWidth(tableView.bounds) / 4;
     } else {
         const CGFloat imageScale = [KbHomeProgramCell imageScale];
@@ -310,6 +282,4 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     }
     
 }
-
-
 @end
