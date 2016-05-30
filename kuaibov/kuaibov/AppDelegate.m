@@ -15,6 +15,7 @@
 #import "KbUserAccessModel.h"
 #import "MobClick.h"
 #import "KbSystemConfigModel.h"
+#import "KBKLaunchView.h"
 
 @interface AppDelegate ()
 
@@ -163,6 +164,9 @@
     [self setupCommonStyles];
     [self.window makeKeyWindow];
     self.window.hidden = NO;
+    //启动图
+    KBKLaunchView *launchView = [[KBKLaunchView alloc] init];
+    [launchView show];
     
     if (![KbUtil isRegistered]) {
         [[KbActivateModel sharedModel] activateWithCompletionHandler:^(BOOL success, NSString *userId) {
