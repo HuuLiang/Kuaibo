@@ -44,19 +44,21 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
-    if (!appName) {
-        appName = @"快播";
-    }
-    
-    self.title = appName;
+//    NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+//    if (!appName) {
+//        appName = @"快播";
+//    }
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.title = @"首页";
     self.view.backgroundColor = HexColor(#f7f7f7);
     
     _layoutTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _layoutTableView.backgroundColor = [UIColor whiteColor];
     _layoutTableView.delegate = self;
     _layoutTableView.dataSource = self;
-    _layoutTableView.sectionFooterHeight = 0.1;
+    _layoutTableView.sectionFooterHeight = 0.01;
+    _layoutTableView.showsVerticalScrollIndicator = NO;
     _layoutTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [_layoutTableView registerClass:[KbHomeProgramCell class] forCellReuseIdentifier:kProgramCellReusableIdentifier];
     [_layoutTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kAdBannerCellReusableIdentifier];
@@ -67,13 +69,13 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             make.edges.equalTo(self.view);
         }];
     }
-    
     @weakify(self);
     [_layoutTableView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
         [self reloadPrograms];
     }];
     [_layoutTableView kb_triggerPullToRefresh];
+ _layoutTableView.contentInset = UIEdgeInsetsMake(0, 0, -20, 0);
 }
 
 - (void)reloadPrograms {
@@ -137,7 +139,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     if (indexPath.section == 0) {
         if (!_bannerCell) {
             _bannerCell = [[UITableViewCell alloc] init];;
-
+            
             _bannerView = [[SDCycleScrollView alloc] init];
             _bannerView.autoScrollTimeInterval = 3;
             _bannerView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
@@ -208,12 +210,16 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             programCell.action = ^(KbHomeProgramItemPosition position) {
                 @strongify(self);
                 
+                KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
+ 
                 NSArray<KbProgram *> *programsForCell = [self programsForCellAtIndexPath:indexPath];
                 if (programsForCell.count < position) {
                     return ;
                 }
-                
-                [self switchToPlayProgram:programsForCell[position]];
+                if (programs.type.unsignedIntegerValue == KBprogramTypeFreeVideo) {
+                    [self switchToPlayFreeVideoProgram:programsForCell[position]];
+                }else{
+                    [self switchToPlayProgram:programsForCell[position]];}
             };
             return programCell;
         }

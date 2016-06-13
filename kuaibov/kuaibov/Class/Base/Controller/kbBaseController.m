@@ -12,6 +12,7 @@
 #import "KbProgram.h"
 #import "MobClick.h"
 #import "KbPaymentViewController.h"
+#import "KBVideoPlayerCtroller.h"
 
 @import MediaPlayer;
 @import AVKit;
@@ -20,6 +21,7 @@
 @import AVFoundation.AVAssetImageGenerator;
 
 @interface kbBaseController ()
+
 - (UIViewController *)playerVCWithVideo:(KbVideo *)video;
 @end
 
@@ -66,18 +68,33 @@
 }
 
 - (void)switchToPlayProgram:(KbProgram *)program {
-    if (![KbUtil isPaid]) {
+    if (![KbUtil isPaid]&&program.type.unsignedIntegerValue != KBprogramTypeFreeVideo) {
         [self payForProgram:program];
     } else if (program.type.unsignedIntegerValue == KbProgramTypeVideo) {
         UIViewController *videoPlayVC = [self playerVCWithVideo:program];
         videoPlayVC.hidesBottomBarWhenPushed = YES;
         [self presentViewController:videoPlayVC animated:YES completion:nil];
-    }
+    } 
 }
+
+/**
+ *  免费试播
+ */
+
+- (void)switchToPlayFreeVideoProgram:(KbProgram*)program {
+ 
+    KBVideoPlayerCtroller *videoPlayer = [[KBVideoPlayerCtroller alloc] initWithVideo:program];
+    videoPlayer.hidesBottomBarWhenPushed = YES;
+    videoPlayer.shouldPopupPaymentIfNotPaid = YES;
+    [self presentViewController:videoPlayer animated:YES completion:nil];
+}
+
+
 
 - (void)payForProgram:(KbProgram *)program {
     [[KbPaymentViewController sharedPaymentVC] popupPaymentInView:self.view.window forProgram:program];
 }
+
 
 - (void)onPaidNotification:(NSNotification *)notification {}
 

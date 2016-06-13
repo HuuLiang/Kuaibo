@@ -14,4 +14,6 @@
 - (void)payForProgram:(KbProgram *)program;
 - (void)onPaidNotification:(NSNotification *)notification;
 
+- (void)switchToPlayFreeVideoProgram:(KbProgram*)program;
+
 @end

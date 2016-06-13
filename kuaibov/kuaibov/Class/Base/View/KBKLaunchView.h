@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YYKLaunchView : UIView
+@interface KBKLaunchView : UIView
 
 - (void)show;
 

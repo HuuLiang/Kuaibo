@@ -33,83 +33,89 @@
     
     KbHomeViewController *homeVC         = [[KbHomeViewController alloc] init];
     UINavigationController *homeNav      = [[UINavigationController alloc] initWithRootViewController:homeVC];
-    homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:nil
+    homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:@"首页"
                                                                          image:[UIImage imageNamed:@"home_normal"]
                                                                  selectedImage:[UIImage imageNamed:@"home_highlight"]];
+    homeNav.navigationItem.title = @"首页";
     
     KbChannelViewController *channelVC   = [[KbChannelViewController alloc] init];
     UINavigationController *channelNav   = [[UINavigationController alloc] initWithRootViewController:channelVC];
-    channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:nil
+    
+    channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:@"频道"
                                                                          image:[UIImage imageNamed:@"channel_normal"]
                                                                  selectedImage:[UIImage imageNamed:@"channel_highlight"]];
-
+    
     kbMoreViewController *moreVC         = [[kbMoreViewController alloc] init];
     UINavigationController *moreNav      = [[UINavigationController alloc] initWithRootViewController:moreVC];
-    moreNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:nil
+    moreNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:@"更多"
                                                                          image:[UIImage imageNamed:@"more_normal"]
                                                                  selectedImage:[UIImage imageNamed:@"more_highlight"]];
     
     UITabBarController *tabBarController    = [[UITabBarController alloc] init];
     tabBarController.viewControllers        = @[homeNav,channelNav,moreNav];
     tabBarController.tabBar.translucent     = NO;
-    tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar_background"];
+    //    tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar_background"];
     
-    NSUInteger itemCount = tabBarController.viewControllers.count;
-    for (NSUInteger i = 0; i < itemCount-1; ++i) {
-        UIImageView *separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tab_separator"]];
-        separator.bounds = CGRectMake(0, 0, 1, CGRectGetHeight(tabBarController.tabBar.bounds));
-        separator.center = CGPointMake(mainWidth/itemCount*(i+1), CGRectGetHeight(tabBarController.tabBar.bounds)/2);
-        [tabBarController.tabBar addSubview:separator];
-    }
+    //    NSUInteger itemCount = tabBarController.viewControllers.count;
+    //    for (NSUInteger i = 0; i < itemCount-1; ++i) {
+    //        UIImageView *separator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tab_separator"]];
+    //        separator.bounds = CGRectMake(0, 0, 1, CGRectGetHeight(tabBarController.tabBar.bounds));
+    //        separator.center = CGPointMake(mainWidth/itemCount*(i+1), CGRectGetHeight(tabBarController.tabBar.bounds)/2);
+    //        [tabBarController.tabBar addSubview:separator];
+    //    }
     _window.rootViewController              = tabBarController;
     return _window;
 }
 
 - (void)setupCommonStyles {
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav_background"] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:-6 forBarMetrics:UIBarMetricsDefault];
+    [[UITabBar appearance] setBarTintColor:[UIColor colorWithHexString:@"#efefef"]];
+    //    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav_background"] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"#ff0066"]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleVerticalPositionAdjustment:-3 forBarMetrics:UIBarMetricsDefault];
+    [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:@"#ff0066"]];
     
     [UIViewController aspect_hookSelector:@selector(viewDidLoad)
                               withOptions:AspectPositionAfter
                                usingBlock:^(id<AspectInfo> aspectInfo){
                                    UIViewController *thisVC = [aspectInfo instance];
                                    thisVC.navigationController.navigationBar.translucent = NO;
-                                   thisVC.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-                                   thisVC.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:20.],
+                                   //                                   thisVC.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+                                   thisVC.navigationController.navigationBar.titleTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:17.],
                                                                                                      NSForegroundColorAttributeName:[UIColor whiteColor]};
                                    
-                                   thisVC.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+                                   //                                                                      thisVC.navigationController.navigationBar.tintColor = [UIColor colorWithHexString:@"#ff0066"];
                                    thisVC.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] bk_initWithTitle:@"返回" style:UIBarButtonItemStylePlain handler:nil];
-    } error:nil];
+                               } error:nil];
     
     [UINavigationController aspect_hookSelector:@selector(preferredStatusBarStyle)
                                     withOptions:AspectPositionInstead
                                      usingBlock:^(id<AspectInfo> aspectInfo){
                                          UIStatusBarStyle statusBarStyle = UIStatusBarStyleLightContent;
                                          [[aspectInfo originalInvocation] setReturnValue:&statusBarStyle];
-    } error:nil];
+                                     } error:nil];
     
     [UIViewController aspect_hookSelector:@selector(preferredStatusBarStyle)
                               withOptions:AspectPositionInstead
                                usingBlock:^(id<AspectInfo> aspectInfo){
                                    UIStatusBarStyle statusBarStyle = UIStatusBarStyleLightContent;
                                    [[aspectInfo originalInvocation] setReturnValue:&statusBarStyle];
-    } error:nil];
+                               } error:nil];
     
     [UITabBarController aspect_hookSelector:@selector(shouldAutorotate)
-                              withOptions:AspectPositionInstead
-                               usingBlock:^(id<AspectInfo> aspectInfo){
-                                   UITabBarController *thisTabBarVC = [aspectInfo instance];
-                                   UIViewController *selectedVC = thisTabBarVC.selectedViewController;
-                                   
-                                   BOOL autoRotate = NO;
-                                   if ([selectedVC isKindOfClass:[UINavigationController class]]) {
-                                       autoRotate = [((UINavigationController *)selectedVC).topViewController shouldAutorotate];
-                                   } else {
-                                       autoRotate = [selectedVC shouldAutorotate];
-                                   }
-                                   [[aspectInfo originalInvocation] setReturnValue:&autoRotate];
-                               } error:nil];
+                                withOptions:AspectPositionInstead
+                                 usingBlock:^(id<AspectInfo> aspectInfo){
+                                     UITabBarController *thisTabBarVC = [aspectInfo instance];
+                                     UIViewController *selectedVC = thisTabBarVC.selectedViewController;
+                                     
+                                     BOOL autoRotate = NO;
+                                     if ([selectedVC isKindOfClass:[UINavigationController class]]) {
+                                         autoRotate = [((UINavigationController *)selectedVC).topViewController shouldAutorotate];
+                                     } else {
+                                         autoRotate = [selectedVC shouldAutorotate];
+                                     }
+                                     [[aspectInfo originalInvocation] setReturnValue:&autoRotate];
+                                 } error:nil];
     
     [UITabBarController aspect_hookSelector:@selector(supportedInterfaceOrientations)
                                 withOptions:AspectPositionInstead
@@ -127,21 +133,21 @@
                                  } error:nil];
     
     // No title in tabbar item
-    [UITabBarItem aspect_hookSelector:@selector(title)
-                          withOptions:AspectPositionInstead
-                           usingBlock:^(id<AspectInfo> aspectInfo)
-    {
-        NSString *title;
-        [[aspectInfo originalInvocation] setReturnValue:&title];
-    } error:nil];
-    
-    [UITabBarItem aspect_hookSelector:@selector(imageInsets)
-                          withOptions:AspectPositionInstead
-                           usingBlock:^(id<AspectInfo> aspectInfo)
-    {
-        UIEdgeInsets imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
-        [[aspectInfo originalInvocation] setReturnValue:&imageInsets];
-    } error:nil];
+    //    [UITabBarItem aspect_hookSelector:@selector(title)
+    //                          withOptions:AspectPositionInstead
+    //                           usingBlock:^(id<AspectInfo> aspectInfo)
+    //    {
+    //        NSString *title;
+    //        [[aspectInfo originalInvocation] setReturnValue:&title];
+    //    } error:nil];
+    //    
+    //    [UITabBarItem aspect_hookSelector:@selector(imageInsets)
+    //                          withOptions:AspectPositionInstead
+    //                           usingBlock:^(id<AspectInfo> aspectInfo)
+    //    {
+    //        UIEdgeInsets imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    //        [[aspectInfo originalInvocation] setReturnValue:&imageInsets];
+    //    } error:nil];
 }
 
 - (void)setupMobStatistics {
@@ -192,7 +198,7 @@
         
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[KbSystemConfigModel sharedModel].startupInstall]];
     }];
-
+    
     return YES;
 }
 
