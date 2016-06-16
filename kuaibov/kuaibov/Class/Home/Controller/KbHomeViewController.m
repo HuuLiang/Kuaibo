@@ -44,10 +44,10 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
-//    if (!appName) {
-//        appName = @"快播";
-//    }
+    //    NSString *appName = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
+    //    if (!appName) {
+    //        appName = @"快播";
+    //    }
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.title = @"首页";
@@ -75,7 +75,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         [self reloadPrograms];
     }];
     [_layoutTableView kb_triggerPullToRefresh];
- _layoutTableView.contentInset = UIEdgeInsetsMake(0, 0, -20, 0);
+    _layoutTableView.contentInset = UIEdgeInsetsMake(0, 0, -20, 0);
 }
 
 - (void)reloadPrograms {
@@ -211,12 +211,12 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
                 @strongify(self);
                 
                 KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
- 
+                
                 NSArray<KbProgram *> *programsForCell = [self programsForCellAtIndexPath:indexPath];
                 if (programsForCell.count < position) {
                     return ;
                 }
-                if (programs.type.unsignedIntegerValue == KBprogramTypeFreeVideo) {
+                if (programs.type.unsignedIntegerValue == KBprogramTypeFreeVideo&&![KbUtil isPaid]) {
                     [self switchToPlayFreeVideoProgram:programsForCell[position]];
                 }else{
                     [self switchToPlayProgram:programsForCell[position]];}

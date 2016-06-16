@@ -62,7 +62,6 @@
     _webView = [[UIWebView alloc] init];
     _webView.delegate = self;
     [self.view addSubview:_webView];
-    
     [_topImageView bk_whenTapped:^{
         NSString *spreadURL = [KbSystemConfigModel sharedModel].spreadURL;
         if (spreadURL) {
@@ -93,7 +92,7 @@
         });
     });
     
-    [self loadTopImage];
+    //[self loadTopImage];
 }
 
 - (void)loadTopImage {

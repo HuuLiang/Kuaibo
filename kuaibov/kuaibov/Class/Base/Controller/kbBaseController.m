@@ -68,7 +68,7 @@
 }
 
 - (void)switchToPlayProgram:(KbProgram *)program {
-    if (![KbUtil isPaid]&&program.type.unsignedIntegerValue != KBprogramTypeFreeVideo) {
+    if (![KbUtil isPaid]) {
         [self payForProgram:program];
     } else if (program.type.unsignedIntegerValue == KbProgramTypeVideo) {
         UIViewController *videoPlayVC = [self playerVCWithVideo:program];
