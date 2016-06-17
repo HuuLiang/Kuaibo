@@ -56,12 +56,12 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
 }
 
 - (KbPaymentInfo *)startPaymentWithType:(KbPaymentType)type
-                                           subType:(KbPaymentType)subType
-                                             price:(NSUInteger)price
-                                        forProgram:(KbProgram *)program
-                                   programLocation:(NSUInteger)programLocation
-                                         inChannel:(KbChannels *)channel
-                                 completionHandler:(KbPaymentCompletionHandler)handler
+                                subType:(KbPaymentType)subType
+                                  price:(NSUInteger)price
+                             forProgram:(KbProgram *)program
+                        programLocation:(NSUInteger)programLocation
+                              inChannel:(KbChannels *)channel
+                      completionHandler:(KbPaymentCompletionHandler)handler
 {
     if (type == KbPaymentTypeNone || (type == KbPaymentTypeIAppPay && subType == KbPaymentTypeNone)) {
         if (self.completionHandler) {

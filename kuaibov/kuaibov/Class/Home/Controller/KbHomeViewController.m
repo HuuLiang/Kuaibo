@@ -312,5 +312,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:bannerProgram.videoUrl]];
     }
     
+    [[KbStatsManager sharedManager] statsCPCWithProgram:bannerProgram programLocation:index inChannel:self.programModel.fetchedBannerPrograms[0] andTabIndex:self.tabBarController.selectedIndex subTabIndex:[KbUtil currentSubTabPageIndex]];
+    
 }
 @end

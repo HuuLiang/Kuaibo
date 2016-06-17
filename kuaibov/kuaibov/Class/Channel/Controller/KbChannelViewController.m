@@ -243,7 +243,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
             KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
             programVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:programVC animated:YES];
-            [[KbStatsManager sharedManager] statsCPCWithProgram:selectedChannel.programList[indexPath.row] programLocation:indexPath.item inChannel:selectedChannel andTabIndex:self.tabBarController.selectedIndex subTabIndex:0];
+            [[KbStatsManager sharedManager] statsCPCWithProgram:selectedChannel.programList[indexPath.row] programLocation:indexPath.row inChannel:selectedChannel andTabIndex:self.tabBarController.selectedIndex subTabIndex:[KbUtil currentSubTabPageIndex]];
             
             
         } else if (selectedChannel.type.unsignedIntegerValue == KbChannelTypeBanner) {

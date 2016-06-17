@@ -152,14 +152,14 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     KbChannelProgram *program = [self channelProgramOfIndexPath:indexPath];
-//    [self switchToPlayProgram:program];
+    //    [self switchToPlayProgram:program];
     [self switchToPlayProgram:program programLocation:indexPath.item inChannel:_programModel.fetchedPrograms];
-    [[KbStatsManager sharedManager] statsCPCWithProgram:program programLocation:indexPath.item inChannel:_programModel.fetchedPrograms andTabIndex:self.tabBarController.selectedIndex subTabIndex:0];
+    [[KbStatsManager sharedManager] statsCPCWithProgram:program programLocation:indexPath.item inChannel:_programModel.fetchedPrograms andTabIndex:1 subTabIndex:[KbUtil currentSubTabPageIndex]];
     
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [[KbStatsManager sharedManager] statsTabIndex:self.tabBarController.selectedIndex subTabIndex:0 forSlideCount:1];
+    [[KbStatsManager sharedManager] statsTabIndex:1 subTabIndex:[KbUtil currentSubTabPageIndex] forSlideCount:1];
 }
 
 @end
