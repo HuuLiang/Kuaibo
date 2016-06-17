@@ -128,6 +128,11 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
     // Dispose of any resources that can be recreated.
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [[KbStatsManager sharedManager] statsTabIndex:self.tabBarController.selectedIndex subTabIndex:0 forSlideCount:1];
+}
+
+
 #pragma mark - UITableViewDataSource,UITableViewDelegate
 
 - (BOOL)isPaymentCellInSection:(NSUInteger)section {
@@ -229,7 +234,8 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self isPaymentCellInSection:indexPath.section]) {
         if (![KbUtil isPaid]) {
-            [self payForProgram:nil];
+//            [self payForProgram:nil];
+            [self payForProgram:nil programLocation:0 inChannel:nil];
         }
     } else {
         KbChannel *selectedChannel = self.videoChannels[indexPath.row];
@@ -237,6 +243,9 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
             KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
             programVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:programVC animated:YES];
+            [[KbStatsManager sharedManager] statsCPCWithProgram:selectedChannel.programList[indexPath.row] programLocation:indexPath.item inChannel:selectedChannel andTabIndex:self.tabBarController.selectedIndex subTabIndex:0];
+            
+            
         } else if (selectedChannel.type.unsignedIntegerValue == KbChannelTypeBanner) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:selectedChannel.spreadUrl]];
         }

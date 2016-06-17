@@ -26,6 +26,9 @@
 @end
 
 @implementation kbBaseController
+- (NSUInteger)currentIndex {
+    return NSNotFound;
+}
 
 - (UIViewController *)playerVCWithVideo:(KbVideo *)video {
     UIViewController *retVC;
@@ -67,9 +70,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)switchToPlayProgram:(KbProgram *)program {
+- (void)switchToPlayProgram:(KbProgram *)program programLocation:(NSInteger)programLocation inChannel:(KbChannels *)channel{
     if (![KbUtil isPaid]) {
-        [self payForProgram:program];
+//        [self payForProgram:program];
+        [self payForProgram:program programLocation:programLocation inChannel:channel];
     } else if (program.type.unsignedIntegerValue == KbProgramTypeVideo) {
         UIViewController *videoPlayVC = [self playerVCWithVideo:program];
         videoPlayVC.hidesBottomBarWhenPushed = YES;
@@ -91,8 +95,9 @@
 
 
 
-- (void)payForProgram:(KbProgram *)program {
-    [[KbPaymentViewController sharedPaymentVC] popupPaymentInView:self.view.window forProgram:program];
+- (void)payForProgram:(KbProgram *)program programLocation:(NSInteger)programLocation inChannel:(KbChannels *)channel{
+//    [[KbPaymentViewController sharedPaymentVC] popupPaymentInView:self.view.window forProgram:program];
+    [[KbPaymentViewController sharedPaymentVC] popupPaymentInView:self.view.window forProgram:program programLocation:programLocation inChannel:channel];
 }
 
 

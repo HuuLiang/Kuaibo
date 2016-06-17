@@ -30,4 +30,7 @@
     return propertyArr;
 }
 
+- (NSArray *)allProperties {
+    return [NSObject propertiesOfClass:[self class]];
+}
 @end

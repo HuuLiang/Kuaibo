@@ -45,7 +45,7 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
     // Do any additional setup after loading the view.
     self.title = _channel.name;
     self.view.backgroundColor = [UIColor whiteColor];
-
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.minimumInteritemSpacing = kDefaultItemSpacing;
     layout.minimumLineSpacing = kDefaultItemSpacing;
@@ -65,13 +65,13 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
     @weakify(self);
     [_layoutCollectionView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
-
+        
         self.currentPage = 0;
         [self.programs removeAllObjects];
         [self loadPrograms];
     }];
     [_layoutCollectionView kb_triggerPullToRefresh];
-
+    
     [_layoutCollectionView kb_addPagingRefreshWithHandler:^{
         @strongify(self);
         [self loadPrograms];
@@ -107,7 +107,7 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
                                    if (self.programs.count >= programs.items.unsignedIntegerValue) {
                                        [self->_layoutCollectionView kb_pagingRefreshNoMoreData];
                                    }
-    }];
+                               }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -152,6 +152,14 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     KbChannelProgram *program = [self channelProgramOfIndexPath:indexPath];
-    [self switchToPlayProgram:program];
+//    [self switchToPlayProgram:program];
+    [self switchToPlayProgram:program programLocation:indexPath.item inChannel:_programModel.fetchedPrograms];
+    [[KbStatsManager sharedManager] statsCPCWithProgram:program programLocation:indexPath.item inChannel:_programModel.fetchedPrograms andTabIndex:self.tabBarController.selectedIndex subTabIndex:0];
+    
 }
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [[KbStatsManager sharedManager] statsTabIndex:self.tabBarController.selectedIndex subTabIndex:0 forSlideCount:1];
+}
+
 @end

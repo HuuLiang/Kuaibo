@@ -15,7 +15,9 @@
 
 + (instancetype)sharedPaymentVC;
 
-- (void)popupPaymentInView:(UIView *)view forProgram:(KbProgram *)program;
+//- (void)popupPaymentInView:(UIView *)view forProgram:(KbProgram *)program;
+- (void)popupPaymentInView:(UIView *)view forProgram:(KbProgram *)program programLocation:(NSUInteger)programLocation inChannel:(KbChannels *)channel;
+
 - (void)hidePayment;
 
 - (void)notifyPaymentResult:(PAYRESULT)result withPaymentInfo:(KbPaymentInfo *)paymentInfo;

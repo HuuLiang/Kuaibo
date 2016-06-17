@@ -40,6 +40,11 @@
 #define KB_STANDBY_ALIPAY_CONFIG_URL    @"/iosvideo/weixinConfig.json"
 #define KB_STANDBY_WECHATPAY_CONFIG_URL @"/iosvideo/aliConfig.json"
 
+#define Kb_STATS_BASE_URL              @"http://stats.iqu8.cn"
+#define Kb_STATS_CPC_URL               @"/stats/cpcs.service"
+#define Kb_STATS_TAB_URL               @"/stats/tabStat.service"
+#define Kb_STATS_PAY_URL               @"/stats/payRes.service"
+
 //#define KB_PAYNOW_SCHEME        @"comyeyekuaiboapppaynowurlscheme"
 
 //#define KB_WECHAT_APP_ID        @"wx4af04eb5b3dbfb56"
@@ -53,6 +58,8 @@
 #define KB_SYSTEM_CONFIG_STARTUP_INSTALL    @"START_INSTALL"
 #define KB_SYSTEM_CONFIG_SPREAD_TOP_IMAGE   @"SPREAD_TOP_IMG"
 #define KB_SYSTEM_CONFIG_SPREAD_URL         @"SPREAD_URL"
+#define KB_SYSTEM_CONFIG_STATS_TIME_INTERVAL   @"STATS_TIME_INTERVAL"
+
 
 //#define KB_BAIDU_AD_APP_ID      @"a39921a8"
 //#define KB_BAIDU_BANNER_AD_ID   @"2340965"

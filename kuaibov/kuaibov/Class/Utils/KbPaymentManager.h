@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+@class KbChannels;
 
 @class KbProgram;
 
@@ -17,10 +18,12 @@ typedef void (^KbPaymentCompletionHandler)(PAYRESULT payResult, KbPaymentInfo *p
 + (instancetype)sharedManager;
 
 - (void)setup;
-- (BOOL)startPaymentWithType:(KbPaymentType)type
+- (KbPaymentInfo *)startPaymentWithType:(KbPaymentType)type
                      subType:(KbPaymentType)subType
                        price:(NSUInteger)price
                   forProgram:(KbProgram *)program
+             programLocation:(NSUInteger)programLocation
+                   inChannel:(KbChannels *)channel
            completionHandler:(KbPaymentCompletionHandler)handler;
 
 - (void)handleOpenURL:(NSURL *)url;

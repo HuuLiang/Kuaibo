@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, KbHomeProgramItemPosition) {
 
 @end
 
-typedef void (^KbHomeProgramCellAction)(KbHomeProgramItemPosition position);
+typedef void (^KbHomeProgramCellAction)(KbHomeProgramItemPosition position , NSInteger idx);
 
 @interface KbHomeProgramCell : UITableViewCell
 

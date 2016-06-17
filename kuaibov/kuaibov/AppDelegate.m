@@ -187,6 +187,13 @@
     
     [[KbPaymentModel sharedModel] startRetryingToCommitUnprocessedOrders];
     [[KbSystemConfigModel sharedModel] fetchSystemConfigWithCompletionHandler:^(BOOL success) {
+        NSInteger statsTimeInterval = 20;//上传时间间隔
+        if ([KbSystemConfigModel sharedModel].loaded && [KbSystemConfigModel sharedModel].statsTimeInterval >0) {
+            statsTimeInterval = [KbSystemConfigModel sharedModel].statsTimeInterval;
+        }
+        
+        [[KbStatsManager sharedManager] scheduleStatsUploadWithTimeInterval:statsTimeInterval];
+        
         if (!success) {
             return ;
         }

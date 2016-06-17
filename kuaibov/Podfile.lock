@@ -36,6 +36,9 @@ PODS:
   - BlocksKit/UIKit (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
   - Masonry (0.6.2)
   - MBProgressHUD (0.9.1)
   - MJRefresh (2.4.10)
@@ -52,6 +55,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.6.0)
   - Aspects (~> 1.4.1)
   - BlocksKit (~> 2.2.5)
+  - FMDB (~> 2.6.2)
   - Masonry (~> 0.6.2)
   - MBProgressHUD (~> 0.9.1)
   - MJRefresh (~> 2.4.7)
@@ -66,6 +70,7 @@ SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   Masonry: 362e8a1cc0beada4a4c4832d5e863da2a51533be
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJRefresh: e52328552ed9cbfce3501e3820b18bf7643c65cc

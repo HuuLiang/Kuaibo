@@ -13,12 +13,16 @@
 #import "KbPaymentInfo.h"
 #import <AFNetworkReachabilityManager.h>
 #import "KbHudManager.h"
+#import "kbBaseController.h"
 
 NSString *const kPaymentInfoKeyName = @"kuaibov_paymentinfo_keyname";
 
 static NSString *const kRegisterKeyName = @"kuaibov_register_keyname";
 static NSString *const kUserAccessUsername = @"kuaibov_user_access_username";
 static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
+
+static NSString *const kLaunchSeqKeyName = @"yykuaibov_launchseq_keyname";
+
 
 @implementation KbUtil
 
@@ -78,6 +82,7 @@ static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
 }
 
 + (BOOL)isPaid {
+//    return YES;
     return [self successfulPaymentInfo] != nil;
 }
 
@@ -104,4 +109,33 @@ static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
     }];
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
++ (NSUInteger)launchSeq {
+    NSNumber *launchSeq = [[NSUserDefaults standardUserDefaults] objectForKey:kLaunchSeqKeyName];
+    return launchSeq.unsignedIntegerValue;
+}
+
++ (NSUInteger)currentTabPageIndex {
+    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    if ([rootVC isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *tabVC = (UITabBarController *)rootVC;
+        return tabVC.selectedIndex;
+    }
+    return 0;
+}
+
++ (NSUInteger)currentSubTabPageIndex {
+    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    if ([rootVC isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *tabVC = (UITabBarController *)rootVC;
+        if ([tabVC.selectedViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController *navVC = (UINavigationController *)tabVC.selectedViewController;
+            if ([navVC.visibleViewController isKindOfClass:[kbBaseController class]]) {
+                kbBaseController *baseVC = (kbBaseController *)navVC.visibleViewController;
+                return [baseVC currentIndex];
+            }
+        }
+    }
+    return NSNotFound;
+}
+
 @end

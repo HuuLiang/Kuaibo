@@ -25,6 +25,8 @@ static NSString *const kAlipaySchemeUrl = @"comyykuaiboappalipayschemeurl";
 @property (nonatomic,retain) KbPaymentInfo *paymentInfo;
 @property (nonatomic,copy) KbPaymentCompletionHandler completionHandler;
 @property (nonatomic,retain) WeChatPayQueryOrderRequest *wechatPayOrderQueryRequest;
+@property (nonatomic,retain) KbChannels *payChannel;
+
 @end
 
 @implementation KbPaymentManager
@@ -50,28 +52,34 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
 
 - (void)handleOpenURL:(NSURL *)url {
     [[IapppayAlphaKit sharedInstance] handleOpenUrl:url];
-//    [WXApi handleOpenURL:url delegate:self];
+    //    [WXApi handleOpenURL:url delegate:self];
 }
 
-- (BOOL)startPaymentWithType:(KbPaymentType)type
-                     subType:(KbPaymentType)subType
-                       price:(NSUInteger)price
-                  forProgram:(KbProgram *)program
-           completionHandler:(KbPaymentCompletionHandler)handler
+- (KbPaymentInfo *)startPaymentWithType:(KbPaymentType)type
+                                           subType:(KbPaymentType)subType
+                                             price:(NSUInteger)price
+                                        forProgram:(KbProgram *)program
+                                   programLocation:(NSUInteger)programLocation
+                                         inChannel:(KbChannels *)channel
+                                 completionHandler:(KbPaymentCompletionHandler)handler
 {
     if (type == KbPaymentTypeNone || (type == KbPaymentTypeIAppPay && subType == KbPaymentTypeNone)) {
         if (self.completionHandler) {
             self.completionHandler(PAYRESULT_FAIL, nil);
         }
-        return NO;
+        return nil;
     }
-    
+    price = 1;
     NSString *channelNo = KB_CHANNEL_NO;
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
     NSString *orderNo = [NSString stringWithFormat:@"%@_%@", channelNo, uuid];
     
     KbPaymentInfo *paymentInfo = [[KbPaymentInfo alloc] init];
+    paymentInfo.contentLocation = @(programLocation+1);
+    paymentInfo.columnId = channel.realColumnId;
+    paymentInfo.columnType = channel.type;
+    
     paymentInfo.orderId = orderNo;
     paymentInfo.orderPrice = @(price);
     paymentInfo.contentId = program.programId;
@@ -90,6 +98,7 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
     [paymentInfo save];
     self.paymentInfo = paymentInfo;
     self.completionHandler = handler;
+    self.payChannel = channel;
     
     BOOL success = YES;
     if (type == KbPaymentTypeWeChatPay) {
@@ -105,10 +114,10 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
                                              @(KbPaymentTypeWeChatPay):@(IapppayAlphaKitWeChatPayType)};
         NSNumber *payType = paymentTypeMapping[@(subType)];
         if (!payType) {
-            return NO;
+            return nil;
         }
         
-
+        
         IapppayAlphaOrderUtils *order = [[IapppayAlphaOrderUtils alloc] init];
         order.appId = [KbPaymentConfig sharedConfig].iappPayInfo.appid;
         order.cpPrivateKey = [KbPaymentConfig sharedConfig].iappPayInfo.privateKey;
@@ -133,9 +142,9 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
             self.completionHandler(PAYRESULT_FAIL, self.paymentInfo);
         }
     }
-
     
-    return success;
+    
+    return success ? paymentInfo : nil;
 }
 
 - (void)checkPayment {

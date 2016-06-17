@@ -21,8 +21,11 @@
 
 @property (nonatomic,retain) KbProgram *programToPayFor;
 @property (nonatomic,retain) KbPaymentInfo *paymentInfo;
-
 @property (nonatomic,readonly,retain) NSDictionary *paymentTypeMap;
+
+@property (nonatomic) NSUInteger programLocationToPayFor;
+@property (nonatomic,retain) KbChannels *channelToPayFor;
+
 @end
 
 @implementation KbPaymentViewController
@@ -62,7 +65,7 @@
     _popView = [[KbPaymentPopView alloc] init];
     _popView.headerImageURL = [NSURL URLWithString:[KbSystemConfigModel sharedModel].paymentImage];
     _popView.footerImage = [UIImage imageNamed:@"payment_footer"];
-
+    
     if (([KbPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & KbIAppPayTypeWeChat)
         || [KbPaymentConfig sharedConfig].weixinInfo) {
         BOOL useBuildInWeChatPay = [KbPaymentConfig sharedConfig].weixinInfo != nil;
@@ -78,20 +81,31 @@
             Pay(useBuildInAlipay?KbPaymentTypeAlipay:KbPaymentTypeIAppPay, useBuildInAlipay?KbPaymentTypeNone:KbPaymentTypeAlipay);
         }];
     }
-
-//    [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
-//        Pay(KbPaymentTypeWeChatPay);
-//    }];
-//    
-//    if ([KbPaymentConfig sharedConfig].iappPayInfo) {
-//        [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
-//            Pay(KbPaymentTypeAlipay);
-//        }];
-//    }
+    
+    //    [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
+    //        Pay(KbPaymentTypeWeChatPay);
+    //    }];
+    //    
+    //    if ([KbPaymentConfig sharedConfig].iappPayInfo) {
+    //        [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
+    //            Pay(KbPaymentTypeAlipay);
+    //        }];
+    //    }
     
     _popView.closeAction = ^(id sender){
         @strongify(self);
         [self hidePayment];
+        
+        [[KbStatsManager sharedManager] statsPayWithOrderNo:nil
+                                                  payAction:KbStatsPayActionClose
+                                                  payResult:PAYRESULT_UNKNOWN
+                                                 forProgram:self.programToPayFor
+                                            programLocation:self.programLocationToPayFor
+                                                  inChannel:self.channelToPayFor
+                                                andTabIndex:[KbUtil currentTabPageIndex]
+                                                subTabIndex:[KbUtil currentSubTabPageIndex]];
+        
+        
     };
     return _popView;
 }
@@ -111,11 +125,13 @@
     }
 }
 
-- (void)popupPaymentInView:(UIView *)view forProgram:(KbProgram *)program {
+- (void)popupPaymentInView:(UIView *)view forProgram:(KbProgram *)program programLocation:(NSUInteger)programLocation inChannel:(KbChannels *)channel{
     if (self.view.superview) {
         [self.view removeFromSuperview];
     }
     
+    self.programLocationToPayFor = programLocation;
+    self.channelToPayFor = channel;
     self.payAmount = nil;
     self.programToPayFor = program;
     self.view.frame = view.bounds;
@@ -150,9 +166,9 @@
 }
 
 - (void)setPayAmount:(NSNumber *)payAmount {
-//#ifdef DEBUG
-//    payAmount = @(0.1);
-//#endif
+    //#ifdef DEBUG
+    //    payAmount = @(0.1);
+    //#endif
     _payAmount = payAmount;
     self.popView.showPrice = payAmount;
 }
@@ -162,6 +178,9 @@
         self.view.alpha = 0;
     } completion:^(BOOL finished) {
         [self.view removeFromSuperview];
+        self.programToPayFor = nil;
+        self.programLocationToPayFor = 0;
+        self.channelToPayFor = nil;
     }];
 }
 
@@ -171,15 +190,25 @@
        paymentSubType:(KbPaymentType)paymentSubType
 {
     @weakify(self);
-    [[KbPaymentManager sharedManager] startPaymentWithType:paymentType
-                                                   subType:paymentSubType
-                                                      price:price*100
-                                                 forProgram:program
-                                          completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo)
-    {
-        @strongify(self);
-        [self notifyPaymentResult:payResult withPaymentInfo:paymentInfo];
-    }];
+    KbPaymentInfo *paymentInfo = [[KbPaymentManager sharedManager] startPaymentWithType:paymentType
+                                                                                subType:paymentSubType
+                                                                                  price:price*100
+                                                                             forProgram:program
+                                                                        programLocation:self.programLocationToPayFor
+                                                                              inChannel:self.channelToPayFor
+                                                                      completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo)
+                                  {
+                                      @strongify(self);
+                                      [self notifyPaymentResult:payResult withPaymentInfo:paymentInfo];
+                                  }];
+    
+    if (paymentInfo) {
+        [[KbStatsManager sharedManager] statsPayWithPaymentInfo:paymentInfo
+                                                   forPayAction:KbStatsPayActionGoToPay
+                                                    andTabIndex:[KbUtil currentTabPageIndex]
+                                                    subTabIndex:[KbUtil currentSubTabPageIndex]];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -211,6 +240,12 @@
     }
     
     [[KbPaymentModel sharedModel] commitPaymentInfo:paymentInfo];
+    
+    [[KbStatsManager sharedManager] statsPayWithPaymentInfo:paymentInfo
+                                               forPayAction:KbStatsPayActionPayBack
+                                                andTabIndex:[KbUtil currentTabPageIndex]
+                                                subTabIndex:[KbUtil currentSubTabPageIndex]];
+    
 }
 
 @end

@@ -11,7 +11,7 @@
 @implementation KbChannelResponse
 
 - (Class)columnListElementClass {
-    return [KbChannel class];
+    return [KbChannels class];
 }
 
 @end

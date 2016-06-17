@@ -23,8 +23,8 @@
 
 @end
 
-@interface KbChannelPrograms : KbPrograms
-@property (nonatomic) NSNumber *items;
-@property (nonatomic) NSNumber *page;
-@property (nonatomic) NSNumber *pageSize;
+@interface KbChannelPrograms : KbChannels
+//@property (nonatomic) NSNumber *items;
+//@property (nonatomic) NSNumber *page;
+//@property (nonatomic) NSNumber *pageSize;
 @end

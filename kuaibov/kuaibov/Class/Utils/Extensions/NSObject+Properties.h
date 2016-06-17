@@ -11,5 +11,7 @@
 @interface NSObject (Properties)
 
 + (NSArray *)propertiesOfClass:(Class)cls;
+- (NSArray *)allProperties;
+
 
 @end

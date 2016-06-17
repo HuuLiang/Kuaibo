@@ -52,7 +52,8 @@ _##propertyName = [[propertyType alloc] init]; \
 return _##propertyName; \
 }
 
-
+#define SafelyCallBlock(block,...) \
+if (block) block(__VA_ARGS__);
 
 #define TABBAR_TEXT_NOR_COLOR       RGB(66, 72, 96)
 #define TABBAR_TEXT_HLT_COLOR       RGB(238,76,72)//RGB(232, 60, 40)

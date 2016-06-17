@@ -54,7 +54,7 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
         [itemView bk_whenTapped:^{
             @strongify(self);
             if (self.action) {
-                self.action(position);
+                self.action(position,itemView.tag);
             }
         }];
     }
@@ -74,6 +74,7 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
                 make.width.equalTo(itemView.mas_height).multipliedBy([[self class] imageScale]);
 //                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(2./3.);
             }];
+            itemView.tag = 0;
             break;
         }
         case KbHomeProgramRightTopItem:
@@ -84,6 +85,7 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
                 make.height.equalTo(self).offset(-kDefaultItemSpacing).multipliedBy(0.5);
                 make.width.equalTo(itemView.mas_height).multipliedBy([[self class] imageScale]);
             }];
+            itemView.tag = 1;
             break;
         }
         case KbHomeProgramRightBottomItem:
@@ -95,6 +97,7 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
                 make.height.equalTo(self).offset(-kDefaultItemSpacing).multipliedBy(0.5);
                 make.width.equalTo(itemView.mas_height).multipliedBy([[self class] imageScale]);
             }];
+            itemView.tag = 2;
             break;
         }
         default:

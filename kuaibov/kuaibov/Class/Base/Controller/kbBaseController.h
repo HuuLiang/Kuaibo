@@ -10,10 +10,14 @@
 
 @interface kbBaseController : UIViewController
 
-- (void)switchToPlayProgram:(KbProgram *)program;
-- (void)payForProgram:(KbProgram *)program;
+//- (void)switchToPlayProgram:(KbProgram *)program;
+- (void)switchToPlayProgram:(KbProgram *)program programLocation:(NSInteger)programLocation inChannel:(KbChannels *)channel;
+
+//- (void)payForProgram:(KbProgram *)program;
+- (void)payForProgram:(KbProgram *)program programLocation:(NSInteger)programLocation inChannel:(KbChannels *)channel;
 - (void)onPaidNotification:(NSNotification *)notification;
 
 - (void)switchToPlayFreeVideoProgram:(KbProgram*)program;
 
+- (NSUInteger)currentIndex;
 @end

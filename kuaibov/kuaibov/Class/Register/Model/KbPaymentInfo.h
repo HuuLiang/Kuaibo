@@ -28,6 +28,11 @@ typedef NS_ENUM(NSUInteger, KbPaymentStatus) {
 @property (nonatomic) NSNumber *paymentResult;
 @property (nonatomic) NSNumber *paymentStatus;
 @property (nonatomic) NSString *reservedData;
+
+@property (nonatomic) NSNumber *columnId;
+@property (nonatomic) NSNumber *columnType;
+@property (nonatomic) NSNumber *contentLocation;
+
 // 商户信息
 @property (nonatomic) NSString *appId;
 @property (nonatomic) NSString *mchId;

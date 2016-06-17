@@ -20,10 +20,10 @@
 
 @end
 
-@implementation KbPrograms
-
-- (Class)programListElementClass {
-    return [KbProgram class];
-}
-
-@end
+//@implementation KbPrograms
+//
+//- (Class)programListElementClass {
+//    return [KbProgram class];
+//}
+//
+//@end

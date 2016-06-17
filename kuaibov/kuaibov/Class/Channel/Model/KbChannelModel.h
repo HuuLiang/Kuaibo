@@ -8,13 +8,12 @@
 
 #import "KbEncryptedURLRequest.h"
 #import "KbChannel.h"
-
 @interface KbChannelResponse : KbURLResponse
-@property (nonatomic,retain) NSMutableArray<KbChannel> *columnList;
+@property (nonatomic,retain) NSMutableArray<KbChannels *> *columnList;
 
 @end
 
-typedef void (^KbFetchChannelsCompletionHandler)(BOOL success, NSArray<KbChannel *> *channels);
+typedef void (^KbFetchChannelsCompletionHandler)(BOOL success, NSArray<KbChannels *> *channels);
 
 @interface KbChannelModel : KbEncryptedURLRequest
 

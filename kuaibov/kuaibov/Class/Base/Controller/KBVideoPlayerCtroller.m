@@ -64,7 +64,8 @@
         @strongify(self);
         [self->_videoPlayer pause];
         
-        [self payForProgram:self.video];
+//        [self payForProgram:self.video];
+        [self payForProgram:self.video programLocation:self.videoLocation inChannel:self.channel];
         [self dismissViewControllerAnimated:YES completion:nil];
     } forControlEvents:UIControlEventTouchUpInside];
     

@@ -92,10 +92,10 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 
 - (NSArray<KbProgram *> *)programsForCellAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return self.programModel.fetchedBannerPrograms;
+        return self.programModel.fetchedBannerPrograms[indexPath.item].programList;
     }
     
-    KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
+    KbChannels *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
     
     NSMutableArray *programsForCell = [NSMutableArray array];
     for (NSUInteger i = 0; i < 3; ++i) {
@@ -112,10 +112,11 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return nil;
     }
     
-    KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
+    KbChannels *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
     if (programs.type.unsignedIntegerValue == KbProgramTypeAd) {
+        
         return programs.programList[indexPath.row];
-    }
+   }
     return nil;
 }
 
@@ -124,13 +125,17 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return NO;
     }
     
-    KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
+    KbChannels *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
     return programs.type.unsignedIntegerValue == KbProgramTypeAd;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [[KbStatsManager sharedManager] statsTabIndex:self.tabBarController.selectedIndex subTabIndex:0 forSlideCount:1];
 }
 
 #pragma mark - Table View Delegate & DataSource
@@ -146,6 +151,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             _bannerView.delegate = self;
             _bannerView.backgroundColor = [UIColor whiteColor];
             [_bannerCell.contentView addSubview:_bannerView];
+            
             {
                 [_bannerView mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.edges.equalTo(_bannerCell.contentView);
@@ -155,12 +161,23 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         
         NSMutableArray *imageUrlGroup = [NSMutableArray array];
         NSMutableArray *titlesGroup = [NSMutableArray array];
-        for (KbProgram *bannerProgram in self.programModel.fetchedBannerPrograms) {
+        for (KbProgram *bannerProgram in self.programModel.fetchedBannerPrograms[indexPath.item].programList) {
             [imageUrlGroup addObject:bannerProgram.coverImg];
             [titlesGroup addObject:bannerProgram.title];
         }
         _bannerView.imageURLStringsGroup = imageUrlGroup;
         _bannerView.titlesGroup = titlesGroup;
+        @weakify(self);
+        //数据统计
+        [_bannerView aspect_hookSelector:@selector(scrollViewDidEndDragging:willDecelerate:)
+                             withOptions:AspectPositionAfter
+                              usingBlock:^(id<AspectInfo> aspectInfo, UIScrollView *scrollView, BOOL decelerate)
+         {
+             @strongify(self);
+             [[KbStatsManager sharedManager] statsTabIndex:[KbUtil currentTabPageIndex] subTabIndex:[KbUtil currentSubTabPageIndex] forBanner:self.programModel.fetchedBannerPrograms[indexPath.item].columnId withSlideCount:1];
+             
+         } error:nil];
+        
         return _bannerCell;
         
     } else {
@@ -179,6 +196,8 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             [backgroundView sd_setImageWithURL:[NSURL URLWithString:adProgram.coverImg]];
             
             [cell bk_whenTapped:^{
+                [[KbStatsManager sharedManager] statsCPCWithProgram:adProgram programLocation:indexPath.item inChannel:self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1] andTabIndex:self.tabBarController.selectedIndex subTabIndex:0];
+                
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:adProgram.videoUrl]];
             }];
             return cell;
@@ -207,10 +226,12 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
                       atPosition:KbHomeProgramRightBottomItem];
             
             @weakify(self);
-            programCell.action = ^(KbHomeProgramItemPosition position) {
+            programCell.action = ^(KbHomeProgramItemPosition position,NSInteger idx) {
                 @strongify(self);
+                //数据统计
+                [[KbStatsManager sharedManager] statsCPCWithProgram:programsForCell[idx] programLocation:indexPath.section inChannel:self.programModel.fetchedProgramList[indexPath.section] andTabIndex:self.tabBarController.selectedIndex subTabIndex:0];
                 
-                KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
+                KbChannels *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
                 
                 NSArray<KbProgram *> *programsForCell = [self programsForCellAtIndexPath:indexPath];
                 if (programsForCell.count < position) {
@@ -219,7 +240,10 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
                 if (programs.type.unsignedIntegerValue == KBprogramTypeFreeVideo&&![KbUtil isPaid]) {
                     [self switchToPlayFreeVideoProgram:programsForCell[position]];
                 }else{
-                    [self switchToPlayProgram:programsForCell[position]];}
+//                    [self switchToPlayProgram:programsForCell[position]];
+                    [self switchToPlayProgram:programsForCell[position] programLocation:indexPath.section inChannel:self.programModel.fetchedProgramList[indexPath.section]];
+                
+                }
             };
             return programCell;
         }
@@ -235,7 +259,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     if (section == 0) {
         return 1;
     } else {
-        KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
+        KbChannels *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
         if (programs.type.unsignedIntegerValue == KbProgramTypeAd) {
             return programs.programList.count;
         } else {
@@ -260,7 +284,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         return nil;
     }
     
-    KbPrograms *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
+    KbChannels *programs = self.programModel.fetchedVideoAndAdProgramList[section-1];
     if (programs.type.unsignedIntegerValue == KbProgramTypeAd) {
         return nil;
     }
@@ -280,9 +304,10 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 #pragma mark - SDCycleScrollViewDelegate
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    KbProgram *bannerProgram = self.programModel.fetchedBannerPrograms[index];
+    KbProgram *bannerProgram = self.programModel.fetchedBannerPrograms[0].programList[index];
     if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeVideo) {
-        [self switchToPlayProgram:bannerProgram];
+//        [self switchToPlayProgram:bannerProgram];
+        [self switchToPlayProgram:bannerProgram programLocation:index inChannel:self.programModel.fetchedBannerPrograms[0]];
     } else if (bannerProgram.type.unsignedIntegerValue == KbProgramTypeAd) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:bannerProgram.videoUrl]];
     }

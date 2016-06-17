@@ -10,17 +10,17 @@
 #import "KbProgram.h"
 
 @interface KbHomeProgramResponse : KbURLResponse
-@property (nonatomic,retain) NSArray<KbPrograms> *columnList;
+@property (nonatomic,retain) NSArray<KbChannels *> *columnList;
 @end
 
 typedef void (^KbFetchHomeProgramsCompletionHandler)(BOOL success, NSArray *programs);
 
 @interface KbHomeProgramModel : KbEncryptedURLRequest
 
-@property (nonatomic,retain,readonly) NSArray<KbPrograms *> *fetchedProgramList;
-@property (nonatomic,retain,readonly) NSArray<KbPrograms *> *fetchedVideoAndAdProgramList;
+@property (nonatomic,retain,readonly) NSArray<KbChannels *> *fetchedProgramList;
+@property (nonatomic,retain,readonly) NSArray<KbChannels *> *fetchedVideoAndAdProgramList;
 
-@property (nonatomic,retain,readonly) NSArray<KbProgram *> *fetchedBannerPrograms;
+@property (nonatomic,retain,readonly) NSArray<KbChannels *> *fetchedBannerPrograms;
 
 - (BOOL)fetchHomeProgramsWithCompletionHandler:(KbFetchHomeProgramsCompletionHandler)handler;
 

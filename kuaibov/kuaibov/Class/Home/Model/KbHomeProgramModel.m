@@ -11,7 +11,7 @@
 @implementation KbHomeProgramResponse
 
 - (Class)columnListElementClass {
-    return [KbPrograms class];
+    return [KbChannels class];
 }
 
 @end
@@ -69,22 +69,22 @@
 - (void)filterProgramTypes {
     _fetchedVideoAndAdProgramList = [self.fetchedProgramList bk_select:^BOOL(id obj)
                                            {
-                                               KbProgramType type = ((KbPrograms *)obj).type.unsignedIntegerValue;
+                                               KbProgramType type = ((KbChannels *)obj).type.unsignedIntegerValue;
                                                return type == KbProgramTypeVideo || type == KbProgramTypeAd || type == KBprogramTypeFreeVideo;
                                            }];
     
-    NSArray<KbPrograms *> *bannerProgramList = [self.fetchedProgramList bk_select:^BOOL(id obj)
+    NSArray<KbChannels *> *bannerProgramList = [self.fetchedProgramList bk_select:^BOOL(id obj)
                                                 {
-                                                    KbProgramType type = ((KbPrograms *)obj).type.unsignedIntegerValue;
+                                                    KbProgramType type = ((KbChannels *)obj).type.unsignedIntegerValue;
                                                     return type == KbProgramTypeBanner;
                                                 }];
     
-    NSMutableArray *bannerPrograms = [NSMutableArray array];
-    [bannerProgramList enumerateObjectsUsingBlock:^(KbPrograms * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj.programList.count > 0) {
-            [bannerPrograms addObjectsFromArray:obj.programList];
-        }
-    }];
-    _fetchedBannerPrograms = bannerPrograms;
+//    NSMutableArray *bannerPrograms = [NSMutableArray array];
+//    [bannerProgramList enumerateObjectsUsingBlock:^(KbChannels * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        if (obj.programList.count > 0) {
+//            [bannerPrograms addObjectsFromArray:obj.programList];
+//        }
+//    }];
+    _fetchedBannerPrograms = bannerProgramList;
 }
 @end
