@@ -17,7 +17,7 @@
 - (void)payForProgram:(KbProgram *)program programLocation:(NSInteger)programLocation inChannel:(KbChannels *)channel;
 - (void)onPaidNotification:(NSNotification *)notification;
 
-- (void)switchToPlayFreeVideoProgram:(KbProgram*)program;
+- (void)switchToPlayFreeVideoProgram:(KbProgram*)program channel:(KbChannels *)channel programLocation:(NSInteger)programLocation;
 
 - (NSUInteger)currentIndex;
 @end

@@ -17,7 +17,7 @@
 #import "KbSystemConfigModel.h"
 #import "KBKLaunchView.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<UITabBarControllerDelegate>
 
 @end
 
@@ -54,6 +54,7 @@
     UITabBarController *tabBarController    = [[UITabBarController alloc] init];
     tabBarController.viewControllers        = @[homeNav,channelNav,moreNav];
     tabBarController.tabBar.translucent     = NO;
+    tabBarController.delegate = self;
     //    tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar_background"];
     
     //    NSUInteger itemCount = tabBarController.viewControllers.count;
@@ -163,11 +164,13 @@
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [KbUtil accumateLaunchSeq];
     [[KbPaymentManager sharedManager] setup];
     [KbUtil startMonitoringNetwork];
     [[KbErrorHandler sharedHandler] initialize];
     [self setupMobStatistics];
     [self setupCommonStyles];
+    [[KbNetworkInfo sharedInfo] startMonitoring];
     [self.window makeKeyWindow];
     self.window.hidden = NO;
     //启动图
@@ -241,6 +244,18 @@
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
     [[KbPaymentManager sharedManager] handleOpenURL:url];
+    return YES;
+}
+
+
+#pragma mark - UITabBarControllerDelegate
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    [[KbStatsManager sharedManager] statsTabIndex:tabBarController.selectedIndex subTabIndex:[KbUtil currentSubTabPageIndex] forClickCount:1];
+}
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
+    [[KbStatsManager sharedManager] statsStopDurationAtTabIndex:tabBarController.selectedIndex subTabIndex:[KbUtil currentSubTabPageIndex]];
     return YES;
 }
 @end

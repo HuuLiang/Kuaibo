@@ -27,6 +27,9 @@ static NSString *const kProgramCellReusableIdentifier = @"ProgramCellReusableIde
 static NSString *const kAdBannerCellReusableIdentifier = @"AdBannerCellReusableIdentifier";
 static NSString *const kSectionHeaderReusableIdentifier = @"SectionHeaderReusableIdentifier";
 
+static NSString *const kBannerCellReusableIdentifier = @"BannerCellReusableIdentifier";
+
+
 @implementation KbHomeViewController
 @synthesize dataFetchDispatchGroup = _dataFetchDispatchGroup;
 
@@ -53,6 +56,22 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     self.title = @"首页";
     self.view.backgroundColor = HexColor(#f7f7f7);
     
+    _bannerView = [[SDCycleScrollView alloc] init];
+    _bannerView.autoScrollTimeInterval = 3;
+    _bannerView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    _bannerView.delegate = self;
+    _bannerView.backgroundColor = [UIColor whiteColor];
+    @weakify(self);
+    //数据统计
+    [_bannerView aspect_hookSelector:@selector(scrollViewDidEndDragging:willDecelerate:)
+                         withOptions:AspectPositionAfter
+                          usingBlock:^(id<AspectInfo> aspectInfo, UIScrollView *scrollView, BOOL decelerate)
+     {
+         @strongify(self);
+         [[KbStatsManager sharedManager] statsTabIndex:[KbUtil currentTabPageIndex] subTabIndex:[KbUtil currentSubTabPageIndex] forBanner:self.programModel.fetchedBannerPrograms[0].columnId withSlideCount:1];
+         
+     } error:nil];
+    
     _layoutTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _layoutTableView.backgroundColor = [UIColor whiteColor];
     _layoutTableView.delegate = self;
@@ -63,13 +82,14 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     [_layoutTableView registerClass:[KbHomeProgramCell class] forCellReuseIdentifier:kProgramCellReusableIdentifier];
     [_layoutTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kAdBannerCellReusableIdentifier];
     [_layoutTableView registerClass:[KbHomeSectionHeaderView class] forHeaderFooterViewReuseIdentifier:kSectionHeaderReusableIdentifier];
+    [_layoutTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kBannerCellReusableIdentifier];
     [self.view addSubview:_layoutTableView];
     {
         [_layoutTableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
     }
-    @weakify(self);
+//    @weakify(self);
     [_layoutTableView kb_addPullToRefreshWithHandler:^{
         @strongify(self);
         [self reloadPrograms];
@@ -143,13 +163,13 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         if (!_bannerCell) {
-            _bannerCell = [[UITableViewCell alloc] init];;
+            _bannerCell = [tableView dequeueReusableCellWithIdentifier:kBannerCellReusableIdentifier forIndexPath:indexPath];
             
-            _bannerView = [[SDCycleScrollView alloc] init];
-            _bannerView.autoScrollTimeInterval = 3;
-            _bannerView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
-            _bannerView.delegate = self;
-            _bannerView.backgroundColor = [UIColor whiteColor];
+//            _bannerView = [[SDCycleScrollView alloc] init];
+//            _bannerView.autoScrollTimeInterval = 3;
+//            _bannerView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+//            _bannerView.delegate = self;
+//            _bannerView.backgroundColor = [UIColor whiteColor];
             [_bannerCell.contentView addSubview:_bannerView];
             
             {
@@ -167,16 +187,6 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
         }
         _bannerView.imageURLStringsGroup = imageUrlGroup;
         _bannerView.titlesGroup = titlesGroup;
-        @weakify(self);
-        //数据统计
-        [_bannerView aspect_hookSelector:@selector(scrollViewDidEndDragging:willDecelerate:)
-                             withOptions:AspectPositionAfter
-                              usingBlock:^(id<AspectInfo> aspectInfo, UIScrollView *scrollView, BOOL decelerate)
-         {
-             @strongify(self);
-             [[KbStatsManager sharedManager] statsTabIndex:[KbUtil currentTabPageIndex] subTabIndex:[KbUtil currentSubTabPageIndex] forBanner:self.programModel.fetchedBannerPrograms[indexPath.item].columnId withSlideCount:1];
-             
-         } error:nil];
         
         return _bannerCell;
         
@@ -196,7 +206,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             [backgroundView sd_setImageWithURL:[NSURL URLWithString:adProgram.coverImg]];
             
             [cell bk_whenTapped:^{
-                [[KbStatsManager sharedManager] statsCPCWithProgram:adProgram programLocation:indexPath.item inChannel:self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1] andTabIndex:self.tabBarController.selectedIndex subTabIndex:0];
+                [[KbStatsManager sharedManager] statsCPCWithProgram:adProgram programLocation:indexPath.item inChannel:self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1] andTabIndex:self.tabBarController.selectedIndex subTabIndex:[KbUtil currentSubTabPageIndex]];
                 
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:adProgram.videoUrl]];
             }];
@@ -229,7 +239,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
             programCell.action = ^(KbHomeProgramItemPosition position,NSInteger idx) {
                 @strongify(self);
                 //数据统计
-                [[KbStatsManager sharedManager] statsCPCWithProgram:programsForCell[idx] programLocation:indexPath.section inChannel:self.programModel.fetchedProgramList[indexPath.section] andTabIndex:self.tabBarController.selectedIndex subTabIndex:0];
+                [[KbStatsManager sharedManager] statsCPCWithProgram:programsForCell[idx] programLocation:indexPath.row == 0 ? idx : idx+3  inChannel:self.programModel.fetchedProgramList[indexPath.section] andTabIndex:self.tabBarController.selectedIndex subTabIndex:[KbUtil currentSubTabPageIndex]];
                 
                 KbChannels *programs = self.programModel.fetchedVideoAndAdProgramList[indexPath.section-1];
                 
@@ -238,10 +248,12 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
                     return ;
                 }
                 if (programs.type.unsignedIntegerValue == KBprogramTypeFreeVideo&&![KbUtil isPaid]) {
-                    [self switchToPlayFreeVideoProgram:programsForCell[position]];
+//                    [self switchToPlayFreeVideoProgram:programsForCell[position]];
+                    
+                    [self switchToPlayFreeVideoProgram:programsForCell[position] channel:self.programModel.fetchedProgramList[indexPath.section] programLocation:indexPath.row == 0 ? idx : idx+3];
                 }else{
 //                    [self switchToPlayProgram:programsForCell[position]];
-                    [self switchToPlayProgram:programsForCell[position] programLocation:indexPath.section inChannel:self.programModel.fetchedProgramList[indexPath.section]];
+                    [self switchToPlayProgram:programsForCell[position] programLocation:indexPath.row == 0 ? idx : idx+3 inChannel:self.programModel.fetchedProgramList[indexPath.section]];
                 
                 }
             };

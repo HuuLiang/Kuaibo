@@ -27,6 +27,7 @@ typedef NS_ENUM(NSUInteger, KbStatsPayAction) {
 
 // Helper Methods
 - (void)statsCPCWithChannel:(KbChannels *)channel inTabIndex:(NSUInteger)tabIndex;
+
 - (void)statsCPCWithProgram:(KbProgram *)program
             programLocation:(NSUInteger)programLocation
                   inChannel:(KbChannels *)channel

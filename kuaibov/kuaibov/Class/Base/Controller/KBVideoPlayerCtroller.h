@@ -13,8 +13,8 @@
 @property (nonatomic,retain,readonly) KbProgram *video;
 @property (nonatomic) BOOL shouldPopupPaymentIfNotPaid;
 
-@property (nonatomic,readonly) NSUInteger videoLocation;
-@property (nonatomic,retain,readonly) KbChannels *channel;
+@property (nonatomic) NSUInteger videoLocation;
+@property (nonatomic,retain) KbChannels *channel;
 
 - (instancetype)initWithVideo:(KbProgram *)video;
 

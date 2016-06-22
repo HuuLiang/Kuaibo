@@ -75,5 +75,6 @@ typedef void (^KbCompletionHandler)(BOOL success, id obj);
 #import "DBHandler.h"
 #import "KbNetworkInfo.h"
 #import "KbStatsManager.h"
+#import "KbNetworkInfo.h"
 
 #endif

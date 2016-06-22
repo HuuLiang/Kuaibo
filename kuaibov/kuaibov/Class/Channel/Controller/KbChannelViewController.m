@@ -60,7 +60,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"频道";
-
+    
     _layoutTableView = [[UITableView alloc] init];
     _layoutTableView.delegate = self;
     _layoutTableView.dataSource = self;
@@ -189,7 +189,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
         @weakify(self);
         KbSystemConfigModel *systemConfigModel = [KbSystemConfigModel sharedModel];
         [channelImageView sd_setImageWithURL:[NSURL URLWithString:systemConfigModel.channelTopImage]
-                                          completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
+                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)
          {
              @strongify(self);
              if (!self) {
@@ -234,7 +234,7 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self isPaymentCellInSection:indexPath.section]) {
         if (![KbUtil isPaid]) {
-//            [self payForProgram:nil];
+            //            [self payForProgram:nil];
             [self payForProgram:nil programLocation:0 inChannel:nil];
         }
     } else {
@@ -243,8 +243,8 @@ DefineLazyPropertyInitialization(KbChannelModel, channelModel)
             KbProgramViewController *programVC = [[KbProgramViewController alloc] initWithChannel:selectedChannel];
             programVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:programVC animated:YES];
-            [[KbStatsManager sharedManager] statsCPCWithProgram:selectedChannel.programList[indexPath.row] programLocation:indexPath.row inChannel:selectedChannel andTabIndex:self.tabBarController.selectedIndex subTabIndex:[KbUtil currentSubTabPageIndex]];
             
+            [[KbStatsManager sharedManager] statsCPCWithChannel:selectedChannel inTabIndex:self.tabBarController.selectedIndex];
             
         } else if (selectedChannel.type.unsignedIntegerValue == KbChannelTypeBanner) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:selectedChannel.spreadUrl]];

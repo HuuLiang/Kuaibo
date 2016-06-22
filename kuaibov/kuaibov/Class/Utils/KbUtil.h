@@ -29,7 +29,10 @@ extern NSString *const kPaymentInfoKeyName;
 + (void)startMonitoringNetwork;
 
 + (NSUInteger)launchSeq;
++ (void)accumateLaunchSeq;
+
 + (NSUInteger)currentTabPageIndex;
 + (NSUInteger)currentSubTabPageIndex;
+
 
 @end

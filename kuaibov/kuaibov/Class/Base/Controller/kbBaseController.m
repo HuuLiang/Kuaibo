@@ -85,11 +85,13 @@
  *  免费试播
  */
 
-- (void)switchToPlayFreeVideoProgram:(KbProgram*)program {
+- (void)switchToPlayFreeVideoProgram:(KbProgram*)program channel:(KbChannels *)channel programLocation:(NSInteger)programLocation {
  
     KBVideoPlayerCtroller *videoPlayer = [[KBVideoPlayerCtroller alloc] initWithVideo:program];
     videoPlayer.hidesBottomBarWhenPushed = YES;
     videoPlayer.shouldPopupPaymentIfNotPaid = YES;
+    videoPlayer.channel = channel;
+    videoPlayer.videoLocation = programLocation;
     [self presentViewController:videoPlayer animated:YES completion:nil];
 }
 

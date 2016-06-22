@@ -78,6 +78,7 @@ DefineLazyPropertyInitialization(KbPayStatsModel, payStats)
         while (1) {
             dispatch_async(self.queue, ^{
                 [self uploadStatsInfos:[KbStatsInfo allStatsInfos]];
+                
             });
             sleep(timeInterval);
         }
@@ -297,6 +298,7 @@ DefineLazyPropertyInitialization(KbPayStatsModel, payStats)
             statsInfo.payStatus = payStatus;
         } else {
             return ;
+      
         }
         
         statsInfo.paySeq = @([KbUtil launchSeq]);

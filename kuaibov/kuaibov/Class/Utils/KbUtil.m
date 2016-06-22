@@ -21,7 +21,7 @@ static NSString *const kRegisterKeyName = @"kuaibov_register_keyname";
 static NSString *const kUserAccessUsername = @"kuaibov_user_access_username";
 static NSString *const kUserAccessServicename = @"kuaibov_user_access_service";
 
-static NSString *const kLaunchSeqKeyName = @"yykuaibov_launchseq_keyname";
+static NSString *const kLaunchSeqKeyName = @"kuaibov_launchseq_keyname";
 
 
 @implementation KbUtil
@@ -114,6 +114,11 @@ static NSString *const kLaunchSeqKeyName = @"yykuaibov_launchseq_keyname";
     return launchSeq.unsignedIntegerValue;
 }
 
++ (void)accumateLaunchSeq {
+    NSUInteger launchSeq = [self launchSeq];
+    [[NSUserDefaults standardUserDefaults] setObject:@(launchSeq+1) forKey:kLaunchSeqKeyName];
+}
+
 + (NSUInteger)currentTabPageIndex {
     UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
     if ([rootVC isKindOfClass:[UITabBarController class]]) {
@@ -137,5 +142,8 @@ static NSString *const kLaunchSeqKeyName = @"yykuaibov_launchseq_keyname";
     }
     return NSNotFound;
 }
+
+
+
 
 @end

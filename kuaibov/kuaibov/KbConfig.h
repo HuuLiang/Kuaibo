@@ -40,7 +40,7 @@
 #define KB_STANDBY_ALIPAY_CONFIG_URL    @"/iosvideo/weixinConfig.json"
 #define KB_STANDBY_WECHATPAY_CONFIG_URL @"/iosvideo/aliConfig.json"
 
-#define Kb_STATS_BASE_URL              @"http://stats.iqu8.cn"
+#define Kb_STATS_BASE_URL              @"http://stats.iqu8.cn"//@"http://120.24.252.114"//
 #define Kb_STATS_CPC_URL               @"/stats/cpcs.service"
 #define Kb_STATS_TAB_URL               @"/stats/tabStat.service"
 #define Kb_STATS_PAY_URL               @"/stats/payRes.service"
