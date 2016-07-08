@@ -72,7 +72,7 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
                 make.left.top.equalTo(self);
                 make.bottom.equalTo(self).offset(-kDefaultItemSpacing);
                 make.width.equalTo(itemView.mas_height).multipliedBy([[self class] imageScale]);
-//                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(2./3.);
+                //                make.width.equalTo(self).offset(-kDefaultItemSpacing/2).multipliedBy(2./3.);
             }];
             itemView.tag = 0;
             break;
@@ -106,7 +106,8 @@ DefineLazyPropertyInitialization(NSMutableDictionary, imageViews)
 }
 
 + (CGFloat)imageScale {
-    return 230./168.;
+    return 5/3.;
+    //    return 230./168.;
 }
 
 @end

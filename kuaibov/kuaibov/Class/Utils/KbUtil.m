@@ -143,7 +143,15 @@ static NSString *const kLaunchSeqKeyName = @"kuaibov_launchseq_keyname";
     return NSNotFound;
 }
 
-
++ (UIViewController *)currentVisibleViewController {
+    UITabBarController *tabBarController = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *selectedVC = tabBarController.selectedViewController;
+    if ([selectedVC isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navVC = (UINavigationController *)selectedVC;
+        return navVC.visibleViewController;
+    }
+    return selectedVC;
+}
 
 
 @end

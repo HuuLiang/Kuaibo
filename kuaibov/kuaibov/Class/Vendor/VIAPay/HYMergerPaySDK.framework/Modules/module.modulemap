@@ -1,0 +1,6 @@
+framework module HYMergerPaySDK {
+  umbrella header "HYMergerPaySDK.h"
+
+  export *
+  module * { export * }
+}

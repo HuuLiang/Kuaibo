@@ -7,6 +7,7 @@
 //
 
 #import "KbPaymentConfig.h"
+#import "NSMutableDictionary+SafeCoding.h"
 
 @implementation KbWeChatPaymentConfig
 
@@ -36,6 +37,94 @@
 }
 
 @end
+
+@implementation KbVIAPayConfig
+
+//+ (instancetype)defaultConfig {
+//    JQKVIAPayConfig *config = [[self alloc] init];
+//    //config.packageId = @"5361";
+//    config.supportPayTypes = @(JQKSubPayTypeAlipay);
+//    return config;
+//}
+
+- (NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *dicRep = [NSMutableDictionary dictionary];
+    //    [dicRep safelySetObject:self.packageId forKey:@"packageId"];
+    [dicRep safelySetObject:self.supportPayTypes forKey:@"supportPayTypes"];
+    return dicRep;
+}
+
++ (instancetype)configFromDictionary:(NSDictionary *)dic {
+    KbVIAPayConfig *config = [[self alloc] init];
+    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if (obj) {
+            [config setValue:obj forKey:key];
+        }
+    }];
+    return config;
+}
+@end
+
+@implementation KbSPayConfig
+
+//+ (instancetype)defaultConfig {
+//    JQKSPayConfig *config = [[self alloc] init];
+//    config.mchId = @"5712000010";
+//    config.notifyUrl = @"http://phas.ihuiyx.com/pd-has/notifyWft.json";
+//    config.signKey = @"5afe11de0df374f5f78839db1904ff0d";
+//    return config;
+//}
+
+- (NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *dicRep = [NSMutableDictionary dictionary];
+    [dicRep safelySetObject:self.mchId forKey:@"mchId"];
+    [dicRep safelySetObject:self.signKey forKey:@"signKey"];
+    [dicRep safelySetObject:self.notifyUrl forKey:@"notifyUrl"];
+    return dicRep;
+}
+
++ (instancetype)configFromDictionary:(NSDictionary *)dic {
+    KbSPayConfig *config = [[self alloc] init];
+    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if (obj) {
+            [config setValue:obj forKey:key];
+        }
+    }];
+    return config;
+}
+@end
+
+@implementation KbHTPayConfig
+
++ (instancetype)defaultConfig {
+    KbHTPayConfig *config = [[self alloc] init];
+    config.mchId = @"10605";
+    config.key = @"e7c549c833cb9108e6524d075942119d";
+    config.notifyUrl = @"http://phas.ihuiyx.com/pd-has/notifyHtPay.json";
+    return config;
+}
+
+- (NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *dicRep = [NSMutableDictionary dictionary];
+    [dicRep safelySetObject:self.mchId forKey:@"mchId"];
+    [dicRep safelySetObject:self.key forKey:@"key"];
+    [dicRep safelySetObject:self.notifyUrl forKey:@"notifyUrl"];
+    return dicRep;
+}
+
++ (instancetype)configFromDictionary:(NSDictionary *)dic {
+    KbHTPayConfig *config = [[self alloc] init];
+    [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if (obj) {
+            [config setValue:obj forKey:key];
+        }
+    }];
+    return config;
+}
+
+@end
+
+
 
 @interface KbPaymentConfigRespCode : NSObject
 @property (nonatomic) NSNumber *value;
@@ -88,8 +177,22 @@ static KbPaymentConfig *_shardConfig;
     return [KbIAppPayConfig class];
 }
 
+
+- (Class)syskPayInfoClass {
+    return [KbVIAPayConfig class];
+}
+
+- (Class)wftPayInfoClass {
+    return [KbSPayConfig class];
+}
+
+- (Class)haitunPayInfoClass {
+    return [KbHTPayConfig class];
+}
+
 - (void)loadDefaultConfig {
     self.weixinInfo = [KbWeChatPaymentConfig defaultConfig];
+    self.haitunPayInfo = [KbHTPayConfig defaultConfig];
 }
 
 - (void)setAsCurrentConfig {
@@ -97,5 +200,8 @@ static KbPaymentConfig *_shardConfig;
     currentConfig.weixinInfo = self.weixinInfo;
     currentConfig.iappPayInfo = self.iappPayInfo;
     currentConfig.alipayInfo = self.alipayInfo;
+    currentConfig.syskPayInfo = self.syskPayInfo;
+    currentConfig.wftPayInfo = self.wftPayInfo;
+    currentConfig.haitunPayInfo = self.haitunPayInfo;
 }
 @end

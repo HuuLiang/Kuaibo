@@ -39,7 +39,7 @@
             [_detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(_imageView).with.offset(10);
                 make.right.equalTo(_imageView).with.offset(-10);
-                make.bottom.equalTo(_imageView).with.offset(-10);
+                make.bottom.equalTo(_imageView);//.with.offset(-3);
             }];
         }
         

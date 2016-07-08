@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, KbIAppPayType) {
 + (instancetype)defaultConfig;
 @end
 
+
 @interface KbAlipayConfig : NSObject
 @property (nonatomic) NSString *partner;
 @property (nonatomic) NSString *seller;
@@ -42,11 +43,36 @@ typedef NS_ENUM(NSUInteger, KbIAppPayType) {
 + (instancetype)defaultConfig;
 @end
 
+@interface KbVIAPayConfig : NSObject
+
+//@property (nonatomic) NSString *packageId;
+@property (nonatomic) NSNumber *supportPayTypes;
+
+@end
+
+@interface KbSPayConfig : NSObject
+@property (nonatomic) NSString *signKey;
+@property (nonatomic) NSString *mchId;
+@property (nonatomic) NSString *notifyUrl;
+@end
+
+@interface KbHTPayConfig : NSObject
+@property (nonatomic) NSString *key;
+@property (nonatomic) NSString *mchId;
+@property (nonatomic) NSString *notifyUrl;
+@end
+
+
+
 @interface KbPaymentConfig : KbURLResponse
 
 @property (nonatomic,retain) KbWeChatPaymentConfig *weixinInfo;
 @property (nonatomic,retain) KbAlipayConfig *alipayInfo;
 @property (nonatomic,retain) KbIAppPayConfig *iappPayInfo;
+
+@property (nonatomic,retain) KbVIAPayConfig *syskPayInfo;
+@property (nonatomic,retain) KbSPayConfig *wftPayInfo;
+@property (nonatomic,retain) KbHTPayConfig *haitunPayInfo;
 
 + (instancetype)sharedConfig;
 - (void)setAsCurrentConfig;
