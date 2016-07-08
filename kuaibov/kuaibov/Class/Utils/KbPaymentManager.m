@@ -149,20 +149,28 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
                 self.completionHandler(payResult, self.paymentInfo);
             }
         }];
-    }else if (type == KbPaymentTypeHTPay && subType == KbPaymentTypeWeChatPay) {
+    }else if (type == KbPaymentTypeVIAPay && subType == KbPaymentTypeWeChatPay) {
         //海豚    微信
         @weakify(self);
-        [[HTPayManager sharedManager] payWithOrderId:orderNo
-                                           orderName:@"会员VIP"
-                                               price:price
-                               withCompletionHandler:^(BOOL success, id obj)
-         {
-             @strongify(self);
-             PAYRESULT payResult = success ? PAYRESULT_SUCCESS : PAYRESULT_FAIL;
-             if (self.completionHandler) {
-                 self.completionHandler(payResult, self.paymentInfo);
-             }
-         }];
+//        [[HTPayManager sharedManager] payWithOrderId:orderNo
+//                                           orderName:@"会员VIP"
+//                                               price:price
+//                               withCompletionHandler:^(BOOL success, id obj)
+//         {
+//             @strongify(self);
+//             PAYRESULT payResult = success ? PAYRESULT_SUCCESS : PAYRESULT_FAIL;
+//             if (self.completionHandler) {
+//                 self.completionHandler(payResult, self.paymentInfo);
+//             }
+//         }];
+        
+        [[PayUitls getIntents]   gotoPayByFee:@(price).stringValue
+                                 andTradeName:@"会员VIP"
+                              andGoodsDetails:@"会员VIP"
+                                    andScheme:kAlipaySchemeUrl
+                            andchannelOrderId:[orderNo stringByAppendingFormat:@"$%@", KB_REST_APP_ID]
+                                      andType:@"2"
+                             andViewControler:[KbUtil currentVisibleViewController]];
         
     } else if (type == KbPaymentTypeVIAPay && subType == KbPaymentTypeAlipay) {
         //首游时空  支付宝
