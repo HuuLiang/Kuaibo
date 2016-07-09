@@ -27,6 +27,9 @@ typedef void (^KbPaymentCompletionHandler)(PAYRESULT payResult, KbPaymentInfo *p
            completionHandler:(KbPaymentCompletionHandler)handler;
 
 - (void)handleOpenURL:(NSURL *)url;
-- (void)checkPayment;
+//- (void)checkPayment;
+
+- (KbPaymentType)wechatPaymentType;
+- (KbPaymentType)alipayPaymentType;
 
 @end

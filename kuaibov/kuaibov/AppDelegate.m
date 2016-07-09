@@ -224,13 +224,14 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    if (![KbUtil isPaid]) {
-        [[KbPaymentManager sharedManager] checkPayment];
-    }
+//    if (![KbUtil isPaid]) {
+//        [[KbPaymentManager sharedManager] checkPayment];
+//    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+       [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -247,6 +248,11 @@
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+
+    [[KbPaymentManager sharedManager] handleOpenURL:url];
+    return YES;
+}
 
 #pragma mark - UITabBarControllerDelegate
 

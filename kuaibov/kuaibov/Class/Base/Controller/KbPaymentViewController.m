@@ -66,15 +66,24 @@
     _popView.headerImageURL = [NSURL URLWithString:[KbSystemConfigModel sharedModel].paymentImage];
     _popView.footerImage = [UIImage imageNamed:@"payment_footer"];
     
+    KbPaymentType wechatPaymentType = [[KbPaymentManager sharedManager] wechatPaymentType];
+    if (wechatPaymentType != KbPaymentTypeNone) {
+        
+        //微信支付
+        [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
+            Pay(wechatPaymentType, KbPaymentTypeWeChatPay);
+        }];
+    }
     
-    //微信支付 首游时空
-    [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信客户端支付" available:YES action:^(id sender) {
-        Pay(KbPaymentTypeVIAPay, KbPaymentTypeWeChatPay);
-    }];
-    //支付宝支付  首游时空
-    [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
-        Pay(KbPaymentTypeVIAPay, KbPaymentTypeAlipay);
-    }];
+    KbPaymentType alipayType = [[KbPaymentManager sharedManager] alipayPaymentType];
+    if (alipayType != KbPaymentTypeNone) {
+        
+        //支付宝支付
+        [_popView addPaymentWithImage:[UIImage imageNamed:@"alipay_icon"] title:@"支付宝支付" available:YES action:^(id sender) {
+            Pay(alipayType, KbPaymentTypeAlipay);
+        }];
+    }
+    
 //    if (([KbPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & KbIAppPayTypeWeChat)
 //        || [KbPaymentConfig sharedConfig].weixinInfo) {
 //        BOOL useBuildInWeChatPay = [KbPaymentConfig sharedConfig].weixinInfo != nil;

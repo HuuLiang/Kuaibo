@@ -10,8 +10,8 @@
 
 typedef NS_ENUM(NSUInteger, KbIAppPayType) {
     KbIAppPayTypeUnknown = 0,
-    KbIAppPayTypeWeChat = 1 << 0,
-    KbIAppPayTypeAlipay = 1 << 1
+    KbSubtypePayTypeWeChat = 1 << 0,
+    KbSubtypeAlipay = 1 << 1
 };
 
 @interface KbWeChatPaymentConfig : NSObject
@@ -20,7 +20,7 @@ typedef NS_ENUM(NSUInteger, KbIAppPayType) {
 @property (nonatomic) NSString *signKey;
 @property (nonatomic) NSString *notifyUrl;
 
-+ (instancetype)defaultConfig;
+//+ (instancetype)defaultConfig;
 @end
 
 
@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, KbIAppPayType) {
 @property (nonatomic) NSNumber *waresid;
 @property (nonatomic) NSNumber *supportPayTypes;
 
-+ (instancetype)defaultConfig;
+//+ (instancetype)defaultConfig;
 @end
 
 @interface KbVIAPayConfig : NSObject

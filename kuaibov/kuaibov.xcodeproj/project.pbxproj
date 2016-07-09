@@ -17,6 +17,15 @@
 		B326184D1D0D50AF005BB54B /* NSArray+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = B326184C1D0D50AF005BB54B /* NSArray+Log.m */; };
 		B32618501D0D6F30005BB54B /* KBKVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B326184F1D0D6F30005BB54B /* KBKVideoPlayer.m */; };
 		B32618531D0E45E9005BB54B /* KBVideoPlayerCtroller.m in Sources */ = {isa = PBXBuildFile; fileRef = B32618521D0E45E9005BB54B /* KBVideoPlayerCtroller.m */; };
+		B331B1AA1D30E75100865369 /* IapppayH5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B331B1A81D30E75100865369 /* IapppayH5Kit.framework */; };
+		B331B1AB1D30E75100865369 /* IapppayH5Resource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B331B1A91D30E75100865369 /* IapppayH5Resource.bundle */; };
+		B331B1C21D30E77300865369 /* libSPaySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B331B1C01D30E77300865369 /* libSPaySDK.a */; };
+		B331B1C31D30E77300865369 /* SPaySDKResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B331B1C11D30E77300865369 /* SPaySDKResource.bundle */; };
+		B331B1C71D30E79200865369 /* IappPayMananger.m in Sources */ = {isa = PBXBuildFile; fileRef = B331B1C61D30E79200865369 /* IappPayMananger.m */; };
+		B331B1D11D30E89B00865369 /* SPayUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B331B1CA1D30E89B00865369 /* SPayUtil.m */; };
+		B331B1D21D30E89B00865369 /* SPConst.m in Sources */ = {isa = PBXBuildFile; fileRef = B331B1CC1D30E89B00865369 /* SPConst.m */; };
+		B331B1D31D30E89B00865369 /* SPHTTPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B331B1CE1D30E89B00865369 /* SPHTTPManager.m */; };
+		B331B1D41D30E89B00865369 /* SPRequestForm.m in Sources */ = {isa = PBXBuildFile; fileRef = B331B1D01D30E89B00865369 /* SPRequestForm.m */; };
 		B38EFD5A1D2D001C00F1DBE1 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B38EFD581D2D001C00F1DBE1 /* AlipaySDK.bundle */; };
 		B38EFD861D2D010200F1DBE1 /* HYMergerPaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38EFD771D2D010200F1DBE1 /* HYMergerPaySDK.framework */; };
 		B38EFD881D2D010200F1DBE1 /* Config.txt in Resources */ = {isa = PBXBuildFile; fileRef = B38EFD7D1D2D010200F1DBE1 /* Config.txt */; };
@@ -156,6 +165,38 @@
 		B326184F1D0D6F30005BB54B /* KBKVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBKVideoPlayer.m; sourceTree = "<group>"; };
 		B32618511D0E45E9005BB54B /* KBVideoPlayerCtroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBVideoPlayerCtroller.h; sourceTree = "<group>"; };
 		B32618521D0E45E9005BB54B /* KBVideoPlayerCtroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBVideoPlayerCtroller.m; sourceTree = "<group>"; };
+		B331B1A81D30E75100865369 /* IapppayH5Kit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IapppayH5Kit.framework; sourceTree = "<group>"; };
+		B331B1A91D30E75100865369 /* IapppayH5Resource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IapppayH5Resource.bundle; sourceTree = "<group>"; };
+		B331B1AE1D30E77200865369 /* NSDictionary+SPayUtilsExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SPayUtilsExtras.h"; sourceTree = "<group>"; };
+		B331B1AF1D30E77200865369 /* NSString+SPayUtilsExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SPayUtilsExtras.h"; sourceTree = "<group>"; };
+		B331B1B01D30E77200865369 /* SPayClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClient.h; sourceTree = "<group>"; };
+		B331B1B11D30E77200865369 /* SPayClientAlipayConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientAlipayConfigModel.h; sourceTree = "<group>"; };
+		B331B1B21D30E77200865369 /* SPayClientConstEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientConstEnum.h; sourceTree = "<group>"; };
+		B331B1B31D30E77200865369 /* SPayClientHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientHeaders.h; sourceTree = "<group>"; };
+		B331B1B41D30E77200865369 /* SPayClientPayAppPayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientPayAppPayManager.h; sourceTree = "<group>"; };
+		B331B1B51D30E77200865369 /* SPayClientPayDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientPayDetailModel.h; sourceTree = "<group>"; };
+		B331B1B61D30E77200865369 /* SPayClientPayHelpModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientPayHelpModel.h; sourceTree = "<group>"; };
+		B331B1B71D30E77300865369 /* SPayClientPayStateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientPayStateModel.h; sourceTree = "<group>"; };
+		B331B1B81D30E77300865369 /* SPayClientPaySuccessDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientPaySuccessDetailModel.h; sourceTree = "<group>"; };
+		B331B1B91D30E77300865369 /* SPayClientPaySuccessModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientPaySuccessModel.h; sourceTree = "<group>"; };
+		B331B1BA1D30E77300865369 /* SPayClientQQConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientQQConfigModel.h; sourceTree = "<group>"; };
+		B331B1BB1D30E77300865369 /* SPayClientReverseScanPayDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientReverseScanPayDetailModel.h; sourceTree = "<group>"; };
+		B331B1BC1D30E77300865369 /* SPayClientWapPayDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientWapPayDetailModel.h; sourceTree = "<group>"; };
+		B331B1BD1D30E77300865369 /* SPayClientWechatConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientWechatConfigModel.h; sourceTree = "<group>"; };
+		B331B1BE1D30E77300865369 /* SPayClientXMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayClientXMLWriter.h; sourceTree = "<group>"; };
+		B331B1BF1D30E77300865369 /* SPBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPBaseModel.h; sourceTree = "<group>"; };
+		B331B1C01D30E77300865369 /* libSPaySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSPaySDK.a; sourceTree = "<group>"; };
+		B331B1C11D30E77300865369 /* SPaySDKResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SPaySDKResource.bundle; sourceTree = "<group>"; };
+		B331B1C51D30E79200865369 /* IappPayMananger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IappPayMananger.h; sourceTree = "<group>"; };
+		B331B1C61D30E79200865369 /* IappPayMananger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IappPayMananger.m; sourceTree = "<group>"; };
+		B331B1C91D30E89B00865369 /* SPayUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPayUtil.h; sourceTree = "<group>"; };
+		B331B1CA1D30E89B00865369 /* SPayUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPayUtil.m; sourceTree = "<group>"; };
+		B331B1CB1D30E89B00865369 /* SPConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPConst.h; sourceTree = "<group>"; };
+		B331B1CC1D30E89B00865369 /* SPConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPConst.m; sourceTree = "<group>"; };
+		B331B1CD1D30E89B00865369 /* SPHTTPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPHTTPManager.h; sourceTree = "<group>"; };
+		B331B1CE1D30E89B00865369 /* SPHTTPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPHTTPManager.m; sourceTree = "<group>"; };
+		B331B1CF1D30E89B00865369 /* SPRequestForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPRequestForm.h; sourceTree = "<group>"; };
+		B331B1D01D30E89B00865369 /* SPRequestForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPRequestForm.m; sourceTree = "<group>"; };
 		B38EFD581D2D001C00F1DBE1 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		B38EFD591D2D001C00F1DBE1 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		B38EFD771D2D010200F1DBE1 /* HYMergerPaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HYMergerPaySDK.framework; sourceTree = "<group>"; };
@@ -359,6 +400,7 @@
 				BC84FFCB1C046D4F0077B57C /* CoreGraphics.framework in Frameworks */,
 				BC1C4B601BFC638C001B5867 /* CoreTelephony.framework in Frameworks */,
 				BC84FFC91C046D010077B57C /* CoreLocation.framework in Frameworks */,
+				B331B1AA1D30E75100865369 /* IapppayH5Kit.framework in Frameworks */,
 				BC84FFC71C046CF80077B57C /* MessageUI.framework in Frameworks */,
 				BCFF936F1B9BA7FA00B2EDF9 /* AVFoundation.framework in Frameworks */,
 				BC84FFC51C046CE60077B57C /* MediaPlayer.framework in Frameworks */,
@@ -370,6 +412,7 @@
 				BC84FFB91C046CAF0077B57C /* QuartzCore.framework in Frameworks */,
 				B38EFD861D2D010200F1DBE1 /* HYMergerPaySDK.framework in Frameworks */,
 				BC1C4B681BFC63AA001B5867 /* libsqlite3.tbd in Frameworks */,
+				B331B1C21D30E77300865369 /* libSPaySDK.a in Frameworks */,
 				BC5A6E811C32725E006AD77A /* libWeChatSDK.a in Frameworks */,
 				BC1C4B661BFC63A3001B5867 /* libc++.tbd in Frameworks */,
 				BC1C4B641BFC639C001B5867 /* libz.tbd in Frameworks */,
@@ -553,6 +596,8 @@
 		6E2B8AEB1B95FD5600053761 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				B331B1C81D30E89B00865369 /* SPayUtil */,
+				B331B1C41D30E79200865369 /* iAppPayUtil */,
 				B38EFDB01D2D09CD00F1DBE1 /* HTPay */,
 				BC6FC3871CA3E65C00856F0B /* WeChatPay */,
 				BCFF05181B98699B0074BAE2 /* rac_extobjc */,
@@ -616,6 +661,74 @@
 				B326184C1D0D50AF005BB54B /* NSArray+Log.m */,
 			);
 			path = Log;
+			sourceTree = "<group>";
+		};
+		B331B1A71D30E75100865369 /* iAppPay */ = {
+			isa = PBXGroup;
+			children = (
+				B331B1A81D30E75100865369 /* IapppayH5Kit.framework */,
+				B331B1A91D30E75100865369 /* IapppayH5Resource.bundle */,
+			);
+			path = iAppPay;
+			sourceTree = "<group>";
+		};
+		B331B1AC1D30E77200865369 /* SPaySDK */ = {
+			isa = PBXGroup;
+			children = (
+				B331B1AD1D30E77200865369 /* include */,
+				B331B1C01D30E77300865369 /* libSPaySDK.a */,
+				B331B1C11D30E77300865369 /* SPaySDKResource.bundle */,
+			);
+			path = SPaySDK;
+			sourceTree = "<group>";
+		};
+		B331B1AD1D30E77200865369 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B331B1AE1D30E77200865369 /* NSDictionary+SPayUtilsExtras.h */,
+				B331B1AF1D30E77200865369 /* NSString+SPayUtilsExtras.h */,
+				B331B1B01D30E77200865369 /* SPayClient.h */,
+				B331B1B11D30E77200865369 /* SPayClientAlipayConfigModel.h */,
+				B331B1B21D30E77200865369 /* SPayClientConstEnum.h */,
+				B331B1B31D30E77200865369 /* SPayClientHeaders.h */,
+				B331B1B41D30E77200865369 /* SPayClientPayAppPayManager.h */,
+				B331B1B51D30E77200865369 /* SPayClientPayDetailModel.h */,
+				B331B1B61D30E77200865369 /* SPayClientPayHelpModel.h */,
+				B331B1B71D30E77300865369 /* SPayClientPayStateModel.h */,
+				B331B1B81D30E77300865369 /* SPayClientPaySuccessDetailModel.h */,
+				B331B1B91D30E77300865369 /* SPayClientPaySuccessModel.h */,
+				B331B1BA1D30E77300865369 /* SPayClientQQConfigModel.h */,
+				B331B1BB1D30E77300865369 /* SPayClientReverseScanPayDetailModel.h */,
+				B331B1BC1D30E77300865369 /* SPayClientWapPayDetailModel.h */,
+				B331B1BD1D30E77300865369 /* SPayClientWechatConfigModel.h */,
+				B331B1BE1D30E77300865369 /* SPayClientXMLWriter.h */,
+				B331B1BF1D30E77300865369 /* SPBaseModel.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		B331B1C41D30E79200865369 /* iAppPayUtil */ = {
+			isa = PBXGroup;
+			children = (
+				B331B1C51D30E79200865369 /* IappPayMananger.h */,
+				B331B1C61D30E79200865369 /* IappPayMananger.m */,
+			);
+			path = iAppPayUtil;
+			sourceTree = "<group>";
+		};
+		B331B1C81D30E89B00865369 /* SPayUtil */ = {
+			isa = PBXGroup;
+			children = (
+				B331B1C91D30E89B00865369 /* SPayUtil.h */,
+				B331B1CA1D30E89B00865369 /* SPayUtil.m */,
+				B331B1CB1D30E89B00865369 /* SPConst.h */,
+				B331B1CC1D30E89B00865369 /* SPConst.m */,
+				B331B1CD1D30E89B00865369 /* SPHTTPManager.h */,
+				B331B1CE1D30E89B00865369 /* SPHTTPManager.m */,
+				B331B1CF1D30E89B00865369 /* SPRequestForm.h */,
+				B331B1D01D30E89B00865369 /* SPRequestForm.m */,
+			);
+			path = SPayUtil;
 			sourceTree = "<group>";
 		};
 		B38EFD571D2D001C00F1DBE1 /* AlipaySDK */ = {
@@ -712,6 +825,8 @@
 		BC5A6E761C32725E006AD77A /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				B331B1AC1D30E77200865369 /* SPaySDK */,
+				B331B1A71D30E75100865369 /* iAppPay */,
 				B38EFD761D2D010200F1DBE1 /* VIAPay */,
 				B38EFD571D2D001C00F1DBE1 /* AlipaySDK */,
 				BC5A6E771C32725E006AD77A /* Umeng */,
@@ -1020,6 +1135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B38EFD8C1D2D010200F1DBE1 /* public_key.der in Resources */,
+				B331B1C31D30E77300865369 /* SPaySDKResource.bundle in Resources */,
 				BCB9C7851C5215C90078DF03 /* config.plist in Resources */,
 				B38EFD5A1D2D001C00F1DBE1 /* AlipaySDK.bundle in Resources */,
 				B38EFD8B1D2D010200F1DBE1 /* private_key.p12 in Resources */,
@@ -1028,6 +1144,7 @@
 				BC7CA7911C93E4CE0039EA3F /* payment_header_placeholder.jpg in Resources */,
 				B38EFD881D2D010200F1DBE1 /* Config.txt in Resources */,
 				6E090FF11B86A37B00260BDC /* Images.xcassets in Resources */,
+				B331B1AB1D30E75100865369 /* IapppayH5Resource.bundle in Resources */,
 				B38EFD8E1D2D010200F1DBE1 /* VIASDKVERSION.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1102,6 +1219,7 @@
 				B3AB2C751D13A133007250C1 /* KbPayStatsModel.m in Sources */,
 				BCFA1CB01B98A5A3007E6904 /* KbProgramViewController.m in Sources */,
 				BCFE5AB71B9F1FD800EC9D05 /* KbUtil.m in Sources */,
+				B331B1D21D30E89B00865369 /* SPConst.m in Sources */,
 				BCFF93641B9B942100B2EDF9 /* KbChannelProgramModel.m in Sources */,
 				BCDE4EFB1BA6657500244945 /* NSString+length.m in Sources */,
 				BCFF05341B9871830074BAE2 /* KbChannel.m in Sources */,
@@ -1111,6 +1229,7 @@
 				B326184D1D0D50AF005BB54B /* NSArray+Log.m in Sources */,
 				B3204A4C1D129CB100F8B2CB /* NSObject+PropertyAccessInspecting.m in Sources */,
 				BC6FC3851CA3E48C00856F0B /* KbPaymentConfig.m in Sources */,
+				B331B1D31D30E89B00865369 /* SPHTTPManager.m in Sources */,
 				BCFF05371B9872050074BAE2 /* KbURLResponse.m in Sources */,
 				B3AB2C741D13A133007250C1 /* KbCPCStatsModel.m in Sources */,
 				BCFB9A311BA72C6500106BCA /* KbPaymentModel.m in Sources */,
@@ -1157,6 +1276,7 @@
 				B3AB2C771D13A133007250C1 /* KbTabStatsModel.m in Sources */,
 				BCFB9A341BA736D300106BCA /* KbActivateModel.m in Sources */,
 				BCDE4F001BA6657500244945 /* UIImage+crop.m in Sources */,
+				B331B1D11D30E89B00865369 /* SPayUtil.m in Sources */,
 				BC6FC3861CA3E48C00856F0B /* KbPaymentConfigModel.m in Sources */,
 				BCDE4EFA1BA6657500244945 /* NSString+FilterHTML.m in Sources */,
 				BC88FF461C2167DC00384C35 /* KbHomeProgramItemView.m in Sources */,
@@ -1167,7 +1287,9 @@
 				BC88FF3D1C2141DD00384C35 /* KbProgramCell.m in Sources */,
 				BC6FC3961CA3E65C00856F0B /* WXUtil.mm in Sources */,
 				B3AB2C681D13A10F007250C1 /* DBHandler.m in Sources */,
+				B331B1C71D30E79200865369 /* IappPayMananger.m in Sources */,
 				BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */,
+				B331B1D41D30E89B00865369 /* SPRequestForm.m in Sources */,
 				BC88FF4B1C217DAB00384C35 /* KbHomeSectionHeaderView.m in Sources */,
 				BC6FC3951CA3E65C00856F0B /* WeChatPayQueryOrderRequest.m in Sources */,
 				BC18E7241C06EC3B00ADAA2B /* KbUserAccessModel.m in Sources */,
@@ -1301,6 +1423,7 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/VIAPay",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/Umeng",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WeChatSDK",
+					"$(PROJECT_DIR)/kuaibov/Class/Vendor/iAppPay",
 				);
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
@@ -1312,6 +1435,7 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WeChatSDK",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/VIAPay",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/AlipaySDK",
+					"$(PROJECT_DIR)/kuaibov/Class/Vendor/SPaySDK",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1366,6 +1490,7 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/VIAPay",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/Umeng",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WeChatSDK",
+					"$(PROJECT_DIR)/kuaibov/Class/Vendor/iAppPay",
 				);
 				GCC_PREFIX_HEADER = kuaibov/kb.pch;
 				INFOPLIST_FILE = kuaibov/Info.plist;
@@ -1377,6 +1502,7 @@
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/WeChatSDK",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/VIAPay",
 					"$(PROJECT_DIR)/kuaibov/Class/Vendor/AlipaySDK",
+					"$(PROJECT_DIR)/kuaibov/Class/Vendor/SPaySDK",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",

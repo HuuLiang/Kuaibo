@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, KbPaymentType) {
     KbPaymentTypeWeChatPay = 1008,
     KbPaymentTypeIAppPay = 1009,
     KbPaymentTypeVIAPay = 1010, //首游时空
+    KbPaymentTypeSPay = 1012, //威富通
     KbPaymentTypeHTPay = 1015 //海豚支付
 };
 

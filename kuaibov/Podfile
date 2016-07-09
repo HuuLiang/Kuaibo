@@ -21,5 +21,6 @@ target 'kuaibov' do
     pod 'TouchJSON', '~> 1.1'
     pod 'OpenUDID', '~> 1.0.0'
     pod 'FMDB', '~> 2.6.2'
+    pod 'XMLReader-Arc', '~> 1.1'
     
 end

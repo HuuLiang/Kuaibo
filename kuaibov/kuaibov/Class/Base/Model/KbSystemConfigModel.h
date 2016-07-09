@@ -29,6 +29,9 @@ typedef void (^KbFetchSystemConfigCompletionHandler)(BOOL success);
 @property (nonatomic) NSUInteger statsTimeInterval;
 @property (nonatomic,readonly) BOOL loaded;
 
+@property (nonatomic) NSString *contact;
+
+
 + (instancetype)sharedModel;
 
 - (BOOL)fetchSystemConfigWithCompletionHandler:(KbFetchSystemConfigCompletionHandler)handler;
