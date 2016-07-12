@@ -10,6 +10,21 @@
 #define kuaibov_kb_pch
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, KbDeviceType) {
+    KbDeviceTypeUnknown,
+    KbDeviceType_iPhone4,
+    KbDeviceType_iPhone4S,
+    KbDeviceType_iPhone5,
+    KbDeviceType_iPhone5C,
+    KbDeviceType_iPhone5S,
+    KbDeviceType_iPhone6,
+    KbDeviceType_iPhone6P,
+    KbDeviceType_iPhone6S,
+    KbDeviceType_iPhone6SP,
+    KbDeviceType_iPhoneSE,
+    KbDeviceType_iPad = 100
+};
+
 typedef NS_ENUM(NSUInteger, KbPaymentType) {
     KbPaymentTypeNone,
     KbPaymentTypeAlipay = 1001,

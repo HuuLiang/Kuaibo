@@ -35,7 +35,7 @@
     @weakify(self);
     BOOL success = [self requestURLPath:KB_SYSTEM_CONFIG_URL
                          standbyURLPath:KB_STANDBY_SYSTEM_CONFIG_URL
-                             withParams:nil
+                             withParams:@{@"type" : @([KbUtil deviceType])}
                         responseHandler:^(KbURLResponseStatus respStatus, NSString *errorMessage)
     {
         @strongify(self);

@@ -22,9 +22,11 @@ extern NSString *const kPaymentInfoKeyName;
 + (KbPaymentInfo *)successfulPaymentInfo;
 + (BOOL)isPaid;
 
+
 + (NSString *)accessId;
 + (NSString *)userId;
 + (NSString *)deviceName;
++ (KbDeviceType)deviceType;
 
 + (void)startMonitoringNetwork;
 
