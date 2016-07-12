@@ -125,6 +125,8 @@ static NSString *const kLaunchSeqKeyName = @"kuaibov_launchseq_keyname";
         return KbDeviceType_iPhone6SP;
     } else if ([deviceName rangeOfString:@"iPhone8,4"].location == 0) {
         return KbDeviceType_iPhoneSE;
+    }else if ([deviceName rangeOfString:@"iPad"].location == 0){
+        return KbDeviceType_iPad;
     } else {
         return KbDeviceTypeUnknown;
     }
