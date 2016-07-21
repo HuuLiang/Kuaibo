@@ -29,6 +29,7 @@
 		B38EFDB31D2D09CD00F1DBE1 /* HTPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B38EFDB21D2D09CD00F1DBE1 /* HTPayManager.m */; };
 		B38EFDB61D2D0A6B00F1DBE1 /* UIView+Loading.m in Sources */ = {isa = PBXBuildFile; fileRef = B38EFDB51D2D0A6B00F1DBE1 /* UIView+Loading.m */; };
 		B38EFDB71D2D0E4D00F1DBE1 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38EFD591D2D001C00F1DBE1 /* AlipaySDK.framework */; };
+		B39E36231D40AD7000763C24 /* KbHomeChannelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B39E36221D40AD7000763C24 /* KbHomeChannelCell.m */; };
 		B3AB2C591D138F6B007250C1 /* KbChannels.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AB2C581D138F6B007250C1 /* KbChannels.m */; };
 		B3AB2C5E1D139F62007250C1 /* KbNetworkInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AB2C5B1D139F62007250C1 /* KbNetworkInfo.m */; };
 		B3AB2C5F1D139F62007250C1 /* KbStatsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AB2C5D1D139F62007250C1 /* KbStatsManager.m */; };
@@ -201,6 +202,8 @@
 		B38EFDB21D2D09CD00F1DBE1 /* HTPayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTPayManager.m; sourceTree = "<group>"; };
 		B38EFDB41D2D0A6B00F1DBE1 /* UIView+Loading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Loading.h"; sourceTree = "<group>"; };
 		B38EFDB51D2D0A6B00F1DBE1 /* UIView+Loading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Loading.m"; sourceTree = "<group>"; };
+		B39E36211D40AD7000763C24 /* KbHomeChannelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbHomeChannelCell.h; sourceTree = "<group>"; };
+		B39E36221D40AD7000763C24 /* KbHomeChannelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbHomeChannelCell.m; sourceTree = "<group>"; };
 		B3AB2C571D138F6B007250C1 /* KbChannels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbChannels.h; sourceTree = "<group>"; };
 		B3AB2C581D138F6B007250C1 /* KbChannels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbChannels.m; sourceTree = "<group>"; };
 		B3AB2C5A1D139F62007250C1 /* KbNetworkInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbNetworkInfo.h; sourceTree = "<group>"; };
@@ -1028,6 +1031,8 @@
 			children = (
 				BC88FF3B1C2141DD00384C35 /* KbProgramCell.h */,
 				BC88FF3C1C2141DD00384C35 /* KbProgramCell.m */,
+				B39E36211D40AD7000763C24 /* KbHomeChannelCell.h */,
+				B39E36221D40AD7000763C24 /* KbHomeChannelCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1084,7 +1089,6 @@
 				TargetAttributes = {
 					6E090FDF1B86A37B00260BDC = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 7VHT3KAS56;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -1227,6 +1231,7 @@
 				BC88FF401C21547B00384C35 /* UIImageView+YPBAnimation.m in Sources */,
 				BC6FC3921CA3E65C00856F0B /* ApiXml.mm in Sources */,
 				BCFF935B1B9B7DB400B2EDF9 /* KbVideo.m in Sources */,
+				B39E36231D40AD7000763C24 /* KbHomeChannelCell.m in Sources */,
 				BCFA19D31B9ACE1000B3EE05 /* KbHomeProgramModel.m in Sources */,
 				BCDE4EF61BA6657500244945 /* NSString+crypt.m in Sources */,
 				B32618501D0D6F30005BB54B /* KBKVideoPlayer.m in Sources */,
@@ -1399,7 +1404,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
 				DEPLOYMENT_POSTPROCESSING = NO;
 				ENABLE_BITCODE = NO;
@@ -1467,7 +1472,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Neijiang Fenghuang Enterprise (Group) Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

@@ -33,17 +33,18 @@
     
     KbHomeViewController *homeVC         = [[KbHomeViewController alloc] init];
     UINavigationController *homeNav      = [[UINavigationController alloc] initWithRootViewController:homeVC];
-    homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:@"首页"
-                                                                         image:[UIImage imageNamed:@"home_normal"]
-                                                                 selectedImage:[UIImage imageNamed:@"home_highlight"]];
-    homeNav.navigationItem.title = @"首页";
+    homeNav.tabBarItem                   = [[UITabBarItem alloc] initWithTitle:@"精选"
+                                                                         image:[UIImage imageNamed:@"channel_normal"]
+                                                                 selectedImage:[UIImage imageNamed:@"channel_highlight"]];
+    homeNav.navigationItem.title = @"精选";
     
     KbChannelViewController *channelVC   = [[KbChannelViewController alloc] init];
     UINavigationController *channelNav   = [[UINavigationController alloc] initWithRootViewController:channelVC];
     
-    channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:@"频道"
-                                                                         image:[UIImage imageNamed:@"channel_normal"]
-                                                                 selectedImage:[UIImage imageNamed:@"channel_highlight"]];
+    channelNav.tabBarItem                = [[UITabBarItem alloc] initWithTitle:@"首页"
+                                                                         image:[UIImage imageNamed:@"home_normal"]
+                                                                 selectedImage:[UIImage imageNamed:@"home_highlight"]];
+    channelNav.navigationItem.title = @"首页";
     
     kbMoreViewController *moreVC         = [[kbMoreViewController alloc] init];
     UINavigationController *moreNav      = [[UINavigationController alloc] initWithRootViewController:moreVC];
@@ -52,7 +53,7 @@
                                                                  selectedImage:[UIImage imageNamed:@"more_highlight"]];
     
     UITabBarController *tabBarController    = [[UITabBarController alloc] init];
-    tabBarController.viewControllers        = @[homeNav,channelNav,moreNav];
+    tabBarController.viewControllers        = @[channelNav,homeNav,moreNav];
     tabBarController.tabBar.translucent     = NO;
     tabBarController.delegate = self;
     //    tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar_background"];

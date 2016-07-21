@@ -138,7 +138,7 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
         }
         return nil;
     }
-    
+//    price = 1;
     NSString *channelNo = KB_CHANNEL_NO;
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
@@ -173,7 +173,7 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
     BOOL success = YES;
     if (type == KbPaymentTypeVIAPay &&(subType == KbPaymentTypeAlipay || subType == KbPaymentTypeWeChatPay)) {
         NSString *tradName = @"VIP会员";
-        [[PayUitls getIntents ] gotoPayByFee:@(price).stringValue andTradeName:tradName andGoodsDetails:tradName andScheme:kAlipaySchemeUrl andchannelOrderId:orderNo andType:subType == KbPaymentTypeWeChatPay ? @"2" : @"5" andViewControler:[KbUtil currentVisibleViewController]];
+        [[PayUitls getIntents ] gotoPayByFee:@(price).stringValue andTradeName:tradName andGoodsDetails:tradName andScheme:kAlipaySchemeUrl andchannelOrderId:[orderNo stringByAppendingFormat:@"$%@", KB_REST_APP_ID] andType:subType == KbPaymentTypeWeChatPay ? @"2" : @"5" andViewControler:[KbUtil currentVisibleViewController]];
     }else if (type == KbPaymentTypeSPay && (subType == KbPaymentTypeWeChatPay || subType == KbPaymentTypeAlipay)){
         paymentInfo.reservedData = [NSString stringWithFormat:@"客服电话:%@",[KbSystemConfigModel sharedModel].contact];
         [[SPayUtil sharedInstance] payWithPaymentInfo:paymentInfo completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo) {

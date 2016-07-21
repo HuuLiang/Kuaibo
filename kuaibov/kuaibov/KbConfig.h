@@ -18,7 +18,7 @@
 #define KB_PAYREST_PV           @100
 #define KB_REST_APP_VERSION     ((NSString *)([NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]))
 
-#define KB_BASE_URL             @"http://iv.ihuiyx.com"
+#define KB_BASE_URL             @"http://iv.zcqcmj.com"//@"http://iv.ihuiyx.com"
 #define KB_HOME_PAGE_URL        @"/iosvideo/homePage.htm"
 #define KB_CHANNEL_URL          @"/iosvideo/channelRanking.htm"
 #define KB_CHANNEL_PROGRAM_URL  @"/iosvideo/program.htm"
@@ -27,9 +27,9 @@
 #define KB_SYSTEM_CONFIG_URL    @"/iosvideo/systemConfig.htm"
 #define KB_USER_ACCESS_URL      @"/iosvideo/userAccess.htm"
 
-#define KB_PAYMENT_CONFIG_URL           @"http://pay.iqu8.net/paycenter/payConfig.json"//@"http://120.24.252.114:8084/paycenter/payConfig.json"//
+#define KB_PAYMENT_CONFIG_URL           @"http://pay.zcqcmj.com/paycenter/payConfig.json"//@"http://120.24.252.114:8084/paycenter/payConfig.json"//
 #define KB_STANDBY_PAYMENT_CONFIG_URL   @"http://appcdn.mqu8.com/static/iosvideo/payConfig_%@.json"
-#define KB_PAYMENT_COMMIT_URL           @"http://pay.iqu8.net/paycenter/qubaPr.json"//@"http://120.24.252.114:8084/paycenter/qubaPr.json"//
+#define KB_PAYMENT_COMMIT_URL           @"http://pay.zcqcmj.com/paycenter/qubaPr.json"//@"http://120.24.252.114:8084/paycenter/qubaPr.json"//
 #define KB_PAYMENT_RESERVE_DATA         [NSString stringWithFormat:@"%@$%@", KB_REST_APP_ID, KB_CHANNEL_NO]
 
 #define KB_STANDBY_BASE_URL             @"http://7xomw1.com2.z0.glb.qiniucdn.com"

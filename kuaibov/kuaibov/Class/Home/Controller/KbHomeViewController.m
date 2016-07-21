@@ -53,7 +53,7 @@ DefineLazyPropertyInitialization(KbHomeProgramModel, programModel)
     //    }
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.title = @"首页";
+    self.title = @"精选";
     self.view.backgroundColor = HexColor(#f7f7f7);
     
     _bannerView = [[SDCycleScrollView alloc] init];
