@@ -17,4 +17,7 @@
 - (void)kb_addPagingRefreshWithHandler:(void (^)(void))handler;
 - (void)kb_pagingRefreshNoMoreData;
 
+- (void)kb_addNitoInfoWithHandler:(void (^)(void))handler;
+
+
 @end

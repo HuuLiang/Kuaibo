@@ -11,7 +11,7 @@
 #import "KbChannelProgramModel.h"
 #import "KbProgramCell.h"
 
-static const NSUInteger kDefaultPageSize = 10;
+static const NSUInteger kDefaultPageSize = 18;
 static NSString *const kProgramCellReusableIdentifier = @"ProgramCellReusableIdentifier";
 static const CGFloat kThumbnailScale = 230. / 168.;
 
@@ -72,10 +72,27 @@ DefineLazyPropertyInitialization(NSMutableArray, programs)
     }];
     [_layoutCollectionView kb_triggerPullToRefresh];
     
-    [_layoutCollectionView kb_addPagingRefreshWithHandler:^{
+    //    [_layoutCollectionView kb_addPagingRefreshWithHandler:^{
+    //        @strongify(self);
+    //        [self loadPrograms];
+    //    }];
+    [_layoutCollectionView kb_addNitoInfoWithHandler:^{
         @strongify(self);
-        [self loadPrograms];
+        if (![KbUtil isPaid]) {
+            [self payForProgram:nil programLocation:NSNotFound inChannel:nil];
+            [_layoutCollectionView kb_endPullToRefresh];
+        }else{
+            [self loadPrograms];
+        }
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payNotification) name:kPaidNotificationName object:nil];
+}
+
+- (void)payNotification {
+//    [_layoutCollectionView reloadData];
+    [self.navigationController popViewControllerAnimated:NO];
+
 }
 
 - (void)loadPrograms {

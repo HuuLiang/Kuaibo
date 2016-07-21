@@ -38,4 +38,19 @@
 - (void)kb_pagingRefreshNoMoreData {
     [self.footer noticeNoMoreData];
 }
+
+- (void)kb_addNitoInfoWithHandler:(void (^)(void))handler {
+    if (!self.footer) {
+        if ([KbUtil isPaid]) {
+            MJRefreshAutoNormalFooter *refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:handler];
+            self.footer = refreshFooter;
+        }else{
+            MJRefreshAutoNormalFooter *refreshFooter = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:handler];
+            [refreshFooter setTitle:@"成为vip，上拉或点击加载更多" forState:MJRefreshStateIdle];
+            refreshFooter.stateLabel.textColor = [UIColor lightGrayColor];
+            self.footer = refreshFooter;
+        }
+        
+    }
+}
 @end
