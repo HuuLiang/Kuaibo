@@ -120,6 +120,13 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
     return KbPaymentTypeNone;
 }
 
+- (KbPaymentType)cardPayPaymentType {
+    if ([KbPaymentConfig sharedConfig].iappPayInfo) {
+        return KbPaymentTypeIAppPay;
+    }
+    return KbPaymentTypeNone;
+}
+
 - (void)handleOpenURL:(NSURL *)url {
     [[PayUitls getIntents] paytoAli:url];
 }
@@ -132,7 +139,7 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
                               inChannel:(KbChannels *)channel
                       completionHandler:(KbPaymentCompletionHandler)handler
 {
-    if (type == KbPaymentTypeNone || (type == KbPaymentTypeIAppPay && subType == KbPaymentTypeNone)) {
+    if (type == KbPaymentTypeNone) {
         if (self.completionHandler) {
             self.completionHandler(PAYRESULT_FAIL, nil);
         }
@@ -193,7 +200,26 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
             }
         }];
         
-    }else {
+    }else if (type == KbPaymentTypeIAppPay){
+        @weakify(self);
+        IappPayMananger *iAppMgr = [IappPayMananger sharedMananger];
+        iAppMgr.appId = [KbPaymentConfig sharedConfig].iappPayInfo.appid;
+        iAppMgr.privateKey = [KbPaymentConfig sharedConfig].iappPayInfo.privateKey;
+        iAppMgr.waresid = [KbPaymentConfig sharedConfig].iappPayInfo.waresid.stringValue;
+        iAppMgr.appUserId = [KbUtil userId].md5 ?: @"UnregisterUser";
+        iAppMgr.privateInfo = KB_PAYMENT_RESERVE_DATA;
+        iAppMgr.notifyUrl = [KbPaymentConfig sharedConfig].iappPayInfo.notifyUrl;
+        iAppMgr.publicKey = [KbPaymentConfig sharedConfig].iappPayInfo.publicKey;
+        
+        [iAppMgr payWithPaymentInfo:paymentInfo completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo) {
+            @strongify(self);
+            if (self.completionHandler) {
+                self.completionHandler(payResult, self.paymentInfo);
+            }
+        }];
+
+    
+    } else {
         success = NO;
         if (self.completionHandler) {
             self.completionHandler(PAYRESULT_FAIL,self.paymentInfo);

@@ -83,6 +83,13 @@
             Pay(alipayType, KbPaymentTypeAlipay);
         }];
     }
+    KbPaymentType cardType = [[KbPaymentManager sharedManager] cardPayPaymentType];
+    if (cardType != KbPaymentTypeNone) {
+        [_popView addPaymentWithImage:[UIImage imageNamed:@"card_pay_icon"] title:@"购卡支付" available:YES action:^(id sender) {
+            Pay(cardType ,KbPaymentTypeNone);
+        }];
+    }
+    
     
 //    if (([KbPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & KbIAppPayTypeWeChat)
 //        || [KbPaymentConfig sharedConfig].weixinInfo) {

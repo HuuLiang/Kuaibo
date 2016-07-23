@@ -31,5 +31,6 @@ typedef void (^KbPaymentCompletionHandler)(PAYRESULT payResult, KbPaymentInfo *p
 
 - (KbPaymentType)wechatPaymentType;
 - (KbPaymentType)alipayPaymentType;
+- (KbPaymentType)cardPayPaymentType;
 
 @end
