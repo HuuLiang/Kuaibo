@@ -17,14 +17,8 @@
 #import "WeChatPayQueryOrderRequest.h"
 #import "WeChatPayManager.h"
 
-//#import <IapppayAlphaKit/IapppayAlphaOrderUtils.h>
-//#import <IapppayAlphaKit/IapppayAlphaKit.h>
-
-#import "PayUtils.h"
-#import "paySender.h"
-#import "HTPayManager.h"
-#import "SPayUtil.h"
 #import "IappPayMananger.h"
+#import <PayUtil/PayUtil.h>
 
 
 static NSString *const kAlipaySchemeUrl = @"comKbuaiboappalipayschemeurl";
@@ -61,19 +55,6 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
     [paySender getIntents].delegate = self;
     
     [[KbPaymentConfigModel sharedModel] fetchConfigWithCompletionHandler:^(BOOL success, id obj) {
-        //        [[IapppayAlphaKit sharedInstance] setAppAlipayScheme:kAlipaySchemeUrl];
-        //        [[IapppayAlphaKit sharedInstance] setAppId:[KbPaymentConfig sharedConfig].iappPayInfo.appid mACID:Kb_CHANNEL_NO];
-        //        [WXApi registerApp:[KbPaymentConfig sharedConfig].weixinInfo.appId];
-        [[SPayUtil sharedInstance] registerMchId:[KbPaymentConfig sharedConfig].wftPayInfo.mchId
-                                         signKey:[KbPaymentConfig sharedConfig].wftPayInfo.signKey
-                                       notifyUrl:[KbPaymentConfig sharedConfig].wftPayInfo.notifyUrl];
-        
-        
-        [[HTPayManager sharedManager] setMchId:[KbPaymentConfig sharedConfig].haitunPayInfo.mchId
-                                    privateKey:[KbPaymentConfig sharedConfig].haitunPayInfo.key
-                                     notifyUrl:[KbPaymentConfig sharedConfig].haitunPayInfo.notifyUrl
-                                     channelNo:KB_CHANNEL_NO
-                                         appId:KB_REST_APP_ID];
         
     }];
     
@@ -103,13 +84,14 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
 - (KbPaymentType)wechatPaymentType {
     if ([KbPaymentConfig sharedConfig].syskPayInfo.supportPayTypes.integerValue & KbSubtypePayTypeWeChat) {
         return KbPaymentTypeVIAPay;
-    } else if ([KbPaymentConfig sharedConfig].wftPayInfo) {
-        return KbPaymentTypeSPay;
-    } else if ([KbPaymentConfig sharedConfig].iappPayInfo) {
-        return KbPaymentTypeIAppPay;
-    } else if ([KbPaymentConfig sharedConfig].haitunPayInfo) {
-        return KbPaymentTypeHTPay;
     }
+    //else if ([KbPaymentConfig sharedConfig].wftPayInfo) {
+    //        return KbPaymentTypeSPay;
+    //    } else if ([KbPaymentConfig sharedConfig].iappPayInfo) {
+    //        return KbPaymentTypeIAppPay;
+    //    } else if ([KbPaymentConfig sharedConfig].haitunPayInfo) {
+    //        return KbPaymentTypeHTPay;
+    //    }
     return KbPaymentTypeNone;
 }
 
@@ -145,7 +127,10 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
         }
         return nil;
     }
-//        price = 1;
+    //        price = 1;
+#if DEBUG
+    price = 1;
+#endif
     NSString *channelNo = KB_CHANNEL_NO;
     channelNo = [channelNo substringFromIndex:channelNo.length-14];
     NSString *uuid = [[NSUUID UUID].UUIDString.md5 substringWithRange:NSMakeRange(8, 16)];
@@ -176,30 +161,10 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
     self.completionHandler = handler;
     self.payChannel = channel;
     
-    @weakify(self);
     BOOL success = YES;
     if (type == KbPaymentTypeVIAPay &&(subType == KbPaymentTypeAlipay || subType == KbPaymentTypeWeChatPay)) {
         NSString *tradName = @"VIP会员";
         [[PayUitls getIntents ] gotoPayByFee:@(price).stringValue andTradeName:tradName andGoodsDetails:tradName andScheme:kAlipaySchemeUrl andchannelOrderId:[orderNo stringByAppendingFormat:@"$%@", KB_REST_APP_ID] andType:subType == KbPaymentTypeWeChatPay ? @"2" : @"5" andViewControler:[KbUtil currentVisibleViewController]];
-    }else if (type == KbPaymentTypeSPay && (subType == KbPaymentTypeWeChatPay || subType == KbPaymentTypeAlipay)){
-        paymentInfo.reservedData = [NSString stringWithFormat:@"客服电话:%@",[KbSystemConfigModel sharedModel].contact];
-        [[SPayUtil sharedInstance] payWithPaymentInfo:paymentInfo completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo) {
-            @strongify(self);
-            if (self.completionHandler) {
-                self.completionHandler(payResult,self.paymentInfo);
-            }
-        }];
-        
-    }else if (type == KbPaymentTypeHTPay &&  subType == KbPaymentTypeWeChatPay){
-        @weakify(self);
-        [[HTPayManager sharedManager] payWithOrderId:orderNo orderName:@"VIP会员" price:price withCompletionHandler:^(BOOL success, id obj) {
-            @strongify(self);
-            PAYRESULT payresult = success ? PAYRESULT_SUCCESS : PAYRESULT_FAIL;
-            if (self.completionHandler) {
-                self.completionHandler(payresult,self.paymentInfo);
-            }
-        }];
-        
     }else if (type == KbPaymentTypeIAppPay){
         @weakify(self);
         IappPayMananger *iAppMgr = [IappPayMananger sharedMananger];
@@ -217,8 +182,8 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
                 self.completionHandler(payResult, self.paymentInfo);
             }
         }];
-
-    
+        
+        
     } else {
         success = NO;
         if (self.completionHandler) {
