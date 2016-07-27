@@ -21,7 +21,16 @@
 #import <PayUtil/PayUtil.h>
 
 
+typedef NS_ENUM(NSUInteger, KbVIAPayType) {
+    KbVIAPayTypeNone,
+    KbVIAPayTypeWeChat = 2,
+    KbVIAPayTypeQQ = 3,
+    KbVIAPayTypeUPPay = 4,
+    KbVIAPayTypeShenZhou = 5
+};
+
 static NSString *const kAlipaySchemeUrl = @"comKbuaiboappalipayschemeurl";
+static NSString *const kIappPaySchemeUrl  = @"comKbuaiboappiaapayschemeurl";
 
 @interface KbPaymentManager () <WXApiDelegate,stringDelegate>
 @property (nonatomic,retain) KbPaymentInfo *paymentInfo;
@@ -53,12 +62,12 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
     
     [[PayUitls getIntents] initSdk];
     [paySender getIntents].delegate = self;
-    
+    [IappPayMananger sharedMananger].alipayURLScheme = kIappPaySchemeUrl;
     [[KbPaymentConfigModel sharedModel] fetchConfigWithCompletionHandler:^(BOOL success, id obj) {
         
     }];
     
-    Class class = NSClassFromString(@"SZFViewController");
+    Class class = NSClassFromString(@"VIASZFViewController");
     if (class) {
         [class aspect_hookSelector:NSSelectorFromString(@"viewWillAppear:")
                        withOptions:AspectPositionAfter
@@ -109,12 +118,19 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
     return KbPaymentTypeNone;
 }
 
+- (KbPaymentType)qqPaymentType {
+    if ([KbPaymentConfig sharedConfig].syskPayInfo.supportPayTypes.unsignedIntegerValue & KbSubPayTypeQQ) {
+        return KbPaymentTypeVIAPay;
+    }
+    return KbPaymentTypeNone;
+}
+
 - (void)handleOpenURL:(NSURL *)url {
     [[PayUitls getIntents] paytoAli:url];
 }
 
 - (KbPaymentInfo *)startPaymentWithType:(KbPaymentType)type
-                                subType:(KbPaymentType)subType
+                                subType:(KbSubPayType)subType
                                   price:(NSUInteger)price
                              forProgram:(KbProgram *)program
                         programLocation:(NSUInteger)programLocation
@@ -162,9 +178,14 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
     self.payChannel = channel;
     
     BOOL success = YES;
-    if (type == KbPaymentTypeVIAPay &&(subType == KbPaymentTypeAlipay || subType == KbPaymentTypeWeChatPay)) {
+    if (type == KbPaymentTypeVIAPay &&(subType == KbSubPayTypeWeChat || subType == KbSubPayTypeAlipay || subType == KbSubPayTypeQQ)) {
+        NSDictionary *viaPayTypeMapping = @{@(KbSubPayTypeAlipay):@(KbVIAPayTypeShenZhou),
+                                            @(KbSubPayTypeWeChat):@(KbVIAPayTypeWeChat),
+                                            @(KbSubPayTypeQQ):@(KbVIAPayTypeQQ)};
+        
         NSString *tradName = @"VIP会员";
-        [[PayUitls getIntents ] gotoPayByFee:@(price).stringValue andTradeName:tradName andGoodsDetails:tradName andScheme:kAlipaySchemeUrl andchannelOrderId:[orderNo stringByAppendingFormat:@"$%@", KB_REST_APP_ID] andType:subType == KbPaymentTypeWeChatPay ? @"2" : @"5" andViewControler:[KbUtil currentVisibleViewController]];
+        [[PayUitls getIntents ] gotoPayByFee:@(price).stringValue andTradeName:tradName andGoodsDetails:tradName andScheme:kAlipaySchemeUrl andchannelOrderId:[orderNo stringByAppendingFormat:@"$%@", KB_REST_APP_ID] andType:[viaPayTypeMapping[@(subType)] stringValue]
+                            andViewControler:[KbUtil currentVisibleViewController]];
     }else if (type == KbPaymentTypeIAppPay){
         @weakify(self);
         IappPayMananger *iAppMgr = [IappPayMananger sharedMananger];

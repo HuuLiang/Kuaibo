@@ -19,7 +19,7 @@ typedef void (^KbPaymentCompletionHandler)(PAYRESULT payResult, KbPaymentInfo *p
 
 - (void)setup;
 - (KbPaymentInfo *)startPaymentWithType:(KbPaymentType)type
-                     subType:(KbPaymentType)subType
+                     subType:(KbSubPayType)subType
                        price:(NSUInteger)price
                   forProgram:(KbProgram *)program
              programLocation:(NSUInteger)programLocation
@@ -32,5 +32,6 @@ typedef void (^KbPaymentCompletionHandler)(PAYRESULT payResult, KbPaymentInfo *p
 - (KbPaymentType)wechatPaymentType;
 - (KbPaymentType)alipayPaymentType;
 - (KbPaymentType)cardPayPaymentType;
+- (KbPaymentType)qqPaymentType;
 
 @end

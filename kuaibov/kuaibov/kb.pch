@@ -35,6 +35,14 @@ typedef NS_ENUM(NSUInteger, KbPaymentType) {
     KbPaymentTypeHTPay = 1015 //海豚支付
 };
 
+typedef NS_ENUM(NSUInteger, KbSubPayType) {
+    KbSubPayTypeUnknown = 0,
+    KbSubPayTypeWeChat = 1 << 0,
+    KbSubPayTypeAlipay = 1 << 1,
+    KbSubPayUPPay = 1 << 2,
+    KbSubPayTypeQQ = 1 << 3
+};
+
 typedef NS_ENUM(NSInteger, PAYRESULT)
 {
     PAYRESULT_SUCCESS   = 0,
@@ -43,6 +51,9 @@ typedef NS_ENUM(NSInteger, PAYRESULT)
     PAYRESULT_UNKNOWN   = 3
 };
 typedef void (^KBKAction)(id obj);
+
+#define kBoldMediumFont [UIFont boldSystemFontOfSize:MIN(16, mainWidth*0.045)]
+#define kExExSmallFont [UIFont systemFontOfSize:MIN(10, mainWidth*0.03)]
 
 #define APP_VER        [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]
 #define BUILD_VER      [[NSBundle mainBundle].infoDictionary objectForKey:(NSString *)kCFBundleVersionKey]
@@ -71,6 +82,7 @@ typedef void (^KbCompletionHandler)(BOOL success, id obj);
 #import "NSString+md5.h"
 #import "NSString+length.h"
 #import "UIColor+hexColor.h"
+#import "UIColor+FeaturedColor.h"
 #import "UIView+border.h"
 #import "UIScrollView+Refresh.h"
 #import "RACEXTScope.h"

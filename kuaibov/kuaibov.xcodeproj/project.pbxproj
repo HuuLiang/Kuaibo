@@ -41,6 +41,8 @@
 		B35F63A91D471B0100E03202 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = B35F63901D471B0100E03202 /* RSADataSigner.m */; };
 		B35F63AA1D471B0100E03202 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B35F63921D471B0100E03202 /* RSADataVerifier.m */; };
 		B35F63AB1D471B0100E03202 /* VIASDKVERSION.txt in Resources */ = {isa = PBXBuildFile; fileRef = B35F63931D471B0100E03202 /* VIASDKVERSION.txt */; };
+		B36B987E1D48A44700FB7D31 /* KbPaymentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B987B1D48A44700FB7D31 /* KbPaymentButton.m */; };
+		B36B987F1D48A44700FB7D31 /* KbPaymentTypeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B36B987D1D48A44700FB7D31 /* KbPaymentTypeCell.m */; };
 		B38BD93C1D436D6700AA34EA /* IapppayResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B38BD93B1D436D6700AA34EA /* IapppayResource.bundle */; };
 		B38BD93E1D436D6E00AA34EA /* IapppayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38BD93D1D436D6E00AA34EA /* IapppayKit.framework */; };
 		B38EFD5A1D2D001C00F1DBE1 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B38EFD581D2D001C00F1DBE1 /* AlipaySDK.bundle */; };
@@ -59,6 +61,7 @@
 		B3AB2C771D13A133007250C1 /* KbTabStatsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B3AB2C731D13A133007250C1 /* KbTabStatsModel.m */; };
 		B3BC208A1D0E8E8800F62483 /* launch_image4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B3BC20891D0E8E8800F62483 /* launch_image4.jpg */; };
 		B3EC58A31CF5950E00AC74F4 /* KBKLaunchView.m in Sources */ = {isa = PBXBuildFile; fileRef = B3EC58A21CF5950E00AC74F4 /* KBKLaunchView.m */; };
+		B3ED09541D48CA4D0069D831 /* UIColor+FeaturedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = B3ED09531D48CA4D0069D831 /* UIColor+FeaturedColor.m */; };
 		BC039DA51BA1AA10003E43B2 /* KbSystemConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */; };
 		BC039DA81BA1AC5B003E43B2 /* KbSystemConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BC039DA71BA1AC5B003E43B2 /* KbSystemConfig.m */; };
 		BC1731B11C16CAE00065DD97 /* NSObject+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1731B01C16CAE00065DD97 /* NSObject+Properties.m */; };
@@ -206,6 +209,10 @@
 		B35F63911D471B0100E03202 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		B35F63921D471B0100E03202 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		B35F63931D471B0100E03202 /* VIASDKVERSION.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VIASDKVERSION.txt; sourceTree = "<group>"; };
+		B36B987A1D48A44700FB7D31 /* KbPaymentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbPaymentButton.h; sourceTree = "<group>"; };
+		B36B987B1D48A44700FB7D31 /* KbPaymentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentButton.m; sourceTree = "<group>"; };
+		B36B987C1D48A44700FB7D31 /* KbPaymentTypeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbPaymentTypeCell.h; sourceTree = "<group>"; };
+		B36B987D1D48A44700FB7D31 /* KbPaymentTypeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbPaymentTypeCell.m; sourceTree = "<group>"; };
 		B38BD93B1D436D6700AA34EA /* IapppayResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IapppayResource.bundle; sourceTree = "<group>"; };
 		B38BD93D1D436D6E00AA34EA /* IapppayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IapppayKit.framework; sourceTree = "<group>"; };
 		B38EFD581D2D001C00F1DBE1 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
@@ -239,6 +246,8 @@
 		B3BC20891D0E8E8800F62483 /* launch_image4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = launch_image4.jpg; sourceTree = "<group>"; };
 		B3EC58A11CF5950E00AC74F4 /* KBKLaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBKLaunchView.h; sourceTree = "<group>"; };
 		B3EC58A21CF5950E00AC74F4 /* KBKLaunchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBKLaunchView.m; sourceTree = "<group>"; };
+		B3ED09521D48CA4D0069D831 /* UIColor+FeaturedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+FeaturedColor.h"; sourceTree = "<group>"; };
+		B3ED09531D48CA4D0069D831 /* UIColor+FeaturedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FeaturedColor.m"; sourceTree = "<group>"; };
 		BC039DA31BA1AA10003E43B2 /* KbSystemConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfigModel.h; sourceTree = "<group>"; };
 		BC039DA41BA1AA10003E43B2 /* KbSystemConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KbSystemConfigModel.m; sourceTree = "<group>"; };
 		BC039DA61BA1AC5B003E43B2 /* KbSystemConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KbSystemConfig.h; sourceTree = "<group>"; };
@@ -765,6 +774,10 @@
 				B3EC58A21CF5950E00AC74F4 /* KBKLaunchView.m */,
 				BC1C4B5C1BFC60FB001B5867 /* KbPaymentPopView.h */,
 				BC1C4B5D1BFC60FB001B5867 /* KbPaymentPopView.m */,
+				B36B987A1D48A44700FB7D31 /* KbPaymentButton.h */,
+				B36B987B1D48A44700FB7D31 /* KbPaymentButton.m */,
+				B36B987C1D48A44700FB7D31 /* KbPaymentTypeCell.h */,
+				B36B987D1D48A44700FB7D31 /* KbPaymentTypeCell.m */,
 				B326184E1D0D6F30005BB54B /* KBKVideoPlayer.h */,
 				B326184F1D0D6F30005BB54B /* KBKVideoPlayer.m */,
 			);
@@ -845,6 +858,8 @@
 				BCDE4EE41BA6657500244945 /* UIView+border.h */,
 				BCDE4EE51BA6657500244945 /* UIColor+hexColor.m */,
 				BCDE4EE61BA6657500244945 /* UIColor+hexColor.h */,
+				B3ED09521D48CA4D0069D831 /* UIColor+FeaturedColor.h */,
+				B3ED09531D48CA4D0069D831 /* UIColor+FeaturedColor.m */,
 				BCDE4EE71BA6657500244945 /* NSString+FilterHTML.h */,
 				BCDE4EE81BA6657500244945 /* NSString+FilterHTML.m */,
 				BCDE4EE91BA6657500244945 /* NSString+length.h */,
@@ -1172,6 +1187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B35F63A81D471B0100E03202 /* openssl_wrapper.m in Sources */,
+				B3ED09541D48CA4D0069D831 /* UIColor+FeaturedColor.m in Sources */,
 				BC1C4B5E1BFC60FB001B5867 /* KbPaymentPopView.m in Sources */,
 				BCFF936A1B9B977800B2EDF9 /* KbProgram.m in Sources */,
 				BCDE4EFF1BA6657500244945 /* UIViewExt.m in Sources */,
@@ -1206,6 +1222,7 @@
 				B3AB2C691D13A10F007250C1 /* DBPersistence.m in Sources */,
 				B32618531D0E45E9005BB54B /* KBVideoPlayerCtroller.m in Sources */,
 				BCDE4EF71BA6657500244945 /* UIScrollView+Refresh.m in Sources */,
+				B36B987F1D48A44700FB7D31 /* KbPaymentTypeCell.m in Sources */,
 				BCDE4EFD1BA6657500244945 /* NSString+meltutils.m in Sources */,
 				BC6FC3931CA3E65C00856F0B /* payRequsestHandler.mm in Sources */,
 				BCE9B63D1B98551200D70B9E /* kbBaseController.m in Sources */,
@@ -1250,6 +1267,7 @@
 				BC6FC3961CA3E65C00856F0B /* WXUtil.mm in Sources */,
 				B3AB2C681D13A10F007250C1 /* DBHandler.m in Sources */,
 				B331B1C71D30E79200865369 /* IappPayMananger.m in Sources */,
+				B36B987E1D48A44700FB7D31 /* KbPaymentButton.m in Sources */,
 				BCFCA9DD1BA16CEB00B15020 /* KbErrorHandler.m in Sources */,
 				BC88FF4B1C217DAB00384C35 /* KbHomeSectionHeaderView.m in Sources */,
 				BC6FC3951CA3E65C00856F0B /* WeChatPayQueryOrderRequest.m in Sources */,
