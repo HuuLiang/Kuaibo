@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface IappPayMananger : NSObject
-
 @property (nonatomic) NSString *appId;
 @property (nonatomic) NSString *privateKey;
 @property (nonatomic) NSString *publicKey;
@@ -20,6 +19,7 @@
 @property (nonatomic) NSString *alipayURLScheme;
 
 + (instancetype)sharedMananger;
-- (void)payWithPaymentInfo:(KbPaymentInfo *)paymentInfo completionHandler:(KbPaymentCompletionHandler)completionHandler;
+- (void)payWithPaymentInfo:(KbPaymentInfo *)paymentInfo payType:(KbSubPayType)payType completionHandler:(KbPaymentCompletionHandler)completionHandler;
+- (void)handleOpenURL:(NSURL *)url;
 
 @end

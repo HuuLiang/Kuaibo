@@ -93,6 +93,8 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
 - (KbPaymentType)wechatPaymentType {
     if ([KbPaymentConfig sharedConfig].syskPayInfo.supportPayTypes.integerValue & KbSubtypePayTypeWeChat) {
         return KbPaymentTypeVIAPay;
+    }else if ([KbPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.integerValue & KbSubPayTypeWeChat){
+        return KbPaymentTypeIAppPay;
     }
     //else if ([KbPaymentConfig sharedConfig].wftPayInfo) {
     //        return KbPaymentTypeSPay;
@@ -107,6 +109,8 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
 - (KbPaymentType)alipayPaymentType {
     if ([KbPaymentConfig sharedConfig].syskPayInfo.supportPayTypes.integerValue & KbSubtypeAlipay) {
         return KbPaymentTypeVIAPay;
+    }else if ([KbPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.integerValue & KbSubPayTypeAlipay){
+        return KbPaymentTypeIAppPay;
     }
     return KbPaymentTypeNone;
 }
@@ -126,7 +130,11 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
 }
 
 - (void)handleOpenURL:(NSURL *)url {
-    [[PayUitls getIntents] paytoAli:url];
+    if ([url.absoluteString rangeOfString:kIappPaySchemeUrl].location == 0) {
+        [[IappPayMananger sharedMananger] handleOpenURL:url];
+    } else if ([url.absoluteString rangeOfString:kAlipaySchemeUrl].location == 0) {
+        [[PayUitls getIntents] paytoAli:url];
+    }
 }
 
 - (KbPaymentInfo *)startPaymentWithType:(KbPaymentType)type
@@ -192,13 +200,14 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
         iAppMgr.appId = [KbPaymentConfig sharedConfig].iappPayInfo.appid;
         iAppMgr.privateKey = [KbPaymentConfig sharedConfig].iappPayInfo.privateKey;
         iAppMgr.waresid = [KbPaymentConfig sharedConfig].iappPayInfo.waresid.stringValue;
-        iAppMgr.appUserId = [KbUtil userId].md5 ?: @"UnregisterUser";
+        iAppMgr.appUserId = [KbUtil userId] ?: @"UnregisterUser";
         iAppMgr.privateInfo = KB_PAYMENT_RESERVE_DATA;
         iAppMgr.notifyUrl = [KbPaymentConfig sharedConfig].iappPayInfo.notifyUrl;
         iAppMgr.publicKey = [KbPaymentConfig sharedConfig].iappPayInfo.publicKey;
         
-        [iAppMgr payWithPaymentInfo:paymentInfo completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo) {
+        [iAppMgr payWithPaymentInfo:paymentInfo payType:subType completionHandler:^(PAYRESULT payResult, KbPaymentInfo *paymentInfo) {
             @strongify(self);
+            
             if (self.completionHandler) {
                 self.completionHandler(payResult, self.paymentInfo);
             }
@@ -212,7 +221,6 @@ DefineLazyPropertyInitialization(WeChatPayQueryOrderRequest, wechatPayOrderQuery
         }
         
     }
-    
     
     return success ? paymentInfo : nil;
 }

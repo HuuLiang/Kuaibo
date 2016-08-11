@@ -67,7 +67,7 @@
     _popView.footerImage = [UIImage imageNamed:@"payment_footer"];
     
     KbPaymentType wechatPaymentType = [[KbPaymentManager sharedManager] wechatPaymentType];
-    KbPaymentType cardType = [[KbPaymentManager sharedManager] cardPayPaymentType];
+    //    KbPaymentType cardType = [[KbPaymentManager sharedManager] cardPayPaymentType];
     if (wechatPaymentType != KbPaymentTypeNone) {
         //微信支付
         [_popView addPaymentWithImage:[UIImage imageNamed:@"wechat_icon"] title:@"微信支付" subtitle:nil backgroundColor:[UIColor colorWithHexString:@"#05c30b"] action:^(id sender) {
@@ -88,14 +88,14 @@
             Pay(qqPaymentType, KbSubPayTypeQQ);
         }];
     }
-    
-    if (cardType != KbPaymentTypeNone) {
-        
-        [_popView addPaymentWithImage:[UIImage imageNamed:@"card_pay_icon"] title:@"购卡支付" subtitle:@"支持微信和支付宝" backgroundColor:[UIColor darkPink] action:^(id obj) {
-            Pay(cardType,KbSubPayTypeUnknown);
-        }];
-        
-    }
+    //    
+    //    if (cardType != KbPaymentTypeNone) {
+    //        
+    //        [_popView addPaymentWithImage:[UIImage imageNamed:@"card_pay_icon"] title:@"购卡支付" subtitle:@"支持微信和支付宝" backgroundColor:[UIColor darkPink] action:^(id obj) {
+    //            Pay(cardType,KbSubPayTypeUnknown);
+    //        }];
+    //        
+    //    }
     
     
     //    if (([KbPaymentConfig sharedConfig].iappPayInfo.supportPayTypes.unsignedIntegerValue & KbIAppPayTypeWeChat)

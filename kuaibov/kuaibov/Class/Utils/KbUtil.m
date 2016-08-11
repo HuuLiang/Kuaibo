@@ -84,7 +84,7 @@ static NSString *const kLaunchSeqKeyName = @"kuaibov_launchseq_keyname";
 }
 
 + (BOOL)isPaid {
-//    return YES;
+    //    return YES;
     return [self successfulPaymentInfo] != nil;
 }
 

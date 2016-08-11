@@ -7,13 +7,11 @@
 //
 
 #import "IappPayMananger.h"
-#import <IapppayKit/IapppayKit.h>
-#import <IapppayKit/IapppayOrderUtils.h>
+#import <IapppayAlphaKit/IapppayAlphaKit.h>
+#import <IapppayAlphaKit/IapppayAlphaOrderUtils.h>
 #import "KbPaymentInfo.h"
 
-static NSString *const kIappPreOrderURL = @"http://ipay.iapppay.com:9999/payapi/order";
-
-@interface IappPayMananger () <IapppayKitPayRetDelegate>
+@interface IappPayMananger () <IapppayAlphaKitPayRetDelegate>
 @property (nonatomic,copy) KbPaymentCompletionHandler completionHandler;
 @property (nonatomic,retain) KbPaymentInfo *paymentInfo;
 @end
@@ -31,14 +29,21 @@ static NSString *const kIappPreOrderURL = @"http://ipay.iapppay.com:9999/payapi/
 
 - (void)setAlipayURLScheme:(NSString *)alipayURLScheme {
     _alipayURLScheme = alipayURLScheme;
-    [IapppayKit sharedInstance].appAlipayScheme = alipayURLScheme;
+    [IapppayAlphaKit sharedInstance].appAlipayScheme = alipayURLScheme;
 }
 
-- (void)payWithPaymentInfo:(KbPaymentInfo *)paymentInfo completionHandler:(KbPaymentCompletionHandler)completionHandler {
+- (void)payWithPaymentInfo:(KbPaymentInfo *)paymentInfo payType:(KbSubPayType)payType completionHandler:(KbPaymentCompletionHandler)completionHandler {
+    NSDictionary *payTypeMapping = @{@(KbSubPayTypeWeChat):@(IapppayAlphaKitWeChatPayType),
+                                     @(KbSubPayTypeAlipay):@(IapppayAlphaKitAlipayPayType)};
+    if (!payTypeMapping[@(payType)]) {
+        completionHandler(PAYRESULT_FAIL, paymentInfo);
+        return ;
+    }
+    
     self.completionHandler = completionHandler;
     self.paymentInfo = paymentInfo;
     
-    IapppayOrderUtils *order = [[IapppayOrderUtils alloc] init];
+    IapppayAlphaOrderUtils *order = [[IapppayAlphaOrderUtils alloc] init];
     order.appId = self.appId;
     order.cpPrivateKey = self.privateKey;
     order.cpOrderId = paymentInfo.orderId;
@@ -49,15 +54,19 @@ static NSString *const kIappPreOrderURL = @"http://ipay.iapppay.com:9999/payapi/
     order.notifyUrl = self.notifyUrl;
     
     NSString *trandData = [order getTrandData];
-    [[IapppayKit sharedInstance] makePayForTrandInfo:trandData payResultDelegate:self];
+    [[IapppayAlphaKit sharedInstance] makePayForTrandInfo:trandData payMethodType:[payTypeMapping[@(payType)] integerValue] payDelegate:self];
 }
 
-#pragma mark - IapppayKitPayRetDelegate
+- (void)handleOpenURL:(NSURL *)url {
+    [[IapppayAlphaKit sharedInstance] handleOpenUrl:url];
+}
 
-- (void)iapppayKitRetPayStatusCode:(IapppayKitPayRetCodeType)statusCode resultInfo:(NSDictionary *)resultInfo {
-    NSDictionary *paymentStatusMapping = @{@(IAPPPAY_PAYRETCODE_SUCCESS):@(PAYRESULT_SUCCESS),
-                                           @(IAPPPAY_PAYRETCODE_FAILED):@(PAYRESULT_FAIL),
-                                           @(IAPPPAY_PAYRETCODE_CANCELED):@(PAYRESULT_ABANDON)};
+#pragma mark - IapppayAlphaKitPayRetDelegate
+
+- (void)iapppayAlphaKitPayRetCode:(IapppayAlphaKitPayRetCode)statusCode resultInfo:(NSDictionary *)resultInfo {
+    NSDictionary *paymentStatusMapping = @{@(IapppayAlphaKitPayRetSuccessCode):@(PAYRESULT_SUCCESS),
+                                           @(IapppayAlphaKitPayRetFailedCode):@(PAYRESULT_FAIL),
+                                           @(IapppayAlphaKitPayRetCancelCode):@(PAYRESULT_ABANDON)};
     NSNumber *paymentResult = paymentStatusMapping[@(statusCode)];
     if (!paymentResult) {
         paymentResult = @(PAYRESULT_UNKNOWN);
@@ -65,7 +74,7 @@ static NSString *const kIappPreOrderURL = @"http://ipay.iapppay.com:9999/payapi/
     
     NSString *signature = [resultInfo objectForKey:@"Signature"];
     if (paymentResult.unsignedIntegerValue == PAYRESULT_SUCCESS) {
-        if (![IapppayOrderUtils checkPayResult:signature withAppKey:self.publicKey]) {
+        if (![IapppayAlphaOrderUtils checkPayResult:signature withAppKey:self.publicKey]) {
             DLog(@"支付成功，但是延签失败！");
             paymentResult = @(PAYRESULT_FAIL);
         }
